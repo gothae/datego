@@ -1,5 +1,7 @@
 package com.example.datego.oauth.info.impl;
 
+import com.example.datego.oauth.info.OAuth2UserInfo;
+
 import java.util.Map;
 
 public class GoogleOAuth2UserInfo extends OAuth2UserInfo {

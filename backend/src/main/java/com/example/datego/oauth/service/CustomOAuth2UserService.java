@@ -1,5 +1,10 @@
 package com.example.datego.oauth.service;
 
+import com.example.datego.Repository.UserRepository;
+import com.example.datego.oauth.info.OAuth2UserInfo;
+import com.example.datego.oauth.info.OAuth2UserInfoFactory;
+import com.example.datego.vo.entity.Enum.ProviderType;
+import com.example.datego.vo.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
@@ -14,8 +19,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
-    private final MemberRepository memberRepository;
-    private final MemberInfoRepository memberInfoRepository;
+    private final UserRepository memberRepository;
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User user = super.loadUser(userRequest);
@@ -35,32 +39,27 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
 
-        Optional<Member> savedUser = memberRepository.findByEmail(userInfo.getEmail());
+        Optional<User> savedUser = memberRepository.findByEmail(userInfo.getEmail());
         // 동일한 이메일로 가입한 계정이 있으면
         if (savedUser.isPresent()) {
-            // EMAIL로 가입된 계정이 있을시에
-            if ((savedUser.get().getProviderType()).toString().equals("EMAIL")) {
-                // EMAIL에서 소셜로그인 계정으로 바꿔준다.
-                savedUser.get().setProviderType(providerType);
-            }
             // 그 외로 먼저 가입된 계정이 있을 때 다른 걸로 로그인하라고 띄워준다.
-            if (!providerType.equals(savedUser.get().getProviderType())) {
-                throw new CustomException(Code.C509);
+            if (!providerType.equals(savedUser.get().getDomain())) {
+                return null;
             }
         }
 
 
         // 신규 가입 계정인 경우
         else {
-            Member newMember = createUser(userInfo, providerType);
+            User newMember = createUser(userInfo, providerType);
             return UserPrincipal.create(newMember, user.getAttributes(), userInfo.getImageUrl());
         }
 
         return UserPrincipal.create(savedUser.get(), user.getAttributes(), userInfo.getImageUrl());
     }
 
-    private Member createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
-        Member member = Member.builder()
+    private User createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
+        User member = User.builder()
                 .email(userInfo.getEmail())
                 .nickName(userInfo.getNickName())
                 .role(Role.MEMBER)

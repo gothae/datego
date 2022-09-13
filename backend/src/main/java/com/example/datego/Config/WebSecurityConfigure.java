@@ -28,12 +28,11 @@ public class WebSecurityConfigure {
     private final AuthTokenProvider authTokenProvider;
 
     private final CustomOAuth2UserService customOAuth2UserService;
-    private MemberInfoRepository memberInfoRepository;
-    private final MemberRepository memberRepository;
+//    private final MemberRepository memberRepository;
 
     private final CorsConfig corsConfig;
     private final AppProperties appProperties;
-    private final RefreshTokenRepository refreshTokenRepository;
+//    private final RefreshTokenRepository refreshTokenRepository;
     private final TokenAccessDeniedHandler tokenAccessDeniedHandler;
 
     @Bean

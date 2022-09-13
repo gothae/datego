@@ -1,5 +1,7 @@
 package com.example.datego.oauth.entity;
 
+import com.example.datego.vo.entity.Enum.ProviderType;
+import com.example.datego.vo.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +25,6 @@ import java.util.Map;
 public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
     private final Long memberId;
     private final String email;
-    private final String password;
     private final ProviderType providerType;
     private final RoleType roleType;
     private final Collection<GrantedAuthority> authorities;
@@ -84,19 +85,18 @@ public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
         return null;
     }
 
-    public static UserPrincipal create(Member member) {
+    public static UserPrincipal create(User member) {
         return new UserPrincipal(
-                member.getId(),
+                member.getUserId(),
                 member.getEmail(),
-                member.getPwd(),
-                member.getProviderType(),
+                member.getDomain(),
                 RoleType.USER,
                 Collections.singletonList(new SimpleGrantedAuthority(RoleType.USER.getCode()))
 
         );
     }
 
-    public static UserPrincipal create(Member member, Map<String, Object> attributes, String imageUrl) {
+    public static UserPrincipal create(User member, Map<String, Object> attributes, String imageUrl) {
         UserPrincipal userPrincipal = create(member);
         userPrincipal.setAttributes(attributes);
         return userPrincipal;

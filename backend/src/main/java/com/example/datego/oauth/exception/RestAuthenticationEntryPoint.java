@@ -17,17 +17,12 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
             HttpServletResponse response,
             AuthenticationException authException
     ) throws IOException, ServletException {
-//        authException.printStackTrace();
+        authException.printStackTrace();
         log.info("Responding with unauthorized error. Message := {}", authException.getMessage());
-//        response.sendError(
-//                HttpServletResponse.SC_UNAUTHORIZED,
-//                authException.getLocalizedMessage()
-//        );
-//        throw new CustomException(Code.C502);
-        response.setContentType("application/json;charset=UTF-8");
-        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-        response.getWriter().println("{ \"code\" : \"" + Code.C502.getErrCode()
-                + "\", \"message\" : \"" +  Code.C502.getMessage() + "  \""
-                + "}");
+        response.sendError(
+                HttpServletResponse.SC_UNAUTHORIZED,
+                authException.getLocalizedMessage()
+        );
+
     }
 }

@@ -1,5 +1,10 @@
 package com.example.datego.oauth.info;
 
+import com.example.datego.oauth.info.impl.GoogleOAuth2UserInfo;
+import com.example.datego.oauth.info.impl.KakaoOAuth2UserInfo;
+import com.example.datego.oauth.info.impl.NaverOAuth2UserInfo;
+import com.example.datego.vo.entity.Enum.ProviderType;
+
 import java.util.Map;
 
 public class OAuth2UserInfoFactory {

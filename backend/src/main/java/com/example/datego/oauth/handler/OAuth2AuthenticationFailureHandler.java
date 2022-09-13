@@ -1,5 +1,6 @@
 package com.example.datego.oauth.handler;
 
+import com.example.datego.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;

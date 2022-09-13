@@ -1,5 +1,6 @@
 package com.example.datego.Config;
 
+import com.example.datego.oauth.token.AuthTokenProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
