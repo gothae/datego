@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "spot")
+@Table(name = "spot_tag")
 public class SpotTag {
 
     @Id
