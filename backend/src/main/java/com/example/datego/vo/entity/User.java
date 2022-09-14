@@ -9,25 +9,26 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "User")
+@Table(name = "user")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", columnDefinition = "BIGINT")
-    private Long userId;
+    @Column(name = "id", columnDefinition = "INT")
+    private int id;
 
     @Column(name = "email", unique = true, length = 45)
     private String email;
 
     @Column(name = "nickname", length = 45)
-    private String nickName;
+    private String nickname;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
@@ -43,4 +44,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "domain")
     private ProviderType domain;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserSpot> userSpotList;
 }
