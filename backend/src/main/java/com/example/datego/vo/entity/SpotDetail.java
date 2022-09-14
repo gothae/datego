@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user")
+@Table(name = "spot_detail")
 public class SpotDetail {
 
     @Id
@@ -24,7 +24,7 @@ public class SpotDetail {
     private int id;
 
     @ManyToOne()
-    @JoinColumn(name = "category_detail_id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne()

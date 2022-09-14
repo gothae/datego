@@ -1,9 +1,11 @@
 package com.example.datego.oauth.service;
 
 import com.example.datego.Repository.UserRepository;
+import com.example.datego.oauth.entity.UserPrincipal;
 import com.example.datego.oauth.info.OAuth2UserInfo;
 import com.example.datego.oauth.info.OAuth2UserInfoFactory;
 import com.example.datego.vo.entity.Enum.ProviderType;
+import com.example.datego.vo.entity.Enum.Role;
 import com.example.datego.vo.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -40,7 +42,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
 
         Optional<User> savedUser = memberRepository.findByEmail(userInfo.getEmail());
-        // 동일한 이메일로 가입한 계정이 있으면
         if (savedUser.isPresent()) {
             // 그 외로 먼저 가입된 계정이 있을 때 다른 걸로 로그인하라고 띄워준다.
             if (!providerType.equals(savedUser.get().getDomain())) {
@@ -52,25 +53,20 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         // 신규 가입 계정인 경우
         else {
             User newMember = createUser(userInfo, providerType);
-            return UserPrincipal.create(newMember, user.getAttributes(), userInfo.getImageUrl());
+            return UserPrincipal.create(newMember);
         }
 
-        return UserPrincipal.create(savedUser.get(), user.getAttributes(), userInfo.getImageUrl());
+        return UserPrincipal.create(savedUser.get());
     }
 
     private User createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
         User member = User.builder()
                 .email(userInfo.getEmail())
-                .nickName(userInfo.getNickName())
+                .nickname(userInfo.getNickName())
                 .role(Role.MEMBER)
-                .pwd("12345")
-                .status(Status.YES)
-                .providerType(providerType)
+                .domain(providerType)
                 .build();
-        memberInfoRepository.save(MemberInfo.builder()
-                .member(member)
-                .imageLink(userInfo.getImageUrl())
-                .build());
+        memberRepository.save(member);
         return member;
     }
 }

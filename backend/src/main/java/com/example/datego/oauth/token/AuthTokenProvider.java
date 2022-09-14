@@ -1,5 +1,6 @@
 package com.example.datego.oauth.token;
 
+import com.example.datego.oauth.exception.TokenValidFailedException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,7 @@ public class AuthTokenProvider {
         return new AuthToken(id, expiry, key);
     }
 
-    public AuthToken createAuthToken(Long id, String role, Date expiry) {
+    public AuthToken createAuthToken(int id, String role, Date expiry) {
         return new AuthToken(id, role, expiry, key);
     }
 

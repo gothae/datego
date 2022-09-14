@@ -25,7 +25,7 @@ public class AuthToken {
         this.token = createAuthToken(id, expiry);
     }
 
-    AuthToken(Long id, String role, Date expiry, Key key) {
+    AuthToken(int id, String role, Date expiry, Key key) {
         this.key = key;
         this.token = createAuthToken(id, role, expiry);
     }
@@ -40,7 +40,7 @@ public class AuthToken {
     }
 
     // accessToken 만들기
-    private String createAuthToken(Long id, String role, Date expiry) {
+    private String createAuthToken(int id, String role, Date expiry) {
         Map<String, Object> headers = new HashMap<>();
         Map<String, Object> payloads = new HashMap<>();
         headers.put("type", "token");
