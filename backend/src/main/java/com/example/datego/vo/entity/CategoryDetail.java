@@ -30,6 +30,6 @@ public class CategoryDetail {
     @Column(name = "image_link", length = 45)
     private String imageLink;
 
-    @OneToMany(mappedBy = "category_detail")
-    private List<SpotDetail> spotDetailList;
+    @OneToMany(mappedBy = "categoryDetail")
+    private List<Spot_CategoryDetail> spot_CategoryDetailList;
 }

@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "spot_tag")
-public class SpotTag {
+public class Spot_Tag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
