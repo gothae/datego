@@ -22,7 +22,7 @@ public class Spot_Tag {
     @Column(name = "id", columnDefinition = "INT")
     private int id;
 
-    @Column(name = "int")
+    @Column(name = "count")
     private int count;
 
     @ManyToOne()
