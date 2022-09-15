@@ -46,5 +46,5 @@ public class User {
     private ProviderType domain;
 
     @OneToMany(mappedBy = "user")
-    private List<User_Spot> user_SpotList;
+    private List<User_Spot> userSpotList;
 }

@@ -27,7 +27,7 @@ public class Menu {
     @Column(name = "price")
     private int price;
 
-//    @ManyToOne()
-//    @JoinColumn(name = "spot_id")
-//    private Spot spot;
+    @ManyToOne()
+    @JoinColumn(name = "spot_id")
+    private Spot spot;
 }

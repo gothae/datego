@@ -27,5 +27,5 @@ public class Tag {
     private String description;
 
     @OneToMany(mappedBy = "tag")
-    private List<Spot_Tag> spot_TagList;
+    private List<Spot_Tag> spotTagList;
 }

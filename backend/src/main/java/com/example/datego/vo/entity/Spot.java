@@ -47,13 +47,13 @@ public class Spot {
     private List<Menu> menuList;
 
     @OneToMany(mappedBy = "spot")
-    private List<SpotTag> spotTagList;
+    private List<Spot_Tag> spotTagList;
 
     @OneToMany(mappedBy = "spot")
-    private List<UserSpot> userSpotList;
+    private List<User_Spot> userSpotList;
 
     @OneToMany(mappedBy = "spot")
-    private List<SpotDetail> spotDetailList;
+    private List<Spot_CategoryDetail> spotCategoryDetailList;
 
     @ManyToOne()
     @JoinColumn(name = "category_id")

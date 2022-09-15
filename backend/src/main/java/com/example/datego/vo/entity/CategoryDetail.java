@@ -31,5 +31,5 @@ public class CategoryDetail {
     private String imageLink;
 
     @OneToMany(mappedBy = "categoryDetail")
-    private List<Spot_CategoryDetail> spot_CategoryDetailList;
+    private List<Spot_CategoryDetail> spotCategoryDetailList;
 }
