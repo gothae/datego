@@ -10,23 +10,73 @@ import {
   Text,
   TouchableHighlight,
   View,
+  Button,
 } from 'react-native';
-import {useCallback} from 'react';
+import {useCallback, useEffect, useState} from 'react';
+import auth from '@react-native-firebase/auth';
+import {
+  GoogleSignin,
+  GoogleSigninButton,
+} from '@react-native-google-signin/google-signin';
 
 type RootStackParamList = {
+  Login: undefined;
   Home: undefined;
-  Details: undefined;
 };
-type HomeScreenProps = NativeStackScreenProps<RootStackParamList>;
-type DetailsScreenProps = NativeStackScreenProps<ParamListBase>;
+type LoginScreenProps = NativeStackScreenProps<RootStackParamList>;
+type HomeScreenProps = NativeStackScreenProps<ParamListBase>;
 
-function HomeScreen({navigation}: HomeScreenProps) {
+function LoginScreen({navigation}: LoginScreenProps) {
   const image = {
     uri: 'https://blog.kakaocdn.net/dn/xIoxp/btrB5V8Gf2a/LMWasLuAC6tkdo8hauzm10/img.jpg',
   };
+
+  const checkuser = auth().currentUser;
+
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId:
+        '18642094345-6ok4m4de04aukci5sdl5vkqranqtbbuf.apps.googleusercontent.com',
+    });
+  }, []);
+
+  async function onGoogleButtonPress() {
+    const {idToken} = await GoogleSignin.signIn();
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    return auth().signInWithCredential(googleCredential);
+  }
+
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  auth().onAuthStateChanged(user => {
+    if (user) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  });
+
   const onClick = useCallback(() => {
     navigation.navigate('Home');
   }, [navigation]);
+
+  if (loggedIn) {
+    return (
+      <View>
+        <Text>{checkuser?.displayName}</Text>
+        <Text>{checkuser?.email}</Text>
+        <View>
+          <Button title="Logout" onPress={() => auth().signOut()} />
+          <Button title="Logout" onPress={() => GoogleSignin.signOut()} />
+        </View>
+        <View>
+          <TouchableHighlight onPress={onClick}>
+            <Text style={{fontSize: 40, color: 'white'}}>DATE GO</Text>
+          </TouchableHighlight>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <>
@@ -42,22 +92,13 @@ function HomeScreen({navigation}: HomeScreenProps) {
               <Text style={{fontSize: 40, color: 'white'}}>DATE GO</Text>
             </TouchableHighlight>
           </View>
-          <View
-            style={{
-              flex: 4,
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                margin: 10,
-                fontSize: 20,
-                backgroundColor: 'white',
-                paddingHorizontal: 20,
-                paddingVertical: 10,
-                borderRadius: 10,
-              }}>
-              카카오톡 로그인
-            </Text>
+          <View>
+            <Text style={{color: 'white'}}>Login Page</Text>
+            <GoogleSigninButton onPress={onGoogleButtonPress} />
+          </View>
+          <View>
+            <Text>{checkuser?.displayName}</Text>
+            <Text>{checkuser?.email}</Text>
           </View>
         </ImageBackground>
       </View>
@@ -65,7 +106,7 @@ function HomeScreen({navigation}: HomeScreenProps) {
   );
 }
 
-function DetailsScreen({navigation}: DetailsScreenProps) {
+function HomeScreen({navigation}: HomeScreenProps) {
   const onClick = useCallback(() => {
     navigation.navigate('Login');
   }, [navigation]);
@@ -150,15 +191,15 @@ const Stack = createNativeStackNavigator();
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="Login">
         <Stack.Screen
           name="Login"
-          component={HomeScreen}
+          component={LoginScreen}
           options={{title: 'Login', headerShown: false}}
         />
         <Stack.Screen
           name="Home"
-          component={DetailsScreen}
+          component={HomeScreen}
           options={{title: 'Home', headerShown: false}}
         />
       </Stack.Navigator>
