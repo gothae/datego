@@ -25,7 +25,7 @@ function HomeScreen({navigation}: HomeScreenProps) {
     uri: 'https://blog.kakaocdn.net/dn/xIoxp/btrB5V8Gf2a/LMWasLuAC6tkdo8hauzm10/img.jpg',
   };
   const onClick = useCallback(() => {
-    navigation.navigate('Details');
+    navigation.navigate('Home');
   }, [navigation]);
 
   return (
@@ -67,15 +67,82 @@ function HomeScreen({navigation}: HomeScreenProps) {
 
 function DetailsScreen({navigation}: DetailsScreenProps) {
   const onClick = useCallback(() => {
-    navigation.navigate('Home');
+    navigation.navigate('Login');
   }, [navigation]);
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <TouchableHighlight onPress={onClick}>
-        <Text>Details Screen</Text>
-      </TouchableHighlight>
-    </View>
+    <>
+      <View style={{flex: 1}}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'orange',
+            paddingHorizontal: 10,
+            paddingVertical: 15,
+          }}>
+          <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>
+            DATE GO
+            <TouchableHighlight onPress={onClick}>
+              <Text>Login페이지로 가기</Text>
+            </TouchableHighlight>
+          </Text>
+        </View>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            paddingHorizontal: 10,
+            paddingVertical: 20,
+          }}>
+          <View
+            style={{
+              width: '25%',
+              height: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'orange',
+              borderRadius: 20,
+            }}>
+            <Text
+              style={{
+                fontSize: 20,
+                color: 'white',
+                borderRadius: 20,
+              }}>
+              서울
+            </Text>
+          </View>
+        </View>
+        <View style={{flex: 4}}>
+          <Text>map</Text>
+        </View>
+        <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
+          <Text
+            style={{
+              backgroundColor: 'orange',
+              color: 'white',
+              paddingHorizontal: 45,
+              paddingVertical: 15,
+              borderRadius: 25,
+              fontSize: 40,
+            }}>
+            GO
+          </Text>
+        </View>
+        <View
+          style={{
+            flex: 2,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text style={{color: 'orange', fontSize: 30, fontWeight: 'bold'}}>
+            진행중인 코스
+          </Text>
+          <Text>!!</Text>
+        </View>
+      </View>
+    </>
   );
 }
 
@@ -85,11 +152,15 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen
-          name="Home"
+          name="Login"
           component={HomeScreen}
-          options={{title: 'Overview', headerShown: false}}
+          options={{title: 'Login', headerShown: false}}
         />
-        <Stack.Screen name="Details" component={DetailsScreen} />
+        <Stack.Screen
+          name="Home"
+          component={DetailsScreen}
+          options={{title: 'Home', headerShown: false}}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
