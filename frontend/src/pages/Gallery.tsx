@@ -1,12 +1,53 @@
 import * as React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Image, StyleSheet} from 'react-native';
+import {useState, useEffect} from 'react';
 
-function Home() {
+import auth from '@react-native-firebase/auth';
+import axios from 'axios';
+
+function Gallery() {
+  const checkuser = auth().currentUser;
+  const [Imageurl, setValue1] = useState('이거를 바꾸자~');
+  useEffect(() => {
+    const getData = async () => {
+      const response = await axios.get(
+        'https://picsum.photos/v2/list?page=2&limit=10',
+      );
+      setValue1(response.data[0].download_url);
+      console.log(response.data[0]);
+    };
+    getData();
+  }, []);
+
   return (
     <View>
-      <Text>갤러리</Text>
+      <Text>{checkuser?.displayName}님의 갤러리</Text>
+      <Text>{checkuser?.email}님의 갤러리</Text>
+      <Text>{Imageurl}</Text>
+      <View>
+        <Image
+          style={styles.tinyLogo}
+          source={{
+            // uri: 'https://image.istarbucks.co.kr/common/img/main/rewards-logo.png',
+            uri: Imageurl,
+          }}
+        />
+      </View>
     </View>
   );
 }
 
-export default Home;
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 50,
+  },
+  tinyLogo: {
+    width: 100,
+    height: 100,
+  },
+  logo: {
+    width: 66,
+    height: 58,
+  },
+});
+export default Gallery;

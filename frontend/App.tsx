@@ -11,6 +11,7 @@ import {
   TouchableHighlight,
   View,
   Button,
+  Image,
 } from 'react-native';
 import {useCallback, useEffect, useState} from 'react';
 import auth from '@react-native-firebase/auth';
@@ -18,11 +19,20 @@ import {
   GoogleSignin,
   GoogleSigninButton,
 } from '@react-native-google-signin/google-signin';
+import Gallery from './src/pages/Gallery';
+import SelectDong from './src/pages/SelectDong';
+import Youngsan from './src/assets/용산구.gif';
+
+export type LoggeInParamList = {
+  Gallery: undefined;
+  SelectDong: undefined;
+};
 
 type RootStackParamList = {
   Login: undefined;
   Home: undefined;
 };
+
 type LoginScreenProps = NativeStackScreenProps<RootStackParamList>;
 type HomeScreenProps = NativeStackScreenProps<ParamListBase>;
 
@@ -65,13 +75,10 @@ function LoginScreen({navigation}: LoginScreenProps) {
       <View>
         <Text>{checkuser?.displayName}</Text>
         <Text>{checkuser?.email}</Text>
-        <View>
-          <Button title="Logout" onPress={() => auth().signOut()} />
-          <Button title="Logout" onPress={() => GoogleSignin.signOut()} />
-        </View>
+
         <View>
           <TouchableHighlight onPress={onClick}>
-            <Text style={{fontSize: 40, color: 'white'}}>DATE GO</Text>
+            <Text style={{fontSize: 40}}>DATE GO</Text>
           </TouchableHighlight>
         </View>
       </View>
@@ -96,10 +103,6 @@ function LoginScreen({navigation}: LoginScreenProps) {
             <Text style={{color: 'white'}}>Login Page</Text>
             <GoogleSigninButton onPress={onGoogleButtonPress} />
           </View>
-          <View>
-            <Text>{checkuser?.displayName}</Text>
-            <Text>{checkuser?.email}</Text>
-          </View>
         </ImageBackground>
       </View>
     </>
@@ -108,9 +111,10 @@ function LoginScreen({navigation}: LoginScreenProps) {
 
 function HomeScreen({navigation}: HomeScreenProps) {
   const onClick = useCallback(() => {
+    // auth().signOut();
     navigation.navigate('Login');
   }, [navigation]);
-
+  // reaturn 내부 꾸미기 나중에
   return (
     <>
       <View style={{flex: 1}}>
@@ -120,13 +124,19 @@ function HomeScreen({navigation}: HomeScreenProps) {
             backgroundColor: 'orange',
             paddingHorizontal: 10,
             paddingVertical: 15,
+            flexDirection: 'row',
           }}>
           <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>
             DATE GO
-            <TouchableHighlight onPress={onClick}>
-              <Text>Login페이지로 가기</Text>
-            </TouchableHighlight>
           </Text>
+          <TouchableHighlight onPress={onClick}>
+            <Text>go login</Text>
+          </TouchableHighlight>
+          {/* <Text>Login페이지로 가기</Text> */}
+          {/* 앱에서 로그아웃(자동로그인가능) */}
+          <Button title="Logout" onPress={() => auth().signOut()} />
+          {/* 구글에서 Logout 재로그인해야함. */}
+          {/* <Button title="Logout" onPress={() => GoogleSignin.signOut()} /> */}
         </View>
         <View
           style={{
@@ -135,29 +145,27 @@ function HomeScreen({navigation}: HomeScreenProps) {
             paddingHorizontal: 10,
             paddingVertical: 20,
           }}>
-          <View
-            style={{
-              width: '25%',
-              height: '100%',
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: 'orange',
-              borderRadius: 20,
-            }}>
-            <Text
-              style={{
-                fontSize: 20,
-                color: 'white',
-                borderRadius: 20,
-              }}>
-              서울
-            </Text>
-          </View>
+          <Button
+            title="Go Gallery"
+            onPress={() => {
+              navigation.navigate('Gallery', {});
+            }}
+          />
+          <Button
+            title="Go SelectDong"
+            onPress={() => {
+              navigation.navigate('SelectDong', {});
+            }}
+          />
         </View>
         <View style={{flex: 4}}>
-          <Text>map</Text>
+          <Image
+            source={Youngsan}
+            style={{width: '100%', height: '100%', backgroundColor: 'yellow'}}
+            resizeMode="stretch"
+          />
         </View>
-        <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
+        {/* <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
           <Text
             style={{
               backgroundColor: 'orange',
@@ -181,7 +189,7 @@ function HomeScreen({navigation}: HomeScreenProps) {
             진행중인 코스
           </Text>
           <Text>!!</Text>
-        </View>
+        </View> */}
       </View>
     </>
   );
@@ -201,6 +209,16 @@ function App() {
           name="Home"
           component={HomeScreen}
           options={{title: 'Home', headerShown: false}}
+        />
+        <Stack.Screen
+          name="Gallery"
+          component={Gallery}
+          options={{title: 'Gallery'}}
+        />
+        <Stack.Screen
+          name="SelectDong"
+          component={SelectDong}
+          options={{title: 'SelectDong'}}
         />
       </Stack.Navigator>
     </NavigationContainer>
