@@ -9,10 +9,7 @@ import com.example.datego.repository.*;
 import com.example.datego.vo.MenuVO;
 import com.example.datego.vo.SpotVO;
 import com.example.datego.vo.TagVO;
-import com.example.datego.vo.entity.Spot;
-import com.example.datego.vo.entity.Spot_Tag;
-import com.example.datego.vo.entity.User;
-import com.example.datego.vo.entity.User_Spot;
+import com.example.datego.vo.entity.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -44,8 +41,7 @@ public class SpotService {
     TagRepository tagRepository;
 
     private final User_SpotRepository user_spotRepository;
-    private final UserRepository userRepository;
-
+    private final PhotoRepository photoRepository;
     @Transactional
     public ApiResponse getSpotDetail(int spotId) throws Exception {
         ApiResponse response = new ApiResponse();
@@ -106,15 +102,13 @@ public class SpotService {
         return apiResponse;
     }
 
-    public ApiResponse savePhotos(String url, int userIdx, int spotIdx) {
-        Spot spot = spotRepository.findSpotById(spotIdx);
-        User user = userRepository.findById(userIdx).get();
-        User_Spot user_spot = User_Spot.builder()
-                .spot(spot)
-                .user(user)
-                .imageLink(url)
+    public ApiResponse savePhotos(String url, int userSpotIdx) {
+        User_Spot user_spot = user_spotRepository.findById(userSpotIdx).get();
+        Photo photo = Photo.builder()
+                .photoLink(url)
+                .user_spot(user_spot)
                 .build();
-        user_spotRepository.save(user_spot);
+        photoRepository.save(photo);
         return new ApiResponse();
     }
 
