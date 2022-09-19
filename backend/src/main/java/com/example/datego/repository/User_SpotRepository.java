@@ -16,4 +16,8 @@ public interface User_SpotRepository extends JpaRepository<User_Spot, Integer> {
     public List<User_Spot> findAllByDongIdAndUserId(@Param("dongId") int dongId, @Param("userId") int userId);
 
     public Optional<User_Spot> findByUserIdAndSpotId(int userId, int SpotId);
+
+    @Query(nativeQuery = true, value = "select COUNT(us.id) from user_spot us left join spot s on us.spot_id = s.id where user_id = :userId and dong_id= :dongId")
+    public int findByDong(@Param("userId") int userId, @Param("dongId") int dongId);
+
 }

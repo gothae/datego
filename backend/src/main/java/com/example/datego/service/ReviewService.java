@@ -66,20 +66,20 @@ public class ReviewService {
         spotRepository.save(spot);
 
         Optional<User_Spot> temp = user_spotRepository.findByUserIdAndSpotId(userId, spotId);
+        User_Spot user_spot;
         if(!temp.isPresent()){
-            User_Spot user_spot = User_Spot.builder()
+            user_spot = User_Spot.builder()
                     .user(userRepository.findById(userId).get())
                     .spot(spot)
                     .rate(reviewReq.getRate())
                     .createdAt(LocalDateTime.now())
                     .build();
-            user_spotRepository.save(user_spot);
         }
         else{
-            User_Spot user_spot = temp.get();
+            user_spot = temp.get();
             user_spot.addRate(reviewReq.getRate());
-            user_spotRepository.save(user_spot);
         }
+        user_spotRepository.save(user_spot);
 
         return apiResponse;
     }
