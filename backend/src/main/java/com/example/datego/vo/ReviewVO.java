@@ -1,4 +1,4 @@
-package com.example.datego.dto;
+package com.example.datego.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @Builder
-public class ImageDto {
-    String imageLink;
+public class ReviewVO {
+    int id;
+    String description;
 }
