@@ -28,6 +28,9 @@ public class Spot {
     @Column(name = "address", length = 45)
     private String address;
 
+    @Column(name = "phone", length = 20)
+    private String phone;
+
     @Column(name = "latitude", precision = 11, scale = 8)
     private BigDecimal latitude;
 
