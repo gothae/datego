@@ -30,8 +30,8 @@ public class SpotController {
         return spotService.getSpotMissions(missionReq);
     }
 
-    @PostMapping("/spots/{spotId}")
-    public ApiResponse savePhoto(@PathVariable("spotId") int spotId,@RequestParam MultipartFile file) throws Exception{
+    @PostMapping("/spots/{userSpotId}")
+    public ApiResponse savePhoto(@PathVariable("userSpotId") int userSpotId,@RequestParam MultipartFile file) throws Exception{
         int userIdx = authUtil.memberAuth();
         String url ="";
         try{
@@ -39,7 +39,7 @@ public class SpotController {
         } catch (Exception e){
             e.printStackTrace();
         }
-        return spotService.savePhotos(url, userIdx, spotId);
+        return spotService.savePhotos(url, userSpotId);
     }
 
     @GetMapping("/spots")
