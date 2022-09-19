@@ -9,5 +9,5 @@ import java.util.List;
 @Getter
 @Setter
 public class SearchSpotRes {
-    private List<SpotVO> spotList;
+    private List<SpotVO> spots;
 }

@@ -125,9 +125,9 @@ public class SpotService {
                 url = spot.getImageList().get(0).getImageLink();
             }
 
-            spotVOList.add(new SpotVO(spot.getName(), spot.getRate(), spot.getAddress(), url));
+            spotVOList.add(new SpotVO(spot.getId(), spot.getName(), spot.getRate(), spot.getAddress(), url));
         }
-        searchSpotRes.setSpotList(spotVOList);
+        searchSpotRes.setSpots(spotVOList);
         apiResponse.setResponseData(searchSpotRes);
         return apiResponse;
     }

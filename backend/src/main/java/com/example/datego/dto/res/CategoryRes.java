@@ -9,6 +9,6 @@ import java.util.List;
 @Getter
 @Setter
 public class CategoryRes {
-    private List<CategoryVO> cafe;
-    private List<CategoryVO> drink;
+    private List<CategoryVO> cafes;
+    private List<CategoryVO> drinks;
 }

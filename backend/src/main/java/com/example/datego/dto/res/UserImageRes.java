@@ -10,5 +10,5 @@ import java.util.List;
 @Getter
 @Setter
 public class UserImageRes {
-    private List<UserImageVO> imageList;
+    private List<UserImageVO> photos;
 }
