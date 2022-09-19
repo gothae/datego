@@ -65,4 +65,8 @@ public class Spot {
     @ManyToOne()
     @JoinColumn(name = "dong_id")
     private Dong dong;
+
+    public void addRate(int rate){
+        this.rate += rate;
+    }
 }
