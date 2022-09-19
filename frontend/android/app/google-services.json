@@ -7,22 +7,22 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:18642094345:android:98f4e9ad02fe807d366bd8",
+        "mobilesdk_app_id": "1:18642094345:android:6ee3206a9e316811366bd8",
         "android_client_info": {
-          "package_name": "com.dategoapp"
+          "package_name": "com.A104.dategoapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "18642094345-klno69ca5s857446n7v9ib0nbtdg69nk.apps.googleusercontent.com",
+          "client_id": "18642094345-sat6t7q35dm5gcg69m23sk8s468jla4f.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.dategoapp",
+            "package_name": "com.A104.dategoapp",
             "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
         {
-          "client_id": "18642094345-6ok4m4de04aukci5sdl5vkqranqtbbuf.apps.googleusercontent.com",
+          "client_id": "18642094345-ta2q5sghs9qular97oud770c4q0vp9jt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

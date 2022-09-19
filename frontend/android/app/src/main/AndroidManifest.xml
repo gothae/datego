@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.dategoapp">
+  package="com.A104.dategoapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -22,5 +22,8 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
+      <meta-data
+          android:name="com.naver.maps.map.CLIENT_ID"
+          android:value="yoa9hiu4ew" />
     </application>
 </manifest>
