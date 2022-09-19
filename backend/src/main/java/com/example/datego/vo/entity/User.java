@@ -1,7 +1,5 @@
 package com.example.datego.vo.entity;
 
-import com.example.datego.vo.entity.Enum.Gender;
-import com.example.datego.vo.entity.Enum.ProviderType;
 import com.example.datego.vo.entity.Enum.Role;
 import com.example.datego.vo.entity.Enum.Status;
 import lombok.AllArgsConstructor;
@@ -54,5 +52,12 @@ public class User {
 
     public void userDel(){
         this.status=Status.DELETE;
+    }
+
+    public enum Gender {
+        M, F
+    }
+    public enum ProviderType {
+        KAKAO, GOOGLE, NAVER
     }
 }

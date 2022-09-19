@@ -1,6 +1,5 @@
 package com.example.datego.oauth.entity;
 
-import com.example.datego.vo.entity.Enum.ProviderType;
 import com.example.datego.vo.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,7 +24,7 @@ import java.util.Map;
 public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
     private final int memberId;
     private final String email;
-    private final ProviderType providerType;
+    private final User.ProviderType providerType;
     private final RoleType roleType;
     private final Collection<GrantedAuthority> authorities;
     private Map<String, Object> attributes;
