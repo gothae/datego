@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 public class SpotVO {
+    private int id;
     private String name;
     private int rate;
     private String image;

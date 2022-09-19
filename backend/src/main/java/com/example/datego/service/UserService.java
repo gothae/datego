@@ -45,7 +45,7 @@ public class UserService {
                     photoRepository.findById(user_spot.getId()).get().getPhotoLink()
                     ));
         }
-        userImageRes.setImageList(userImageVOs);
+        userImageRes.setPhotos(userImageVOs);
         result.setResponseData(userImageRes);
 
         return result;

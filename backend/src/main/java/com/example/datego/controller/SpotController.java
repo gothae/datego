@@ -30,12 +30,12 @@ public class SpotController {
         return spotService.getSpotMissions(missionReq);
     }
 
-    @PostMapping("/spots/{userSpotId}")
-    public ApiResponse savePhoto(@PathVariable("userSpotId") int userSpotId,@RequestParam MultipartFile file) throws Exception{
+    @PostMapping("/photo/{userSpotId}")
+    public ApiResponse savePhoto(@PathVariable("userSpotId") int userSpotId,@RequestParam MultipartFile image) throws Exception{
         int userIdx = authUtil.memberAuth();
         String url ="";
         try{
-            url = s3Uploader.upload(file,"DateGo");
+            url = s3Uploader.upload(image,"DateGo");
         } catch (Exception e){
             e.printStackTrace();
         }
