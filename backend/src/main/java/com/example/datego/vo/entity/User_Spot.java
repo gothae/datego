@@ -9,6 +9,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,8 +24,8 @@ public class User_Spot {
     @Column(name = "id", columnDefinition = "INT")
     private int id;
 
-    @Column(name = "image_link")
-    private String imageLink;
+    @OneToMany(mappedBy = "user_spot")
+    private List<Photo> photoList;
 
     @Column(name = "rate")
     private int rate;

@@ -2,10 +2,7 @@ package com.example.datego.service;
 
 import com.example.datego.config.properties.AppProperties;
 import com.example.datego.http.ApiResponse;
-import com.example.datego.repository.RefreshTokenRepository;
-import com.example.datego.repository.SpotRepository;
-import com.example.datego.repository.UserRepository;
-import com.example.datego.repository.User_SpotRepository;
+import com.example.datego.repository.*;
 import com.example.datego.dto.req.LoginReq;
 import com.example.datego.dto.res.UserImageRes;
 import com.example.datego.oauth.token.AuthToken;
@@ -35,6 +32,7 @@ public class UserService {
     private final AuthTokenProvider authTokenProvider;
     private final AppProperties appProperties;
     private final RefreshTokenRepository refreshTokenRepository;
+    private final PhotoRepository photoRepository;
 
     public ApiResponse getUserImages(int dongId, int userId) {
         ApiResponse result= new ApiResponse();
@@ -44,7 +42,7 @@ public class UserService {
         for(User_Spot user_spot : user_spotList){
             userImageVOs.add(new UserImageVO(
                     spotRepository.findById(user_spot.getSpot().getId()).get().getName(),
-                    user_spot.getImageLink()
+                    photoRepository.findById(user_spot.getId()).get().getPhotoLink()
                     ));
         }
         userImageRes.setImageList(userImageVOs);
