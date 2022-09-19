@@ -14,7 +14,6 @@ function Gallery() {
         'https://picsum.photos/v2/list?page=2&limit=10',
       );
       setValue1(response.data[0].download_url);
-      console.log(response.data[0]);
     };
     getData();
   }, []);
@@ -28,7 +27,6 @@ function Gallery() {
         <Image
           style={styles.tinyLogo}
           source={{
-            // uri: 'https://image.istarbucks.co.kr/common/img/main/rewards-logo.png',
             uri: Imageurl,
           }}
         />

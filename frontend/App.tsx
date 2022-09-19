@@ -41,7 +41,7 @@ function LoginScreen({navigation}: LoginScreenProps) {
     uri: 'https://blog.kakaocdn.net/dn/xIoxp/btrB5V8Gf2a/LMWasLuAC6tkdo8hauzm10/img.jpg',
   };
 
-  const checkuser = auth().currentUser;
+  const user = auth().currentUser;
 
   useEffect(() => {
     GoogleSignin.configure({
@@ -58,8 +58,8 @@ function LoginScreen({navigation}: LoginScreenProps) {
 
   const [loggedIn, setLoggedIn] = useState(false);
 
-  auth().onAuthStateChanged(user => {
-    if (user) {
+  auth().onAuthStateChanged(currentuser => {
+    if (currentuser) {
       setLoggedIn(true);
     } else {
       setLoggedIn(false);
@@ -73,8 +73,9 @@ function LoginScreen({navigation}: LoginScreenProps) {
   if (loggedIn) {
     return (
       <View>
-        <Text>{checkuser?.displayName}</Text>
-        <Text>{checkuser?.email}</Text>
+        <Text>{user?.displayName}</Text>
+        <Text>{user?.email}</Text>
+        <Text>!!{user?.phoneNumber}</Text>
 
         <View>
           <TouchableHighlight onPress={onClick}>
@@ -136,7 +137,7 @@ function HomeScreen({navigation}: HomeScreenProps) {
           {/* 앱에서 로그아웃(자동로그인가능) */}
           <Button title="Logout" onPress={() => auth().signOut()} />
           {/* 구글에서 Logout 재로그인해야함. */}
-          {/* <Button title="Logout" onPress={() => GoogleSignin.signOut()} /> */}
+          <Button title="Logout" onPress={() => GoogleSignin.signOut()} />
         </View>
         <View
           style={{
