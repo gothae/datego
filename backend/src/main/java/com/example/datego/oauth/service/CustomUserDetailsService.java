@@ -1,6 +1,6 @@
 package com.example.datego.oauth.service;
 
-import com.example.datego.Repository.UserRepository;
+import com.example.datego.repository.UserRepository;
 import com.example.datego.oauth.entity.UserPrincipal;
 import com.example.datego.vo.entity.User;
 import lombok.RequiredArgsConstructor;

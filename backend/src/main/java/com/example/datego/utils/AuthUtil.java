@@ -1,8 +1,7 @@
 package com.example.datego.utils;
 
 
-import com.example.datego.Repository.UserRepository;
-import lombok.NoArgsConstructor;
+import com.example.datego.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
