@@ -23,7 +23,7 @@ public class User_Spot {
     @Column(name = "id", columnDefinition = "INT")
     private int id;
 
-    @Column(name = "image_link", length = 45)
+    @Column(name = "image_link")
     private String imageLink;
 
     @Column(name = "rate")
