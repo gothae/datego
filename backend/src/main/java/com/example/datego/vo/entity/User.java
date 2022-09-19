@@ -3,6 +3,7 @@ package com.example.datego.vo.entity;
 import com.example.datego.vo.entity.Enum.Gender;
 import com.example.datego.vo.entity.Enum.ProviderType;
 import com.example.datego.vo.entity.Enum.Role;
+import com.example.datego.vo.entity.Enum.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,4 +48,11 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<User_Spot> userSpotList;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
+
+    public void userDel(){
+        this.status=Status.DELETE;
+    }
 }
