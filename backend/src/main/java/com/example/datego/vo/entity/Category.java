@@ -28,4 +28,7 @@ public class Category {
 
     @OneToMany(mappedBy = "category")
     private List<Spot> spotList;
+
+    @OneToMany(mappedBy = "category")
+    private List<Tag> tagList;
 }
