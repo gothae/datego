@@ -1,4 +1,4 @@
-package com.dategoapp.newarchitecture.modules;
+package com.A104.dategoapp.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;

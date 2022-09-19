@@ -1,4 +1,4 @@
-package com.dategoapp.newarchitecture;
+package com.A104.dategoapp.newarchitecture;
 
 import android.app.Application;
 import androidx.annotation.NonNull;
@@ -19,9 +19,9 @@ import com.facebook.react.fabric.CoreComponentsRegistry;
 import com.facebook.react.fabric.FabricJSIModuleProvider;
 import com.facebook.react.fabric.ReactNativeConfig;
 import com.facebook.react.uimanager.ViewManagerRegistry;
-import com.dategoapp.BuildConfig;
-import com.dategoapp.newarchitecture.components.MainComponentsRegistry;
-import com.dategoapp.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
+import com.A104.dategoapp.BuildConfig;
+import com.A104.dategoapp.newarchitecture.components.MainComponentsRegistry;
+import com.A104.dategoapp.newarchitecture.modules.MainApplicationTurboModuleManagerDelegate;
 import java.util.ArrayList;
 import java.util.List;
 
