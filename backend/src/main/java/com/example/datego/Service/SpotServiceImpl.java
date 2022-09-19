@@ -2,7 +2,7 @@ package com.example.datego.Service;
 
 import com.example.datego.Dto.ImageDto;
 import com.example.datego.Dto.MenuDto;
-import com.example.datego.Dto.SpotDetailDto;
+import com.example.datego.dto.SpotDetailDto;
 import com.example.datego.Dto.TagDto;
 import com.example.datego.Http.ApiResponse;
 import com.example.datego.Repository.ImageRepository;
@@ -80,8 +80,8 @@ public class SpotServiceImpl implements SpotService{
                     .latitube(spot.getLatitude())
                     .longitude(spot.getLongitude())
                     .rate(spot.getRate())
-                    .menus(menus)
-                    .tags(tags)
+//                    .menus(menus)
+//                    .tags(tags)
                     .images(images)
                     .build();
 
