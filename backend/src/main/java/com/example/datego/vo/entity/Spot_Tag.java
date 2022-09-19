@@ -33,4 +33,8 @@ public class Spot_Tag {
     @JoinColumn(name = "spot_id")
     private Spot spot;
 
+    public void addCount(){
+        this.count++;
+    }
+
 }

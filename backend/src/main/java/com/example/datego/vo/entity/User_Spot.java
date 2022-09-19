@@ -41,4 +41,7 @@ public class User_Spot {
     @JoinColumn(name = "spot_id")
     private Spot spot;
 
+    public void addRate(int rate){
+        this.rate += rate;
+    }
 }
