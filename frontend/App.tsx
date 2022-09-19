@@ -21,11 +21,15 @@ import {
 } from '@react-native-google-signin/google-signin';
 import Gallery from './src/pages/Gallery';
 import SelectDong from './src/pages/SelectDong';
+import Preference from './src/pages/Preference';
+import Course from './src/pages/Course';
 import Youngsan from './src/assets/용산구.gif';
 
 export type LoggeInParamList = {
   Gallery: undefined;
   SelectDong: undefined;
+  Preference: undefined;
+  Course: undefined;
 };
 
 type RootStackParamList = {
@@ -75,8 +79,6 @@ function LoginScreen({navigation}: LoginScreenProps) {
       <View>
         <Text>{user?.displayName}</Text>
         <Text>{user?.email}</Text>
-        <Text>!!{user?.phoneNumber}</Text>
-
         <View>
           <TouchableHighlight onPress={onClick}>
             <Text style={{fontSize: 40}}>DATE GO</Text>
@@ -137,7 +139,7 @@ function HomeScreen({navigation}: HomeScreenProps) {
           {/* 앱에서 로그아웃(자동로그인가능) */}
           <Button title="Logout" onPress={() => auth().signOut()} />
           {/* 구글에서 Logout 재로그인해야함. */}
-          <Button title="Logout" onPress={() => GoogleSignin.signOut()} />
+          {/* <Button title="Logout" onPress={() => GoogleSignin.signOut()} /> */}
         </View>
         <View
           style={{
@@ -166,6 +168,12 @@ function HomeScreen({navigation}: HomeScreenProps) {
             resizeMode="stretch"
           />
         </View>
+        <Button
+          title="Go Preference"
+          onPress={() => {
+            navigation.navigate('Preference', {});
+          }}
+        />
         {/* <View style={{flex: 2, justifyContent: 'center', alignItems: 'center'}}>
           <Text
             style={{
@@ -220,6 +228,16 @@ function App() {
           name="SelectDong"
           component={SelectDong}
           options={{title: 'SelectDong'}}
+        />
+        <Stack.Screen
+          name="Preference"
+          component={Preference}
+          options={{title: 'Preference'}}
+        />
+        <Stack.Screen
+          name="Course"
+          component={Course}
+          options={{title: 'Course'}}
         />
       </Stack.Navigator>
     </NavigationContainer>
