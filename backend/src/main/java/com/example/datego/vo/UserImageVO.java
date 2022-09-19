@@ -8,6 +8,6 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 public class UserImageVO {
-    private String spotName;
-    private String imageLink;
+    private String name;
+    private String link;
 }

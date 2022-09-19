@@ -29,8 +29,8 @@ public class CategoryService {
        for(Tag tag : drink){
            drinkList.add(new CategoryVO(tag.getName(), tag.getImageLink()));
        }
-       categories.setCafe(cafeList);
-       categories.setDrink(drinkList);
+       categories.setCafes(cafeList);
+       categories.setDrinks(drinkList);
         apiResponse.setResponseData(categories);
         return apiResponse;
     }
