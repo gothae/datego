@@ -9,5 +9,6 @@ public class LoginReq {
     private String email;
     private String domain;
     private int age;
+    private String nickName;
     private String gender;
 }

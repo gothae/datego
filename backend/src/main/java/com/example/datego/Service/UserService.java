@@ -14,6 +14,8 @@ import com.example.datego.utils.CookieUtil;
 import com.example.datego.vo.UserImageVO;
 import com.example.datego.vo.entity.Enum.Gender;
 import com.example.datego.vo.entity.Enum.ProviderType;
+import com.example.datego.vo.entity.Enum.Role;
+import com.example.datego.vo.entity.Enum.Status;
 import com.example.datego.vo.entity.RefreshToken;
 import com.example.datego.vo.entity.Spot;
 import com.example.datego.vo.entity.User;
@@ -57,6 +59,7 @@ public class UserService {
     public ApiResponse userLogin(HttpServletRequest request, HttpServletResponse response, LoginReq loginReq) {
         ApiResponse apiResponse = new ApiResponse();
         Optional<User> user = userRepository.findByEmail(loginReq.getEmail());
+        Role role = Role.ADMIN;
         //유저가 있음
         if(user.isPresent()){
             // 도메인이 다르면!
@@ -66,19 +69,23 @@ public class UserService {
                 return apiResponse;
             }
         }
-        //유저 정보 저장 후 JWT 리턴해주기
+        //없으면 유저 정보 저장 후 JWT 리턴해주기
         else{
             User newUser = User.builder()
                     .age(loginReq.getAge())
                     .email(loginReq.getEmail())
                     .domain(ProviderType.valueOf(loginReq.getDomain()))
                     .gender(Gender.valueOf(loginReq.getGender()))
+                    .nickname(loginReq.getNickName())
+                    .status(Status.YES)
+                    .role(Role.MEMBER)
                     .build();
             userRepository.save(newUser);
         }
         Date now = new Date();
-        String id = Integer.toString(userRepository.findByEmail(loginReq.getEmail()).get().getId());
-        AuthToken accessToken = authTokenProvider.createAuthToken(id, new Date(now.getTime() + appProperties.getAuth().getTokenExpiry()));
+        int id = userRepository.findByEmail(loginReq.getEmail()).get().getId();
+        role = userRepository.findByEmail(loginReq.getEmail()).get().getRole();
+        AuthToken accessToken = authTokenProvider.createAuthToken(id, role.toString(), new Date(now.getTime() + appProperties.getAuth().getTokenExpiry()));
 
         long refreshTokeExpiry = appProperties.getAuth().getRefreshTokenExpiry();
 
@@ -115,5 +122,15 @@ public class UserService {
     public ApiResponse userLogout(HttpServletRequest request, HttpServletResponse response) {
         CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
         return new ApiResponse();
+    }
+
+    public ApiResponse userSignout(HttpServletRequest request, HttpServletResponse response, int userIdx) {
+        CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
+        User user = userRepository.findById(userIdx).get();
+        user.userDel();
+        userRepository.save(user);
+        return new ApiResponse();
+
+
     }
 }
