@@ -1,4 +1,4 @@
-package com.example.datego.Dto;
+package com.example.datego.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +20,7 @@ public class SpotDetailDto {
     int price;
     BigDecimal latitube;
     BigDecimal longitude;
-    List<MenuDto> menus;
-    List<TagDto> tags;
+//    List<MenuDto> menus;
+//    List<TagDto> tags;
     List<String> images;
 }

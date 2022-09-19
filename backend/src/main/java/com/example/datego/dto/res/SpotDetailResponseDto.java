@@ -1,6 +1,6 @@
-package com.example.datego.Dto.res;
+package com.example.datego.dto.res;
 
-import com.example.datego.Dto.SpotDetailDto;
+import com.example.datego.dto.SpotDetailDto;
 import lombok.Getter;
 
 @Getter
