@@ -1,4 +1,4 @@
-package com.dategoapp;
+package com.A104.dategoapp;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
