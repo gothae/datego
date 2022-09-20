@@ -1,6 +1,7 @@
 package com.example.datego.service;
 
 import com.example.datego.config.properties.AppProperties;
+import com.example.datego.dto.req.UserInfoReq;
 import com.example.datego.http.ApiResponse;
 import com.example.datego.repository.*;
 import com.example.datego.dto.req.LoginReq;
@@ -63,55 +64,52 @@ public class UserService {
                 apiResponse.setMessage("다른 플랫폼으로 로그인해주세요.");
                 return apiResponse;
             }
+            // 도메인이 같으면 JWT 리턴
+            else{
+                Date now = new Date();
+                int id = userRepository.findByEmail(loginReq.getEmail()).get().getId();
+                role = userRepository.findByEmail(loginReq.getEmail()).get().getRole();
+                AuthToken accessToken = authTokenProvider.createAuthToken(id, role.toString(), new Date(now.getTime() + appProperties.getAuth().getTokenExpiry()));
+
+                long refreshTokeExpiry = appProperties.getAuth().getRefreshTokenExpiry();
+
+                AuthToken refreshToken = authTokenProvider.createAuthToken(appProperties.getAuth().getTokenSecret()
+                        , new Date(now.getTime() + refreshTokeExpiry));
+
+                Optional<RefreshToken> oldRefreshToken = refreshTokenRepository.findByEmail(loginReq.getEmail());
+                // 있으면 갱신해줌
+                if(oldRefreshToken.isPresent()){
+                    RefreshToken token = refreshTokenRepository.findById(oldRefreshToken.get().getId()).get();
+                    token = RefreshToken.builder()
+                            .email(token.getEmail())
+                            .token(refreshToken.getToken())
+                            .build();
+                    refreshTokenRepository.save(token);
+                }
+                // 없으면 생성
+                else{
+                    refreshTokenRepository.save(RefreshToken.builder()
+                            .token(refreshToken.getToken())
+                            .email(loginReq.getEmail())
+                            .build());
+                }
+                int cookieMaxAge = (int) refreshTokeExpiry/60;
+                CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
+                CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
+                Map<String, String> map = new HashMap<>();
+                map.put("accessToken", accessToken.getToken());
+                apiResponse.setResponseData(map);
+
+                return apiResponse;
+            }
         }
-        //없으면 유저 정보 저장 후 JWT 리턴해주기
+        //없으면 유저 정보를 저장해주도록 return 코드 설정
         else{
-            User newUser = User.builder()
-                    .age(loginReq.getAge())
-                    .email(loginReq.getEmail())
-                    .domain(User.ProviderType.valueOf(loginReq.getDomain()))
-                    .gender(User.Gender.valueOf(loginReq.getGender()))
-                    .nickname(loginReq.getNickName())
-                    .status(Status.YES)
-                    .role(Role.MEMBER)
-                    .build();
-            userRepository.save(newUser);
+            apiResponse.setCode(201);
+            apiResponse.setMessage("회원 정보를 입력하세요");
+            return apiResponse;
         }
-        Date now = new Date();
-        int id = userRepository.findByEmail(loginReq.getEmail()).get().getId();
-        role = userRepository.findByEmail(loginReq.getEmail()).get().getRole();
-        AuthToken accessToken = authTokenProvider.createAuthToken(id, role.toString(), new Date(now.getTime() + appProperties.getAuth().getTokenExpiry()));
 
-        long refreshTokeExpiry = appProperties.getAuth().getRefreshTokenExpiry();
-
-        AuthToken refreshToken = authTokenProvider.createAuthToken(appProperties.getAuth().getTokenSecret()
-                , new Date(now.getTime() + refreshTokeExpiry));
-
-        Optional<RefreshToken> oldRefreshToken = refreshTokenRepository.findByEmail(loginReq.getEmail());
-        // 있으면 갱신해줌
-        if(oldRefreshToken.isPresent()){
-            RefreshToken token = refreshTokenRepository.findById(oldRefreshToken.get().getId()).get();
-            token = RefreshToken.builder()
-                    .email(token.getEmail())
-                    .token(refreshToken.getToken())
-                    .build();
-            refreshTokenRepository.save(token);
-        }
-        // 없으면 생성
-        else{
-            refreshTokenRepository.save(RefreshToken.builder()
-                    .token(refreshToken.getToken())
-                    .email(loginReq.getEmail())
-                    .build());
-        }
-        int cookieMaxAge = (int) refreshTokeExpiry/60;
-        CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
-        CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
-        Map<String, String> map = new HashMap<>();
-        map.put("accessToken", accessToken.getToken());
-        apiResponse.setResponseData(map);
-
-        return apiResponse;
     }
 
     public ApiResponse userLogout(HttpServletRequest request, HttpServletResponse response) {
@@ -127,5 +125,46 @@ public class UserService {
         return new ApiResponse();
 
 
+    }
+
+    public ApiResponse saveUserInfos(HttpServletRequest request, HttpServletResponse response, UserInfoReq userInfoReq) {
+        ApiResponse apiResponse = new ApiResponse();
+        // User를 새로 저장해줌
+        User newUser = User.builder()
+                .age(userInfoReq.getAge())
+                .email(userInfoReq.getEmail())
+                .domain(User.ProviderType.valueOf(userInfoReq.getDomain()))
+                .gender(User.Gender.valueOf(userInfoReq.getGender()))
+                .nickname(userInfoReq.getNickName())
+                .status(Status.YES)
+                .role(Role.MEMBER)
+                .build();
+        userRepository.save(newUser);
+
+        // JWT 만들어주기
+        Date now = new Date();
+        int id = userRepository.findByEmail(userInfoReq.getEmail()).get().getId();
+        Role role = userRepository.findByEmail(userInfoReq.getEmail()).get().getRole();
+        AuthToken accessToken = authTokenProvider.createAuthToken(id, role.toString(), new Date(now.getTime() + appProperties.getAuth().getTokenExpiry()));
+
+        // refreshToken 만들어주기
+        long refreshTokeExpiry = appProperties.getAuth().getRefreshTokenExpiry();
+        AuthToken refreshToken = authTokenProvider.createAuthToken(appProperties.getAuth().getTokenSecret()
+                , new Date(now.getTime() + refreshTokeExpiry));
+
+        // refreshToken 저장
+        refreshTokenRepository.save(RefreshToken.builder()
+                .token(refreshToken.getToken())
+                .email(userInfoReq.getEmail())
+                .build());
+
+        int cookieMaxAge = (int) refreshTokeExpiry/60;
+        CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
+        CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
+        Map<String, String> map = new HashMap<>();
+        map.put("accessToken", accessToken.getToken());
+        apiResponse.setResponseData(map);
+
+        return apiResponse;
     }
 }
