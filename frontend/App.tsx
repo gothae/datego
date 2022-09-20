@@ -23,6 +23,9 @@ import Gallery from './src/pages/Gallery';
 import SelectDong from './src/pages/SelectDong';
 import Preference from './src/pages/Preference';
 import Course from './src/pages/Course';
+import ChangeSpot from './src/pages/ChangeSpot';
+import DetailSpot from './src/pages/DetailSpot';
+import CourseIng from './src/pages/CourseIng';
 import Youngsan from './src/assets/용산구.gif';
 
 export type LoggeInParamList = {
@@ -30,6 +33,9 @@ export type LoggeInParamList = {
   SelectDong: undefined;
   Preference: undefined;
   Course: undefined;
+  ChangeSpot: undefined;
+  DetailSpot: undefined;
+  CourseIng: undefined;
 };
 
 type RootStackParamList = {
@@ -238,6 +244,21 @@ function App() {
           name="Course"
           component={Course}
           options={{title: 'Course'}}
+        />
+        <Stack.Screen
+          name="ChangeSpot"
+          component={ChangeSpot}
+          options={{title: 'ChangeSpot'}}
+        />
+        <Stack.Screen
+          name="DetailSpot"
+          component={DetailSpot}
+          options={{title: 'DetailSpot'}}
+        />
+        <Stack.Screen
+          name="CourseIng"
+          component={CourseIng}
+          options={{title: 'CourseIng'}}
         />
       </Stack.Navigator>
     </NavigationContainer>
