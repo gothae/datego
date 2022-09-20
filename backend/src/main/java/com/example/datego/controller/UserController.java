@@ -1,5 +1,6 @@
 package com.example.datego.controller;
 
+import com.example.datego.dto.req.UserInfoReq;
 import com.example.datego.http.ApiResponse;
 import com.example.datego.service.UserService;
 import com.example.datego.dto.req.LoginReq;
@@ -26,6 +27,11 @@ public class UserController {
     @PostMapping("/login")
     public ApiResponse login(HttpServletRequest request, HttpServletResponse response, @RequestBody LoginReq loginReq){
         return userService.userLogin(request, response, loginReq);
+    }
+
+    @PostMapping("/info")
+    public ApiResponse saveUserInfo(HttpServletRequest request, HttpServletResponse response, @RequestBody UserInfoReq userInfoReq){
+        return userService.saveUserInfos(request, response, userInfoReq);
     }
 
     @PostMapping("/logout")
