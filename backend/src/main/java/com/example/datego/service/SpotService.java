@@ -80,7 +80,7 @@ public class SpotService {
                 .phone(spot.getPhone())
                 .latitube(spot.getLatitude())
                 .longitude(spot.getLongitude())
-                .rate(spot.getRate())
+                .rate((double)spot.getRate()/spot.getCount())
                 .menus(menus)
                 .tags(tags)
                 .images(images)

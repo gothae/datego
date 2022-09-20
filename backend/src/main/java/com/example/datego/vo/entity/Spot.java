@@ -43,6 +43,9 @@ public class Spot {
     @Column(name = "quest", columnDefinition = "TEXT")
     private String quest;
 
+    @Column(name= "count", columnDefinition = "INT")
+    private int count;
+
     @OneToMany(mappedBy = "spot")
     private List<Image> imageList;
 
@@ -68,5 +71,9 @@ public class Spot {
 
     public void addRate(int rate){
         this.rate += rate;
+    }
+
+    public void addCount(){
+        this.count++;
     }
 }

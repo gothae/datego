@@ -15,7 +15,6 @@ import java.util.List;
 public class SpotDetailRes {
     int id;
     String name;
-    String imageLink;
     String address;
     String phone;
     double rate;
