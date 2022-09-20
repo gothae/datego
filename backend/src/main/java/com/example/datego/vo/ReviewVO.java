@@ -9,5 +9,5 @@ import lombok.Getter;
 @Builder
 public class ReviewVO {
     int id;
-    String description;
+    String name;
 }

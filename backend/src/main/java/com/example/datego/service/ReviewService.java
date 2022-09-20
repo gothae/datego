@@ -38,7 +38,7 @@ public class ReviewService {
             Tag tempTag = tagRepository.findById(spot_tags.get(i).getId());
             ReviewVO tempReview = ReviewVO.builder()
                     .id(tempTag.getId())
-                    .description(tempTag.getDescription())
+                    .name(tempTag.getName())
                     .build();
             reviews.add(tempReview);
         }
