@@ -8,12 +8,10 @@ import com.example.datego.vo.entity.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -65,20 +63,13 @@ public class ReviewService {
         spot.addRate(reviewReq.getRate());
         spotRepository.save(spot);
 
-        Optional<User_Spot> temp = user_spotRepository.findByUserIdAndSpotId(userId, spotId);
-        User_Spot user_spot;
-        if(!temp.isPresent()){
-            user_spot = User_Spot.builder()
-                    .user(userRepository.findById(userId).get())
-                    .spot(spot)
-                    .rate(reviewReq.getRate())
-                    .createdAt(LocalDateTime.now())
-                    .build();
-        }
-        else{
-            user_spot = temp.get();
-            user_spot.addRate(reviewReq.getRate());
-        }
+        User_Spot user_spot = User_Spot.builder()
+                .user(userRepository.findById(userId).get())
+                .spot(spot)
+                .rate(reviewReq.getRate())
+                .createdAt(LocalDateTime.now())
+                .build();
+
         user_spotRepository.save(user_spot);
 
         return apiResponse;
