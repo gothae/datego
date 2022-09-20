@@ -61,6 +61,7 @@ public class ReviewService {
 
         Spot spot = spotRepository.findSpotById(spotId);
         spot.addRate(reviewReq.getRate());
+        spot.addCount();
         spotRepository.save(spot);
 
         User_Spot user_spot = User_Spot.builder()
