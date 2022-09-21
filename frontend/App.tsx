@@ -25,6 +25,7 @@ import Course from './src/pages/Course';
 import ChangeSpot from './src/pages/ChangeSpot';
 import DetailSpot from './src/pages/DetailSpot';
 import CourseIng from './src/pages/CourseIng';
+import axios from 'axios';
 
 export type LoggedInParamList = {
   Home: undefined;
@@ -138,6 +139,20 @@ function HomeScreen({navigation}: HomeScreenProps) {
   async function onGoogleButtonPress() {
     const {idToken} = await GoogleSignin.signIn();
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    const checkUser = async () => {
+      const useremail = auth().currentUser?.email;
+      const response = await axios.post('http://10.0.2.2:8080/users/login', {
+        email: useremail,
+        domain: 'GOOGLE',
+      });
+      console.log(2);
+      return response.data.code;
+    };
+    console.log('시작합니다.');
+    await checkUser();
+    console.log(1);
+
+    auth().signInWithCredential(googleCredential);
     return auth().signInWithCredential(googleCredential);
   }
 
@@ -158,87 +173,150 @@ function HomeScreen({navigation}: HomeScreenProps) {
     // 구글에서 Logout 재로그인해야한다.
     // GoogleSignin.signOut()
   }, []);
-
-  if (isloggedIn) {
-    return (
-      <>
-        <View style={{flex: 1}}>
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: 'orange',
-              paddingHorizontal: 10,
-              paddingVertical: 15,
-              flexDirection: 'row',
-            }}>
-            <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>
-              DATE GO
-            </Text>
-            <Button title="Logout" onPress={onClick} />
-          </View>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              paddingHorizontal: 10,
-              paddingVertical: 20,
-            }}>
-            <Button
-              title="Go Gallery"
-              onPress={() => {
-                navigation.navigate('Gallery', {});
-              }}
-            />
-            <Button
-              title="Go SelectDong"
-              onPress={() => {
-                navigation.navigate('SelectDong', {});
-              }}
-            />
-          </View>
-          <View style={{flex: 4}}>
-            <Image
-              source={require('./src/assets/용산구.gif')}
-              style={{width: '100%', height: '100%', backgroundColor: 'yellow'}}
-              resizeMode="stretch"
-            />
-          </View>
-          <Button
-            title="Go Preference"
-            onPress={() => {
-              navigation.navigate('Preference', {});
-            }}
-          />
-          <View>
-            <Text>{user?.displayName}</Text>
-          </View>
-        </View>
-      </>
-    );
-  }
   return (
     <>
       <View style={{flex: 1}}>
-        <ImageBackground source={image} resizeMode="cover" style={styles.image}>
-          <View
-            style={{
-              flex: 6,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            {/* <TouchableHighlight onPress={onClick}>
-              <Text style={{fontSize: 40, color: 'white'}}>DATE GO</Text>
-            </TouchableHighlight> */}
-            <Text style={{fontSize: 40, color: 'white'}}>DATE GO</Text>
-          </View>
-          <View>
-            <Text style={{color: 'white'}}>Login Page</Text>
-            <GoogleSigninButton onPress={onGoogleButtonPress} />
-          </View>
-        </ImageBackground>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: 'orange',
+            paddingHorizontal: 10,
+            paddingVertical: 15,
+            flexDirection: 'row',
+          }}>
+          <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>
+            DATE GO
+          </Text>
+        </View>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: 'row',
+            paddingHorizontal: 10,
+            paddingVertical: 20,
+          }}>
+          <Button
+            title="Go Gallery"
+            onPress={() => {
+              navigation.navigate('Gallery', {});
+            }}
+          />
+          <Button
+            title="Go SelectDong"
+            onPress={() => {
+              navigation.navigate('SelectDong', {});
+            }}
+          />
+        </View>
+        <View style={{flex: 4}}>
+          <Image
+            source={require('./src/assets/용산구.gif')}
+            style={{width: '100%', height: '100%', backgroundColor: 'yellow'}}
+            resizeMode="stretch"
+          />
+        </View>
+        <Button
+          title="Go Preference"
+          onPress={() => {
+            navigation.navigate('Preference', {});
+          }}
+        />
+        <View>
+          <Text>{user?.displayName}</Text>
+        </View>
+        <View>
+          <GoogleSigninButton onPress={onGoogleButtonPress} />
+        </View>
       </View>
     </>
   );
+
+  // if (isloggedIn) {
+  //   return (
+  //     <>
+  //       <View style={{flex: 1}}>
+  //         <View
+  //           style={{
+  //             flex: 1,
+  //             backgroundColor: 'orange',
+  //             paddingHorizontal: 10,
+  //             paddingVertical: 15,
+  //             flexDirection: 'row',
+  //           }}>
+  //           <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>
+  //             DATE GO
+  //           </Text>
+  //           <Button title="Logout" onPress={onClick} />
+  //         </View>
+  //         <View
+  //           style={{
+  //             flex: 1,
+  //             flexDirection: 'row',
+  //             paddingHorizontal: 10,
+  //             paddingVertical: 20,
+  //           }}>
+  //           <Button
+  //             title="Go Gallery"
+  //             onPress={() => {
+  //               navigation.navigate('Gallery', {});
+  //             }}
+  //           />
+  //           <Button
+  //             title="Go SelectDong"
+  //             onPress={() => {
+  //               navigation.navigate('SelectDong', {});
+  //             }}
+  //           />
+  //         </View>
+  //         <View style={{flex: 4}}>
+  //           <Image
+  //             source={require('./src/assets/용산구.gif')}
+  //             style={{width: '100%', height: '100%', backgroundColor: 'yellow'}}
+  //             resizeMode="stretch"
+  //           />
+  //         </View>
+  //         <Button
+  //           title="Go Preference"
+  //           onPress={() => {
+  //             navigation.navigate('Preference', {});
+  //           }}
+  //         />
+  //         <View>
+  //           <Text>{user?.displayName}</Text>
+  //         </View>
+  //       </View>
+  //     </>
+  //   );
+  // }
+  // return (
+  //   <>
+  //     <View style={{flex: 1}}>
+  //       <ImageBackground source={image} resizeMode="cover" style={styles.image}>
+  //         <View
+  //           style={{
+  //             flex: 6,
+  //             alignItems: 'center',
+  //             justifyContent: 'center',
+  //           }}>
+  //           {/* <TouchableHighlight onPress={onClick}>
+  //             <Text style={{fontSize: 40, color: 'white'}}>DATE GO</Text>
+  //           </TouchableHighlight> */}
+  //           <Text style={{fontSize: 40, color: 'white'}}>DATE GO</Text>
+  //         </View>
+  //         <View>
+  //           <Text style={{color: 'white'}}>Login Page</Text>
+  //           <GoogleSigninButton onPress={onGoogleButtonPress} />
+  //         </View>
+  //       </ImageBackground>
+  //       <Button
+  //         title="장소변경페이지로"
+  //         onPress={() => {
+  //           navigation.navigate('Home', {});
+  //         }}
+  //       />
+  //     </View>
+  //   </>
+  // );
 }
 
 const Stack = createNativeStackNavigator();
