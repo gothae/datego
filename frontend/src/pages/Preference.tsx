@@ -1,7 +1,10 @@
 import * as React from 'react';
 import {View, Text, Button} from 'react-native';
+import auth from '@react-native-firebase/auth';
 
 function Preference({navigation}) {
+  const user = auth().currentUser;
+
   return (
     <View>
       <View>
@@ -35,6 +38,9 @@ function Preference({navigation}) {
           navigation.navigate('Course', {});
         }}
       />
+      <View>
+        <Text>{user?.displayName}!!!</Text>
+      </View>
     </View>
   );
 }
