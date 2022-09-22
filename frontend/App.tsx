@@ -18,6 +18,7 @@ import {
   GoogleSignin,
   GoogleSigninButton,
 } from '@react-native-google-signin/google-signin';
+import Users from './src/pages/Users';
 import Gallery from './src/pages/Gallery';
 import SelectDong from './src/pages/SelectDong';
 import Preference from './src/pages/Preference';
@@ -29,6 +30,7 @@ import axios from 'axios';
 
 export type LoggedInParamList = {
   Home: undefined;
+  Users: undefined;
   Gallery: undefined;
   SelectDong: undefined;
   Preference: undefined;
@@ -135,6 +137,8 @@ function HomeScreen({navigation}: HomeScreenProps) {
         '18642094345-6ok4m4de04aukci5sdl5vkqranqtbbuf.apps.googleusercontent.com',
     });
   }, []);
+  const [userCode, setUsers] = useState('');
+  const [accessToken, setToken] = useState('');
 
   async function onGoogleButtonPress() {
     const {idToken} = await GoogleSignin.signIn();
@@ -145,15 +149,51 @@ function HomeScreen({navigation}: HomeScreenProps) {
         email: useremail,
         domain: 'GOOGLE',
       });
-      console.log(2);
-      return response.data.code;
+      setUsers(response.data.code);
+      setToken(response.data.responseData.accessToken);
+      console.log(response.data);
+      console.log(
+        '코드가 201이면 백에 가입되어있지 않음(성별, 나이입력필요), 200이면 가입되어있음.',
+      );
+      return;
     };
-    console.log('시작합니다.');
     await checkUser();
-    console.log(1);
 
-    auth().signInWithCredential(googleCredential);
     return auth().signInWithCredential(googleCredential);
+  }
+
+  async function onCheckButton() {
+    const checkUser = async () => {
+      const useremail = auth().currentUser?.email;
+      const response = await axios.post('http://10.0.2.2:8080/users/info', {
+        email: useremail,
+        domain: 'GOOGLE',
+        age: '20',
+        gender: 'M',
+      });
+      setUsers(response.data.code);
+      setToken(response.data.responseData.accessToken);
+      console.log(response.data);
+      console.log('가입완료!');
+      return;
+    };
+    await checkUser();
+    return;
+  }
+
+  async function onLogout() {
+    const logoutUser = async () => {
+      const response = await axios.post('http://10.0.2.2:8080/users/logout', {
+        accessToken: accessToken,
+      });
+      setUsers('');
+      setToken('');
+      console.log(response.data);
+      console.log('로그아웃!');
+      return;
+    };
+    await logoutUser();
+    return;
   }
 
   const [isloggedIn, setLoggedIn] = useState(false);
@@ -173,6 +213,83 @@ function HomeScreen({navigation}: HomeScreenProps) {
     // 구글에서 Logout 재로그인해야한다.
     // GoogleSignin.signOut()
   }, []);
+  if (userCode == '200') {
+    return (
+      <>
+        <View style={{flex: 1}}>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: 'orange',
+              paddingHorizontal: 10,
+              paddingVertical: 15,
+              flexDirection: 'row',
+            }}>
+            <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>
+              DATE GO
+            </Text>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: 'row',
+              paddingHorizontal: 10,
+              paddingVertical: 20,
+            }}>
+            <Button
+              title="Go Gallery"
+              onPress={() => {
+                navigation.navigate('Gallery', {});
+              }}
+            />
+            <Button
+              title="Go SelectDong"
+              onPress={() => {
+                navigation.navigate('SelectDong', {});
+              }}
+            />
+          </View>
+          <View style={{flex: 4}}>
+            <Image
+              source={require('./src/assets/용산구.gif')}
+              style={{width: '100%', height: '100%', backgroundColor: 'yellow'}}
+              resizeMode="stretch"
+            />
+          </View>
+          <Button
+            title="Go Preference"
+            onPress={() => {
+              navigation.navigate('Preference', {});
+            }}
+          />
+          <View>
+            <Text>{user?.displayName}</Text>
+          </View>
+          <View>
+            <GoogleSigninButton onPress={onGoogleButtonPress} />
+          </View>
+        </View>
+        <View>
+          <Text>로그인됨</Text>
+        </View>
+        <View>
+          <Button
+            onPress={onLogout}
+            title="로그아웃"
+            color="#841584"
+            accessibilityLabel="Learn more about this purple button"
+          />
+        </View>
+      </>
+    );
+  }
+  if (userCode == '201') {
+    return (
+      <View>
+        <Text>성별과 나이입력해야합니다.</Text>
+      </View>
+    );
+  }
   return (
     <>
       <View style={{flex: 1}}>
@@ -228,8 +345,74 @@ function HomeScreen({navigation}: HomeScreenProps) {
           <GoogleSigninButton onPress={onGoogleButtonPress} />
         </View>
       </View>
+      <View>
+        <Text>성별과 나이가 입력되어 있지 않습니다.</Text>
+        <Button
+          onPress={onCheckButton}
+          title="로그인"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"
+        />
+      </View>
     </>
   );
+  // return (
+  //   <>
+  //     <View style={{flex: 1}}>
+  //       <View
+  //         style={{
+  //           flex: 1,
+  //           backgroundColor: 'orange',
+  //           paddingHorizontal: 10,
+  //           paddingVertical: 15,
+  //           flexDirection: 'row',
+  //         }}>
+  //         <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>
+  //           DATE GO
+  //         </Text>
+  //       </View>
+  //       <View
+  //         style={{
+  //           flex: 1,
+  //           flexDirection: 'row',
+  //           paddingHorizontal: 10,
+  //           paddingVertical: 20,
+  //         }}>
+  //         <Button
+  //           title="Go Gallery"
+  //           onPress={() => {
+  //             navigation.navigate('Gallery', {});
+  //           }}
+  //         />
+  //         <Button
+  //           title="Go SelectDong"
+  //           onPress={() => {
+  //             navigation.navigate('SelectDong', {});
+  //           }}
+  //         />
+  //       </View>
+  //       <View style={{flex: 4}}>
+  //         <Image
+  //           source={require('./src/assets/용산구.gif')}
+  //           style={{width: '100%', height: '100%', backgroundColor: 'yellow'}}
+  //           resizeMode="stretch"
+  //         />
+  //       </View>
+  //       <Button
+  //         title="Go Preference"
+  //         onPress={() => {
+  //           navigation.navigate('Preference', {});
+  //         }}
+  //       />
+  //       <View>
+  //         <Text>{user?.displayName}</Text>
+  //       </View>
+  //       <View>
+  //         <GoogleSigninButton onPress={onGoogleButtonPress} />
+  //       </View>
+  //     </View>
+  //   </>
+  // );
 
   // if (isloggedIn) {
   //   return (
