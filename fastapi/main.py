@@ -14,20 +14,6 @@ engine = db.create_engine("mysql+pymysql://root:1234@localhost:3306/datego", ech
 connection = engine.connect()
 metadata = db.MetaData()
 
-
-class Item(BaseModel):
-    food: Optional[list] =[]
-    cafe: Optional[list] =[]
-    drink: Optional[list] =[]
-    play: Optional[list] =[]
-
-
-class Res (BaseModel):
-    code: int
-    message: str
-    responseData: list= []
-
-
 class Spot(list):
     id: int
     address: str
@@ -67,26 +53,33 @@ app = FastAPI()
 
 # user_spot = 유저 장소 평가 내역, spot_courses = 장소 태그 평가 내역
 @app.get("/courses")
-async def get_courses(response_model=Res):
+async def get_courses():
     spot_tag = pd.read_sql_table('spot_tag', connection)
     print(spot_tag)
     spot_tag_pivot = spot_tag.pivot(index='spot_id', columns='tag_id', values='count')
+    # spot 별 태그종류 및 개수
     print(spot_tag_pivot)
     query = sql.select([sql.column("id"), sql.column("category_id"), sql.column("rate")]).select_from(sql.table('spot'))
     spot = pd.read_sql(query, connection)
+    # spot = 가게 id , 카테고리 id, 평점
     print(spot)
     spot_courses = pd.merge(spot_tag_pivot, spot, left_on='spot_id', right_on='id', how='inner')
+    # spot별 id, 태그 종류 및 수, 카테고리 id ,평점
     print(spot_courses)
+
     user_spot_query = sql.select([sql.column("user_id"), sql.column("spot_id"), sql.column("rate")]).select_from(sql.table('user_spot'))
     user_spot = pd.read_sql(user_spot_query, connection)
+    # 유저가 방문한 지역을 평가 userid, spotid, rate
     print(user_spot)
+
     table = db.Table('spot', metadata, autoload=True, autoload_with=engine)
     category_table = db.Table('category', metadata, autoload=True, autoload_with=engine)
     menu_table = db.Table('menu', metadata, autoload=True, autoload_with=engine)
     tag_table = db.Table('tag',  metadata, autoload=True, autoload_with=engine)
     image_table = db.Table('image', metadata, autoload=True, autoload_with=engine)
     # 예시
-    ids = [1, 1]
+    # 첫코스로 보여줄거
+    ids = [1, 1, 1, 1, 1]
     spots = list()
     response = {}
     for i in ids:
@@ -126,6 +119,7 @@ async def get_courses(response_model=Res):
         spot.setValue(tags, price_result[0][2], image_result[0][0])
         spots.append(spot.__str__())
 
+    # 코스를 (음식-카페-음식-놀것) 최대 20개의 index가 들어간다.
     spotIds=[
         {
             "first": [1,2,3,4,5,6,7,8,9,10]
@@ -139,7 +133,10 @@ async def get_courses(response_model=Res):
     ]
     response.update({"code": 200})
     response.update({"message": "SUCCESS"})
-    response.update({"Spots": spots})
-    response.update({"spotIds": spotIds})
+
+    responseData = {}
+    responseData.update({"Spots": spots})
+    responseData.update({"spotIds": spotIds})
+    response.update({"responseData": responseData})
 
     return response
