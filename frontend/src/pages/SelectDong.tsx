@@ -4,7 +4,7 @@ import {View, Text} from 'react-native';
 function SelectDong() {
   return (
     <View>
-      <Text>SelectDong입력해주세요</Text>
+      <Text>SelectDong정보입력해주세요</Text>
     </View>
   );
 }
