@@ -1,5 +1,6 @@
 package com.example.datego.controller;
 
+import com.example.datego.dto.req.ChangeSpotReq;
 import com.example.datego.dto.req.MissionReq;
 import com.example.datego.http.ApiResponse;
 import com.example.datego.service.SpotService;
@@ -46,5 +47,12 @@ public class SpotController {
     public ApiResponse searchSpot(@RequestParam(value = "name") String name,
                                   @RequestParam(value="page", required = false) String page){
         return spotService.searchSpots(name, page);
+    }
+
+    @GetMapping("/{spotId}")
+    public ApiResponse getSpots(@RequestBody ChangeSpotReq changeSpotReq,
+                                @PathVariable("spotId") int spotId,
+                                @RequestParam("page") int page){
+        return spotService.getChangeSpot(changeSpotReq, spotId, page);
     }
 }
