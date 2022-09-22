@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {View, Text} from 'react-native';
 
-function SelectDong() {
+function Users() {
   return (
     <View>
-      <Text>DONG정보입력해주세요</Text>
+      <Text>user정보입력해주세요</Text>
     </View>
   );
 }
 
-export default SelectDong;
+export default Users;
