@@ -79,11 +79,8 @@ public class UserService {
                 Optional<RefreshToken> oldRefreshToken = refreshTokenRepository.findByEmail(loginReq.getEmail());
                 // 있으면 갱신해줌
                 if(oldRefreshToken.isPresent()){
-                    RefreshToken token = refreshTokenRepository.findById(oldRefreshToken.get().getId()).get();
-                    token = RefreshToken.builder()
-                            .email(token.getEmail())
-                            .token(refreshToken.getToken())
-                            .build();
+                    RefreshToken token = oldRefreshToken.get();
+                    token.updateToken(refreshToken.getToken());
                     refreshTokenRepository.save(token);
                 }
                 // 없으면 생성

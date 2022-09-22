@@ -19,4 +19,8 @@ public class RefreshToken {
     private int id;
     private String email;
     private String token;
+
+    public void updateToken(String token) {
+        this.token = token;
+    }
 }
