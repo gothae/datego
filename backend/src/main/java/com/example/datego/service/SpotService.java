@@ -1,11 +1,14 @@
 package com.example.datego.service;
 
+import com.example.datego.dto.req.ChangeSpotReq;
 import com.example.datego.dto.req.MissionReq;
+import com.example.datego.dto.res.ChangeSpotRes;
 import com.example.datego.dto.res.MissionRes;
 import com.example.datego.dto.res.SearchSpotRes;
 import com.example.datego.dto.res.SpotDetailRes;
 import com.example.datego.http.ApiResponse;
 import com.example.datego.repository.*;
+import com.example.datego.vo.ChangeSpotVO;
 import com.example.datego.vo.MenuVO;
 import com.example.datego.vo.SpotVO;
 import com.example.datego.vo.TagVO;
@@ -129,6 +132,41 @@ public class SpotService {
         }
         searchSpotRes.setSpots(spotVOList);
         apiResponse.setResponseData(searchSpotRes);
+        return apiResponse;
+    }
+
+    public ApiResponse getChangeSpot(ChangeSpotReq changeSpotReq, int spotId, int page) {
+        ApiResponse apiResponse = new ApiResponse();
+        List<Integer> spots2 = changeSpotReq.getSpots();
+        spots2.remove(Integer.valueOf(spotId));
+        int i = page*5;
+        ChangeSpotRes changeSpotRes = new ChangeSpotRes();
+        List<ChangeSpotVO> spots = new ArrayList<>();
+        for(int k=0;k<5;k++){
+            int spotIndex = spots2.get(i);
+            Spot spot = spotRepository.findSpotById(spotIndex);
+            List<String> tags = new ArrayList<>();
+            tags.add(spot.getCategory().getName());
+            List<Spot_Tag> spot_tags = spot_tagRepository.findTop3BySpotIdOrderByCountDesc(spotIndex);
+            for(Spot_Tag st : spot_tags){
+                tags.add(st.getTag().getName());
+            }
+            ChangeSpotVO changeSpotVO = new ChangeSpotVO();
+            changeSpotVO.setId(spot.getId());
+            changeSpotVO.setAddress(spot.getAddress());
+            changeSpotVO.setImage(spot.getImageList().get(0).getImageLink());
+            changeSpotVO.setName(spot.getName());
+            changeSpotVO.setPrice(spot.getMenuList().get(0).getPrice());
+            changeSpotVO.setLatitude(spot.getLatitude());
+            changeSpotVO.setLongitude(spot.getLongitude());
+            changeSpotVO.setRate(spot.getRate());
+            changeSpotVO.setTags(tags);
+
+            spots.add(changeSpotVO);
+        }
+        changeSpotRes.setSpots(spots);
+        apiResponse.setResponseData(changeSpotRes);
+
         return apiResponse;
     }
 }
