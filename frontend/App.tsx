@@ -18,7 +18,6 @@ import {
   GoogleSignin,
   GoogleSigninButton,
 } from '@react-native-google-signin/google-signin';
-import Users from './src/pages/Users';
 import Gallery from './src/pages/Gallery';
 import SelectDong from './src/pages/SelectDong';
 import Preference from './src/pages/Preference';
@@ -527,7 +526,8 @@ function App() {
         <Stack.Screen
           name="Preference"
           component={Preference}
-          options={{title: 'Preference'}}
+          // options={{title: 'Preference'}}
+          options={{title: 'Preference', headerShown: false}}
         />
         <Stack.Screen
           name="Course"

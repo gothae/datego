@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useState} from 'react';
 import {View, Text, Button} from 'react-native';
 
 function CourseIng({navigation}) {
