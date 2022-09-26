@@ -5,6 +5,7 @@ from fastapi.encoders import jsonable_encoder
 import pandas as pd
 from models import Spot, SelectItem
 import recommend
+import json
 from collections import defaultdict
 
 engine = db.create_engine("mysql+pymysql://root:ghdtjrdls7777@j7a104.p.ssafy.io:3336/datego", echo=True, future=True)
@@ -212,21 +213,14 @@ async def get_courses(dong:int , req:SelectItem):
         spots.append(spot.__str__())
 
     # 코스를 (음식-카페-음식-놀것) 최대 20개의 index가 들어간다.
-    spotIds = {}
+    spotIds = []
     for i in range(len(recommends)):
-        spotIds[orders[i]] = recommends[i]
-
-    # spotIds=[
-    #     {
-    #         "first": [1,2,3,4,5,6,7,8,9,10]
-    #     },
-    #     {
-    #         "second": [1,21,23,6,9,12,22]
-    #     },
-    #     {
-    #         "third":[1,23,4,5,66,7,8,9,10]
-    #     }
-    # ]
+        d = {}
+        d[orders[i]] = []
+        for j in range(len(recommends[i])):
+            d[orders[i]].append(int(recommends[i][j]))
+        spotIds.append(d)
+        
     response.update({"code": 200})
     response.update({"message": "SUCCESS"})
 
