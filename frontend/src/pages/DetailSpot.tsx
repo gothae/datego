@@ -1,9 +1,12 @@
 import * as React from 'react';
 import {View, Text, Image} from 'react-native';
-import { Button} from "@react-native-material/core";
+import { Button } from "@react-native-material/core";
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { ParamListBase } from '@react-navigation/native';
+type DetailSpotProps = NativeStackScreenProps<ParamListBase, 'DetailSpot'>
 
 
-function DetailSpot({ navigation }) {
+function DetailSpot({ navigation } : DetailSpotProps) {
   // stores에 id에 해당되는 정보 불러오기
   const stores = {name: 'STUN HOUS', tel:	'0507-1304-1597', addr1:	'갈월동 19-4', addr2:	'갈월동', Latitude:	37.5454352, Longitude:	126.9726477, menu:	['Popresso'], price:	[4500], thumb:	'https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20190826_277%2F1566788683492Jeaet_JPEG%2FUAX7h1H3Lg2fsyUL8-4vd8Vk.jpg', rating:	2.65}
   return (
