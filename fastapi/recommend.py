@@ -51,6 +51,24 @@ def dong_filter(dataFrame, dong):
             data.append(row)
     return pd.DataFrame(data)
 
+def price_filter(spots, menus, course, price):
+    data = []
+    for idx, row in spots.iterrows():
+        spotId = row['id']
+        menu_price = menus[menus['spot_id'] == spotId]
+        avg = 0
+        for j, menu_row in menu_price.iterrows():
+            avg += menu_row['price']
+        avg /= len(menu_price)
+
+        if course == 1 or course == 3:
+            if avg <= price  * 0.5:
+                data.append(row)
+        elif course == 2:
+            if avg <= price  * 0.3:
+                data.append(row)
+    return pd.DataFrame(data)
+
 #식당과 놀거리 경우, 태그선택안하므로 유저리뷰 기준으로 좋아하는 태그를 뽑는다
 def tagsFromReviews(my_reviews, spot_courses, course):
     dict = {}

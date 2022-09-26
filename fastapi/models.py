@@ -27,9 +27,9 @@ class Spot(list):
         self.latitude = arr[2]
         self.longtitude = arr[3]
         self.name = arr[4]
-        self.quest = arr[5]
-        self.rate = arr[6]
-        self.phone = arr[8]
+        self.phone = arr[5]
+        self.quest = arr[6]
+        self.rate = arr[7]
 
     def __str__(self):
         return {"id": self.id, "address": self.address, "latitude": self.latitude, "longtitude": self.longtitude, "name": self.name, "image": self.image,
