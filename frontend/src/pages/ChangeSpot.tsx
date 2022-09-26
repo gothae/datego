@@ -1,8 +1,11 @@
 import * as React from 'react';
 import {View, Text, StyleSheet, Pressable, Image } from 'react-native';
 import { Button } from "@react-native-material/core";
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { ParamListBase } from '@react-navigation/native';
+type ChangeSpotProps = NativeStackScreenProps<ParamListBase, 'ChangeSpot'>
 
-function ChangeSpot({ navigation }) {
+function ChangeSpot({ navigation }: ChangeSpotProps) {
   
   return (
     <View>
@@ -38,7 +41,7 @@ function ChangeSpot({ navigation }) {
               <Button title='변경' color={'#FFA856'}
                   titleStyle={{
                     color: "white",
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight:'bold'
                 }}
                 style={{
