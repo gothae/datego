@@ -1,12 +1,8 @@
 from fastapi import FastAPI
 import sqlalchemy as db
-import json
 from sqlalchemy import sql
-from typing import Optional
 from fastapi.encoders import jsonable_encoder
-import numpy as np
 import pandas as pd
-from pandas import DataFrame
 from models import Spot, SelectItem
 import recommend
 
@@ -88,6 +84,17 @@ async def get_courses(dong:int , req:SelectItem):
         # 동 분류
         spots = recommend.dong_filter(spots, dong)
 
+        # spots DataFrame에 태그들 열로 달아주기
+        temp = {}
+        for idx, row in spots.iterrows():
+            for t in courseTags:
+                count = spot_tag[(spot_tag['spot_id'] == row['id']) & (spot_tag['tag_id'] == t)]['count'].values[0]
+                if t not in temp.keys():
+                    temp[t] = []
+                temp[t].append(count)
+        for k,v in temp.items():
+            spots[k] = v
+
         # TF-IDF
         result = []
         for i in spots.index:
@@ -97,7 +104,52 @@ async def get_courses(dong:int , req:SelectItem):
                 t = courseTags[j]
                 result[-1].append(recommend.tfidf(spots, t, d, i))
         
+        # TF-IDF
+        result = []
+        for i in spots.index:
+            result.append([])
+            d = spots['id'][i]
+            for j in range(len(courseTags)):
+                t = courseTags[j]
+                res = recommend.tfidf(spots, t, d, i)
+                if isinstance(res, pd.Series):
+                    res = res.values[0]
+                result[-1].append(res)
+
         tfidf_ = pd.DataFrame(result, columns=courseTags)
+
+        N = len(spots)
+        temp = []
+        for tag in courseTags:
+            temp.append(1 if tag in selectedTags else 0)
+        
+        tfidf_.loc[N] = temp
+
+        temp = [-1,'',1,'','','temp','','',5,course,dong] + temp
+        spots.loc[N] = temp
+        N += 1
+
+        #코사인 유사도 구하기
+        cosine_matrix, spotId, id2spot = recommend.compute_cos_sim(spots, tfidf_)
+        # spotId : {0: '단박왕돈까스', 1: '일미감자탕', ...}
+        cbf_return = recommend.get_k_sim("temp", 1000, cosine_matrix, id2spot, spots)
+        cbf_return = dict(cbf_return)
+        # cbf_return : [[spotid,점수], [spotid,점수], ... ]
+
+        # 모델 학습
+        reviews = user_spot[['user_id', 'spot_id', 'rate']]
+        cf_model = recommend.train_model(reviews)
+
+        # 가게 리스트 생성
+        uid_iid_list = recommend.make_uid_iid_list(userId, dong, spots[:-1])
+
+        # cf 기반 가게 1000개의 점수 구하기 (1, 5.0)
+        pred = cf_model.test(uid_iid_list)
+        cf_return = recommend.get_k_spot_by_cf(1000, pred, spots[:-1])
+
+        # cbf 점수, cf 점수 합치고 sort 후 20개 리턴
+        recspots20 = recommend.rec_spot(cbf_return, cf_return)
+        print(recspots20)
 
     # # 예시
     # # 첫코스로 보여줄거

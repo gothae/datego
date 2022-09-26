@@ -9,19 +9,9 @@ from surprise.dataset import DatasetAutoFolds
 from collections import defaultdict
 from sklearn.metrics.pairwise import cosine_similarity
 from itertools import chain
-import os
-
-restaurants = []
-cafes = []
-drinks = []
-activities = []
-
-# 1번 유저
-my_uid = 1
-
 
 RESTAURANT_TAGS = [i for i in range(25,38)]
-CAFE_TAGS = [i for i in range(1,13)]
+CAFE_TAGS = [i for i in range(1,13)] + [45]
 DRINK_TAGS = [i for i in range(13,25)]
 ACTIVITY_TAGS = [i for i in range(38,45)]
 COURSE_TAGS = [RESTAURANT_TAGS, CAFE_TAGS, DRINK_TAGS, ACTIVITY_TAGS]
@@ -92,24 +82,9 @@ def tagsFromReviews(my_reviews, spot_courses, course):
     sorted_dict = sorted(dict.items(), key=lambda x : x[1], reverse=True)
     return [tag[0] for tag in sorted_dict[:3]]
 
-# 식당: 1, 카페: 2, 술집: 3, 활동: 4
-def getWhichCourse():
-    return 2
-
-# 식당/홛동이면 어느 카테고리 => 태그로 변환해주기
-# 카페/술집이면 어느 태그
-def getUserSelects():
-    # return ['한식','양식']
-    return ['분위기좋은', '사진찍기좋은', '깔끔한']
-
-#어느 동을 선택했는지
-def getDong():
-    return '이태원동'
-
 def tf(t, d):
     # d => 인덱스의 태그들, t => 태그 하나
     return d.count(t)
-
 
 def idf(spot, t):
     df = 0
@@ -121,11 +96,6 @@ def tfidf(spot, t, d, i):
     # tf는 정의대로 수정
     return spot[t][i] * idf(spot, t)
 
-def compute_score(idx):
-    if spots['count'][idx] > 100 : c = 100
-    else : c = spots['count'][idx]
-    return (c + spots['rating'][idx]*20)/200
-
 def compute_cos_sim(spots, arr):
     cosine_matrix = cosine_similarity(arr, arr)
     spotId = {}
@@ -134,14 +104,22 @@ def compute_cos_sim(spots, arr):
     for idx, c in spotId.items() : id2spot[c] = idx
     return cosine_matrix, spotId, id2spot
 
-def get_k_sim(name, k):
+def get_k_sim(name, k, cosine_matrix, id2spot, spots):
     idx = id2spot[name]
-    k_spot_by_cbf = {}
-    sim_scores = [(i, c + compute_score(i) ) for i, c in enumerate(cosine_matrix[idx]) if i != idx]
+    
+    sim_scores = []
+
+    for i in range(len(spots)):
+        spot = spots.iloc[i]
+        c = spot['count'] if spot['count'] < 100 else 100
+        c += spot['rate'] * 20
+        score = [spot['id'], c/200 + cosine_matrix[idx][i]]
+        score[1] *= 2.5
+        sim_scores.append(score)
+
+    # sim_scores = [(i, c + compute_score(i, spots) ) for i, c in enumerate(cosine_matrix[idx]) if i != idx]
     sim_scores = sorted(sim_scores, key=lambda x:x[1], reverse = True)
-    for i, score in sim_scores[0:k]:
-        k_spot_by_cbf[spotId[i]] = score * 2.5
-    return k_spot_by_cbf
+    return sim_scores[1:k+1]
 
 def get_top_n(predictions, n=10):
     # First map the predictions to each user.
@@ -156,106 +134,44 @@ def get_top_n(predictions, n=10):
 
     return top_n
 
-def make_uid_iid_list(uid, dongId):
+def make_uid_iid_list(uid, dongId, spots):
     uid_iid_list = []
-    for idx, r in cafes.iterrows():
-        if r['addr2'] == dongId:
-            uid_iid_list.append([my_uid, r['store_id'], None])
+    for idx, r in spots.iterrows():
+        if r['dong_id'] == dongId:
+            uid_iid_list.append([uid, r['id'], None])
     return uid_iid_list
 
-def get_k_spot_by_cf(k):
+
+def get_k_spot_by_cf(k, pred, spots):
     top_n = get_top_n(pred, n=k)
     k_spot_by_cf = {}
     for uid, user_ratings in top_n.items():
         for (iid, est) in user_ratings:
-            k_spot_by_cf[cafes[cafes['store_id']==iid]['name'].item()] = est                
+            k_spot_by_cf[spots[spots['id']==iid]['id'].item()] = est                
     return k_spot_by_cf
 
-# # 1. 동 선택
-# dong = getDong()
+def train_model(reviews):
+    reader = Reader(rating_scale=(1, 5.0))
+    data = Dataset.load_from_df(reviews[['user_id', 'spot_id', 'rate']], reader)
 
-# # 2. 코스 선택 (식당/카페/술집/활동)
-# course = getWhichCourse()
-# courseTags = COURSE_TAGS[course-1]
+    trainset = data.build_full_trainset()
 
-# # 3. 카테고리 / 태그 선택
-# categories = getUserSelects() # 어느 카테고리/태그를 선택했는가
-# selectedTags = []
-# if course == 1 or course == 4:
-#     selectedTags = tagsFromReviews(2, course)
-# else:
-#     selectedTags = categories
+    option = {'name':'pearson', 'user_based':True}
+    algo = KNNBasic(sim_options=option)
 
-# # 4. 선택된 코스에 맞는 데이터 불러오기
-# spots = cafes
+    algo.fit(trainset)
+    return algo
 
-# # 5. spot 분류
-# if course == 1 or course == 4: # 식당/활동의 경우 카테고리로 분류
-#     spots = category_filter(restaurants, categories) 
-# spots = dong_filter(spots, dong) # 어느동을 선택했는지
-# spots.reset_index(inplace=True, drop=True)
+def rec_spot(cbf_return, cf_return):
+    recspots = []
+    rec_for_user = defaultdict(list)
+    for k, v in chain(cbf_return.items(), cf_return.items()):
+        rec_for_user[k].append(v)
 
-# # 6. TF-IDF 구하기
-# result = []
-# for i in spots.index:
-#     result.append([])
-#     d = spots['name'][i]
-#     for j in range(len(courseTags)):
-#         t = courseTags[j]
-#         result[-1].append(tfidf(spots, t, d, i))
-
-# tfidf_ = pd.DataFrame(result, columns=courseTags)
-
-# # 선택된 태그는 1, 아니면 0으로 TF-IDF data frame에 넣어주기
-# N = len(spots)
-# temp = []
-# for tag in courseTags:
-#     if tag in selectedTags:
-#         temp.append(1)
-#     else:
-#         temp.append(0)
-
-# tfidf_.loc[N] = temp
-# if course == 1 or course == 4: # 식당 / 활동
-#     temp = ['','temp','','','','','','','','',5,1] + temp + [''] 
-# else: # 카페 / 술집
-#     temp = ['','','temp','','','','','','','',5,1] + temp + ['']
-# spots.loc[N] = temp
-# N += 1
-
-# # 코사인 유사도 구하기
-# cosine_matrix, spotId, id2spot = compute_cos_sim(spots, tfidf_)
-
-# cbf_return = get_k_sim("temp",1000)
-
-
-
-# # CF
-# reviews = reviews[['user_id', 'store_id', 'rating']]
-# cafes = cafes[['store_id','category_id','name','addr2','rating','count','가성비좋은','분위기좋은','감성카페','고급스러운','조용한',
-#     '깔끔한','디저트','인테리어','사진찍기좋은','이색적인','뷰가좋은','예쁜','동네핫플']]
-
-# reader = Reader(rating_scale=(1, 5.0))
-# data = Dataset.load_from_df(reviews[['user_id', 'store_id', 'rating']], reader)
-
-# trainset = data.build_full_trainset()
-
-# option = {'name':'pearson', 'user_based':True}
-# algo = KNNBasic(sim_options=option)
-
-# algo.fit(trainset)
-
-# uid_iid_list = make_uid_iid_list(my_iid, dong)
-# pred = algo.test(uid_iid_list)
-# cf_return = get_k_spot_by_cf(1000)
-
-# rec_for_user = defaultdict(list)
-# for k, v in chain(cbf_return.items(), cf_return.items()):
-#     rec_for_user[k].append(v)
-
-# for k, v in rec_for_user.items():
-#     rec_for_user[k] = sum(v)
-    
-# rec_for_user = sorted(rec_for_user.items(), key=lambda x : x[1], reverse=True)
-# for recspot in rec_for_user[:20]:
-#     print(recspot[0])
+    for k, v in rec_for_user.items():
+        rec_for_user[k] = sum(v)
+        
+    rec_for_user = sorted(rec_for_user.items(), key=lambda x : x[1], reverse=True)
+    for recspot in rec_for_user[:20]:
+        recspots.append(recspot)
+    return recspots
