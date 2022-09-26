@@ -163,15 +163,10 @@ async def get_courses(dong:int , req:SelectItem):
 
         # cbf 점수, cf 점수 합치고 sort 후 20개 리턴
         recspots20 = recommend.rec_spot(cbf_return, cf_return)
-        print(recspots20)
         temp = [k[0] for k in recspots20]
         recommends.append(temp)
         ids.append(recspots20[0][0])
 
-    # 예시
-    # 첫코스로 보여줄거
-    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-    print(recommends)
     spots = list()
     response = {}
     for i in ids:
@@ -209,7 +204,7 @@ async def get_courses(dong:int , req:SelectItem):
             tag_result = tag_result_proxy.fetchall()
             tags.append(tag_result[0][0])
 
-        spot.setValue(tags, price_result[0][2], "image_result[0][0]")
+        spot.setValue(tags, price_result[0][2], image_result[0][0])
         spots.append(spot.__str__())
 
     # 코스를 (음식-카페-음식-놀것) 최대 20개의 index가 들어간다.
