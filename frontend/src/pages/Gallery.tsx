@@ -1,10 +1,18 @@
 import * as React from 'react';
-import {View, Text, Image, StyleSheet, TouchableHighlight} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableHighlight,
+  Button,
+} from 'react-native';
 import {useState, useEffect, useCallback} from 'react';
 import auth from '@react-native-firebase/auth';
 import axios from 'axios';
+import {RootState} from './src/store/reducer';
 
-function Gallery() {
+function Gallery({navigation}) {
   // axios.defaults.withCredentials = true;
   const checkuser = auth().currentUser;
   // const [Imageurl, setValue1] = useState('이거를 바꾸자~');
@@ -19,7 +27,9 @@ function Gallery() {
   //   };
   //   getData();
   // }, []);
+
   const onClick = useCallback(() => {
+    console.log(1);
     const getData = async () => {
       const response = await axios.get('http://10.0.2.2:8080/categories');
       console.log(response.data);
@@ -45,6 +55,12 @@ function Gallery() {
           <Text>DATE GO</Text>
         </TouchableHighlight>
       </View>
+      <Button
+        title="Go Home"
+        onPress={() => {
+          navigation.navigate('Home', {});
+        }}
+      />
     </View>
   );
 }
