@@ -1,0 +1,19 @@
+
+m	java:S117*"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(©ø¨®8Ý ß—¶0
+r
+java:S3655-"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(´à¡¦ùÿÿÿÿ8õ ß—¶0
+r
+java:S3655R"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(µ‡„ ûÿÿÿÿ8õ ß—¶0
+r
+java:S3655z"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(æ²ñ¸ùÿÿÿÿ8õ ß—¶0
+r
+java:S3655."PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(ãƒæ¬úÿÿÿÿ8õ ß—¶0
+m
+java:S3655G"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(ßœå½8õ ß—¶0
+m
+java:S3655F"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(þ–üÆ8õ ß—¶0
+	java:S116"^Rename this field "user_spotRepository" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ãÜƒÕýÿÿÿÿ8÷ ß—¶0
+g
+java:S1124"EReorder the modifiers to comply with the Java Language Specification.(×°¤×ÿÿÿÿÿ8û ß—¶0
+Z
+java:S1854:"8Remove this useless assignment to local variable "role".(âÓùíüÿÿÿÿ8€¡ß—¶0

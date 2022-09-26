@@ -1,0 +1,9 @@
+
+b	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(™ê¥Ÿ8³²Æ¥µ0
+b	java:S112""FDefine and throw a dedicated exception instead of using a generic one.(÷”£8¶ä“Äµ0
+‰
+java:S1130"lRemove the declaration of thrown exception 'java.lang.Exception', as it cannot be thrown from method's body.(™ê¥Ÿ8Á²Æ¥µ0
+X
+java:S1854#";Remove this useless assignment to local variable "userIdx".(ığÏì8Ìä“Äµ0
+I
+java:S1481#",Remove this unused "userIdx" local variable.(ığÏì8Îä“Äµ0

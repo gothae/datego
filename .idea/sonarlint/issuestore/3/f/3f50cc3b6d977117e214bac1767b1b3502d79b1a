@@ -1,0 +1,8 @@
+
+g	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(ñ´“§úÿÿÿÿ8Ëî›¥µ0
+Ž
+java:S1130"lRemove the declaration of thrown exception 'java.lang.Exception', as it cannot be thrown from method's body.(ñ´“§úÿÿÿÿ8Ðî›¥µ0
+G
+java:S1128"*Remove this unused import 'lombok.Getter'.(ùÒµÙ8Ñî›¥µ0
+s
+java:S1128	"QRemove this unused import 'org.springframework.web.bind.annotation.PathVariable'.(¹ûñÅþÿÿÿÿ8Ñî›¥µ0

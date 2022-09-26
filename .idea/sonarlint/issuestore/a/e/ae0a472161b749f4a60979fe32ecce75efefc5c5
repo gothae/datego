@@ -1,0 +1,15 @@
+
+g	java:S1122"FDefine and throw a dedicated exception instead of using a generic one.(Ï¬ì²üÿÿÿÿ8ø„Æ¥µ0
+g	java:S112."FDefine and throw a dedicated exception instead of using a generic one.(È±¦Õıÿÿÿÿ8ÜãÖÅµ0
+r	java:S117<"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(åÆ£ªÿÿÿÿÿ8ú„Æ¥µ0
+r	java:S117j"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÛÃËøÿÿÿÿ8ú„Æ¥µ0
+r
+java:S3655j"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(ÛÃËøÿÿÿÿ8™…Æ¥µ0
+~	java:S116&"]Rename this field "spot_tagRepository" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(µ÷­ºşÿÿÿÿ8š…Æ¥µ0
+	java:S116+"^Rename this field "user_spotRepository" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ãÜƒÕıÿÿÿÿ8š…Æ¥µ0
+b
+java:S1612H"@Replace this lambda with method reference 'Image::getImageLink'.(ƒıüÿÿÿÿ8¦…Æ¥µ0
+[
+java:S1155|">Use isEmpty() to check whether the collection is empty or not.(’‡“8°…Æ¥µ0
+V
+java:S1128"4Remove this unused import 'java.awt.print.Pageable'.(¾Ğıøÿÿÿÿ8ƒäÖÅµ0
