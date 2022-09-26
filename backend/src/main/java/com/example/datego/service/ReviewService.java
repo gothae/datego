@@ -28,6 +28,7 @@ public class ReviewService {
     private final User_SpotRepository user_spotRepository;
 
     @Transactional
+    // 트랜잭션 처리 추가
     public ApiResponse getReviews(int spotId){
         ApiResponse apiResponse = new ApiResponse();
         List<Spot_Tag> spot_tags = spot_tagRepository.findBySpotId(spotId);
