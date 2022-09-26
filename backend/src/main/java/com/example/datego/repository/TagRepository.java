@@ -3,9 +3,11 @@ package com.example.datego.repository;
 import com.example.datego.vo.entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface TagRepository extends JpaRepository<Tag, Integer> {
     @Query(nativeQuery = true, value = "select * from tag t left join category c on t.category_id = c.id " +
             "where t.category_id=2 order by count desc LIMIT 5")

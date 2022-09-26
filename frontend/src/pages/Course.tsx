@@ -1,6 +1,13 @@
 import * as React from 'react';
-import { View, Text, Dimensions, StyleSheet, Image, Pressable } from 'react-native';
-import { Button } from "@react-native-material/core";
+import {
+  View,
+  Text,
+  Dimensions,
+  StyleSheet,
+  Image,
+  Pressable,
+} from 'react-native';
+import {Button} from '@react-native-material/core';
 import NaverMapView, {
   Align,
   Circle,
@@ -15,12 +22,12 @@ function Course({navigation}) {
   const P1 = {latitude: 37.53154, longitude: 127.007};
   const P2 = {latitude: 37.55392, longitude: 126.9767};
   return (
-    <View style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
+      <View style={{flex: 1}}>
         <NaverMapView
-          style={{ width: '100%', height: '80%' }}
+          style={{width: '100%', height: '80%'}}
           showsMyLocationButton={true}
-          center={{ ...P0, zoom: 16 }}
+          center={{...P0, zoom: 16}}
           // onTouch={e => console.warn('onTouch', JSON.stringify(e.nativeEvent))}
           onCameraChange={e =>
             console.warn('onCameraChange', JSON.stringify(e))
@@ -60,32 +67,37 @@ function Course({navigation}) {
         </NaverMapView>
       </View>
       <View>
-        <Pressable style={styles.storeList}
+        <Pressable
+          style={styles.storeList}
           onPress={() => {
             navigation.navigate('DetailSpot', {});
-          }}
-        >
-          <View style={{ flex: 4 }}>
-            <Image style={styles.imageBox} source={{ uri: stores.thumb }}></Image>
+          }}>
+          <View style={{flex: 4}}>
+            <Image style={styles.imageBox} source={{uri: stores.thumb}} />
           </View>
-          <View style={{ flex: 8, justifyContent: 'space-between' }}>
-            <Text style={{ fontSize: 24, fontWeight: 'bold', marginTop: 8 }}>{stores.name}</Text>
-            <View style={{ alignItems: 'flex-end', marginBottom: 8, marginRight: 8 }}>
-              <Button title='변경' color={'#FFA856'}
+          <View style={{flex: 8, justifyContent: 'space-between'}}>
+            <Text style={{fontSize: 24, fontWeight: 'bold', marginTop: 8}}>
+              {stores.name}
+            </Text>
+            <View
+              style={{alignItems: 'flex-end', marginBottom: 8, marginRight: 8}}>
+              <Button
+                title="변경"
+                color={'#FFA856'}
                 titleStyle={{
-                  color: "white",
+                  color: 'white',
                   fontSize: 14,
-                  fontWeight: 'bold'
+                  fontWeight: 'bold',
                 }}
                 style={{
                   borderRadius: 60,
                   height: 24,
-                  justifyContent: 'center'
+                  justifyContent: 'center',
                 }}
                 onPress={() => {
                   navigation.navigate('ChangeSpot', {});
                 }}
-              ></Button>
+              />
             </View>
           </View>
         </Pressable>
@@ -94,15 +106,15 @@ function Course({navigation}) {
         <Button
           title="코스시작하기"
           color={'#FFA856'}
-                  titleStyle={{
-                    color: "white",
-                    fontSize: 30,
-                    fontWeight:'bold'
-                }}
-                style={{
-                  height: 48,
-                  justifyContent:'center'
-                }}
+          titleStyle={{
+            color: 'white',
+            fontSize: 30,
+            fontWeight: 'bold',
+          }}
+          style={{
+            height: 48,
+            justifyContent: 'center',
+          }}
           onPress={() => {
             navigation.navigate('CourseIng', {});
           }}
@@ -111,24 +123,36 @@ function Course({navigation}) {
     </View>
   );
 }
-const stores = {name: 'STUN HOUS', tel:	'0507-1304-1597', addr1:	'갈월동 19-4', addr2:	'갈월동', Latitude:	37.5454352, Longitude:	126.9726477, menu:	['Popresso'], price:	[4500], thumb:	'https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20190826_277%2F1566788683492Jeaet_JPEG%2FUAX7h1H3Lg2fsyUL8-4vd8Vk.jpg', rating:	2.65}
+const stores = {
+  name: 'STUN HOUS',
+  tel: '0507-1304-1597',
+  addr1: '갈월동 19-4',
+  addr2: '갈월동',
+  Latitude: 37.5454352,
+  Longitude: 126.9726477,
+  menu: ['Popresso'],
+  price: [4500],
+  thumb:
+    'https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20190826_277%2F1566788683492Jeaet_JPEG%2FUAX7h1H3Lg2fsyUL8-4vd8Vk.jpg',
+  rating: 2.65,
+};
 const styles = StyleSheet.create({
   storeList: {
-    flexDirection: "row",
+    flexDirection: 'row',
     backfaceVisibility: 'visible',
-    flexWrap: "wrap",
-    borderWidth: 1, 
+    flexWrap: 'wrap',
+    borderWidth: 1,
     borderRadius: 15,
     marginHorizontal: 8,
-    marginVertical: 8
-  }, 
+    marginVertical: 8,
+  },
   imageBox: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 15,
-    margin: 8, 
+    margin: 8,
     height: 100,
-    width: 100
-  }
+    width: 100,
+  },
 });
 export default Course;
