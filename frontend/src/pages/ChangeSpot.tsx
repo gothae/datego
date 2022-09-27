@@ -14,8 +14,9 @@ export interface Item {
   Longitude: number
   menu: string[]
   price: number[]
-  thumb: string
-  rating: number
+  image: string
+  rating: number,
+  // tags: string[]
 }
 function ChangeSpot({ navigation }: ChangeSpotProps) {
   return (
