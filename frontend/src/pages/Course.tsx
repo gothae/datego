@@ -1,4 +1,5 @@
 import * as React from 'react';
+import CourseItem from './Coursetem';
 import {
   View,
   Text,
@@ -17,25 +18,104 @@ import NaverMapView, {
   Polygon,
   Polyline,
 } from 'react-native-nmap';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faSort, faRotate } from '@fortawesome/free-solid-svg-icons'
+import {useState, useEffect, useCallback} from 'react';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ParamListBase } from '@react-navigation/native';
+import axios from 'axios';
+import { getDefaultMiddleware } from '@reduxjs/toolkit';
+import { useAppDispatch } from '../store';
+import storeSlice from '../slices/stores';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/reducer';
+import { Item } from './ChangeSpot';
 type CourseProps = NativeStackScreenProps<ParamListBase, 'Course'>
+
+type Store = {
+  name: string
+  id: number
+  tel: string
+  addr1: string
+  addr2: string
+  Latitude: number
+  Longitude: number
+  menu: string[]
+  price: number[]
+  thumb: string
+  rating: number
+  tags: string[]
+}
 
 function Course({navigation}: CourseProps) {
   const P0 = {latitude: 37.53698, longitude: 127.0017};
   const P1 = {latitude: 37.53154, longitude: 127.007};
   const P2 = { latitude: 37.55392, longitude: 126.9767 };
+  const spotId: number = 1;
+  const stores = useSelector((state: RootState) => state.stores).stores;
+  // const stores = temp.stores
+  // const onClick = useCallback(() => {
+  //   console.log(1);
+  //   const getData = async () => {
+  //     const response = await axios.post(`http://10.0.2.2:8080/courses/${spotId}?page=1`, {
+
+  //       spots: [1, 2, 3, 4, 5, 7]
+
+  //     });
+  //     console.log(response.data.responseData.spots);
+  //     const inputStores: StoreLists = response.data.responseData.spots;
+  //     console.log(inputStores)
+  //   };
+  //   getData();
+  // }, []);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    const getData = async () => {
+    
+    console.log('시작')
+    const spotId: number = 1
+    const response = await axios.post(`http://10.0.2.2:8080/courses/${spotId}?page=1`, {
+  
+      spots: [1, 2, 3, 4, 5, 7]
+  
+    });
+      // console.log('리스폰스 데이터', response.data.responseData.spots)
+
+      // console.log('리스폰스 데이터', response.data.responseData.spots);
+      console.log('제발', response.data.responseData.spots)
+    // const inputStores: StoreLists = response.data.responseData.spots;
+      dispatch(
+        storeSlice.actions.setstore({
+        // name: response.data.responseData.spots.name,
+        // id: response.data.responseData.spots.id,
+        // tel: response.data.responseData.spots.tel,
+        // addr1: response.data.responseData.spots.addr1,
+        // addr2: response.data.responseData.spots.addr2,
+        // Latitude: response.data.responseData.spots.Latitude,
+        // Longitude: response.data.responseData.spots.Longitude,
+        // menu: response.data.responseData.spots.menu,
+        // price: response.data.responseData.spots.price,
+        // thumb: response.data.responseData.spots.thume,
+        // rating: response.data.responseData.spots.rating,
+        // tags: response.data.responseData.spots.tags
+          stores: response.data.responseData.spots
+      }),
+    );
+    }
+    getData();
+    
+    }, []);
+  
 
   return (
 
+
+<ScrollView>
     <View style={{flex: 1}}>
       <View style={{flex: 1}}>
         <NaverMapView
-          style={{width: '100%', height: '80%'}}
+          style={{height: 270, marginHorizontal: 10, marginVertical: 10}}
           showsMyLocationButton={true}
-          center={{...P0, zoom: 16}}
+          center={{...P0, zoom: 14
+          }}
           // onTouch={e => console.warn('onTouch', JSON.stringify(e.nativeEvent))}
           onCameraChange={e =>
             console.warn('onCameraChange', JSON.stringify(e))
@@ -73,56 +153,18 @@ function Course({navigation}: CourseProps) {
             onClick={() => console.warn('onClick! polygon')}
           /> 
         </NaverMapView>
+
         </View>
-
       <View>
-        <Pressable
-          style={styles.storeList}
-          onPress={() => {
-            navigation.navigate('DetailSpot', {});
-          }}>
-          <View style={{flex: 4}}>
-            <Image style={styles.imageBox} source={{uri: stores.thumb}} />
-          </View>
-          <View style={{flex: 8, justifyContent: 'space-between'}}>
-            <Text style={{fontSize: 24, fontWeight: 'bold', marginTop: 8}}>
-              {stores.name}
-            </Text>
-            <View
-              style={{ alignItems: 'flex-end',justifyContent: 'space-between' , marginBottom: 8, marginRight: 8 , flexDirection: 'row',}}>
+          {stores.map((store, idx) => {
+          console.log(store.thumb)
+            return <CourseItem key={idx} item={store} navigation={navigation} />
+        })}
 
-              <Pressable style={{ flexDirection: 'row', marginLeft: 70 }}
-                  onPress={() => {
-                  navigation.navigate('ChangeSpot', {});
-                }}>
-              <FontAwesomeIcon icon={ faRotate } style={{ alignItems: 'flex-end', marginTop: 5  }} />
-              <Button
-                  title="장소변경"
-                  variant="text"
-                  titleStyle={{
-                    color: '#000000',
-                    fontSize: 14,
-                    fontWeight: '600',
-                  }}
-                  style={{
-                    borderRadius: 60,
-                    height: 24,
-                    justifyContent: 'center',
-                  }}
-                  onPress={() => {
-                    navigation.navigate('ChangeSpot', {});
-                  }}
-                 />
-                </Pressable>
-
-      <FontAwesomeIcon icon={ faSort } />
-            </View>
-          </View>
-        </Pressable>
-          </View>
-      <View>
+      </View>
+      <View >
         <Button
-          title="코스시작하기"
+          title="코스 시작"
           color={'#FFA856'}
           titleStyle={{
             color: 'white',
@@ -133,28 +175,30 @@ function Course({navigation}: CourseProps) {
             height: 48,
             justifyContent: 'center',
           }}
-          onPress={() => {
-            navigation.navigate('CourseIng', {});
+            onPress={() => {
+            console.log('스토어어', stores)
+            // navigation.navigate('CourseIng', {});
           }}
         />
-      </View>
+        </View>
+
 
       </View>
+      </ScrollView>
   );
 }
-const stores = {
-  name: 'STUN HOUS',
-  tel: '0507-1304-1597',
-  addr1: '갈월동 19-4',
-  addr2: '갈월동',
-  Latitude: 37.5454352,
-  Longitude: 126.9726477,
-  menu: ['Popresso'],
-  price: [4500],
-  thumb:
-    'https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20190826_277%2F1566788683492Jeaet_JPEG%2FUAX7h1H3Lg2fsyUL8-4vd8Vk.jpg',
-  rating: 2.65,
-};
+// const spotId = 1
+// const getData = async () => {
+//   const response = await axios.post(`http://10.0.2.2:8080/courses/${spotId}?page=1`, {
+
+//     spots: [1, 2, 3, 4, 5, 7]
+
+//   });
+//   console.log(response.data.responseData.spots);
+//   const inputStores: StoreLists = response.data.responseData.spots;
+//   console.log(inputStores)
+// };
+
 const styles = StyleSheet.create({
   storeList: {
     flexDirection: 'row',
