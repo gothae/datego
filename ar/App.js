@@ -73,19 +73,18 @@ const HelloWorldSceneAR = () => {
   shadowOpacity={.7} />
 
 <Viro3DObject
-    source={require('./res/untitled.obj')}
-    position={[1, 1, -3]}
+    source={require('./res/BTC_gc_v2.obj')}
+    position={[0, 0, -2]}
     scale={[0.05, 0.05, 0.05]}
-    rotation={[-90,0,0]}
+    rotation={[90,0,0]}
     type="OBJ"
-    // animation={{name:'rotate', run:true, loop:true}}
-    // onClick={console.log("hey")}
+    animation={{name:'rotate', run:true, loop:true}}  
     onClick={handleSwitchAnimation}
 
  
   
   // transformBehaviors={['billboardX']}
-  resources={[require('./res/untitled.mtl'),
+  resources={[require('./res/BTC_gc_v2.mtl'),
                       ]}
   
   />

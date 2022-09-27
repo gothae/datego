@@ -64,6 +64,12 @@ public class UserService {
                 apiResponse.setMessage("다른 플랫폼으로 로그인해주세요.");
                 return apiResponse;
             }
+            // 탈퇴한 회원이면
+            else if(user.get().getStatus().equals(Status.DELETE)){
+                apiResponse.setCode(HttpStatus.BAD_REQUEST.value());
+                apiResponse.setMessage("탈퇴한 회원입니다.");
+                return apiResponse;
+            }
             // 도메인이 같으면 JWT 리턴
             else{
                 Date now = new Date();
