@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Image,
   Pressable,
+  ScrollView
 } from 'react-native';
 import {Button} from '@react-native-material/core';
 import NaverMapView, {
@@ -16,12 +17,19 @@ import NaverMapView, {
   Polygon,
   Polyline,
 } from 'react-native-nmap';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faSort, faRotate } from '@fortawesome/free-solid-svg-icons'
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { ParamListBase } from '@react-navigation/native';
+type CourseProps = NativeStackScreenProps<ParamListBase, 'Course'>
 
-function Course({navigation}) {
+function Course({navigation}: CourseProps) {
   const P0 = {latitude: 37.53698, longitude: 127.0017};
   const P1 = {latitude: 37.53154, longitude: 127.007};
-  const P2 = {latitude: 37.55392, longitude: 126.9767};
+  const P2 = { latitude: 37.55392, longitude: 126.9767 };
+
   return (
+
     <View style={{flex: 1}}>
       <View style={{flex: 1}}>
         <NaverMapView
@@ -63,9 +71,10 @@ function Course({navigation}) {
             coordinates={[P0, P1, P2]}
             color={'rgba(0, 0, 0, 0.5)'}
             onClick={() => console.warn('onClick! polygon')}
-          />
+          /> 
         </NaverMapView>
-      </View>
+        </View>
+
       <View>
         <Pressable
           style={styles.storeList}
@@ -80,28 +89,37 @@ function Course({navigation}) {
               {stores.name}
             </Text>
             <View
-              style={{alignItems: 'flex-end', marginBottom: 8, marginRight: 8}}>
-              <Button
-                title="변경"
-                color={'#FFA856'}
-                titleStyle={{
-                  color: 'white',
-                  fontSize: 14,
-                  fontWeight: 'bold',
-                }}
-                style={{
-                  borderRadius: 60,
-                  height: 24,
-                  justifyContent: 'center',
-                }}
-                onPress={() => {
+              style={{ alignItems: 'flex-end',justifyContent: 'space-between' , marginBottom: 8, marginRight: 8 , flexDirection: 'row',}}>
+
+              <Pressable style={{ flexDirection: 'row', marginLeft: 70 }}
+                  onPress={() => {
                   navigation.navigate('ChangeSpot', {});
-                }}
-              />
+                }}>
+              <FontAwesomeIcon icon={ faRotate } style={{ alignItems: 'flex-end', marginTop: 5  }} />
+              <Button
+                  title="장소변경"
+                  variant="text"
+                  titleStyle={{
+                    color: '#000000',
+                    fontSize: 14,
+                    fontWeight: '600',
+                  }}
+                  style={{
+                    borderRadius: 60,
+                    height: 24,
+                    justifyContent: 'center',
+                  }}
+                  onPress={() => {
+                    navigation.navigate('ChangeSpot', {});
+                  }}
+                 />
+                </Pressable>
+
+      <FontAwesomeIcon icon={ faSort } />
             </View>
           </View>
         </Pressable>
-      </View>
+          </View>
       <View>
         <Button
           title="코스시작하기"
@@ -120,7 +138,8 @@ function Course({navigation}) {
           }}
         />
       </View>
-    </View>
+
+      </View>
   );
 }
 const stores = {

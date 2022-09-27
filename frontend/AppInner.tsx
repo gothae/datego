@@ -26,11 +26,12 @@ export type LoggedInParamList = {
   ChangeSpot: undefined;
   DetailSpot: undefined;
   CourseIng: undefined;
-};
-
-export type RootStackParamList = {
   SignIn: undefined;
 };
+
+// export type RootStackParamList = {
+//   SignIn: undefined;
+// };
 
 type HomeScreenProps = NativeStackScreenProps<ParamListBase>;
 
@@ -39,10 +40,17 @@ const Stack = createNativeStackNavigator();
 function AppInner() {
   const isLoggedIn = useSelector((state: RootState) => !!state.user.email);
 
-  return isLoggedIn ? (
+  // return isLoggedIn ? (
+  return (
     <Stack.Navigator>
       {/* <Stack.Navigator> */}
-      <Stack.Screen name="Home" component={Home} options={{title: 'Home'}} />
+
+      <Stack.Screen name="Home" component={Home} options={{ title: 'Home' }} />
+      <Stack.Screen
+        name="SignIn"
+        component={SignIn}
+        options={{title: 'SignIn', headerShown: false}}
+      />
       <Stack.Screen
         name="Gallery"
         component={Gallery}
@@ -78,14 +86,7 @@ function AppInner() {
         component={CourseIng}
         options={{title: 'CourseIng'}}
       />
-    </Stack.Navigator>
-  ) : (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="SignIn"
-        component={SignIn}
-        options={{title: 'SignIn', headerShown: false}}
-      />
+
     </Stack.Navigator>
   );
 }

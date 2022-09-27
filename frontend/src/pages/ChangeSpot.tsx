@@ -1,13 +1,31 @@
 import * as React from 'react';
-import {View, Text, StyleSheet, Pressable, Image } from 'react-native';
+import SpotItem from './SpotItem'
+import {View, Text, StyleSheet, Pressable, Image, ScrollView } from 'react-native';
 import { Button } from "@react-native-material/core";
-
-function ChangeSpot({ navigation }) {
-  
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { ParamListBase } from '@react-navigation/native';
+type ChangeSpotProps = NativeStackScreenProps<ParamListBase, 'ChangeSpot'>
+export interface Item {
+  name: string
+  tel: string
+  addr1: string
+  addr2: string
+  Latitude: number
+  Longitude: number
+  menu: string[]
+  price: number[]
+  thumb: string
+  rating: number
+}
+function ChangeSpot({ navigation }: ChangeSpotProps) {
   return (
+    <ScrollView>
     <View>
-      <Text>Spot1</Text>
-      <Button
+      {stores.map((store, idx) => {
+        return <SpotItem key={idx} item={store} navigation={navigation} />
+      })}
+
+      {/* <Button
         title="코스보기 페이지로"
         onPress={() => {
           navigation.navigate('Course', {});
@@ -18,12 +36,18 @@ function ChangeSpot({ navigation }) {
         onPress={() => {
           navigation.navigate('DetailSpot', {});
         }}
-      />
-      <Text>Spot2</Text>
+      /> */}
+      {/* stores = [딕1, 딕2]
+      for => 딕1
+      딕1.name,
+      .addr */}
+      {/* {storeList} */}
+      {/* <Text>Spot2</Text>
       <Text>Spot3</Text>
       <Text>Spot4</Text>
       <Text>Spot5</Text>
       <View>
+        
         <Pressable style={styles.storeList}
         onPress={() => {
           navigation.navigate('DetailSpot', {});
@@ -38,7 +62,7 @@ function ChangeSpot({ navigation }) {
               <Button title='변경' color={'#FFA856'}
                   titleStyle={{
                     color: "white",
-                    fontSize: 16,
+                    fontSize: 14,
                     fontWeight:'bold'
                 }}
                 style={{
@@ -50,6 +74,7 @@ function ChangeSpot({ navigation }) {
                   navigation.navigate('Course', {});
                 }}
               ></Button>
+              
               </View>
           </View>
         </Pressable>
@@ -57,12 +82,16 @@ function ChangeSpot({ navigation }) {
       <Button title="콘솔용"
         onPress={() => {
         console.log(stores.thumb);
-        }}></Button>
-    </View>
+        }}></Button> */}
+      </View>
+      </ScrollView>
   );
 }
-const stores = {name: 'STUN HOUS', tel:	'0507-1304-1597', addr1:	'갈월동 19-4', addr2:	'갈월동', Latitude:	37.5454352, Longitude:	126.9726477, menu:	['Popresso'], price:	[4500], thumb:	'https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20190826_277%2F1566788683492Jeaet_JPEG%2FUAX7h1H3Lg2fsyUL8-4vd8Vk.jpg', rating:	2.65}
-const styles = StyleSheet.create({
+const stores = [{ name: 'STUN HOUS', tel: '0507-1304-1597', addr1: '갈월동 19-4', addr2: '갈월동', Latitude: 37.5454352, Longitude: 126.9726477, menu: ['Popresso'], price: [4500], thumb: 'https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20190826_277%2F1566788683492Jeaet_JPEG%2FUAX7h1H3Lg2fsyUL8-4vd8Vk.jpg', rating: 2.65 },
+{name: '꼬마카롱'	, tel: '0507-1312-4137', addr1:	'갈월동 51-2', addr2:	'갈월동', Latitude:	37.5462755, Longitude:	126.9747784, menu:	['마카롱', '오늘의마카롱 6구', '아이스아메리카노'], price:	[2000, 10000, 3000], thumb:	'https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20211014_158%2F1634177123299kMQew_JPEG%2Fug6uk7NNIZPpctbjtLseRCZh.jpeg.jpg', rating:	4.42}
+]
+
+export const styles = StyleSheet.create({
   storeList: {
     flexDirection: "row",
     backfaceVisibility: 'visible',
