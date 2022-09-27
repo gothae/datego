@@ -10,9 +10,12 @@ import {
 import {useState, useEffect, useCallback} from 'react';
 import auth from '@react-native-firebase/auth';
 import axios from 'axios';
-import {RootState} from './src/store/reducer';
+import {RootState} from '../store/reducer';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {ParamListBase} from '@react-navigation/native';
+type GalleryProps = NativeStackScreenProps<ParamListBase, 'Gallery'>;
 
-function Gallery({navigation}) {
+function Gallery({navigation}: GalleryProps) {
   // axios.defaults.withCredentials = true;
   const checkuser = auth().currentUser;
   // const [Imageurl, setValue1] = useState('이거를 바꾸자~');
