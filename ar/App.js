@@ -14,25 +14,11 @@ import {
   ViroQuad,
   ViroNode,
   ViroAnimations,
+  ViroMaterials,
   ViroConstants,
   ViroImage
 } from '@viro-community/react-viro';
 
-
-// var arScenes = {
-//   'ARSimpleSample': require('./ARSample/HelloWorldSceneAR.js'),
-// }
-// var ViroCodeSamplesSceneNavigator = createReactClass({
-//   render: function() {
-//       return (
-//         <ViroARSceneNavigator
-//           initialScene={{
-//             scene: arScenes['ARSimpleSample'],
-//           }}
-//            />
-//         );
-//   }
-// })
 const HelloWorldSceneAR = () => {
   const [text, setText] = useState('Initializing AR...');
   function onInitialized(state, reason) {
@@ -47,14 +33,6 @@ const HelloWorldSceneAR = () => {
   return (
     <ViroARScene onTrackingUpdated={this._onTrackingUpdated}>
       <ViroAmbientLight color={"#ffffff"} influenceBitMask={1} />
-        {/* <ViroSpotLight
-            innerAngle={5}
-            outerAngle={90}
-            direction={[0,-1,-.2]}
-            position={[0, 3, 1]}
-            color="#aaaaaa"
-            castsShadow={true}
-            /> */}
       <ViroNode position={[-.5, -.5, -.5]} dragType="FixedToWorld" onDrag={()=>{}} >
 
 {/* Spotlight to cast light on the object and a shadow on the surface, see
@@ -73,10 +51,10 @@ const HelloWorldSceneAR = () => {
   shadowOpacity={.7} />
 
 <Viro3DObject
-    source={require('./res/BTC_gc_v2.obj')}
+    source={require('./res/stellar.obj')}
     position={[0, 0, -2]}
-    scale={[0.05, 0.05, 0.05]}
-    rotation={[90,0,0]}
+    scale={[5, 5, 5]}
+    rotation={[0,90,0]}
     type="OBJ"
     animation={{name:'rotate', run:true, loop:true}}  
     onClick={handleSwitchAnimation}
@@ -84,7 +62,7 @@ const HelloWorldSceneAR = () => {
  
   
   // transformBehaviors={['billboardX']}
-  resources={[require('./res/BTC_gc_v2.mtl'),
+  resources={[require('./res/stellar.mtl'),
                       ]}
   
   />
@@ -94,6 +72,75 @@ const HelloWorldSceneAR = () => {
   lightReceivingBitMask={2} /> */}
 
 </ViroNode>
+<ViroNode position={[-.5, -.5, -.5]} dragType="FixedToWorld" onDrag={()=>{}} >
+
+          {/* Spotlight to cast light on the object and a shadow on the surface, see
+              the Viro documentation for more info on lights & shadows */}
+
+
+          <Viro3DObject
+              source={require('./res/pig.obj')}
+              position={[1, -1, -2]}
+              scale={[1, 1, 1]}
+              rotation={[0,0,0]}
+              type="OBJ"
+              materials={["fox"]}
+              // onClick={console.log("hey")}
+              onClick={handleSwitchAnimation}
+            lightReceivingBitMask={3}
+            shadowCastingBitMask={2}  
+            
+            transformBehaviors={['billboardY']}
+            animation={{name:'rotate', run:true, loop:true}}
+            
+            />
+
+          <ViroQuad
+            arShadowReceiver={true}
+            lightReceivingBitMask={2} />
+
+        </ViroNode>
+<ViroNode position={[-.5, -.5, -.5]} dragType="FixedToWorld" onDrag={()=>{}} >
+
+          {/* Spotlight to cast light on the object and a shadow on the surface, see
+              the Viro documentation for more info on lights & shadows */}
+          <ViroSpotLight 
+    position={[0, -0.25, 0]}
+    color="#777777"
+    direction={[0, 0, -1]}
+    attenuationStartDistance={5}
+    attenuationEndDistance={10}
+    innerAngle={5}
+    outerAngle={20}/>
+
+  <ViroAmbientLight color="#FF0000" />
+
+
+          <Viro3DObject
+              source={require('./res/Sphere_Guy.obj')}
+              position={[3, -2, -2]}
+              scale={[0.05, 0.05, 0.05]}
+              rotation={[0,0,0]}
+              type="OBJ"
+              materials={["heart"]}
+              // onClick={console.log("hey")}
+              onClick={handleSwitchAnimation}
+            lightReceivingBitMask={3}
+            shadowCastingBitMask={2}  
+            
+            transformBehaviors={['billboardY']}
+            resources={[require('./res/Sphere_Guy.mtl'),
+            require("./res/red_suits_texture.png"),
+            require("./res/bubble_texture.png")
+                                ]}
+            
+            />
+
+          <ViroQuad
+            arShadowReceiver={true}
+            lightReceivingBitMask={2} />
+
+        </ViroNode>
 
         {/* Text to show whether or not the AR system has initialized yet, see ViroARScene's onTrackingInitialized*/}
         
@@ -190,7 +237,18 @@ const HelloWorldSceneAR = () => {
 
 };
 
-
+ViroMaterials.createMaterials({
+  heart: {
+     lightingModel: "Blinn",
+     diffuseTexture: require('./res/red_suits_texture.png'),
+   },
+});
+ViroMaterials.createMaterials({
+  fox: {
+     lightingModel: "Blinn",
+     diffuseTexture: require('./res/Pig_BaseColor.png'),
+   },
+});
 ViroAnimations.registerAnimations({
   rotate: {
     properties: {
