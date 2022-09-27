@@ -8,6 +8,7 @@ import {
   Text,
   ImageBackground,
   StyleSheet,
+  Button,
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../AppInner';
@@ -23,6 +24,11 @@ import userSlice from '../slices/user';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../src/store/reducer';
 import {RadioButton} from 'react-native-paper';
+import {
+  login,
+  getProfile as getKakaoProfile,
+  logout,
+} from '@react-native-seoul/kakao-login';
 
 type SignInScreenProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
 
@@ -33,6 +39,7 @@ function SignIn({navigation}: SignInScreenProps) {
   const code = useSelector((state: RootState) => state.user.code);
   const email = useSelector((state: RootState) => state.user.email);
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  const domain = useSelector((state: RootState) => state.user.domain);
 
   const dispatch = useAppDispatch();
 
@@ -52,14 +59,14 @@ function SignIn({navigation}: SignInScreenProps) {
     // 구글로 앱로그인 필요할때 사용
     // const googleCredential = auth.GoogleAuthProvider.credential(data.idToken);
     // return auth().signInWithCredential(googleCredential)
-    console.log(data.user.email);
+
     const response = await axios.post('http://10.0.2.2:8080/users/login', {
       // const response = await axios.post('http://121.129.17.91/users/login', {
       email: data.user.email,
       domain: 'GOOGLE',
     });
+    console.log('구글로그인요청');
     console.log(response.data);
-    console.log('로그인요청');
 
     if (response.data.code === 200) {
       dispatch(
@@ -67,6 +74,7 @@ function SignIn({navigation}: SignInScreenProps) {
           email: data.user.email,
           code: response.data.code,
           accessToken: response.data.responseData.accessToken,
+          domain: 'GOOGLE',
         }),
       );
     }
@@ -76,6 +84,39 @@ function SignIn({navigation}: SignInScreenProps) {
         userSlice.actions.setUser({
           email: data.user.email,
           code: response.data.code,
+          domain: 'GOOGLE',
+        }),
+      );
+    }
+    return;
+  }
+
+  async function signInWithKakao() {
+    await login();
+    const profile = await getKakaoProfile();
+    const response = await axios.post('http://10.0.2.2:8080/users/login', {
+      email: profile.email,
+      domain: 'KAKAO',
+    });
+    console.log('카카오로그인요청');
+    console.log(response.data);
+    if (response.data.code === 200) {
+      dispatch(
+        userSlice.actions.setUser({
+          email: profile.email,
+          code: response.data.code,
+          accessToken: response.data.responseData.accessToken,
+          domain: 'KAKAO',
+        }),
+      );
+    }
+    if (response.data.code === 201) {
+      setModalVisible(true);
+      dispatch(
+        userSlice.actions.setUser({
+          email: profile.email,
+          code: response.data.code,
+          domain: 'KAKAO',
         }),
       );
     }
@@ -85,7 +126,7 @@ function SignIn({navigation}: SignInScreenProps) {
   async function userInfo() {
     const response = await axios.post('http://10.0.2.2:8080/users/info', {
       email: email,
-      domain: 'GOOGLE',
+      domain: domain,
       age: age,
       gender: gender,
     });
@@ -95,6 +136,7 @@ function SignIn({navigation}: SignInScreenProps) {
         email: email,
         code: response.data.code,
         accessToken: response.data.responseData.accessToken,
+        domain: domain,
       }),
     );
   }
@@ -117,8 +159,12 @@ function SignIn({navigation}: SignInScreenProps) {
             <Text style={{fontSize: 40, color: 'white'}}>DATE GO</Text>
           </View>
           <View>
-            <Text style={{color: 'white'}}>Login Page</Text>
             <GoogleSigninButton onPress={onGoogleButtonPress} />
+            <Button
+              testID="btn-login"
+              onPress={() => signInWithKakao()}
+              title={'카카오 로그인'}
+            />
           </View>
           <Modal
             animationType="slide"

@@ -23,11 +23,13 @@ import userSlice from '../slices/user';
 import {useAppDispatch} from '../store';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../src/store/reducer';
+import {logout} from '@react-native-seoul/kakao-login';
 
 function Home({navigation}) {
   const code = useSelector((state: RootState) => state.user.code);
   const email = useSelector((state: RootState) => state.user.email);
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  const domain = useSelector((state: RootState) => state.user.domain);
 
   // 유저의 정보 가져오는것
   const user = auth().currentUser;
@@ -60,18 +62,28 @@ function Home({navigation}) {
       // const response = await axios.post('http://121.129.17.91/users/logout', {
       headers: {accessToken: accessToken},
     });
+
+    if (domain === 'GOOGLE') {
+      await GoogleSignin.signOut();
+      // 앱에서 로그아웃(자동로그인가능)
+      // auth().signOut();
+      // 구글에서 Logout 재로그인해야한다.
+      console.log('구글로그아웃');
+    }
+    if (domain === 'KAKAO') {
+      await logout();
+      console.log('카카오로그아웃');
+    }
     console.log(response.data);
     dispatch(
       userSlice.actions.logoutUser({
         email: '',
         accessToken: '',
         code: 0,
+        domain: '',
       }),
     );
-    // 앱에서 로그아웃(자동로그인가능)
-    // auth().signOut();
-    // 구글에서 Logout 재로그인해야한다.
-    GoogleSignin.signOut();
+
     return;
   }
 
