@@ -15,6 +15,7 @@ import CourseIng from './src/pages/CourseIng';
 import SignIn from './src/pages/SignIn';
 import {useSelector} from 'react-redux';
 import {RootState} from './src/store/reducer';
+// import DragAble from './src/pages/DragAble';
 
 export type LoggedInParamList = {
   Home: undefined;
@@ -71,6 +72,12 @@ function AppInner() {
         component={Course}
         options={{title: 'Course'}}
       />
+      {/* <Stack.Screen
+        name="DragAble"
+        component={DragAble}
+        options={{title: 'DragAble'}}
+      /> */}
+
       <Stack.Screen
         name="ChangeSpot"
         component={ChangeSpot}
