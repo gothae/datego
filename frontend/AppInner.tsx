@@ -87,7 +87,14 @@ function AppInner() {
         options={{title: 'CourseIng'}}
       />
 
-    </Stack.Navigator>
+
+      <Stack.Screen
+        name="SignIn"
+        component={SignIn}
+        options={{title: 'SignIn', headerShown: false}}
+        />
+
+        </Stack.Navigator>
   );
 }
 
