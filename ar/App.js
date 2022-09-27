@@ -46,6 +46,15 @@ const HelloWorldSceneAR = () => {
 
   return (
     <ViroARScene onTrackingUpdated={this._onTrackingUpdated}>
+      <ViroAmbientLight color={"#ffffff"} influenceBitMask={1} />
+        {/* <ViroSpotLight
+            innerAngle={5}
+            outerAngle={90}
+            direction={[0,-1,-.2]}
+            position={[0, 3, 1]}
+            color="#aaaaaa"
+            castsShadow={true}
+            /> */}
       <ViroNode position={[-.5, -.5, -.5]} dragType="FixedToWorld" onDrag={()=>{}} >
 
 {/* Spotlight to cast light on the object and a shadow on the surface, see
@@ -64,43 +73,32 @@ const HelloWorldSceneAR = () => {
   shadowOpacity={.7} />
 
 <Viro3DObject
-    source={require('./res/corazón.obj')}
-    position={[5, 5, -3]}
+    source={require('./res/untitled.obj')}
+    position={[1, 1, -3]}
     scale={[0.05, 0.05, 0.05]}
     rotation={[-90,0,0]}
     type="OBJ"
     // animation={{name:'rotate', run:true, loop:true}}
     // onClick={console.log("hey")}
     onClick={handleSwitchAnimation}
-  lightReceivingBitMask={3}
-  shadowCastingBitMask={2}  
+
+ 
   
   // transformBehaviors={['billboardX']}
-  resources={[require('./res/corazón.mtl'),
+  resources={[require('./res/untitled.mtl'),
                       ]}
   
   />
 
-<ViroQuad
+{/* <ViroQuad
   arShadowReceiver={true}
-  lightReceivingBitMask={2} />
+  lightReceivingBitMask={2} /> */}
 
 </ViroNode>
 
         {/* Text to show whether or not the AR system has initialized yet, see ViroARScene's onTrackingInitialized*/}
         
-
         
-
-        <ViroAmbientLight color={"#aaaaaa"} influenceBitMask={1} />
-        <ViroSpotLight
-            innerAngle={5}
-            outerAngle={90}
-            direction={[0,-1,-.2]}
-            position={[0, 3, 1]}
-            color="#aaaaaa"
-            castsShadow={true}
-            />
 
         {/* Node that contains a light, an object and a surface to catch its shadow
             notice that the dragType is "FixedToWorld" so the object can be dragged
@@ -109,7 +107,7 @@ const HelloWorldSceneAR = () => {
 
           {/* Spotlight to cast light on the object and a shadow on the surface, see
               the Viro documentation for more info on lights & shadows */}
-          <ViroSpotLight
+          {/* <ViroSpotLight
             innerAngle={5}
             outerAngle={45}
             direction={[0,-1,-.2]}
@@ -120,7 +118,7 @@ const HelloWorldSceneAR = () => {
             shadowMapSize={2048}
             shadowNearZ={2}
             shadowFarZ={5}
-            shadowOpacity={.7} />
+            shadowOpacity={.7} /> */}
 
           <Viro3DObject
               source={require('./res/13450_Bag_of_Gold_v1_L3.obj')}
