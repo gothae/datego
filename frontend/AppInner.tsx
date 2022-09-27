@@ -44,7 +44,13 @@ function AppInner() {
   return isLoggedIn ? (
     <Stack.Navigator>
       {/* <Stack.Navigator> */}
-      <Stack.Screen name="Home" component={Home} options={{title: 'Home'}} />
+
+      <Stack.Screen name="Home" component={Home} options={{ title: 'Home' }} />
+      <Stack.Screen
+        name="SignIn"
+        component={SignIn}
+        options={{title: 'SignIn', headerShown: false}}
+      />
       <Stack.Screen
         name="Gallery"
         component={Gallery}
