@@ -54,7 +54,11 @@ function SignIn({navigation}: SignInScreenProps) {
         '18642094345-6ok4m4de04aukci5sdl5vkqranqtbbuf.apps.googleusercontent.com',
     });
   }, []);
-
+  async function test() {
+    const {idToken} = await GoogleSignin.signIn();
+    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
+    return auth().signInWithCredential(googleCredential);
+  }
   async function onGoogleButtonPress() {
     const data = await GoogleSignin.signIn();
     // 구글로 앱로그인 필요할때 사용
@@ -171,6 +175,7 @@ function SignIn({navigation}: SignInScreenProps) {
                 color={GoogleSigninButton.Color.Light}
                 onPress={() => onGoogleButtonPress()}
               />
+              <Button onPress={() => test()} title="구글회원가입" />
             </View>
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
               <TouchableHighlight onPress={() => signInWithKakao()}>
