@@ -3,7 +3,8 @@ import {createSlice} from '@reduxjs/toolkit';
 const initialState = {
   email: '',
   accessToken: '',
-  code: '',
+  code: 0,
+  domain: '',
 };
 const userSlice = createSlice({
   name: 'user',
@@ -13,11 +14,19 @@ const userSlice = createSlice({
       state.email = action.payload.email;
       state.accessToken = action.payload.accessToken;
       state.code = action.payload.code;
+      state.domain = action.payload.domain;
     },
     logoutUser(state, action) {
       state.email = action.payload.email;
       state.accessToken = action.payload.accessToken;
       state.code = action.payload.code;
+      state.domain = action.payload.domain;
+    },
+    deleteUser(state, action) {
+      state.email = action.payload.email;
+      state.accessToken = action.payload.accessToken;
+      state.code = action.payload.code;
+      state.domain = action.payload.domain;
     },
   },
   extraReducers: builder => {},
