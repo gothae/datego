@@ -1,16 +1,17 @@
 import * as React from 'react';
 import {
   View,
-  Alert,
   Modal,
   Pressable,
   TextInput,
   Text,
   ImageBackground,
   StyleSheet,
-  Button,
+  Image,
+  TouchableHighlight,
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {Button} from '@react-native-material/core';
 import {RootStackParamList} from '../../AppInner';
 import {useCallback, useEffect, useState} from 'react';
 import {
@@ -152,20 +153,35 @@ function SignIn({navigation}: SignInScreenProps) {
         <ImageBackground source={image} resizeMode="cover" style={styles.image}>
           <View
             style={{
-              flex: 6,
+              flex: 2,
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <Text style={{fontSize: 40, color: 'white'}}>DATE GO</Text>
+            <Text style={{fontSize: 50, color: 'white'}}>DATE GO</Text>
           </View>
-          <View>
-            <GoogleSigninButton onPress={onGoogleButtonPress} />
-            <Button
-              testID="btn-login"
-              onPress={() => signInWithKakao()}
-              title={'카카오 로그인'}
-            />
+          <View />
+          <View style={{flex: 1}}>
+            <View
+              style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <GoogleSigninButton
+                size={GoogleSigninButton.Size.Standard}
+                color={GoogleSigninButton.Color.Light}
+                onPress={() => onGoogleButtonPress()}
+              />
+            </View>
+            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+              <TouchableHighlight onPress={() => signInWithKakao()}>
+                <Image
+                  style={{width: 220}}
+                  source={require('../assets/kakao_login_medium_narrow.png')}
+                />
+              </TouchableHighlight>
+            </View>
           </View>
+
           <Modal
             animationType="slide"
             transparent={true}
