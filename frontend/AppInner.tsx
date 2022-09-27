@@ -42,20 +42,21 @@ function AppInner() {
   const isLoggedIn = useSelector(
     (state: RootState) => !!state.user.accessToken,
   );
-  return isLoggedIn ? (
+  return (
+  // return isLoggedIn ? (
     <Stack.Navigator>
       {/* <Stack.Navigator> */}
 
       <Stack.Screen name="Home" component={Home} options={{ title: 'Home' }} />
       <Stack.Screen
-        name="SignIn"
-        component={SignIn}
-        options={{title: 'SignIn', headerShown: false}}
-      />
-      <Stack.Screen
         name="Gallery"
         component={Gallery}
         options={{title: 'Gallery'}}
+      />
+      <Stack.Screen
+        name="SignIn"
+        component={SignIn}
+        options={{title: 'SignIn', headerShown: false}}
       />
       <Stack.Screen
         name="SelectDong"
@@ -93,14 +94,14 @@ function AppInner() {
         component={CourseIng}
         options={{title: 'CourseIng'}}
       />
-    </Stack.Navigator>
-  ) : (
-    <Stack.Navigator>
+
+
+{/* 
       <Stack.Screen
         name="SignIn"
         component={SignIn}
         options={{title: 'SignIn', headerShown: false}}
-      />
+      /> */}
     </Stack.Navigator>
   );
 }

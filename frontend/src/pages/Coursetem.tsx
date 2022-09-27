@@ -17,7 +17,8 @@ function CourseItem({ item, navigation } : Props) {
   
         onPress={() => {
           if (!navigation) return;
-      navigation.navigate('DetailSpot', {});
+      console.log('페이지 넘김', item.id)
+      navigation.navigate('DetailSpot', {spotId : item.id});
     }}
     >
     <View style={{flex:4}}>

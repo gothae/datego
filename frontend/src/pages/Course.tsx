@@ -46,11 +46,15 @@ type Store = {
 }
 
 function Course({navigation}: CourseProps) {
+  const spotId: number = 1;
+  const stores = useSelector((state: RootState) => state.stores).stores;
+  console.log('이미지', stores)
   const P0 = {latitude: 37.53698, longitude: 127.0017};
   const P1 = {latitude: 37.53154, longitude: 127.007};
   const P2 = { latitude: 37.55392, longitude: 126.9767 };
-  const spotId: number = 1;
-  const stores = useSelector((state: RootState) => state.stores).stores;
+  // const P0 = { latitude: stores[0].latitude, longitude: stores[0].longitude }
+  // const P1 = { latitude: stores[1].latitude, longitude: stores[1].longitude }
+  // const P2 = { latitude: stores[2].latitude, longitude: stores[2].longitude }
   // const stores = temp.stores
   // const onClick = useCallback(() => {
   //   console.log(1);
@@ -67,41 +71,39 @@ function Course({navigation}: CourseProps) {
   //   getData();
   // }, []);
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    const getData = async () => {
-    
-    console.log('시작')
-    const spotId: number = 1
-    const response = await axios.post(`http://10.0.2.2:8080/courses/${spotId}?page=1`, {
+  const getData = async () => {
   
-      spots: [1, 2, 3, 4, 5, 7]
+  console.log('시작')
+  const spotId: number = 1
+  const response = await axios.post(`http://10.0.2.2:8080/courses/${spotId}?page=1`, {
   
-    });
-      // console.log('리스폰스 데이터', response.data.responseData.spots)
+    spots: [1, 2, 3, 4, 5, 7]
 
-      // console.log('리스폰스 데이터', response.data.responseData.spots);
-      console.log('제발', response.data.responseData.spots)
-    // const inputStores: StoreLists = response.data.responseData.spots;
-      dispatch(
-        storeSlice.actions.setstore({
-        // name: response.data.responseData.spots.name,
-        // id: response.data.responseData.spots.id,
-        // tel: response.data.responseData.spots.tel,
-        // addr1: response.data.responseData.spots.addr1,
-        // addr2: response.data.responseData.spots.addr2,
-        // Latitude: response.data.responseData.spots.Latitude,
-        // Longitude: response.data.responseData.spots.Longitude,
-        // menu: response.data.responseData.spots.menu,
-        // price: response.data.responseData.spots.price,
-        // thumb: response.data.responseData.spots.thume,
-        // rating: response.data.responseData.spots.rating,
-        // tags: response.data.responseData.spots.tags
-          stores: response.data.responseData.spots
-      }),
-    );
-    }
+  });
+    // console.log('리스폰스 데이터', response.data.responseData.spots)
+
+    // console.log('리스폰스 데이터', response.data.responseData.spots);
+  // const inputStores: StoreLists = response.data.responseData.spots;
+    dispatch(
+      storeSlice.actions.setstore({
+      // name: response.data.responseData.spots.name,
+      // id: response.data.responseData.spots.id,
+      // tel: response.data.responseData.spots.tel,
+      // addr1: response.data.responseData.spots.addr1,
+      // addr2: response.data.responseData.spots.addr2,
+      // Latitude: response.data.responseData.spots.Latitude,
+      // Longitude: response.data.responseData.spots.Longitude,
+      // menu: response.data.responseData.spots.menu,
+      // price: response.data.responseData.spots.price,
+      // thumb: response.data.responseData.spots.thume,
+      // rating: response.data.responseData.spots.rating,
+      // tags: response.data.responseData.spots.tags
+        stores: response.data.responseData.spots
+    }),
+  );
+  }
+  useEffect(() => {
     getData();
-    
     }, []);
   
 
@@ -120,7 +122,7 @@ function Course({navigation}: CourseProps) {
           onCameraChange={e =>
             console.warn('onCameraChange', JSON.stringify(e))
           }
-          onMapClick={e => console.warn('onMapClick', JSON.stringify(e))}>
+            onMapClick={e => console.warn('onMapClick', JSON.stringify(e))}>
           <Marker coordinate={P0} onClick={() => console.warn('onClick! p0')} />
           <Marker
             coordinate={P1}
@@ -157,7 +159,7 @@ function Course({navigation}: CourseProps) {
         </View>
       <View>
           {stores.map((store, idx) => {
-          console.log(store.thumb)
+            // console.log('가게', store)
             return <CourseItem key={idx} item={store} navigation={navigation} />
         })}
 
@@ -176,7 +178,8 @@ function Course({navigation}: CourseProps) {
             justifyContent: 'center',
           }}
             onPress={() => {
-            console.log('스토어어', stores)
+              console.log('스토어어', stores)
+              console.log('스토어길이', stores.length)
             // navigation.navigate('CourseIng', {});
           }}
         />

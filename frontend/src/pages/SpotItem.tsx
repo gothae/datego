@@ -20,7 +20,7 @@ function SpotItem({ item, navigation } : Props) {
     }}
     >
     <View style={{flex:4}}>
-        <Image style={styles.imageBox} source={{uri: item.thumb}}></Image>
+        <Image style={styles.imageBox} source={{uri: item.image}}></Image>
       </View>
       <View style={{flex: 8, justifyContent:'space-between'}}>
         <Text style={{ fontSize: 24, fontWeight: 'bold', marginTop: 8 }}>{item.name}</Text>

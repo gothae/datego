@@ -4,21 +4,26 @@ import {View, Text, StyleSheet, Pressable, Image, ScrollView } from 'react-nativ
 import { Button } from "@react-native-material/core";
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ParamListBase } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/reducer';
 type ChangeSpotProps = NativeStackScreenProps<ParamListBase, 'ChangeSpot'>
 export interface Item {
+  id: number
   name: string
-  tel: string
-  addr1: string
-  addr2: string
-  Latitude: number
-  Longitude: number
-  menu: string[]
+  phone: string
+  address: string
+  // addr2: string
+  latitude: number
+  longitude: number
+  menus: string[]
   price: number[]
   image: string
-  rating: number,
-  // tags: string[]
+  rate: number,
+  tags: string[]
 }
 function ChangeSpot({ navigation }: ChangeSpotProps) {
+  const stores = useSelector((state: RootState) => state.stores).stores;
+  console.log(stores)
   return (
     <ScrollView>
     <View>
@@ -88,9 +93,9 @@ function ChangeSpot({ navigation }: ChangeSpotProps) {
       </ScrollView>
   );
 }
-const stores = [{ name: 'STUN HOUS', tel: '0507-1304-1597', addr1: '갈월동 19-4', addr2: '갈월동', Latitude: 37.5454352, Longitude: 126.9726477, menu: ['Popresso'], price: [4500], thumb: 'https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20190826_277%2F1566788683492Jeaet_JPEG%2FUAX7h1H3Lg2fsyUL8-4vd8Vk.jpg', rating: 2.65 },
-{name: '꼬마카롱'	, tel: '0507-1312-4137', addr1:	'갈월동 51-2', addr2:	'갈월동', Latitude:	37.5462755, Longitude:	126.9747784, menu:	['마카롱', '오늘의마카롱 6구', '아이스아메리카노'], price:	[2000, 10000, 3000], thumb:	'https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20211014_158%2F1634177123299kMQew_JPEG%2Fug6uk7NNIZPpctbjtLseRCZh.jpeg.jpg', rating:	4.42}
-]
+// const stores = [{ name: 'STUN HOUS', tel: '0507-1304-1597', addr1: '갈월동 19-4', addr2: '갈월동', Latitude: 37.5454352, Longitude: 126.9726477, menu: ['Popresso'], price: [4500], thumb: 'https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20190826_277%2F1566788683492Jeaet_JPEG%2FUAX7h1H3Lg2fsyUL8-4vd8Vk.jpg', rating: 2.65 },
+// {name: '꼬마카롱'	, tel: '0507-1312-4137', addr1:	'갈월동 51-2', addr2:	'갈월동', Latitude:	37.5462755, Longitude:	126.9747784, menu:	['마카롱', '오늘의마카롱 6구', '아이스아메리카노'], price:	[2000, 10000, 3000], thumb:	'https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20211014_158%2F1634177123299kMQew_JPEG%2Fug6uk7NNIZPpctbjtLseRCZh.jpeg.jpg', rating:	4.42}
+// ]
 
 export const styles = StyleSheet.create({
   storeList: {
