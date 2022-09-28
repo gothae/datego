@@ -32,6 +32,19 @@ function Home({navigation}) {
   const domain = useSelector((state: RootState) => state.user.domain);
   const id = useSelector((state: RootState) => state.user.id);
 
+  useEffect(() => {
+    const getMyReviews = async () => {
+      const res = await axios.get('http://10.0.2.2:8080/main', {
+        headers: {accessToken},
+      });
+      dispatch(
+        userSlice.actions.setUserReviews({
+          reviews: res.data.responseData,
+        }),
+      );
+    };
+    getMyReviews();
+  }, []);
   // 유저의 정보 가져오는것
   const user = auth().currentUser;
   const dispatch = useAppDispatch();
