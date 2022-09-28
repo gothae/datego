@@ -142,8 +142,12 @@ public class SpotService {
         int i = page*5;
         ChangeSpotRes changeSpotRes = new ChangeSpotRes();
         List<ChangeSpotVO> spots = new ArrayList<>();
-        for(int k=0;k<5;k++){
-            int spotIndex = spots2.get(i);
+        int num = 5;
+        if(spots2.size() <6){
+            num = spots2.size();
+        }
+        for(int k=0;k<num;k++){
+            int spotIndex = spots2.get(k);
             Spot spot = spotRepository.findSpotById(spotIndex);
             List<String> tags = new ArrayList<>();
             tags.add(spot.getCategory().getName());
