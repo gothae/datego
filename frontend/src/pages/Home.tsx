@@ -57,25 +57,13 @@ function Home({navigation}) {
     console.log('회원탈퇴');
     return;
   }
-
-  async function onLogout() {
+  async function testLogout() {
     const response = await axios.post('http://10.0.2.2:8080/users/logout', {
       // 내아이피 사용
       // const response = await axios.post('http://121.129.17.91/users/logout', {
       headers: {accessToken: accessToken},
     });
-
-    if (domain === 'GOOGLE') {
-      await GoogleSignin.signOut();
-      // 앱에서 로그아웃(자동로그인가능)
-      // auth().signOut();
-      // 구글에서 Logout 재로그인해야한다.
-      console.log('구글로그아웃');
-    }
-    if (domain === 'KAKAO') {
-      await logout();
-      console.log('카카오로그아웃');
-    }
+    console.log('마스터로그아웃');
     console.log(response.data);
     dispatch(
       userSlice.actions.logoutUser({
@@ -83,6 +71,28 @@ function Home({navigation}) {
         accessToken: '',
         code: 0,
         domain: '',
+        id: 0,
+      }),
+    );
+    return;
+  }
+
+  async function onLogout() {
+    const response = await axios.post('http://10.0.2.2:8080/users/logout', {
+      // 내아이피 사용
+      // const response = await axios.post('http://121.129.17.91/users/logout', {
+      headers: {accessToken: accessToken},
+    });
+    await logout();
+    console.log('카카오로그아웃');
+    console.log(response.data);
+    dispatch(
+      userSlice.actions.logoutUser({
+        email: '',
+        accessToken: '',
+        code: 0,
+        domain: '',
+        id: 0,
       }),
     );
 
@@ -92,6 +102,12 @@ function Home({navigation}) {
   return (
     <>
       <View style={{flex: 1}}>
+        <Button
+          onPress={testLogout}
+          title="마스터로그아웃"
+          color="black"
+          accessibilityLabel="Learn more about this purple button"
+        />
         <View
           style={{
             flex: 1,
@@ -101,7 +117,7 @@ function Home({navigation}) {
             flexDirection: 'row',
           }}>
           <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>
-            DATE GO(유저코드200)
+            DATE GO
           </Text>
         </View>
         <View
@@ -137,15 +153,8 @@ function Home({navigation}) {
             navigation.navigate('Preference', {});
           }}
         />
-        <View>
-          <Text>{user?.displayName}</Text>
-          <Text>{email}</Text>
-          <Text>{id}</Text>
-        </View>
       </View>
-      <View>
-        <Text>로그인됨</Text>
-      </View>
+
       <View>
         <Button
           onPress={onLogout}
