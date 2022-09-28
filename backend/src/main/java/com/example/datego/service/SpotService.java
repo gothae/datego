@@ -60,7 +60,7 @@ public class SpotService {
         );
         List<MenuVO> menus = menuStream.collect(Collectors.toList());
 
-        List<Spot_Tag> spot_tags = spot_tagRepository.findBySpotId((spotId));
+        List<Spot_Tag> spot_tags = spot_tagRepository.findTop5BySpotIdOrderByCountDesc(spotId);
         List<TagVO> tags = new ArrayList<>();
         for (int i = 0; i < spot_tags.size(); i++) {
             Spot_Tag temp = spot_tags.get(i);
