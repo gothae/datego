@@ -30,6 +30,7 @@ function Home({navigation}) {
   const email = useSelector((state: RootState) => state.user.email);
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const domain = useSelector((state: RootState) => state.user.domain);
+  const id = useSelector((state: RootState) => state.user.id);
 
   // 유저의 정보 가져오는것
   const user = auth().currentUser;
@@ -48,6 +49,7 @@ function Home({navigation}) {
         email: '',
         accessToken: '',
         code: 0,
+        id: 0,
       }),
     );
     GoogleSignin.signOut();
@@ -138,6 +140,7 @@ function Home({navigation}) {
         <View>
           <Text>{user?.displayName}</Text>
           <Text>{email}</Text>
+          <Text>{id}</Text>
         </View>
       </View>
       <View>
