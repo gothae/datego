@@ -6,6 +6,7 @@ const initialState = {
   code: 0,
   domain: '',
   id: 0,
+  myReviews: [],
 };
 const userSlice = createSlice({
   name: 'user',
@@ -16,7 +17,10 @@ const userSlice = createSlice({
       state.accessToken = action.payload.accessToken;
       state.code = action.payload.code;
       state.domain = action.payload.domain;
-      state.id = action.payload.id
+      state.id = action.payload.id;
+    },
+    setUserReviews(state, action) {
+      state.myReviews = action.payload.reviews;
     },
     logoutUser(state, action) {
       state.email = action.payload.email;
