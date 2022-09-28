@@ -95,6 +95,7 @@ public class UserService {
                 CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
                 Map<String, String> map = new HashMap<>();
                 map.put("accessToken", accessToken.getToken());
+                map.put("id",Integer.toString(id));
                 apiResponse.setResponseData(map);
 
                 return apiResponse;
@@ -160,6 +161,7 @@ public class UserService {
         CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
         Map<String, String> map = new HashMap<>();
         map.put("accessToken", accessToken.getToken());
+        map.put("id",Integer.toString(id));
         apiResponse.setResponseData(map);
 
         return apiResponse;
