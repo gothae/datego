@@ -43,7 +43,7 @@ public class UserService {
         for(User_Spot user_spot : user_spotList){
             userImageVOs.add(new UserImageVO(
                     spotRepository.findById(user_spot.getSpot().getId()).get().getName(),
-                    photoRepository.findById(user_spot.getId()).get().getPhotoLink()
+                    photoRepository.findByUserspot_Id(user_spot.getId()).getPhotoLink()
                     ));
         }
         userImageRes.setPhotos(userImageVOs);
