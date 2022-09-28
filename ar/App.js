@@ -18,16 +18,9 @@ import {
   ViroConstants,
   ViroImage
 } from '@viro-community/react-viro';
-
 const HelloWorldSceneAR = () => {
-  // const [text, setText] = useState('Initializing AR...');
   var counter = 0;
-  // function onInitialized(state, reason) {
-  //   console.log('guncelleme', state, reason);
-  //   setText('Hello World!');
-  // }
-
-  const handleSwitchAnimation = () => {
+  const handleSwitchAnimation= () => {
     counter+=1;
     console.log(counter);
     if(counter===5){
@@ -37,7 +30,7 @@ const HelloWorldSceneAR = () => {
   const pigClick = () => {
     alert("돼지찾기 미션 클리어");
   }
-
+  
   const squidClick = () => {
     alert("빨강이 미션 클리어");
   }
@@ -50,6 +43,7 @@ const HelloWorldSceneAR = () => {
           source={require('./res/stellar.obj')}
           position={[0,1,-2]}
           scale={[2, 2, 2]}
+          visible ={true}
           rotation={[0, 90, 0]}
           type="OBJ"
           animation={{ name: 'move', run: true, loop: true }}
@@ -60,21 +54,21 @@ const HelloWorldSceneAR = () => {
       </ViroNode>
       
 
-      <ViroNode position={[-.5, -.5, -.5]} dragType="FixedDistance" onDrag={() => { }} >
+      <ViroNode dragType="FixedToWorld" onDrag={() => { }} >
         <Viro3DObject
           source={require('./res/pig.obj')}
           position={[1, -1, -2]}
           scale={[1, 1, 1]}
           rotation={[0, 0, 0]}
+          visible={true}
           type="OBJ"
           materials={["fox"]}
-          onClick={pigClick}
+          onClick={(position,source)=>console.log(source.visible)}
           animation={{ name: 'rotate', run: true, loop: true }}
         />
 
       </ViroNode>
-      <ViroNode>
-
+      <ViroNode dragType="FixedDistance" onDrag={() => { }}>
         <ViroAmbientLight color="#FF0000" />
         <Viro3DObject
           source={require('./res/Sphere_Guy.obj')}
@@ -83,7 +77,6 @@ const HelloWorldSceneAR = () => {
           rotation={[0, 0, 0]}
           type="OBJ"
           materials={["heart"]}
-          // onClick={console.log("hey")}
           animation={{ name: 'rotate', run: true, loop: true }}
           onClick={squidClick}
           resources={[require('./res/Sphere_Guy.mtl'),
