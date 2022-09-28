@@ -51,14 +51,16 @@ function SignIn({navigation}: SignInScreenProps) {
   useEffect(() => {
     GoogleSignin.configure({
       webClientId:
-        '18642094345-6ok4m4de04aukci5sdl5vkqranqtbbuf.apps.googleusercontent.com',
+        "18642094345-ta2q5sghs9qular97oud770c4q0vp9jt.apps.googleusercontent.com",
     });
   }, []);
+
   async function test() {
     const {idToken} = await GoogleSignin.signIn();
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
     return auth().signInWithCredential(googleCredential);
   }
+
   async function onGoogleButtonPress() {
     const data = await GoogleSignin.signIn();
     // 구글로 앱로그인 필요할때 사용
@@ -80,6 +82,8 @@ function SignIn({navigation}: SignInScreenProps) {
           code: response.data.code,
           accessToken: response.data.responseData.accessToken,
           domain: 'GOOGLE',
+          id: response.data.responseData.id,
+
         }),
       );
     }
@@ -112,6 +116,7 @@ function SignIn({navigation}: SignInScreenProps) {
           code: response.data.code,
           accessToken: response.data.responseData.accessToken,
           domain: 'KAKAO',
+          id: response.data.responseData.id,
         }),
       );
     }
@@ -142,6 +147,7 @@ function SignIn({navigation}: SignInScreenProps) {
         code: response.data.code,
         accessToken: response.data.responseData.accessToken,
         domain: domain,
+        id: response.data.responseData.id,
       }),
     );
   }
