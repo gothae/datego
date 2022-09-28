@@ -109,7 +109,7 @@ public class SpotService {
         User_Spot user_spot = user_spotRepository.findById(userSpotIdx).get();
         Photo photo = Photo.builder()
                 .photoLink(url)
-                .user_spot(user_spot)
+                .userspot(user_spot)
                 .build();
         photoRepository.save(photo);
         return new ApiResponse();
