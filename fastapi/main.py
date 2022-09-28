@@ -67,7 +67,7 @@ async def get_courses(dong:int , req:SelectItem):
     price = req.price
 
     # 5. userId 가져오기
-    userId = 1
+    userId = req.id
 
     # 리턴값
     ids = []
