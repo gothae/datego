@@ -17,6 +17,7 @@
     "@react-navigation/core": "6.2.2",
     "@react-navigation/native": "6.0.12",
     "@react-navigation/native-stack": "6.8.0",
+    "@viro-community/react-viro": "^2.20.2",
     "axios": "0.27.2",
     "react": "18.1.0",
     "react-native": "0.70.0",

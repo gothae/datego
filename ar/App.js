@@ -63,7 +63,7 @@ const HelloWorldSceneAR = () => {
           visible={true}
           type="OBJ"
           materials={["fox"]}
-          onClick={(position,source)=>console.log(source.visible)}
+          onClick={()=>console.log(source.visible)}
           animation={{ name: 'rotate', run: true, loop: true }}
         />
 
