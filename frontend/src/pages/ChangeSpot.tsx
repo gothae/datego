@@ -1,37 +1,44 @@
 import * as React from 'react';
-import SpotItem from './SpotItem'
-import {View, Text, StyleSheet, Pressable, Image, ScrollView } from 'react-native';
-import { Button } from "@react-native-material/core";
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { ParamListBase } from '@react-navigation/native';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store/reducer';
-type ChangeSpotProps = NativeStackScreenProps<ParamListBase, 'ChangeSpot'>
+import SpotItem from './SpotItem';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Image,
+  ScrollView,
+} from 'react-native';
+import {Button} from '@react-native-material/core';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {ParamListBase} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/reducer';
+type ChangeSpotProps = NativeStackScreenProps<ParamListBase, 'ChangeSpot'>;
 export interface Item {
-  id: number
-  name: string
-  phone: string
-  address: string
+  id: number;
+  name: string;
+  phone: string;
+  address: string;
   // addr2: string
-  latitude: number
-  longitude: number
-  menus: string[]
-  price: number[]
-  image: string
-  rate: number,
-  tags: string[]
+  latitude: number;
+  longitude: number;
+  menus: string[];
+  price: number[];
+  image: string;
+  rate: number;
+  tags: string[];
 }
-function ChangeSpot({ navigation }: ChangeSpotProps) {
+function ChangeSpot({navigation}: ChangeSpotProps) {
   const stores = useSelector((state: RootState) => state.stores).stores;
-  console.log(stores)
+  console.log(stores);
   return (
     <ScrollView>
-    <View>
-      {stores.map((store, idx) => {
-        return <SpotItem key={idx} item={store} navigation={navigation} />
-      })}
+      <View>
+        {stores.map((store, idx) => {
+          return <SpotItem key={idx} item={store} navigation={navigation} />;
+        })}
 
-      {/* <Button
+        {/* <Button
         title="코스보기 페이지로"
         onPress={() => {
           navigation.navigate('Course', {});
@@ -43,17 +50,17 @@ function ChangeSpot({ navigation }: ChangeSpotProps) {
           navigation.navigate('DetailSpot', {});
         }}
       /> */}
-      {/* stores = [딕1, 딕2]
+        {/* stores = [딕1, 딕2]
       for => 딕1
       딕1.name,
       .addr */}
-      {/* {storeList} */}
-      {/* <Text>Spot2</Text>
+        {/* {storeList} */}
+        {/* <Text>Spot2</Text>
       <Text>Spot3</Text>
       <Text>Spot4</Text>
       <Text>Spot5</Text>
       <View>
-        
+
         <Pressable style={styles.storeList}
         onPress={() => {
           navigation.navigate('DetailSpot', {});
@@ -80,7 +87,7 @@ function ChangeSpot({ navigation }: ChangeSpotProps) {
                   navigation.navigate('Course', {});
                 }}
               ></Button>
-              
+
               </View>
           </View>
         </Pressable>
@@ -90,7 +97,7 @@ function ChangeSpot({ navigation }: ChangeSpotProps) {
         console.log(stores.thumb);
         }}></Button> */}
       </View>
-      </ScrollView>
+    </ScrollView>
   );
 }
 // const stores = [{ name: 'STUN HOUS', tel: '0507-1304-1597', addr1: '갈월동 19-4', addr2: '갈월동', Latitude: 37.5454352, Longitude: 126.9726477, menu: ['Popresso'], price: [4500], thumb: 'https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20190826_277%2F1566788683492Jeaet_JPEG%2FUAX7h1H3Lg2fsyUL8-4vd8Vk.jpg', rating: 2.65 },
@@ -99,23 +106,22 @@ function ChangeSpot({ navigation }: ChangeSpotProps) {
 
 export const styles = StyleSheet.create({
   storeList: {
-    flexDirection: "row",
+    flexDirection: 'row',
     backfaceVisibility: 'visible',
-    flexWrap: "wrap",
-    borderWidth: 1, 
+    flexWrap: 'wrap',
+    borderWidth: 1,
     borderRadius: 15,
     marginHorizontal: 8,
-    marginVertical: 8
-  }, 
+    marginVertical: 8,
+  },
   imageBox: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 15,
-    margin: 8, 
+    margin: 8,
     height: 100,
-    width: 100
-  }
+    width: 100,
+  },
 });
-
 
 export default ChangeSpot;
