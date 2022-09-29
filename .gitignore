@@ -1,1 +1,5 @@
 .idea/
+.vscode/
+
+# 어떤 경로든 node_modules 폴더 무시
+**/node_modules/
