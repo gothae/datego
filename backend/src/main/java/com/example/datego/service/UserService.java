@@ -43,7 +43,7 @@ public class UserService {
         for(User_Spot user_spot : user_spotList){
             userImageVOs.add(new UserImageVO(
                     spotRepository.findById(user_spot.getSpot().getId()).get().getName(),
-                    photoRepository.findByUserspot_Id(user_spot.getId()).getPhotoLink()
+                    photoRepository.findById(user_spot.getId()).get().getPhotoLink()
                     ));
         }
         userImageRes.setPhotos(userImageVOs);
@@ -95,7 +95,6 @@ public class UserService {
                 CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
                 Map<String, String> map = new HashMap<>();
                 map.put("accessToken", accessToken.getToken());
-                map.put("id",Integer.toString(id));
                 apiResponse.setResponseData(map);
 
                 return apiResponse;
@@ -161,7 +160,6 @@ public class UserService {
         CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
         Map<String, String> map = new HashMap<>();
         map.put("accessToken", accessToken.getToken());
-        map.put("id",Integer.toString(id));
         apiResponse.setResponseData(map);
 
         return apiResponse;

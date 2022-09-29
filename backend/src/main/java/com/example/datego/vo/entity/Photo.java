@@ -24,5 +24,5 @@ public class Photo {
 
     @ManyToOne
     @JoinColumn(name="user_spot_id")
-    private User_Spot userspot;
+    private User_Spot user_spot;
 }

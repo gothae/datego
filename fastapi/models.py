@@ -32,11 +32,10 @@ class Spot(list):
         self.rate = arr[7]
 
     def __str__(self):
-        return {"id": self.id, "address": self.address, "latitude": self.latitude, "longitude": self.longtitude, "name": self.name, "image": self.image,
+        return {"id": self.id, "address": self.address, "latitude": self.latitude, "longtitude": self.longtitude, "name": self.name, "image": self.image,
                 "quest": self.quest, "rate": self.rate, "phone": self.phone, "tags": self.tags, "price": self.price}
 
 class SelectItem(BaseModel):
     course: list
     categoryList: dict
     price: int
-    id: int
