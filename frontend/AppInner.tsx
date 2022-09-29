@@ -13,6 +13,9 @@ import DetailSpot from './src/pages/DetailSpot';
 import CourseIng from './src/pages/CourseIng';
 import SignIn from './src/pages/SignIn';
 import SelectDong from './src/pages/SelectDong';
+import Ar1 from './src/pages/Ar1';
+import Ar2 from './src/pages/Ar2';
+import Ar3 from './src/pages/Ar3';
 import {useSelector} from 'react-redux';
 import {RootState} from './src/store/reducer';
 // import DragAble from './src/pages/DragAble';
@@ -28,6 +31,9 @@ export type LoggedInParamList = {
   CourseIng: undefined;
   SignIn: undefined;
   SelectDong: undefined;
+  Ar1: undefined;
+  Ar2: undefined;
+  Ar3: undefined;
 };
 
 // export type RootStackParamList = {
@@ -165,6 +171,21 @@ function AppInner() {
         name="CourseIng"
         component={CourseIng}
         options={{title: 'CourseIng'}}
+      />
+      <Stack.Screen
+        name="Ar1"
+        component={Ar1}
+        options={{title: '떨어지는 돈을 줍자!!'}}
+      />
+      <Stack.Screen
+        name="Ar2"
+        component={Ar2}
+        options={{title: '돼지를 키워보자!!'}}
+      />
+      <Stack.Screen
+        name="Ar3"
+        component={Ar3}
+        options={{title: '빨강이를 키워보자!!'}}
       />
     </Stack.Navigator>
   ) : (

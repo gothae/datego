@@ -34,7 +34,7 @@ function Preference({navigation}: PreferenceProps) {
   const dispatch = useAppDispatch();
 
   const getData = async () => {
-    const response = await axios.get('http://10.0.2.2:8080/categories');
+    const response = await axios.get('http://j7a104.p.ssafy.io:8080/categories');
     dispatch(
       categorySlice.actions.setCategory({
         cafe: response.data.responseData.cafes,

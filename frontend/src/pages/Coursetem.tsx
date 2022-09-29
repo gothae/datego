@@ -23,7 +23,7 @@ function CourseItem({ item, navigation, idx }: Props) {
       dispatch(
         storeSlice.actions.setstore({
       stores: stores,
-      storeindex: i
+      storeindex: i,
     }),
   );
   }
@@ -44,7 +44,7 @@ function CourseItem({ item, navigation, idx }: Props) {
         <View style={{ flex: 8, justifyContent: 'space-between' }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between',  marginTop: 8  }}>
             <View style={{flex: 10}}>
-          <Text style={{fontSize: 22, fontWeight: 'bold'}}>
+          <Text style={{fontSize: 22, fontWeight: 'bold', color: '#000000'}}>
             {item.name}
               </Text>
             </View>

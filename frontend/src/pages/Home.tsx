@@ -92,6 +92,7 @@ function Home({navigation}) {
     console.log('회원탈퇴');
     return;
   }
+<<<<<<< HEAD
   //로그아웃
   async function onLogout() {
     const response = await axios.post(
@@ -104,6 +105,14 @@ function Home({navigation}) {
     );
     await logout();
     console.log('카카오로그아웃');
+=======
+  async function testLogout() {
+    const response = await axios.post('http://j7a104.p.ssafy.io:8080/users/logout', {
+      // 내아이피 사용
+      // const response = await axios.post('http://121.129.17.91/users/logout', {
+      headers: {accessToken: accessToken},
+    });
+    console.log('마스터로그아웃');
     console.log(response.data);
     dispatch(
       userSlice.actions.logoutUser({
@@ -112,6 +121,37 @@ function Home({navigation}) {
         code: 0,
         domain: '',
         id: 0,
+      }),
+    );
+    return;
+  }
+
+  async function onLogout() {
+    const response = await axios.post('http://j7a104.p.ssafy.io:8080/users/logout', {
+      // 내아이피 사용
+      // const response = await axios.post('http://121.129.17.91/users/logout', {
+      headers: {accessToken: accessToken},
+    });
+
+    if (domain === 'GOOGLE') {
+      await GoogleSignin.signOut();
+      // 앱에서 로그아웃(자동로그인가능)
+      // auth().signOut();
+      // 구글에서 Logout 재로그인해야한다.
+      console.log('구글로그아웃');
+    }
+    if (domain === 'KAKAO') {
+      await logout();
+      console.log('카카오로그아웃');
+    }
+>>>>>>> 78bc34e31614d911e821529ee8146d005e8d5417
+    console.log(response.data);
+    dispatch(
+      userSlice.actions.logoutUser({
+        email: '',
+        accessToken: '',
+        code: 0,
+        domain: '',
       }),
     );
 
@@ -288,6 +328,7 @@ function Home({navigation}) {
           진행중인 코스
         </Text>
       </TouchableOpacity>
+
       <View>
         <Button
           onPress={onLogout}
@@ -298,12 +339,25 @@ function Home({navigation}) {
       </View>
       <View>
         <Button
-          onPress={onDelete}
-          title="회원탈퇴"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
+          onPress={() => {
+            navigation.navigate('Ar1', {});
+          }}
+          title="돈줍기"
+          />
+          <Button
+          onPress={() => {
+            navigation.navigate('Ar2', {});
+          }}
+          title="돼지키우기"
+          />
+          <Button
+          onPress={() => {
+            navigation.navigate('Ar3', {});
+          }}
+          title="빨강이키우기"
+          />
       </View>
+
     </>
   );
 }

@@ -3,51 +3,77 @@ import {
   View,
   Text,
   Image,
+  FlatList,
   StyleSheet,
   TouchableHighlight,
   Button,
+  Dimensions,
 } from 'react-native';
 import {useState, useEffect, useCallback} from 'react';
 import auth from '@react-native-firebase/auth';
 import axios from 'axios';
 import {RootState} from '../store/reducer';
+import {useSelector} from 'react-redux';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
+import FastImage from 'react-native-fast-image';
 type GalleryProps = NativeStackScreenProps<ParamListBase, 'Gallery'>;
 
 function Gallery({navigation}: GalleryProps) {
-  const checkuser = auth().currentUser;
-  // const [Imageurl, setValue1] = useState('이거를 바꾸자~');
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     // const response = await axios.get(
-  //     //   'https://picsum.photos/v2/list?page=2&limit=10',
-  //     // );
-  //     // setValue1(response.data[0].download_url);
-  //     const response = await axios.get('http://10.0.2.2:3105');
-  //     console.log(response);
-  //   };
-  //   getData();
-  // }, []);
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  const dongId = 1;
+  // const photos = [];
+  const [Imageurl, setImageurl] = useState([]);
 
-  const onClick = useCallback(() => {
-    console.log(1);
-    const getData = async () => {
-      const response = await axios.get('http://10.0.2.2:8080/categories');
-      console.log(response.data);
-    };
+  const getData = async () => {
+    const response = await axios.get(
+      `http://j7a104.p.ssafy.io:8080/users/images/${dongId}`,
+      {
+        headers: {accessToken},
+      },
+    );
+    return setImageurl(response.data.responseData.photos);
+  };
+
+  useEffect(() => {
     getData();
+  }, [dongId]);
+
+  const renderItem = useCallback(item => {
+    console.log('renderItem');
+    console.log(item.item.link);
+    return (
+      <View>
+        <Text>{item.item.name}</Text>
+        <FastImage
+          source={{uri: `${item.item.link}`}}
+          style={{
+            height: Dimensions.get('window').width / 3,
+            width: Dimensions.get('window').width / 3,
+          }}
+        />
+      </View>
+    );
   }, []);
 
   return (
     <View>
-      <Text>{checkuser?.displayName}님의 갤러리</Text>
-      <Text>{checkuser?.email}님의 갤러리</Text>
       <View>
-        <TouchableHighlight onPress={onClick}>
-          <Text>DATE GO</Text>
-        </TouchableHighlight>
+        <View>
+          <FlatList
+            data={Imageurl}
+            numColumns={3}
+            keyExtractor={item => item.name.toString()}
+            renderItem={renderItem}
+          />
+        </View>
       </View>
+      <Button
+        title="Go Home"
+        onPress={() => {
+          navigation.navigate('Home', {});
+        }}
+      />
     </View>
   );
 }
