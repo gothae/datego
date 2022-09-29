@@ -60,7 +60,7 @@ public class SpotService {
         );
         List<MenuVO> menus = menuStream.collect(Collectors.toList());
 
-        List<Spot_Tag> spot_tags = spot_tagRepository.findTop5BySpotIdOrderByCountDesc(spotId);
+        List<Spot_Tag> spot_tags = spot_tagRepository.findBySpotId((spotId));
         List<TagVO> tags = new ArrayList<>();
         for (int i = 0; i < spot_tags.size(); i++) {
             Spot_Tag temp = spot_tags.get(i);
@@ -109,7 +109,7 @@ public class SpotService {
         User_Spot user_spot = user_spotRepository.findById(userSpotIdx).get();
         Photo photo = Photo.builder()
                 .photoLink(url)
-                .userspot(user_spot)
+                .user_spot(user_spot)
                 .build();
         photoRepository.save(photo);
         return new ApiResponse();
@@ -142,12 +142,8 @@ public class SpotService {
         int i = page*5;
         ChangeSpotRes changeSpotRes = new ChangeSpotRes();
         List<ChangeSpotVO> spots = new ArrayList<>();
-        int num = 5;
-        if(spots2.size() <6){
-            num = spots2.size();
-        }
-        for(int k=0;k<num;k++){
-            int spotIndex = spots2.get(k);
+        for(int k=0;k<5;k++){
+            int spotIndex = spots2.get(i);
             Spot spot = spotRepository.findSpotById(spotIndex);
             List<String> tags = new ArrayList<>();
             tags.add(spot.getCategory().getName());

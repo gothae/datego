@@ -16,6 +16,7 @@ import {ParamListBase} from '@react-navigation/native';
 type GalleryProps = NativeStackScreenProps<ParamListBase, 'Gallery'>;
 
 function Gallery({navigation}: GalleryProps) {
+  // axios.defaults.withCredentials = true;
   const checkuser = auth().currentUser;
   // const [Imageurl, setValue1] = useState('이거를 바꾸자~');
   // useEffect(() => {
@@ -43,11 +44,26 @@ function Gallery({navigation}: GalleryProps) {
     <View>
       <Text>{checkuser?.displayName}님의 갤러리</Text>
       <Text>{checkuser?.email}님의 갤러리</Text>
+      {/* <Text>{Imageurl}</Text> */}
+      <View>
+        {/* <Image
+          style={styles.tinyLogo}
+          source={{
+            uri: Imageurl,
+          }}
+        /> */}
+      </View>
       <View>
         <TouchableHighlight onPress={onClick}>
           <Text>DATE GO</Text>
         </TouchableHighlight>
       </View>
+      <Button
+        title="Go Home"
+        onPress={() => {
+          navigation.navigate('Home', {});
+        }}
+      />
     </View>
   );
 }
