@@ -49,7 +49,7 @@ public class SpotController {
         return spotService.searchSpots(name, page);
     }
 
-    @GetMapping("/{spotId}")
+    @PostMapping("/{spotId}")
     public ApiResponse getSpots(@RequestBody ChangeSpotReq changeSpotReq,
                                 @PathVariable("spotId") int spotId,
                                 @RequestParam("page") int page){
