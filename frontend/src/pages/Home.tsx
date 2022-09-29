@@ -124,6 +124,12 @@ function Home({navigation}) {
   return (
     <>
       <View style={{flex: 1}}>
+      <Button
+          onPress={testLogout}
+          title="마스터로그아웃"
+          color="black"
+          accessibilityLabel="Learn more about this purple button"
+        />
         <View
           style={{
             flex: 1,
