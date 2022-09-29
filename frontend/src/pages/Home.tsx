@@ -92,7 +92,6 @@ function Home({navigation}) {
     console.log('회원탈퇴');
     return;
   }
-<<<<<<< HEAD
   //로그아웃
   async function onLogout() {
     const response = await axios.post(
@@ -105,13 +104,16 @@ function Home({navigation}) {
     );
     await logout();
     console.log('카카오로그아웃');
-=======
+  }
   async function testLogout() {
-    const response = await axios.post('http://j7a104.p.ssafy.io:8080/users/logout', {
-      // 내아이피 사용
-      // const response = await axios.post('http://121.129.17.91/users/logout', {
-      headers: {accessToken: accessToken},
-    });
+    const response = await axios.post(
+      'http://j7a104.p.ssafy.io:8080/users/logout',
+      {
+        // 내아이피 사용
+        // const response = await axios.post('http://121.129.17.91/users/logout', {
+        headers: {accessToken: accessToken},
+      },
+    );
     console.log('마스터로그아웃');
     console.log(response.data);
     dispatch(
@@ -127,11 +129,14 @@ function Home({navigation}) {
   }
 
   async function onLogout() {
-    const response = await axios.post('http://j7a104.p.ssafy.io:8080/users/logout', {
-      // 내아이피 사용
-      // const response = await axios.post('http://121.129.17.91/users/logout', {
-      headers: {accessToken: accessToken},
-    });
+    const response = await axios.post(
+      'http://j7a104.p.ssafy.io:8080/users/logout',
+      {
+        // 내아이피 사용
+        // const response = await axios.post('http://121.129.17.91/users/logout', {
+        headers: {accessToken: accessToken},
+      },
+    );
 
     if (domain === 'GOOGLE') {
       await GoogleSignin.signOut();
@@ -144,7 +149,6 @@ function Home({navigation}) {
       await logout();
       console.log('카카오로그아웃');
     }
->>>>>>> 78bc34e31614d911e821529ee8146d005e8d5417
     console.log(response.data);
     dispatch(
       userSlice.actions.logoutUser({
@@ -343,21 +347,20 @@ function Home({navigation}) {
             navigation.navigate('Ar1', {});
           }}
           title="돈줍기"
-          />
-          <Button
+        />
+        <Button
           onPress={() => {
             navigation.navigate('Ar2', {});
           }}
           title="돼지키우기"
-          />
-          <Button
+        />
+        <Button
           onPress={() => {
             navigation.navigate('Ar3', {});
           }}
           title="빨강이키우기"
-          />
+        />
       </View>
-
     </>
   );
 }
