@@ -14,8 +14,9 @@ const initialState = {
   // thumb: '',
   // rating: 0,
   // tags: ['']
-  stores : []
-};
+  stores: [],
+  storeindex: 0
+}
 const storeSlice = createSlice({
   name: 'store',
   initialState,
@@ -34,6 +35,7 @@ const storeSlice = createSlice({
       // state.rating = action.payload.rating
       // state.tags = action.payload.tags
       state.stores = action.payload.stores
+      state.storeindex = action.payload.storeindex;
     },
   },
   extraReducers: builder => {},

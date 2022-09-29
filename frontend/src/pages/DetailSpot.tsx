@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {View, Text, Image, ScrollView} from 'react-native';
+import {View, Text, Image, ScrollView, StyleSheet} from 'react-native';
 import {Button} from '@react-native-material/core';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
@@ -31,7 +31,7 @@ type Store = {
   price: number[];
   images: string[];
   rate: number;
-  tags: string[];
+  tags: any;
 };
 // type Menu = {
 //   name: string;
@@ -42,7 +42,7 @@ function DetailSpot({navigation, route}: Props) {
   const spotId: number = route.params.spotId;
   // console.log('페이지아이디', spotId)
   // stores에 id에 해당되는 정보 불러오기
-  const [stores, setstores] = useState<Store>({} as Store);
+  const [detailstores, setstores] = useState<Store>({} as Store);
   const getData = async () => {
     console.log('페이지아이디', spotId);
 
@@ -50,7 +50,7 @@ function DetailSpot({navigation, route}: Props) {
       `http://10.0.2.2:8080/courses/spots/${spotId}`,
     );
     // console.log('상세페이지', response.data.responseData)
-    console.log({menu: response.data.responseData.menus[0].name});
+    console.log({menu: response.data.responseData.tags});
 
     setstores(response.data.responseData);
   };
@@ -59,35 +59,121 @@ function DetailSpot({navigation, route}: Props) {
   }, []);
   let images;
 
-  if (stores.images) {
-    console.log('스토어 받은거', stores.images[0]);
-    images = <Image style={{height: 250}} source={{uri: stores.images[0]}} />;
+  if (detailstores.images) {
+    console.log('스토어 받은거', detailstores.images[0]);
+    images = <Image style={{height: 250}} source={{uri: detailstores.images[0]}} />;
   } else {
     images = <Text>이미지 없음</Text>;
   }
   var i;
-  if (stores.menus) {
-    const len = stores.menus.length;
+  let menuList;
+  let priceList;
+  let tagList;
+  if (detailstores.tags) {
+    const tags: string[] = [];
+    for (i = 0; i < 3; i++) {
+      tags.push('#' + detailstores.tags[i].name + ' ')
+    }
+    tagList = tags.map((tag, index) => (
+      <Text key={index}>{tag}</Text>
+    ));
+  }
+  else {
+      tagList = <Text>태그 없음</Text>;
+  }
+
+  if (detailstores.menus) {
+    const len = detailstores.menus.length;
     const menus: string[] = [];
     const prices: number[] = [];
     for (i = 0; i < len; i++) {
-      menus.push(stores.menus[i].name);
-      prices.push(stores.menus[i].price);
-      console.log(menus);
+      menus.push(detailstores.menus[i].name);
+      prices.push(detailstores.menus[i].price);
     }
     if (menus) {
-      const menuList = menus.map((menu, index) => (
+      menuList = menus.map((menu, index) => (
         <Text key={index}>{menu}</Text>
       ));
-      const priceList = prices.map((price, index) => (
+      priceList = prices.map((price, index) => (
         <Text key={index}>{price}</Text>
       ));
     }
   } else {
-    const menuList = <Text>메뉴없음</Text>;
-    const priceList = <Text>메뉴없음</Text>;
+    menuList = <Text>메뉴없음</Text>;
+    priceList = <Text>메뉴없음</Text>;
   }
+  let ratescore;
+  if (detailstores.rate >= 4.5) {
+    ratescore = <Text>★ ★ ★ ★ ★</Text>
+  } else if (detailstores.rate >= 3.5) {
+    ratescore = <Text>★ ★ ★ ★ ☆</Text>
+  } else if (detailstores.rate >= 2.5) {
+    ratescore = <Text>★ ★ ★ ☆ ☆</Text>
+  } else if (detailstores.rate > 1.5) {
+    ratescore = <Text>★ ★ ☆ ☆ ☆</Text>
+  } else {
+    ratescore = <Text>★ ☆ ☆ ☆ ☆ </Text>
+  }
+  let scorerate;
+  if (detailstores.rate) {
+    scorerate = detailstores.rate.toFixed(1)
+  } else {
+    scorerate = 0
+  }
+  let tag1;
+  let tag2;
+  let tag3;
+  let tag4;
+  let tag5;
+  if (detailstores.tags) {
+    tag1 = <View style={ styles.tag }>
+      <Text style={styles.text} >
+        {detailstores.tags[0].description}
+      </Text>
+      <Text style={styles.text}>
+        {detailstores.tags[0].count}</Text>
+    </View>
+    tag2 = <View style={ styles.tag }>
+    <Text style={styles.text} >
+      {detailstores.tags[1].description}
+    </Text>
+      <Text style={styles.text}>
+        {detailstores.tags[1].count}</Text>
+    </View>
+    tag3 = <View style={ styles.tag }>
+    <Text style={styles.text} >
+      {detailstores.tags[2].description}
+    </Text>
+      <Text style={styles.text}>
+        {detailstores.tags[2].count}</Text>
+  </View>
+  tag4 = <View style={ styles.tag }>
+  <Text style={styles.text} >
+    {detailstores.tags[3].description}
+    </Text>
+    <Text style={styles.text}>
+      {detailstores.tags[3].count}</Text>
+</View>
+tag5 = <View style={ styles.tag }>
+<Text style={styles.text} >
+  {detailstores.tags[4].description}
+</Text>
+  <Text style={styles.text}>
+    {detailstores.tags[4].count}</Text>
+    </View>
+  } else {
+    tag1 = <Text> 태그 없음 </Text>
+    tag2 = <Text> 태그 없음 </Text>
+    tag3 = <Text> 태그 없음 </Text>
+    tag4 = <Text> 태그 없음 </Text>
+    tag5 = <Text> 태그 없음 </Text>
+  }
+  // var sortingField = "count";
+  
+  // tagList.sort()
+  // if (stores.tags) {
 
+  // }
   // if (stores.menus) {
   //   for (i = 0; i < len; i++) {
   //     menu.push(stores.menus.name);
@@ -130,10 +216,12 @@ function DetailSpot({navigation, route}: Props) {
           {images}
         </View>
         <View style={{alignItems: 'center', marginVertical: 8}}>
-          <Text style={{fontSize: 20}}>{stores.name}</Text>
-          <Text>가게태그</Text>
-          <Text>{stores.rate} </Text>
-          <Text style={{color: '#FFA856', fontSize: 32}}>★ ★ ★ ★ ★</Text>
+          <Text style={{ fontSize: 20 }}>{detailstores.name}</Text>
+          <View style={{flexDirection: 'row', marginVertical: '3%'}}>
+            {tagList}
+          </View>
+          <Text style={{ color: '#FFA856', fontSize: 32 }}>{ ratescore }</Text>
+          <Text>{scorerate} / 5.0 </Text>
         </View>
         <View>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -142,7 +230,7 @@ function DetailSpot({navigation, route}: Props) {
               style={{alignItems: 'flex-end', marginLeft: 8}}
             />
             <Text style={{marginLeft: 8, marginVertical: 8, fontSize: 16}}>
-              {stores.address}
+              {detailstores.address}
             </Text>
           </View>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -151,28 +239,32 @@ function DetailSpot({navigation, route}: Props) {
               style={{alignItems: 'flex-end', marginLeft: 8}}
             />
             <Text style={{marginLeft: 8, marginVertical: 8, fontSize: 16}}>
-              {stores.phone}
+              {detailstores.phone}
             </Text>
           </View>
           <View style={{alignItems: 'center'}}>
             <FontAwesomeIcon
               icon={faClipboard}
-              style={{alignItems: 'flex-end', marginLeft: 8}}
+              style={{alignItems: 'flex-end'}}
             />
             {/* <Text style={{ marginLeft: 8, marginVertical: 8, fontSize: 16 }}>{stores.menu} {stores.price}</Text> */}
 
             <View style={{flexDirection: 'row'}}>
-              <View style={{marginVertical: 8, marginHorizontal: 8}}>
+              <View style={{marginVertical: 12, marginRight:'12%'}}>
                 {menuList}
               </View>
-              <View style={{marginVertical: 8, marginHorizontal: 8}}>
-                <Text>{stores.price}</Text>
+              <View style={{marginVertical: 12}}>
+                {priceList}
               </View>
             </View>
           </View>
         </View>
         <View>
-          <Text>리뷰디테일</Text>
+          {tag1}
+          {tag2}
+          {tag3}
+          {tag4}
+          {tag5}
         </View>
         <Button
           title="장소변경페이지로"
@@ -216,5 +308,19 @@ function DetailSpot({navigation, route}: Props) {
     </ScrollView>
   );
 }
-
+const styles = StyleSheet.create({
+  tag: {
+    flexDirection: 'row',
+    backfaceVisibility: 'visible',
+    flexWrap: 'wrap',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginHorizontal: 8,
+    marginVertical: 8,
+    justifyContent: 'space-between'
+  },
+  text: {
+    fontSize: 16, marginHorizontal: '10%', marginVertical: '2%'
+  }
+})
 export default DetailSpot;

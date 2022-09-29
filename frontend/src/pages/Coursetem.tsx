@@ -4,13 +4,29 @@ import {Button} from '@react-native-material/core';
 import {Item, styles} from './ChangeSpot';
 
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faSort, faRotate} from '@fortawesome/free-solid-svg-icons';
+import {faChevronUp, faChevronDown,  faRotate} from '@fortawesome/free-solid-svg-icons';
+import { useAppDispatch } from '../store';
+import storeSlice from '../slices/stores';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/reducer';
 // type ChangeSpotProps = NativeStackScreenProps<ParamListBase, 'ChangeSpot'>
 type Props = {
   item: Item;
   navigation: any;
+  idx: number;
 };
-function CourseItem({item, navigation}: Props) {
+
+function CourseItem({ item, navigation, idx }: Props) {
+  const dispatch = useAppDispatch();
+  const stores = useSelector((state: RootState) => state.stores).stores;
+  function dispatchIndex(i: number) {
+      dispatch(
+        storeSlice.actions.setstore({
+      stores: stores,
+      storeindex: i
+    }),
+  );
+  }
   return (
     <View>
       <Pressable
@@ -25,10 +41,19 @@ function CourseItem({item, navigation}: Props) {
         <View style={{flex: 4}}>
           <Image style={styles.imageBox} source={{uri: item.image}} />
         </View>
-        <View style={{flex: 8, justifyContent: 'space-between'}}>
-          <Text style={{fontSize: 24, fontWeight: 'bold', marginTop: 8}}>
+        <View style={{ flex: 8, justifyContent: 'space-between' }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between',  marginTop: 8  }}>
+            <View style={{flex: 10}}>
+          <Text style={{fontSize: 22, fontWeight: 'bold'}}>
             {item.name}
-          </Text>
+              </Text>
+            </View>
+            <View style={{flex:2}}>
+          <Pressable>
+              <FontAwesomeIcon icon={faChevronUp} />
+              </Pressable>
+              </View> 
+            </View>
           <View
             style={{
               alignItems: 'flex-end',
@@ -60,12 +85,16 @@ function CourseItem({item, navigation}: Props) {
                   justifyContent: 'center',
                 }}
                 onPress={() => {
+                  console.log({디스패치: idx})
+                  dispatchIndex(idx)
                   navigation.navigate('ChangeSpot', {});
                 }}
               />
             </Pressable>
 
-            <FontAwesomeIcon icon={faSort} />
+            <Pressable>
+              <FontAwesomeIcon icon={faChevronDown} />
+            </Pressable>
           </View>
         </View>
       </Pressable>

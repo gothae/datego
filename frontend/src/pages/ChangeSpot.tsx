@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import SpotItem from './SpotItem';
 import {
   View,
@@ -28,13 +28,17 @@ export interface Item {
   rate: number;
   tags: string[];
 }
-function ChangeSpot({navigation}: ChangeSpotProps) {
+function ChangeSpot({ navigation }: ChangeSpotProps) {
   const stores = useSelector((state: RootState) => state.stores).stores;
-  console.log(stores);
+
+  useEffect(() => {
+    console.log({ ChangeSpotStores: stores });
+  }, [stores]);
+
   return (
     <ScrollView>
       <View>
-        {stores.map((store, idx) => {
+        {stores?.map((store, idx) => {
           return <SpotItem key={idx} item={store} navigation={navigation} />;
         })}
 
