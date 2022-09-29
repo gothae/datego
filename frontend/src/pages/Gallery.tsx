@@ -1,50 +1,53 @@
 import * as React from 'react';
-import {
-  View,
-  Text,
-  Image,
-  FlatList,
-  StyleSheet,
-  TouchableHighlight,
-  Button,
-  Dimensions,
-} from 'react-native';
+import {View, Text, FlatList, Button, Dimensions} from 'react-native';
 import {useState, useEffect, useCallback} from 'react';
-import auth from '@react-native-firebase/auth';
 import axios from 'axios';
 import {RootState} from '../store/reducer';
 import {useSelector} from 'react-redux';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {ParamListBase} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
-type GalleryProps = NativeStackScreenProps<ParamListBase, 'Gallery'>;
 
-function Gallery({navigation}: GalleryProps) {
+function Gallery({route, navigation}) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
-  const dongId = 1;
-  // const photos = [];
+  const zone = route.params.dongId;
   const [Imageurl, setImageurl] = useState([]);
 
-  const getData = async () => {
+  const getData = async (dongId: number) => {
     const response = await axios.get(
       `http://j7a104.p.ssafy.io:8080/users/images/${dongId}`,
       {
         headers: {accessToken},
       },
     );
-    return setImageurl(response.data.responseData.photos);
+    return setImageurl(Imageurl.concat(response.data.responseData.photos));
   };
 
   useEffect(() => {
-    getData();
-  }, [dongId]);
+    if (zone <= 5) {
+      getData(zone);
+    } else if (zone === 7) {
+      for (let index = 6; index <= 9; index++) {
+        getData(index);
+      }
+    } else if (zone === 10) {
+      for (let index = 10; index <= 17; index++) {
+        getData(index);
+      }
+    } else {
+      for (let index = 10; index <= 17; index++) {
+        getData(index);
+      }
+    }
+  }, []);
 
   const renderItem = useCallback(item => {
     console.log('renderItem');
     console.log(item.item.link);
     return (
       <View>
-        <Text>{item.item.name}</Text>
+        <Text>
+          {item.item.name}
+          {zone}
+        </Text>
         <FastImage
           source={{uri: `${item.item.link}`}}
           style={{
@@ -78,17 +81,4 @@ function Gallery({navigation}: GalleryProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 50,
-  },
-  tinyLogo: {
-    width: 100,
-    height: 100,
-  },
-  logo: {
-    width: 66,
-    height: 58,
-  },
-});
 export default Gallery;
