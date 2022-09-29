@@ -42,21 +42,60 @@ function AppInner() {
   const isLoggedIn = useSelector(
     (state: RootState) => !!state.user.accessToken,
   );
-  return (
-  // return isLoggedIn ? (
-    <Stack.Navigator>
-      {/* <Stack.Navigator> */}
+  // return (
+  //   <Stack.Navigator>
+  //     <Stack.Screen name="Home" component={Home} options={{title: 'Home'}} />
+  //     <Stack.Screen
+  //       name="Gallery"
+  //       component={Gallery}
+  //       options={{title: 'Gallery'}}
+  //     />
+  //     <Stack.Screen
+  //       name="SelectDong"
+  //       component={SelectDong}
+  //       options={{title: 'SelectDong'}}
+  //     />
+  //     <Stack.Screen
+  //       name="Preference"
+  //       component={Preference}
+  //       options={{title: 'Preference'}}
+  //     />
+  //     <Stack.Screen
+  //       name="Course"
+  //       component={Course}
+  //       options={{title: 'Course'}}
+  //     />
+  //     {/* <Stack.Screen
+  //       name="DragAble"
+  //       component={DragAble}
+  //       options={{title: 'DragAble'}}
+  //     /> */}
 
-      <Stack.Screen name="Home" component={Home} options={{ title: 'Home' }} />
+  //     <Stack.Screen
+  //       name="ChangeSpot"
+  //       component={ChangeSpot}
+  //       options={{title: 'ChangeSpot'}}
+  //     />
+  //     <Stack.Screen
+  //       name="DetailSpot"
+  //       component={DetailSpot}
+  //       options={{title: 'DetailSpot'}}
+  //     />
+  //     <Stack.Screen
+  //       name="CourseIng"
+  //       component={CourseIng}
+  //       options={{title: 'CourseIng'}}
+  //     />
+  //   </Stack.Navigator>
+  // );
+  // 로그인검증
+  return isLoggedIn ? (
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={Home} options={{title: 'Home'}} />
       <Stack.Screen
         name="Gallery"
         component={Gallery}
         options={{title: 'Gallery'}}
-      />
-      <Stack.Screen
-        name="SignIn"
-        component={SignIn}
-        options={{title: 'SignIn', headerShown: false}}
       />
       <Stack.Screen
         name="SelectDong"
@@ -66,7 +105,17 @@ function AppInner() {
       <Stack.Screen
         name="Preference"
         component={Preference}
-        options={{title: 'Preference'}}
+        options={{
+          title: '코스설정',
+          headerStyle: {
+            backgroundColor: '#FFA856',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 30,
+          },
+        }}
       />
       <Stack.Screen
         name="Course"
@@ -94,14 +143,14 @@ function AppInner() {
         component={CourseIng}
         options={{title: 'CourseIng'}}
       />
-
-
-{/* 
+    </Stack.Navigator>
+  ) : (
+    <Stack.Navigator>
       <Stack.Screen
         name="SignIn"
         component={SignIn}
         options={{title: 'SignIn', headerShown: false}}
-      /> */}
+      />
     </Stack.Navigator>
   );
 }

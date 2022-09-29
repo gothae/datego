@@ -1,16 +1,17 @@
 import * as React from 'react';
 import {
   View,
-  Alert,
   Modal,
   Pressable,
   TextInput,
   Text,
   ImageBackground,
   StyleSheet,
-  Button,
+  Image,
+  TouchableHighlight,
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {Button} from '@react-native-material/core';
 import {RootStackParamList} from '../../AppInner';
 import {useCallback, useEffect, useState} from 'react';
 import {
@@ -47,50 +48,6 @@ function SignIn({navigation}: SignInScreenProps) {
   const [gender, setGender] = useState('M');
   const [age, setAge] = useState('');
 
-  useEffect(() => {
-    GoogleSignin.configure({
-      webClientId:
-        '18642094345-6ok4m4de04aukci5sdl5vkqranqtbbuf.apps.googleusercontent.com',
-    });
-  }, []);
-
-  async function onGoogleButtonPress() {
-    const data = await GoogleSignin.signIn();
-    // 구글로 앱로그인 필요할때 사용
-    // const googleCredential = auth.GoogleAuthProvider.credential(data.idToken);
-    // return auth().signInWithCredential(googleCredential)
-
-    const response = await axios.post('http://10.0.2.2:8080/users/login', {
-      // const response = await axios.post('http://121.129.17.91/users/login', {
-      email: data.user.email,
-      domain: 'GOOGLE',
-    });
-    console.log('구글로그인요청');
-    console.log(response.data);
-
-    if (response.data.code === 200) {
-      dispatch(
-        userSlice.actions.setUser({
-          email: data.user.email,
-          code: response.data.code,
-          accessToken: response.data.responseData.accessToken,
-          domain: 'GOOGLE',
-        }),
-      );
-    }
-    if (response.data.code === 201) {
-      setModalVisible(true);
-      dispatch(
-        userSlice.actions.setUser({
-          email: data.user.email,
-          code: response.data.code,
-          domain: 'GOOGLE',
-        }),
-      );
-    }
-    return;
-  }
-
   async function signInWithKakao() {
     await login();
     const profile = await getKakaoProfile();
@@ -107,6 +64,7 @@ function SignIn({navigation}: SignInScreenProps) {
           code: response.data.code,
           accessToken: response.data.responseData.accessToken,
           domain: 'KAKAO',
+          id: response.data.responseData.id,
         }),
       );
     }
@@ -124,6 +82,9 @@ function SignIn({navigation}: SignInScreenProps) {
   }
 
   async function userInfo() {
+    console.log(age);
+    console.log(gender);
+
     const response = await axios.post('http://10.0.2.2:8080/users/info', {
       email: email,
       domain: domain,
@@ -137,6 +98,25 @@ function SignIn({navigation}: SignInScreenProps) {
         code: response.data.code,
         accessToken: response.data.responseData.accessToken,
         domain: domain,
+        id: response.data.responseData.id,
+      }),
+    );
+  }
+  async function test() {
+    console.log(2);
+    const response = await axios.post('http://10.0.2.2:8080/users/login', {
+      email: 'accent680@naver.com',
+      domain: 'KAKAO',
+    });
+    console.log(3);
+    console.log(response.data);
+    dispatch(
+      userSlice.actions.setUser({
+        email: 'accent680@naver.com',
+        code: response.data.code,
+        accessToken: response.data.responseData.accessToken,
+        domain: 'KAKAO',
+        id: response.data.responseData.id,
       }),
     );
   }
@@ -152,20 +132,34 @@ function SignIn({navigation}: SignInScreenProps) {
         <ImageBackground source={image} resizeMode="cover" style={styles.image}>
           <View
             style={{
-              flex: 6,
+              flex: 2,
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            <Text style={{fontSize: 40, color: 'white'}}>DATE GO</Text>
+            <Text style={{fontSize: 50, color: 'white'}}>DATE GO</Text>
+            <TouchableHighlight onPress={() => test()}>
+              <Text
+                style={{
+                  fontSize: 30,
+                  color: 'white',
+                  backgroundColor: 'black',
+                }}>
+                마스터로그인
+              </Text>
+            </TouchableHighlight>
           </View>
-          <View>
-            <GoogleSigninButton onPress={onGoogleButtonPress} />
-            <Button
-              testID="btn-login"
-              onPress={() => signInWithKakao()}
-              title={'카카오 로그인'}
-            />
+          <View />
+          <View style={{flex: 1}}>
+            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+              <TouchableHighlight onPress={() => signInWithKakao()}>
+                <Image
+                  style={{width: 220}}
+                  source={require('../assets/kakao_login_medium_narrow.png')}
+                />
+              </TouchableHighlight>
+            </View>
           </View>
+
           <Modal
             animationType="slide"
             transparent={true}
@@ -179,7 +173,7 @@ function SignIn({navigation}: SignInScreenProps) {
                     onValueChange={checkvalue => setGender(checkvalue)}
                     value={gender}>
                     <RadioButton.Item label="남자" value="M" />
-                    <RadioButton.Item label="여자" value="W" />
+                    <RadioButton.Item label="여자" value="F" />
                   </RadioButton.Group>
                 </View>
                 <View style={{flexDirection: 'row'}}>
