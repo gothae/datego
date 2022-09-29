@@ -27,7 +27,7 @@ function Gallery({navigation}: GalleryProps) {
 
   const getData = async () => {
     const response = await axios.get(
-      `http://10.0.2.2:8080/users/images/${dongId}`,
+      `http://j7a104.p.ssafy.io:8080/users/images/${dongId}`,
       {
         headers: {accessToken},
       },
