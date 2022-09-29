@@ -81,7 +81,7 @@ public class SpotService {
                 .name(spot.getName())
                 .address(spot.getAddress())
                 .phone(spot.getPhone())
-                .latitube(spot.getLatitude())
+                .latitude(spot.getLatitude())
                 .longitude(spot.getLongitude())
                 .rate((double)spot.getRate()/spot.getCount())
                 .menus(menus)
