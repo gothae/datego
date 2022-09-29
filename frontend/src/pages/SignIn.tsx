@@ -57,7 +57,6 @@ function SignIn({navigation}: SignInScreenProps) {
     });
     console.log('카카오로그인요청');
     console.log(response.data);
-
     if (response.data.code === 200) {
       dispatch(
         userSlice.actions.setUser({
