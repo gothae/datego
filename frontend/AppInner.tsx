@@ -13,6 +13,7 @@ import ChangeSpot from './src/pages/ChangeSpot';
 import DetailSpot from './src/pages/DetailSpot';
 import CourseIng from './src/pages/CourseIng';
 import SignIn from './src/pages/SignIn';
+import Ar from './src/pages/Ar';
 import {useSelector} from 'react-redux';
 import {RootState} from './src/store/reducer';
 // import DragAble from './src/pages/DragAble';
@@ -28,6 +29,7 @@ export type LoggedInParamList = {
   DetailSpot: undefined;
   CourseIng: undefined;
   SignIn: undefined;
+  Ar : undefined;
 };
 
 // export type RootStackParamList = {
@@ -142,6 +144,11 @@ function AppInner() {
         name="CourseIng"
         component={CourseIng}
         options={{title: 'CourseIng'}}
+      />
+      <Stack.Screen
+        name="Ar"
+        component={Ar}
+        options={{title: 'Ar!!!!'}}
       />
     </Stack.Navigator>
   ) : (
