@@ -169,9 +169,21 @@ function Home({navigation}) {
       <View>
         <Button
           onPress={() => {
-            navigation.navigate('Ar', {});
+            navigation.navigate('Ar1', {});
           }}
-          title="AR테스트"
+          title="돈줍기"
+          />
+          <Button
+          onPress={() => {
+            navigation.navigate('Ar2', {});
+          }}
+          title="돼지키우기"
+          />
+          <Button
+          onPress={() => {
+            navigation.navigate('Ar3', {});
+          }}
+          title="빨강이키우기"
           />
       </View>
       <View>
