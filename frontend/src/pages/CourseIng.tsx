@@ -49,9 +49,8 @@ function CourseIng({navigation}) {
   const location = {latitude: 37.53698, longitude: 127.0017};
   return (
     <View style={{flex:1}}>
-      <View style={{flex: 1, flexDirection:'column'}}>
         <NaverMapView
-            style={{marginHorizontal: 10, marginVertical: 10}}
+            style={{flex:2.5, marginHorizontal: 10, marginVertical: 10}}
             showsMyLocationButton={true}
             center={{...location, zoom: 14}}
             // onTouch={e => console.warn('onTouch', JSON.stringify(e.nativeEvent))}
@@ -64,10 +63,13 @@ function CourseIng({navigation}) {
               onClick={() => console.warn('onClick! p0')}
             />
             </NaverMapView>
-            <View style={{flex:1, flexDirection:'row', justifyContent: 'center', backgroundColor:'blue'}}>
-              <Image style={{width:'10%', height:'5%'}} source={require('../assets/medal.png')}></Image>
-              <Image style={{width:'5%', height:'5%'}} source={require('../assets/medal.png')}></Image>
-              <Image style={{width:'5%', height:'5%'}} source={require('../assets/medal.png')}></Image>
+            <View style={{flex:5}}>
+            <View style={{flex:1, flexDirection:'row', justifyContent: 'center', backgroundColor:'blue', alignItems:'center'}}>
+              <Image style={{width:'10%', height:'50%'}} source={require('../assets/medal.png')}></Image>
+              <Image style={{width:'10%', height:'50%'}} source={require('../assets/medal.png')}></Image>
+              <Image style={{width:'10%', height:'50%'}} source={require('../assets/medal.png')}></Image>             
+            </View>
+            <View style={{flex:5, backgroundColor:'purple'}}>
             </View>
             </View>
           </View>
