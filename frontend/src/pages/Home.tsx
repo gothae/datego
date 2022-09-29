@@ -92,7 +92,6 @@ function Home({navigation}) {
     console.log('회원탈퇴');
     return;
   }
-<<<<<<< HEAD
   //로그아웃
   async function onLogout() {
     const response = await axios.post(
@@ -105,33 +104,17 @@ function Home({navigation}) {
     );
     await logout();
     console.log('카카오로그아웃');
-=======
-  async function testLogout() {
-    const response = await axios.post('http://j7a104.p.ssafy.io:8080/users/logout', {
-      // 내아이피 사용
-      // const response = await axios.post('http://121.129.17.91/users/logout', {
-      headers: {accessToken: accessToken},
-    });
-    console.log('마스터로그아웃');
-    console.log(response.data);
-    dispatch(
-      userSlice.actions.logoutUser({
-        email: '',
-        accessToken: '',
-        code: 0,
-        domain: '',
-        id: 0,
-      }),
-    );
-    return;
   }
 
   async function onLogout() {
-    const response = await axios.post('http://j7a104.p.ssafy.io:8080/users/logout', {
-      // 내아이피 사용
-      // const response = await axios.post('http://121.129.17.91/users/logout', {
-      headers: {accessToken: accessToken},
-    });
+    const response = await axios.post(
+      'http://j7a104.p.ssafy.io:8080/users/logout',
+      {
+        // 내아이피 사용
+        // const response = await axios.post('http://121.129.17.91/users/logout', {
+        headers: {accessToken: accessToken},
+      },
+    );
 
     if (domain === 'GOOGLE') {
       await GoogleSignin.signOut();
@@ -144,7 +127,6 @@ function Home({navigation}) {
       await logout();
       console.log('카카오로그아웃');
     }
->>>>>>> 78bc34e31614d911e821529ee8146d005e8d5417
     console.log(response.data);
     dispatch(
       userSlice.actions.logoutUser({
@@ -161,7 +143,7 @@ function Home({navigation}) {
   return (
     <>
       <View style={{flex: 1}}>
-        <TouchableOpacity onPress={() => clickDong(1)}>
+        <TouchableOpacity>
           <View
             style={
               styles(
@@ -172,6 +154,7 @@ function Home({navigation}) {
               ).itaewon_1
             }>
             <Text
+              onPress={() => clickDong(1)}
               style={
                 styles(dongReviewCnt, offset, windowWidth, windowHeight).text
               }>
@@ -179,7 +162,7 @@ function Home({navigation}) {
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => clickDong(2)}>
+        <TouchableOpacity>
           <View
             style={
               styles(
@@ -190,6 +173,7 @@ function Home({navigation}) {
               ).hannam_2
             }>
             <Text
+              onPress={() => clickDong(2)}
               style={
                 styles(dongReviewCnt, offset, windowWidth, windowHeight).text
               }>
@@ -197,7 +181,7 @@ function Home({navigation}) {
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => clickDong(3)}>
+        <TouchableOpacity>
           <View
             style={
               styles(
@@ -208,6 +192,7 @@ function Home({navigation}) {
               ).yongsan_3
             }>
             <Text
+              onPress={() => clickDong(3)}
               style={
                 styles(dongReviewCnt, offset, windowWidth, windowHeight).text
               }>
@@ -215,7 +200,7 @@ function Home({navigation}) {
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => clickDong(4)}>
+        <TouchableOpacity>
           <View
             style={
               styles(
@@ -226,6 +211,7 @@ function Home({navigation}) {
               ).hangangro_4
             }>
             <Text
+              onPress={() => clickDong(4)}
               style={
                 styles(dongReviewCnt, offset, windowWidth, windowHeight).text
               }>
@@ -233,7 +219,7 @@ function Home({navigation}) {
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => clickDong(5)}>
+        <TouchableOpacity>
           <View
             style={
               styles(
@@ -244,6 +230,7 @@ function Home({navigation}) {
               ).ichon_5
             }>
             <Text
+              onPress={() => clickDong(5)}
               style={
                 styles(dongReviewCnt, offset, windowWidth, windowHeight).text
               }>
@@ -251,7 +238,7 @@ function Home({navigation}) {
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => clickDong(7)}>
+        <TouchableOpacity>
           <View
             style={
               styles(
@@ -262,6 +249,7 @@ function Home({navigation}) {
               ).dongbingo_7
             }>
             <Text
+              onPress={() => clickDong(7)}
               style={
                 styles(dongReviewCnt, offset, windowWidth, windowHeight).text
               }>
@@ -269,7 +257,7 @@ function Home({navigation}) {
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => clickDong(10)}>
+        <TouchableOpacity>
           <View
             style={
               styles(
@@ -280,6 +268,7 @@ function Home({navigation}) {
               ).wonhyoro_10
             }>
             <Text
+              onPress={() => clickDong(10)}
               style={
                 styles(dongReviewCnt, offset, windowWidth, windowHeight).text
               }>
@@ -287,7 +276,7 @@ function Home({navigation}) {
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => clickDong(18)}>
+        <TouchableOpacity>
           <View
             style={
               styles(
@@ -298,6 +287,7 @@ function Home({navigation}) {
               ).cheongpa_18
             }>
             <Text
+              onPress={() => clickDong(18)}
               style={
                 styles(dongReviewCnt, offset, windowWidth, windowHeight).text
               }>
@@ -343,21 +333,20 @@ function Home({navigation}) {
             navigation.navigate('Ar1', {});
           }}
           title="돈줍기"
-          />
-          <Button
+        />
+        <Button
           onPress={() => {
             navigation.navigate('Ar2', {});
           }}
           title="돼지키우기"
-          />
-          <Button
+        />
+        <Button
           onPress={() => {
             navigation.navigate('Ar3', {});
           }}
           title="빨강이키우기"
-          />
+        />
       </View>
-
     </>
   );
 }

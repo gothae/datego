@@ -1,3 +1,4 @@
+/* eslint-disable react/react-in-jsx-scope */
 import {
   View,
   Text,
@@ -68,58 +69,74 @@ function SelectDong({navigation: {navigate}, route}) {
             opacity: 0.4,
           }}
         />
-        <TouchableOpacity onPress={() => clickDong(1)}>
+        <TouchableOpacity>
           <View style={styles(offset, windowWidth, windowHeight).itaewon_1}>
-            <Text style={styles(offset, windowWidth, windowHeight).text}>
+            <Text
+              style={styles(offset, windowWidth, windowHeight).text}
+              onPress={() => clickDong(1)}>
               이태원
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => clickDong(2)}>
+        <TouchableOpacity>
           <View style={styles(offset, windowWidth, windowHeight).hannam_2}>
-            <Text style={styles(offset, windowWidth, windowHeight).text}>
+            <Text
+              style={styles(offset, windowWidth, windowHeight).text}
+              onPress={() => clickDong(2)}>
               한남동
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => clickDong(3)}>
+        <TouchableOpacity>
           <View style={styles(offset, windowWidth, windowHeight).yongsan_3}>
-            <Text style={styles(offset, windowWidth, windowHeight).text}>
+            <Text
+              style={styles(offset, windowWidth, windowHeight).text}
+              onPress={() => clickDong(3)}>
               용산
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => clickDong(4)}>
+        <TouchableOpacity>
           <View style={styles(offset, windowWidth, windowHeight).hangangro_4}>
-            <Text style={styles(offset, windowWidth, windowHeight).text}>
+            <Text
+              style={styles(offset, windowWidth, windowHeight).text}
+              onPress={() => clickDong(4)}>
               한강로
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => clickDong(5)}>
+        <TouchableOpacity>
           <View style={styles(offset, windowWidth, windowHeight).ichon_5}>
-            <Text style={styles(offset, windowWidth, windowHeight).text}>
+            <Text
+              style={styles(offset, windowWidth, windowHeight).text}
+              onPress={() => clickDong(5)}>
               이촌동
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => clickDong(7)}>
+        <TouchableOpacity>
           <View style={styles(offset, windowWidth, windowHeight).dongbingo_7}>
-            <Text style={styles(offset, windowWidth, windowHeight).text}>
+            <Text
+              style={styles(offset, windowWidth, windowHeight).text}
+              onPress={() => clickDong(7)}>
               동빙고{'\n'}서빙고
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => clickDong(10)}>
+        <TouchableOpacity>
           <View style={styles(offset, windowWidth, windowHeight).wonhyoro_10}>
-            <Text style={styles(offset, windowWidth, windowHeight).text}>
+            <Text
+              style={styles(offset, windowWidth, windowHeight).text}
+              onPress={() => clickDong(10)}>
               원효로
             </Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => clickDong(18)}>
+        <TouchableOpacity>
           <View style={styles(offset, windowWidth, windowHeight).cheongpa_18}>
-            <Text style={styles(offset, windowWidth, windowHeight).text}>
+            <Text
+              style={styles(offset, windowWidth, windowHeight).text}
+              onPress={() => clickDong(18)}>
               청파{'\n'}남영{'\n'}효창
             </Text>
           </View>
