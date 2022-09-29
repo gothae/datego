@@ -51,7 +51,7 @@ function SignIn({navigation}: SignInScreenProps) {
   async function signInWithKakao() {
     await login();
     const profile = await getKakaoProfile();
-    const response = await axios.post('http://10.0.2.2:8080/users/login', {
+    const response = await axios.post('http://j7a104.p.ssafy.io:8080/users/login', {
       email: profile.email,
       domain: 'KAKAO',
     });
@@ -85,7 +85,7 @@ function SignIn({navigation}: SignInScreenProps) {
     console.log(age);
     console.log(gender);
 
-    const response = await axios.post('http://10.0.2.2:8080/users/info', {
+    const response = await axios.post('http://j7a104.p.ssafy.io:8080/users/info', {
       email: email,
       domain: domain,
       age: age,
@@ -104,7 +104,7 @@ function SignIn({navigation}: SignInScreenProps) {
   }
   async function test() {
     console.log(2);
-    const response = await axios.post('http://10.0.2.2:8080/users/login', {
+    const response = await axios.post('http://j7a104.p.ssafy.io:8080/users/login', {
       email: 'accent680@naver.com',
       domain: 'KAKAO',
     });

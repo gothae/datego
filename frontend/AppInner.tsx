@@ -6,13 +6,13 @@ import {
 } from '@react-navigation/native-stack';
 import Home from './src/pages/Home';
 import Gallery from './src/pages/Gallery';
-import SelectDong from './src/pages/SelectDong';
 import Preference from './src/pages/Preference';
 import Course from './src/pages/Course';
 import ChangeSpot from './src/pages/ChangeSpot';
 import DetailSpot from './src/pages/DetailSpot';
 import CourseIng from './src/pages/CourseIng';
 import SignIn from './src/pages/SignIn';
+import SelectDong from './src/pages/SelectDong';
 import {useSelector} from 'react-redux';
 import {RootState} from './src/store/reducer';
 // import DragAble from './src/pages/DragAble';
@@ -21,13 +21,13 @@ export type LoggedInParamList = {
   Home: undefined;
   Users: undefined;
   Gallery: undefined;
-  SelectDong: undefined;
   Preference: undefined;
   Course: undefined;
   ChangeSpot: undefined;
   DetailSpot: undefined;
   CourseIng: undefined;
   SignIn: undefined;
+  SelectDong: undefined;
 };
 
 // export type RootStackParamList = {
@@ -51,9 +51,9 @@ function AppInner() {
   //       options={{title: 'Gallery'}}
   //     />
   //     <Stack.Screen
-  //       name="SelectDong"
-  //       component={SelectDong}
-  //       options={{title: 'SelectDong'}}
+  //       name="Map"
+  //       component={Map}
+  //       options={{title: 'Map'}}
   //     />
   //     <Stack.Screen
   //       name="Preference"
@@ -112,11 +112,6 @@ function AppInner() {
         options={{title: 'Gallery'}}
       />
       <Stack.Screen
-        name="SelectDong"
-        component={SelectDong}
-        options={{title: 'SelectDong'}}
-      />
-      <Stack.Screen
         name="Preference"
         component={Preference}
         options={{
@@ -128,6 +123,20 @@ function AppInner() {
           headerTitleStyle: {
             fontWeight: 'bold',
             fontSize: 30,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="SelectDong"
+        component={SelectDong}
+        options={{
+          title: '데이트할 동을 선택해주세요',
+          headerStyle: {
+            backgroundColor: '#FFA856',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontSize: 20,
           },
         }}
       />
