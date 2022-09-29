@@ -12,5 +12,4 @@ public interface Spot_TagRepository extends JpaRepository<Spot_Tag, Integer> {
     Spot_Tag findBySpotIdAndTagId(int spotId, int tagId);
 
     List<Spot_Tag> findTop3BySpotIdOrderByCountDesc(int spotId);
-    List<Spot_Tag> findTop5BySpotIdOrderByCountDesc(int spotId);
 }

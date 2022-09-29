@@ -24,7 +24,7 @@ public class User_Spot {
     @Column(name = "id", columnDefinition = "INT")
     private int id;
 
-    @OneToMany(mappedBy = "userspot")
+    @OneToMany(mappedBy = "user_spot")
     private List<Photo> photoList;
 
     @Column(name = "rate")
