@@ -1,7 +1,7 @@
 # 3ds Max Wavefront OBJ Exporter v0.97b - (c)2007 guruware
 # File Created: 13.02.2012 10:27:00
 
-newmtl 01___13450_Bag_of_gold
+newmtl gold_bag
 	Ns 30.0000
 	Ni 1.5000
 	d 1.0000
@@ -12,5 +12,5 @@ newmtl 01___13450_Bag_of_gold
 	Kd 1.0000 1.0000 1.0000
 	Ks 0.0000 0.0000 0.0000
 	Ke 0.0000 0.0000 0.0000
-	map_Ka 13450_Bag_of_Gold_diff.jpg
-	map_Kd 13450_Bag_of_Gold_diff.jpg
+	map_Ka gold_bag.jpg
+	map_Kd gold_bag.jpg
