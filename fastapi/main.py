@@ -8,7 +8,8 @@ import recommend
 import json
 from collections import defaultdict
 
-engine = db.create_engine("mysql+pymysql://root:ghdtjrdls7777@j7a104.p.ssafy.io:3336/datego", echo=True, future=True)
+engine = db.create_engine(
+    "mysql+pymysql://root:ghdtjrdls7777@j7a104.p.ssafy.io:3336/datego", echo=True, future=True)
 connection = engine.connect()
 metadata = db.MetaData()
 
@@ -17,27 +18,33 @@ app = FastAPI()
 
 # DATABASE TABLE
 SPOT_TABLE = db.Table('spot', metadata, autoload=True, autoload_with=engine)
-CATEGORY_TABLE = db.Table('category', metadata, autoload=True, autoload_with=engine)
+CATEGORY_TABLE = db.Table('category', metadata,
+                          autoload=True, autoload_with=engine)
 MENU_TABLE = db.Table('menu', metadata, autoload=True, autoload_with=engine)
 TAG_TABLE = db.Table('tag',  metadata, autoload=True, autoload_with=engine)
 IMAGE_TABLE = db.Table('image', metadata, autoload=True, autoload_with=engine)
 
 # user_spot = 유저 장소 평가 내역, spot_courses = 장소 태그 평가 내역
-@app.get("/courses/{dong}")
-async def get_courses(dong:int , req:SelectItem):
-    #spot_tag : spot별로 어떤 태그에 count 어떻게 있는지 이루어진 테이블
+
+
+@app.post("/courses/{dong}")
+async def get_courses(dong: int, req: SelectItem):
+    # spot_tag : spot별로 어떤 태그에 count 어떻게 있는지 이루어진 테이블
     # DB테이블형식으로 나옵니다
     spot_tag = pd.read_sql_table('spot_tag', connection)
 
     # spot_category_detail 테이블
     # DB테이블형식으로 나옵니다
-    spot_category_detail = pd.read_sql_table('spot_category_detail', connection)
+    spot_category_detail = pd.read_sql_table(
+        'spot_category_detail', connection)
 
     # DB테이블형식으로 나옵니다
-    spot_category_detail = pd.read_sql_table('spot_category_detail', connection)
+    spot_category_detail = pd.read_sql_table(
+        'spot_category_detail', connection)
 
-    #spot_tag_pivot: spot 별 태그종류 및 개수,,관련없는 카테고리의 태그 값들은 NaN
-    spot_tag_pivot = spot_tag.pivot(index='spot_id', columns='tag_id', values='count')  
+    # spot_tag_pivot: spot 별 태그종류 및 개수,,관련없는 카테고리의 태그 값들은 NaN
+    spot_tag_pivot = spot_tag.pivot(
+        index='spot_id', columns='tag_id', values='count')
 
     # spot 테이블
     spot = pd.read_sql_table('spot', connection)
@@ -47,9 +54,11 @@ async def get_courses(dong:int , req:SelectItem):
 
     # 태그 종류 및 수, spot별 id, category_id, rate
     # 1 2 .. 44 spot_id category_id, rate 형식으로 나옵니다
-    spot_courses = pd.merge(spot_tag_pivot, spot, left_on='spot_id', right_on='id', how='inner')
+    spot_courses = pd.merge(spot_tag_pivot, spot,
+                            left_on='spot_id', right_on='id', how='inner')
 
-    user_spot_query = sql.select([sql.column("user_id"), sql.column("spot_id"), sql.column("rate")]).select_from(sql.table('user_spot'))
+    user_spot_query = sql.select([sql.column("user_id"), sql.column(
+        "spot_id"), sql.column("rate")]).select_from(sql.table('user_spot'))
     # 유저가 방문한 지역을 평가 userid, spotid, rate
     # userid, spotid, rate 형식으로 나옵니다
     user_spot = pd.read_sql(user_spot_query, connection)
@@ -59,9 +68,9 @@ async def get_courses(dong:int , req:SelectItem):
 
     # 2. 코스 선택 (식당/카페/술집/활동)
     courses = req.course
-    
+
     # 3. 카테고리 / 태그 선택
-    categories = req.categoryList # 어느 카테고리/태그를 선택했는가
+    categories = req.categoryList  # 어느 카테고리/태그를 선택했는가
 
     # 4. 가격 선택
     price = req.price
@@ -72,26 +81,29 @@ async def get_courses(dong:int , req:SelectItem):
     # 리턴값
     ids = []
     recommends = []
-    orders = ["first","second","third",'fourth','fifth']
+    orders = ["first", "second", "third", 'fourth', 'fifth']
     response = {}
 
     for course in courses:
-        courseTags = recommend.COURSE_TAGS[course-1] #선택된 코스의 태그들
-        spots = spot[spot['category_id'] == course] # 선택된 코스에 맞는 데이터만 불러오기
+        courseTags = recommend.COURSE_TAGS[course-1]  # 선택된 코스의 태그들
+        spots = spot[spot['category_id'] == course]  # 선택된 코스에 맞는 데이터만 불러오기
         selectedTags = []
 
         # 식당/활동의 경우 유저리뷰로부터 태그뽑아야함
         if course == 1 or course == 4:
-            selectedTags = recommend.tagsFromReviews(user_spot[user_spot['user_id'] == userId], spot_courses, course)
+            selectedTags = recommend.tagsFromReviews(
+                user_spot[user_spot['user_id'] == userId], spot_courses, course)
         else:
             selectedTags = categories
 
         # 식당/활동의 경우 카테고리 분류
         if course == 1:
-            spots = recommend.category_filter(spots, spot_category_detail ,categories['food'])
+            spots = recommend.category_filter(
+                spots, spot_category_detail, categories['food'])
         elif course == 4:
-            spots = recommend.category_filter(spots, spot_category_detail ,categories['play'])
-        
+            spots = recommend.category_filter(
+                spots, spot_category_detail, categories['play'])
+
         # 동 분류
         spots = recommend.dong_filter(spots, dong)
 
@@ -102,11 +114,12 @@ async def get_courses(dong:int , req:SelectItem):
         temp = {}
         for idx, row in spots.iterrows():
             for t in courseTags:
-                count = spot_tag[(spot_tag['spot_id'] == row['id']) & (spot_tag['tag_id'] == t)]['count'].values[0]
+                count = spot_tag[(spot_tag['spot_id'] == row['id']) & (
+                    spot_tag['tag_id'] == t)]['count'].values[0]
                 if t not in temp.keys():
                     temp[t] = []
                 temp[t].append(count)
-        for k,v in temp.items():
+        for k, v in temp.items():
             spots[k] = v
 
         # TF-IDF
@@ -117,7 +130,7 @@ async def get_courses(dong:int , req:SelectItem):
             for j in range(len(courseTags)):
                 t = courseTags[j]
                 result[-1].append(recommend.tfidf(spots, t, d, i))
-        
+
         # TF-IDF
         result = []
         for i in spots.index:
@@ -136,17 +149,19 @@ async def get_courses(dong:int , req:SelectItem):
         temp = []
         for tag in courseTags:
             temp.append(1 if tag in selectedTags else 0)
-        
+
         tfidf_.loc[N] = temp
 
-        temp = [-1,'','','','temp','','',5,course,dong,1] + temp
+        temp = [-1, '', '', '', 'temp', '', '', 5, course, dong, 1] + temp
         spots.loc[N] = temp
         N += 1
 
-        #코사인 유사도 구하기
-        cosine_matrix, spotId, id2spot = recommend.compute_cos_sim(spots, tfidf_)
+        # 코사인 유사도 구하기
+        cosine_matrix, spotId, id2spot = recommend.compute_cos_sim(
+            spots, tfidf_)
         # spotId : {0: '단박왕돈까스', 1: '일미감자탕', ...}
-        cbf_return = recommend.get_k_sim("temp", 1000, cosine_matrix, id2spot, spots)
+        cbf_return = recommend.get_k_sim(
+            "temp", 1000, cosine_matrix, id2spot, spots)
         cbf_return = dict(cbf_return)
         # cbf_return : [[spotid,점수], [spotid,점수], ... ]
 
@@ -172,19 +187,22 @@ async def get_courses(dong:int , req:SelectItem):
     for i in ids:
         spot_query = db.select([SPOT_TABLE]).where(SPOT_TABLE.columns.id == i)
         result_proxy = connection.execute(spot_query)
-        result = result_proxy.fetchall() #spot 테이블에서 해당 id인 spot 찾은거
+        result = result_proxy.fetchall()  # spot 테이블에서 해당 id인 spot 찾은거
 
-        j = result[0][8] #category_id
-        category_query = db.select([CATEGORY_TABLE]).where(CATEGORY_TABLE.columns.id == j)
+        j = result[0][8]  # category_id
+        category_query = db.select([CATEGORY_TABLE]).where(
+            CATEGORY_TABLE.columns.id == j)
         category_result_proxy = connection.execute(category_query)
         category_result = category_result_proxy.fetchall()
 
-        price_query = db.select([MENU_TABLE]).where(MENU_TABLE.columns.spot_id == i)
+        price_query = db.select([MENU_TABLE]).where(
+            MENU_TABLE.columns.spot_id == i)
         price_result_proxy = connection.execute(price_query)
         price_result = price_result_proxy.fetchall()
         # pk, menu이름, 가격, spotid
 
-        image_query = db.select([IMAGE_TABLE.columns.image_link]).where(IMAGE_TABLE.columns.spot_id==i)
+        image_query = db.select([IMAGE_TABLE.columns.image_link]).where(
+            IMAGE_TABLE.columns.spot_id == i)
         image_result_proxy = connection.execute(image_query)
         image_result = image_result_proxy.fetchall()
 
@@ -199,7 +217,8 @@ async def get_courses(dong:int , req:SelectItem):
         tag_data_list = tag_data.values.tolist()
 
         for z in tag_data_list:
-            tag_query = db.select([TAG_TABLE.columns.name]).where(TAG_TABLE.columns.id == z[3])
+            tag_query = db.select([TAG_TABLE.columns.name]).where(
+                TAG_TABLE.columns.id == z[3])
             tag_result_proxy = connection.execute(tag_query)
             tag_result = tag_result_proxy.fetchall()
             tags.append(tag_result[0][0])
@@ -215,7 +234,7 @@ async def get_courses(dong:int , req:SelectItem):
         for j in range(len(recommends[i])):
             d[orders[i]].append(int(recommends[i][j]))
         spotIds.append(d)
-        
+
     response.update({"code": 200})
     response.update({"message": "SUCCESS"})
 
