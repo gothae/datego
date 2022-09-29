@@ -11,19 +11,16 @@ import {
   View,
   Button,
   Image,
+  Pressable,
 } from 'react-native';
 import {useCallback, useEffect, useState} from 'react';
-import auth from '@react-native-firebase/auth';
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-} from '@react-native-google-signin/google-signin';
 import axios from 'axios';
 import userSlice from '../slices/user';
 import {useAppDispatch} from '../store';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../src/store/reducer';
 import {logout} from '@react-native-seoul/kakao-login';
+import SelectDong from './SelectDong';
 
 function Home({navigation}) {
   const code = useSelector((state: RootState) => state.user.code);
@@ -31,6 +28,11 @@ function Home({navigation}) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const domain = useSelector((state: RootState) => state.user.domain);
   const id = useSelector((state: RootState) => state.user.id);
+
+  const [dong, setDong] = useState(0);
+  const getDong = select => {
+    setDong(select);
+  };
 
   useEffect(() => {
     const getMyReviews = async () => {
@@ -46,9 +48,9 @@ function Home({navigation}) {
     getMyReviews();
   }, []);
   // 유저의 정보 가져오는것
-  const user = auth().currentUser;
   const dispatch = useAppDispatch();
 
+  // 탈퇴함수
   async function onDelete() {
     const response = await axios.post(
       'http://10.0.2.2:8080/users/signout',
@@ -70,26 +72,7 @@ function Home({navigation}) {
     console.log('회원탈퇴');
     return;
   }
-  async function testLogout() {
-    const response = await axios.post('http://10.0.2.2:8080/users/logout', {
-      // 내아이피 사용
-      // const response = await axios.post('http://121.129.17.91/users/logout', {
-      headers: {accessToken: accessToken},
-    });
-    console.log('마스터로그아웃');
-    console.log(response.data);
-    dispatch(
-      userSlice.actions.logoutUser({
-        email: '',
-        accessToken: '',
-        code: 0,
-        domain: '',
-        id: 0,
-      }),
-    );
-    return;
-  }
-
+  //로그아웃
   async function onLogout() {
     const response = await axios.post('http://10.0.2.2:8080/users/logout', {
       // 내아이피 사용
@@ -115,59 +98,18 @@ function Home({navigation}) {
   return (
     <>
       <View style={{flex: 1}}>
-        <Button
-          onPress={testLogout}
-          title="마스터로그아웃"
-          color="black"
-          accessibilityLabel="Learn more about this purple button"
-        />
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: 'orange',
-            paddingHorizontal: 10,
-            paddingVertical: 15,
-            flexDirection: 'row',
-          }}>
-          <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold'}}>
-            DATE GO
-          </Text>
+        <View>
+          <SelectDong offset={60} getDong={getDong} />
         </View>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: 'row',
-            paddingHorizontal: 10,
-            paddingVertical: 20,
-          }}>
-          <Button
-            title="Go Gallery"
-            onPress={() => {
-              navigation.navigate('Gallery', {});
-            }}
-          />
-          <Button
-            title="Go SelectDong"
-            onPress={() => {
-              navigation.navigate('SelectDong', {});
-            }}
-          />
-        </View>
-        <View style={{flex: 4}}>
-          <Image
-            source={require('../../src/assets/용산구.gif')}
-            style={{width: '100%', height: '100%', backgroundColor: 'yellow'}}
-            resizeMode="stretch"
-          />
-        </View>
-        <Button
-          title="Go Preference"
-          onPress={() => {
-            navigation.navigate('Preference', {});
-          }}
-        />
       </View>
-
+      <View style={styles.goBtn}>
+        <Pressable
+          onPress={() => {
+            navigation.navigate('Gallery', dong);
+          }}>
+          <Text style={{color: 'white', fontSize: 30}}>Go Go</Text>
+        </Pressable>
+      </View>
       <View>
         <Button
           onPress={onLogout}
@@ -187,5 +129,12 @@ function Home({navigation}) {
     </>
   );
 }
-
+const styles = StyleSheet.create({
+  goBtn: {
+    width: '40%',
+    borderRadius: 15,
+    alignItems: 'center',
+    backgroundColor: '#FFA856',
+  },
+});
 export default Home;

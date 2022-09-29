@@ -91,7 +91,21 @@ function AppInner() {
   // 로그인검증
   return isLoggedIn ? (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home} options={{title: 'Home'}} />
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{
+          title: 'DATE GO',
+          headerStyle: {
+            backgroundColor: 'orange',
+          },
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontSize: 30,
+            fontWeight: 'bold',
+          },
+        }}
+      />
       <Stack.Screen
         name="Gallery"
         component={Gallery}
