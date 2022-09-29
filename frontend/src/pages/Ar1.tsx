@@ -102,6 +102,7 @@ const ArScene1 = () => {
           scale={[5, 5, 5]}
           rotation={[0, 90, 0]}
           type="OBJ"
+          dragType='FixedDistance'
           onDrag={moveObject1}
           visible={coinVisible1}
           animation={{name: 'rotate', run: true, loop: true}}
@@ -116,6 +117,7 @@ const ArScene1 = () => {
           scale={[5, 5, 5]}
           rotation={[0, 90, 0]}
           type="OBJ"
+          dragType='FixedDistance'
           onDrag={moveObject2}
           visible={coinVisible2}
           animation={{name: 'rotate', run: true, loop: true}}
@@ -130,6 +132,7 @@ const ArScene1 = () => {
           scale={[5, 5, 5]}
           rotation={[0, 90, 0]}
           type="OBJ"
+          dragType='FixedDistance'
           onDrag={moveObject3}
           visible={coinVisible3}
           animation={{name: 'rotate', run: true, loop: true}}
@@ -144,6 +147,7 @@ const ArScene1 = () => {
           scale={[5, 5, 5]}
           rotation={[0, 90, 0]}
           type="OBJ"
+          dragType='FixedDistance'
           onDrag={moveObject4}
           visible={coinVisible4}
           animation={{name: 'rotate', run: true, loop: true}}
@@ -157,6 +161,7 @@ const ArScene1 = () => {
           position={[-1, 3, 0]}
           scale={[5, 5, 5]}
           rotation={[0, 90, 0]}
+          dragType='FixedDistance'
           type="OBJ"
           onDrag={moveObject5}
           visible={coinVisible5}
@@ -166,9 +171,7 @@ const ArScene1 = () => {
         />
       </ViroNode>
       <ViroNode
-        position={[-0.5, -0.5, -0.5]}
-        dragType="FixedToWorld"
-        onDrag={() => {}}>
+        position={[-0.5, -0.5, -0.5]}>
         <Viro3DObject
           source={require('./res/gold_bag.obj')}
           position={[1, -2, -2]}
