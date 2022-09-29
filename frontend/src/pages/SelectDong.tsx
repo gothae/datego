@@ -17,16 +17,23 @@ function SelectDong({navigation, offset, getDong}) {
 
   const setDongReviewCnt = () => {
     myReviews.map(review => {
-      if (review['id'] === 1) dongReviewCnt[0] = review['count'];
-      else if (review['id'] === 2) dongReviewCnt[1] = review['count'];
-      else if (review['id'] === 3) dongReviewCnt[2] = review['count'];
-      else if (review['id'] === 4) dongReviewCnt[3] = review['count'];
-      else if (review['id'] === 5) dongReviewCnt[4] = review['count'];
-      else if (6 <= review['id'] && review['id'] <= 9)
-        dongReviewCnt[5] += review['count'];
-      else if (10 <= review['id'] && review['id'] <= 17)
-        dongReviewCnt[6] += review['count'];
-      else dongReviewCnt[7] += review['count'];
+      if (review.id === 1) {
+        dongReviewCnt[0] = review.count;
+      } else if (review.id === 2) {
+        dongReviewCnt[1] = review.count;
+      } else if (review.id === 3) {
+        dongReviewCnt[2] = review.count;
+      } else if (review.id === 4) {
+        dongReviewCnt[3] = review.count;
+      } else if (review.id === 5) {
+        dongReviewCnt[4] = review.count;
+      } else if (review.id >= 6 && review.id <= 9) {
+        dongReviewCnt[5] += review.count;
+      } else if (review.id >= 10 && review.id <= 17) {
+        dongReviewCnt[6] += review.count;
+      } else {
+        dongReviewCnt[7] += review.count;
+      }
     });
   };
   setDongReviewCnt();

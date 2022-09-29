@@ -56,7 +56,7 @@ type Location = {
   P2: K;
 };
 
-function Course({ navigation }: CourseProps) {
+function Course({navigation}: CourseProps) {
   const spotId: number = 1;
   const stores: any = useSelector((state: RootState) => state.stores).stores;
   // console.log('이미지', stores);
@@ -66,9 +66,9 @@ function Course({ navigation }: CourseProps) {
 
   const [location, setLocation] = useState<Location>({
     P0: {latitude: 37.53698, longitude: 127.0017},
-    P1 : {latitude: 37.53154, longitude: 127.007},
-    P2 : {latitude: 37.55392, longitude: 126.9767}
-  })
+    P1: {latitude: 37.53154, longitude: 127.007},
+    P2: {latitude: 37.55392, longitude: 126.9767},
+  });
 
   useEffect(() => {
     getData();
@@ -78,25 +78,25 @@ function Course({ navigation }: CourseProps) {
       return;
     }
     // console.log({ hyunuk: stores[0] })
-    else if (stores?.length === 2){
-    setLocation({
-      P0: { latitude: stores[0].latitude, longitude: stores[0].longtitude },
-      P1: { latitude: stores[1].latitude, longitude: stores[1].longtitude },
-      P2: { latitude: stores[1].latitude, longitude: stores[1].longtitude },
-    });
+    else if (stores?.length === 2) {
+      setLocation({
+        P0: {latitude: stores[0].latitude, longitude: stores[0].longtitude},
+        P1: {latitude: stores[1].latitude, longitude: stores[1].longtitude},
+        P2: {latitude: stores[1].latitude, longitude: stores[1].longtitude},
+      });
     } else if (stores?.length > 2) {
       setLocation({
-      P0: { latitude: stores[0].latitude, longitude: stores[0].longtitude },
-      P1: { latitude: stores[1].latitude, longitude: stores[1].longtitude },
-      P2: { latitude: stores[2].latitude, longitude: stores[2].longtitude },
-      })
+        P0: {latitude: stores[0].latitude, longitude: stores[0].longtitude},
+        P1: {latitude: stores[1].latitude, longitude: stores[1].longtitude},
+        P2: {latitude: stores[2].latitude, longitude: stores[2].longtitude},
+      });
     }
-  }, [stores])
+  }, [stores]);
 
   useEffect(() => {
-    console.log({ location });
-  }, [location])
-  // if (stores.length == 2) {  
+    console.log({location});
+  }, [location]);
+  // if (stores.length == 2) {
   //   P0 = { latitude: stores[0].latitude, longitude: stores[0].longitude }
   //   P1 = { latitude: stores[1].latitude, longitude: stores[1].longitude }
   //   P2 = { latitude: stores[1].latitude, longitude: stores[1].longitude }
@@ -106,15 +106,15 @@ function Course({ navigation }: CourseProps) {
   //   P2 = { latitude: stores[2].latitude, longitude: stores[2].longitude }
   // }
   // else {
-    // P0 = {latitude: 37.53698, longitude: 127.0017};
-    // P1 = {latitude: 37.53154, longitude: 127.007};
-    // P2 = {latitude: 37.55392, longitude: 126.9767};
-    // }
+  // P0 = {latitude: 37.53698, longitude: 127.0017};
+  // P1 = {latitude: 37.53154, longitude: 127.007};
+  // P2 = {latitude: 37.55392, longitude: 126.9767};
+  // }
   // const stores = temp.stores
   // const onClick = useCallback(() => {
   //   console.log(1);
   //   const getData = async () => {
-  //     const response = await axios.post(`http://10.0.2.2:8080/courses/${spotId}?page=1`, {
+  //     const response = await axios.post(`http://j7a104.p.ssafy.io:8080/courses/${spotId}?page=1`, {
 
   //       spots: [1, 2, 3, 4, 5, 7]
 
@@ -128,28 +128,31 @@ function Course({ navigation }: CourseProps) {
   const dispatch = useAppDispatch();
   const getData = async () => {
     const dongId: number = 1;
-    const response = await axios.post(`http://10.0.2.2:8000/courses/${dongId}`,{
-      course: [1, 2, 3],
-      categoryList: {
-        'food': [1, 4, 5],
-        'cafe': [1, 4, 5],
-        'play': [1, 4, 5],
-        'drink': [1, 4, 5]
+    const response = await axios.post(
+      `http://j7a104.p.ssafy.io:8080:8000/courses/${dongId}`,
+      {
+        course: [1, 2, 3],
+        categoryList: {
+          food: [1, 4, 5],
+          cafe: [1, 4, 5],
+          play: [1, 4, 5],
+          drink: [1, 4, 5],
+        },
+        price: 100000,
+        id: 45,
       },
-      price: 100000,
-      id: 45
-    });
+    );
 
     // response.data.responseData.map(res => {
     //   console.log("map", res);
-      
+
     //   console.log(res.data.responseData.Spots.image.substring(3));
     //   인덱스 0번이 h가 아니면 잘라버려서 이미지 뜨게 해주기;
-      
+
     //   // res = res.data.responseData.Spots.image.substring(3, res.data.responseData.Spots.image.length() - 2);
     // })
-  
-    console.log('리스폰스 데이터', response.data.responseData.spotIds)
+
+    console.log('리스폰스 데이터', response.data.responseData.spotIds);
 
     // console.log('리스폰스 데이터', response.data.responseData.spots);
     // const inputStores: StoreLists = response.data.responseData.spots;
@@ -216,7 +219,12 @@ function Course({ navigation }: CourseProps) {
         <View>
           {stores?.map((store, idx) => {
             return (
-              <CourseItem key={idx} idx={idx} item={store} navigation={navigation} />
+              <CourseItem
+                key={idx}
+                idx={idx}
+                item={store}
+                navigation={navigation}
+              />
             );
           })}
         </View>
@@ -246,7 +254,7 @@ function Course({ navigation }: CourseProps) {
 }
 // const spotId = 1
 // const getData = async () => {
-//   const response = await axios.post(`http://10.0.2.2:8080/courses/${spotId}?page=1`, {
+//   const response = await axios.post(`http://j7a104.p.ssafy.io:8080/courses/${spotId}?page=1`, {
 
 //     spots: [1, 2, 3, 4, 5, 7]
 

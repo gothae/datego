@@ -120,7 +120,7 @@ function AppInner() {
         name="Preference"
         component={Preference}
         options={{
-          title: '코스설정',
+          title: '취향 설정',
           headerStyle: {
             backgroundColor: '#FFA856',
           },

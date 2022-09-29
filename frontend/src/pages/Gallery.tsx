@@ -24,7 +24,7 @@ function Gallery({navigation}: GalleryProps) {
   //     //   'https://picsum.photos/v2/list?page=2&limit=10',
   //     // );
   //     // setValue1(response.data[0].download_url);
-  //     const response = await axios.get('http://10.0.2.2:3105');
+  //     const response = await axios.get('http://j7a104.p.ssafy.io:8080:3105');
   //     console.log(response);
   //   };
   //   getData();
@@ -33,7 +33,9 @@ function Gallery({navigation}: GalleryProps) {
   const onClick = useCallback(() => {
     console.log(1);
     const getData = async () => {
-      const response = await axios.get('http://10.0.2.2:8080/categories');
+      const response = await axios.get(
+        'http://j7a104.p.ssafy.io:8080/categories',
+      );
       console.log(response.data);
     };
     getData();

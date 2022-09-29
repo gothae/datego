@@ -36,7 +36,7 @@ function Home({navigation}) {
 
   useEffect(() => {
     const getMyReviews = async () => {
-      const res = await axios.get('http://10.0.2.2:8080/main', {
+      const res = await axios.get('http://j7a104.p.ssafy.io:8080/main', {
         headers: {accessToken},
       });
       dispatch(
@@ -53,7 +53,7 @@ function Home({navigation}) {
   // 탈퇴함수
   async function onDelete() {
     const response = await axios.post(
-      'http://10.0.2.2:8080/users/signout',
+      'http://j7a104.p.ssafy.io:8080/users/signout',
       {},
       {
         headers: {accessToken: accessToken},
@@ -74,11 +74,14 @@ function Home({navigation}) {
   }
   //로그아웃
   async function onLogout() {
-    const response = await axios.post('http://10.0.2.2:8080/users/logout', {
-      // 내아이피 사용
-      // const response = await axios.post('http://121.129.17.91/users/logout', {
-      headers: {accessToken: accessToken},
-    });
+    const response = await axios.post(
+      'http://j7a104.p.ssafy.io:8080/users/logout',
+      {
+        // 내아이피 사용
+        // const response = await axios.post('http://121.129.17.91/users/logout', {
+        headers: {accessToken: accessToken},
+      },
+    );
     await logout();
     console.log('카카오로그아웃');
     console.log(response.data);
@@ -109,6 +112,14 @@ function Home({navigation}) {
           }}>
           <Text style={{color: 'white', fontSize: 30}}>Go Go</Text>
         </Pressable>
+      </View>
+      <View>
+        <Button
+          title="Go Preference"
+          onPress={() => {
+            navigation.navigate('Preference', {});
+          }}
+        />
       </View>
       <View>
         <Button

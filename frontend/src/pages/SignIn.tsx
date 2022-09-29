@@ -51,10 +51,13 @@ function SignIn({navigation}: SignInScreenProps) {
   async function signInWithKakao() {
     await login();
     const profile = await getKakaoProfile();
-    const response = await axios.post('http://10.0.2.2:8080/users/login', {
-      email: profile.email,
-      domain: 'KAKAO',
-    });
+    const response = await axios.post(
+      'http://j7a104.p.ssafy.io:8080/users/login',
+      {
+        email: profile.email,
+        domain: 'KAKAO',
+      },
+    );
     console.log('카카오로그인요청');
     console.log(response.data);
     if (response.data.code === 200) {
@@ -85,12 +88,15 @@ function SignIn({navigation}: SignInScreenProps) {
     console.log(age);
     console.log(gender);
 
-    const response = await axios.post('http://10.0.2.2:8080/users/info', {
-      email: email,
-      domain: domain,
-      age: age,
-      gender: gender,
-    });
+    const response = await axios.post(
+      'http://j7a104.p.ssafy.io:8080/users/info',
+      {
+        email: email,
+        domain: domain,
+        age: age,
+        gender: gender,
+      },
+    );
     console.log(response.data);
     dispatch(
       userSlice.actions.setUser({
@@ -104,10 +110,13 @@ function SignIn({navigation}: SignInScreenProps) {
   }
   async function test() {
     console.log(2);
-    const response = await axios.post('http://10.0.2.2:8080/users/login', {
-      email: 'accent680@naver.com',
-      domain: 'KAKAO',
-    });
+    const response = await axios.post(
+      'http://j7a104.p.ssafy.io:8080/users/login',
+      {
+        email: 'accent680@naver.com',
+        domain: 'KAKAO',
+      },
+    );
     console.log(3);
     console.log(response.data);
     dispatch(
