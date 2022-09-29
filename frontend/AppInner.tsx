@@ -105,7 +105,17 @@ function AppInner() {
       <Stack.Screen
         name="Preference"
         component={Preference}
-        options={{title: 'Preference'}}
+        options={{
+          title: '코스설정',
+          headerStyle: {
+            backgroundColor: '#FFA856',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+            fontSize: 30,
+          },
+        }}
       />
       <Stack.Screen
         name="Course"

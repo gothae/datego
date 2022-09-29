@@ -48,58 +48,6 @@ function SignIn({navigation}: SignInScreenProps) {
   const [gender, setGender] = useState('M');
   const [age, setAge] = useState('');
 
-  useEffect(() => {
-    GoogleSignin.configure({
-      webClientId:
-        "18642094345-ta2q5sghs9qular97oud770c4q0vp9jt.apps.googleusercontent.com",
-    });
-  }, []);
-
-  async function test() {
-    const {idToken} = await GoogleSignin.signIn();
-    const googleCredential = auth.GoogleAuthProvider.credential(idToken);
-    return auth().signInWithCredential(googleCredential);
-  }
-
-  async function onGoogleButtonPress() {
-    const data = await GoogleSignin.signIn();
-    // 구글로 앱로그인 필요할때 사용
-    // const googleCredential = auth.GoogleAuthProvider.credential(data.idToken);
-    // return auth().signInWithCredential(googleCredential)
-
-    const response = await axios.post('http://10.0.2.2:8080/users/login', {
-      // const response = await axios.post('http://121.129.17.91/users/login', {
-      email: data.user.email,
-      domain: 'GOOGLE',
-    });
-    console.log('구글로그인요청');
-    console.log(response.data);
-
-    if (response.data.code === 200) {
-      dispatch(
-        userSlice.actions.setUser({
-          email: data.user.email,
-          code: response.data.code,
-          accessToken: response.data.responseData.accessToken,
-          domain: 'GOOGLE',
-          id: response.data.responseData.id,
-
-        }),
-      );
-    }
-    if (response.data.code === 201) {
-      setModalVisible(true);
-      dispatch(
-        userSlice.actions.setUser({
-          email: data.user.email,
-          code: response.data.code,
-          domain: 'GOOGLE',
-        }),
-      );
-    }
-    return;
-  }
-
   async function signInWithKakao() {
     await login();
     const profile = await getKakaoProfile();
@@ -134,6 +82,9 @@ function SignIn({navigation}: SignInScreenProps) {
   }
 
   async function userInfo() {
+    console.log(age);
+    console.log(gender);
+
     const response = await axios.post('http://10.0.2.2:8080/users/info', {
       email: email,
       domain: domain,
@@ -147,6 +98,24 @@ function SignIn({navigation}: SignInScreenProps) {
         code: response.data.code,
         accessToken: response.data.responseData.accessToken,
         domain: domain,
+        id: response.data.responseData.id,
+      }),
+    );
+  }
+  async function test() {
+    console.log(2);
+    const response = await axios.post('http://10.0.2.2:8080/users/login', {
+      email: 'accent680@naver.com',
+      domain: 'KAKAO',
+    });
+    console.log(3);
+    console.log(response.data);
+    dispatch(
+      userSlice.actions.setUser({
+        email: 'accent680@naver.com',
+        code: response.data.code,
+        accessToken: response.data.responseData.accessToken,
+        domain: 'KAKAO',
         id: response.data.responseData.id,
       }),
     );
@@ -168,21 +137,19 @@ function SignIn({navigation}: SignInScreenProps) {
               justifyContent: 'center',
             }}>
             <Text style={{fontSize: 50, color: 'white'}}>DATE GO</Text>
+            <TouchableHighlight onPress={() => test()}>
+              <Text
+                style={{
+                  fontSize: 30,
+                  color: 'white',
+                  backgroundColor: 'black',
+                }}>
+                마스터로그인
+              </Text>
+            </TouchableHighlight>
           </View>
           <View />
           <View style={{flex: 1}}>
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <GoogleSigninButton
-                size={GoogleSigninButton.Size.Standard}
-                color={GoogleSigninButton.Color.Light}
-                onPress={() => onGoogleButtonPress()}
-              />
-              <Button onPress={() => test()} title="구글회원가입" />
-            </View>
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
               <TouchableHighlight onPress={() => signInWithKakao()}>
                 <Image
@@ -206,7 +173,7 @@ function SignIn({navigation}: SignInScreenProps) {
                     onValueChange={checkvalue => setGender(checkvalue)}
                     value={gender}>
                     <RadioButton.Item label="남자" value="M" />
-                    <RadioButton.Item label="여자" value="W" />
+                    <RadioButton.Item label="여자" value="F" />
                   </RadioButton.Group>
                 </View>
                 <View style={{flexDirection: 'row'}}>
