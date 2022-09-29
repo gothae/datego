@@ -6,13 +6,13 @@ import {
 } from '@react-navigation/native-stack';
 import Home from './src/pages/Home';
 import Gallery from './src/pages/Gallery';
-import SelectDong from './src/pages/SelectDong';
 import Preference from './src/pages/Preference';
 import Course from './src/pages/Course';
 import ChangeSpot from './src/pages/ChangeSpot';
 import DetailSpot from './src/pages/DetailSpot';
 import CourseIng from './src/pages/CourseIng';
 import SignIn from './src/pages/SignIn';
+import SelectDong from './src/pages/SelectDong';
 import Ar1 from './src/pages/Ar1';
 import Ar2 from './src/pages/Ar2';
 import Ar3 from './src/pages/Ar3';
@@ -24,16 +24,16 @@ export type LoggedInParamList = {
   Home: undefined;
   Users: undefined;
   Gallery: undefined;
-  SelectDong: undefined;
   Preference: undefined;
   Course: undefined;
   ChangeSpot: undefined;
   DetailSpot: undefined;
   CourseIng: undefined;
   SignIn: undefined;
-  Ar1 : undefined;
-  Ar2 : undefined;
-  Ar3 : undefined;
+  SelectDong: undefined;
+  Ar1: undefined;
+  Ar2: undefined;
+  Ar3: undefined;
 };
 
 // export type RootStackParamList = {
@@ -57,9 +57,9 @@ function AppInner() {
   //       options={{title: 'Gallery'}}
   //     />
   //     <Stack.Screen
-  //       name="SelectDong"
-  //       component={SelectDong}
-  //       options={{title: 'SelectDong'}}
+  //       name="Map"
+  //       component={Map}
+  //       options={{title: 'Map'}}
   //     />
   //     <Stack.Screen
   //       name="Preference"
@@ -97,16 +97,25 @@ function AppInner() {
   // 로그인검증
   return isLoggedIn ? (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home} options={{title: 'Home'}} />
+      <Stack.Screen
+        name="Home"
+        component={Home}
+        options={{
+          title: 'DATE GO',
+          headerStyle: {
+            backgroundColor: 'orange',
+          },
+          headerTintColor: 'white',
+          headerTitleStyle: {
+            fontSize: 30,
+            fontWeight: 'bold',
+          },
+        }}
+      />
       <Stack.Screen
         name="Gallery"
         component={Gallery}
         options={{title: 'Gallery'}}
-      />
-      <Stack.Screen
-        name="SelectDong"
-        component={SelectDong}
-        options={{title: 'SelectDong'}}
       />
       <Stack.Screen
         name="Preference"
@@ -120,6 +129,20 @@ function AppInner() {
           headerTitleStyle: {
             fontWeight: 'bold',
             fontSize: 30,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="SelectDong"
+        component={SelectDong}
+        options={{
+          title: '데이트할 동을 선택해주세요',
+          headerStyle: {
+            backgroundColor: '#FFA856',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+            fontSize: 20,
           },
         }}
       />
