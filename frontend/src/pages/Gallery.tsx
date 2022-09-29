@@ -18,11 +18,14 @@ function Gallery({route, navigation}) {
         headers: {accessToken},
       },
     );
-    return setImageurl(Imageurl.concat(response.data.responseData.photos));
+    return setImageurl(Imageurl =>
+      Imageurl.concat(response.data.responseData.photos),
+    );
   };
 
   useEffect(() => {
     if (zone <= 5) {
+      setImageurl(Imageurl => []);
       getData(zone);
     } else if (zone === 7) {
       for (let index = 6; index <= 9; index++) {
