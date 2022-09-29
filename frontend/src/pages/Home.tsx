@@ -34,7 +34,7 @@ function Home({navigation}) {
 
   useEffect(() => {
     const getMyReviews = async () => {
-      const res = await axios.get('http://10.0.2.2:8080/main', {
+      const res = await axios.get('http://j7a104.p.ssafy.io:8080/main', {
         headers: {accessToken},
       });
       dispatch(
@@ -51,7 +51,7 @@ function Home({navigation}) {
 
   async function onDelete() {
     const response = await axios.post(
-      'http://10.0.2.2:8080/users/signout',
+      'http://j7a104.p.ssafy.io:8080/users/signout',
       {},
       {
         headers: {accessToken: accessToken},
@@ -71,7 +71,7 @@ function Home({navigation}) {
     return;
   }
   async function testLogout() {
-    const response = await axios.post('http://10.0.2.2:8080/users/logout', {
+    const response = await axios.post('http://j7a104.p.ssafy.io:8080/users/logout', {
       // 내아이피 사용
       // const response = await axios.post('http://121.129.17.91/users/logout', {
       headers: {accessToken: accessToken},
@@ -91,7 +91,7 @@ function Home({navigation}) {
   }
 
   async function onLogout() {
-    const response = await axios.post('http://10.0.2.2:8080/users/logout', {
+    const response = await axios.post('http://j7a104.p.ssafy.io:8080/users/logout', {
       // 내아이피 사용
       // const response = await axios.post('http://121.129.17.91/users/logout', {
       headers: {accessToken: accessToken},

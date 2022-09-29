@@ -55,7 +55,7 @@ function Course({navigation}: CourseProps) {
   // const onClick = useCallback(() => {
   //   console.log(1);
   //   const getData = async () => {
-  //     const response = await axios.post(`http://10.0.2.2:8080/courses/${spotId}?page=1`, {
+  //     const response = await axios.post(`http://j7a104.p.ssafy.io:8080/courses/${spotId}?page=1`, {
 
   //       spots: [1, 2, 3, 4, 5, 7]
 
@@ -72,7 +72,7 @@ function Course({navigation}: CourseProps) {
       console.log('시작');
       const spotId: number = 1;
       const response = await axios.post(
-        `http://10.0.2.2:8080/courses/${spotId}?page=1`,
+        `http://j7a104.p.ssafy.io:8080/courses/${spotId}?page=1`,
         {
           spots: [1, 2, 3, 4, 5, 7],
         },
@@ -185,7 +185,7 @@ function Course({navigation}: CourseProps) {
 }
 // const spotId = 1
 // const getData = async () => {
-//   const response = await axios.post(`http://10.0.2.2:8080/courses/${spotId}?page=1`, {
+//   const response = await axios.post(`http://j7a104.p.ssafy.io:8080/courses/${spotId}?page=1`, {
 
 //     spots: [1, 2, 3, 4, 5, 7]
 
