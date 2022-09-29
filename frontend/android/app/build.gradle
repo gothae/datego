@@ -255,7 +255,12 @@ dependencies {
     //블로그에서 씀. https://velog.io/@hhjj0506/React-Native-Firebase%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%9C-Android-%EA%B5%AC%EA%B8%80-%EB%A1%9C%EA%B7%B8%EC%9D%B8-%EA%B8%B0%EB%8A%A5-%EA%B5%AC%ED%98%84%ED%8E%B8
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.naver.maps:map-sdk:3.14.0'
-
+    implementation project(':gvr_common')
+    implementation project(':arcore_client')
+    implementation project(path: ':react_viro')
+    implementation project(path: ':viro_renderer')
+    implementation 'com.google.android.exoplayer:exoplayer:2.7.1'
+    implementation 'com.google.protobuf.nano:protobuf-javanano:3.0.0-alpha-7'
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     //noinspection GradleDynamicVersion
