@@ -211,6 +211,12 @@ function Home({navigation}) {
           }}
           title="빨강이키우기"
           />
+          <Button
+          onPress={() => {
+            navigation.navigate('CourseIng', {});
+          }}
+          title="진행중인 코스"
+          />
       </View>
       <View>
         <Button
