@@ -85,7 +85,7 @@ function SignIn({navigation}: SignInScreenProps) {
     console.log(age);
     console.log(gender);
 
-    const response = await axios.post('http://10.0.2.2:8080/users/info', {
+    const response = await axios.post('http://j7a104.p.ssafy.io:8080/users/info', {
       email: email,
       domain: domain,
       age: age,

@@ -47,7 +47,7 @@ function DetailSpot({navigation, route}: Props) {
     console.log('페이지아이디', spotId);
 
     const response = await axios.get(
-      `http://10.0.2.2:8080/courses/spots/${spotId}`,
+      `http://j7a104.p.ssafy.io:8080/courses/spots/${spotId}`,
     );
     // console.log('상세페이지', response.data.responseData)
     console.log({menu: response.data.responseData.tags});
@@ -75,11 +75,11 @@ function DetailSpot({navigation, route}: Props) {
       tags.push('#' + detailstores.tags[i].name + ' ')
     }
     tagList = tags.map((tag, index) => (
-      <Text key={index}>{tag}</Text>
+      <Text key={index} style={{color:'#000000'}}>{tag}</Text>
     ));
   }
   else {
-      tagList = <Text>태그 없음</Text>;
+      tagList = <Text style={{color:'#000000'}}>태그 없음</Text>;
   }
 
   if (detailstores.menus) {
@@ -92,10 +92,10 @@ function DetailSpot({navigation, route}: Props) {
     }
     if (menus) {
       menuList = menus.map((menu, index) => (
-        <Text key={index}>{menu}</Text>
+        <Text key={index} style={{color:'#000000'}}>{menu}</Text>
       ));
       priceList = prices.map((price, index) => (
-        <Text key={index}>{price}</Text>
+        <Text key={index} style={{color:'#000000'}}>{price}</Text>
       ));
     }
   } else {
@@ -216,12 +216,12 @@ tag5 = <View style={ styles.tag }>
           {images}
         </View>
         <View style={{alignItems: 'center', marginVertical: 8}}>
-          <Text style={{ fontSize: 20 }}>{detailstores.name}</Text>
+          <Text style={{ fontSize: 20, color:'#000000' }}>{detailstores.name}</Text>
           <View style={{flexDirection: 'row', marginVertical: '3%'}}>
             {tagList}
           </View>
           <Text style={{ color: '#FFA856', fontSize: 32 }}>{ ratescore }</Text>
-          <Text>{scorerate} / 5.0 </Text>
+          <Text style={{ color:'#000000' }}>{scorerate} / 5.0 </Text>
         </View>
         <View>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -229,7 +229,7 @@ tag5 = <View style={ styles.tag }>
               icon={faLocationDot}
               style={{alignItems: 'flex-end', marginLeft: 8}}
             />
-            <Text style={{marginLeft: 8, marginVertical: 8, fontSize: 16}}>
+            <Text style={{marginLeft: 8, marginVertical: 8, fontSize: 16, color:'#000000'}}>
               {detailstores.address}
             </Text>
           </View>
@@ -238,7 +238,7 @@ tag5 = <View style={ styles.tag }>
               icon={faPhone}
               style={{alignItems: 'flex-end', marginLeft: 8}}
             />
-            <Text style={{marginLeft: 8, marginVertical: 8, fontSize: 16}}>
+            <Text style={{marginLeft: 8, marginVertical: 8, fontSize: 16, color:'#000000'}}>
               {detailstores.phone}
             </Text>
           </View>
@@ -253,7 +253,7 @@ tag5 = <View style={ styles.tag }>
               <View style={{marginVertical: 12, marginRight:'12%'}}>
                 {menuList}
               </View>
-              <View style={{marginVertical: 12}}>
+              <View style={{marginVertical: 12 } }>
                 {priceList}
               </View>
             </View>
@@ -320,7 +320,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   text: {
-    fontSize: 16, marginHorizontal: '10%', marginVertical: '2%'
+    fontSize: 16, marginHorizontal: '10%', marginVertical: '2%', color:'#000000'
   }
 })
 export default DetailSpot;
