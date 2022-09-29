@@ -68,6 +68,12 @@ function Gallery({navigation}: GalleryProps) {
           />
         </View>
       </View>
+      <Button
+        title="Go Home"
+        onPress={() => {
+          navigation.navigate('Home', {});
+        }}
+      />
     </View>
   );
 }

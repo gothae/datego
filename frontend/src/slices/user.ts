@@ -5,7 +5,6 @@ const initialState = {
   accessToken: '',
   code: 0,
   domain: '',
-  id: 0,
 };
 const userSlice = createSlice({
   name: 'user',
@@ -16,21 +15,18 @@ const userSlice = createSlice({
       state.accessToken = action.payload.accessToken;
       state.code = action.payload.code;
       state.domain = action.payload.domain;
-      state.id = action.payload.id
     },
     logoutUser(state, action) {
       state.email = action.payload.email;
       state.accessToken = action.payload.accessToken;
       state.code = action.payload.code;
       state.domain = action.payload.domain;
-      state.id = action.payload.id
     },
     deleteUser(state, action) {
       state.email = action.payload.email;
       state.accessToken = action.payload.accessToken;
       state.code = action.payload.code;
       state.domain = action.payload.domain;
-      state.id = action.payload.id
     },
   },
   extraReducers: builder => {},

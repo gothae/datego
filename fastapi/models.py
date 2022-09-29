@@ -39,4 +39,3 @@ class SelectItem(BaseModel):
     course: list
     categoryList: dict
     price: int
-    id: int
