@@ -31,10 +31,6 @@ import {Item} from './ChangeSpot';
 import algolistSlice from '../slices/algolist';
 
 type CourseProps = NativeStackScreenProps<ParamListBase, 'Course'>;
-type Props = {
-  navigation: CourseProps;
-  prefrence: any;
-}
 
 type Store = {
   name: string;
@@ -142,9 +138,9 @@ function Course({navigation}: CourseProps) {
     fou: [],
     fiv: [],
   });
-  // useEffect(() => {
-  //   getData();
-  // }, []);
+  useEffect(() => {
+    getData();
+  }, []);
   useEffect(() => {
     console.log({first, second, third, fourth, fifth});
   }, [first, second, third]);
@@ -215,10 +211,10 @@ function Course({navigation}: CourseProps) {
   //   console.log({첫추천:recomList})
   // }
   // ,[recomList])
-  useEffect(() => {
-    console.log({location});
-    // console.log({메세지: message})
-  }, [location]);
+  // useEffect(() => {
+  //   const stores = useSelector((state: RootState) => state.stores).stores;
+  //   console.log({메세지: stores})
+  // }, [])
 
   const dispatch = useAppDispatch();
   const getData = async () => {
@@ -230,27 +226,14 @@ function Course({navigation}: CourseProps) {
         categoryList: {
           food: [1],
           cafe: [1],
-          play: [1],
+          play: [9],
           drink: [1],
         },
-        price: 100000,
+        price: 60000,
         id: 45,
+        // prefrence
       },
     );
-
-    // response.data.responseData.map(res => {
-    //   console.log("map", res);
-
-    //   console.log(res.data.responseData.Spots.image.substring(3));
-    //   인덱스 0번이 h가 아니면 잘라버려서 이미지 뜨게 해주기;
-
-    //   // res = res.data.responseData.Spots.image.substring(3, res.data.responseData.Spots.image.length() - 2);
-    // })
-
-    // console.log('리스폰스 데이터', response.data.responseData.spotIds)
-
-    // console.log('리스폰스 데이터', response.data.responseData.spots);
-    // const inputStores: StoreLists = response.data.responseData.spots;
     dispatch(
       storeSlice.actions.setstore({
         stores: response.data.responseData.Spots,
