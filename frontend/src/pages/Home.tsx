@@ -321,6 +321,14 @@ function Home({navigation}) {
 
       <View>
         <Button
+          title="Go Preference"
+          onPress={() => {
+            navigation.navigate('Preference', {});
+          }}
+        />
+      </View>
+      <View>
+        <Button
           onPress={onLogout}
           title="로그아웃"
           color="#841584"
