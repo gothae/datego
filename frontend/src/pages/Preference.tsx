@@ -19,6 +19,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
 import PriceBar from '../pages/PriceBar';
 import DragItems from '../pages/DragItems';
+import storeSlice from '../slices/stores';
 
 type PreferenceProps = NativeStackScreenProps<ParamListBase, 'Preference'>;
 
@@ -327,7 +328,7 @@ function Preference({navigation}: PreferenceProps) {
       const response = await axios.post(
         'http://j7a104.p.ssafy.io:8000/courses/1',
         {
-          course: [1, 2, 3, 1],
+          course: mycourse,
           categoryList: {
             food: selectFood,
             cafe: selectCafe,
@@ -338,10 +339,18 @@ function Preference({navigation}: PreferenceProps) {
           id: userId,
         },
       );
+      console.log('여기', response.data.responseData)
+      dispatch(
+        storeSlice.actions.setstore({
+          stores: response.data.responseData.Spots,
+        }),
+      );
     };
     getCourse();
-    navigation.navigate('Course', {});
+
   };
+
+  
 
   return (
     <View style={{flex: 1}}>
@@ -358,6 +367,8 @@ function Preference({navigation}: PreferenceProps) {
         style={styles.customBtnBG}
         onPress={() => {
           setPreference();
+          console.log('넘겨주는것', userId)
+          navigation.navigate('Course', {});
         }}>
         <Text style={styles.customBtnText}>설정 완료</Text>
       </TouchableOpacity>

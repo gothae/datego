@@ -31,6 +31,10 @@ import {Item} from './ChangeSpot';
 import algolistSlice from '../slices/algolist';
 
 type CourseProps = NativeStackScreenProps<ParamListBase, 'Course'>;
+type Props = {
+  navigation: CourseProps;
+  prefrence: any;
+}
 
 type Store = {
   name: string;
@@ -138,9 +142,9 @@ function Course({navigation}: CourseProps) {
     fou: [],
     fiv: [],
   });
-  useEffect(() => {
-    getData();
-  }, []);
+  // useEffect(() => {
+  //   getData();
+  // }, []);
   useEffect(() => {
     console.log({first, second, third, fourth, fifth});
   }, [first, second, third]);
