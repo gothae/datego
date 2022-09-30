@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import SpotItem from './SpotItem';
+import axios from 'axios';
 import {
   View,
   Text,
@@ -13,6 +14,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
+import { Store } from './DetailSpot';
 type ChangeSpotProps = NativeStackScreenProps<ParamListBase, 'ChangeSpot'>;
 export interface Item {
   id: number;
@@ -28,22 +30,81 @@ export interface Item {
   rate: number;
   tags: string[];
 }
+
 function ChangeSpot({ navigation }: ChangeSpotProps) {
-  const stores = useSelector((state: RootState) => state.stores).stores;
-  // const storeindex: number = useSelector((state: RootState) => state.stores).storeindex;
+  const algoList = useSelector((state: RootState) => state.algolist);
+  // const stores = useSelector((state: RootState) => state.stores).stores;
+  const storeindex: number = useSelector((state: RootState) => state.stores).storeindex;
+  let changeList: number[];
+  // useEffect(() => {
+    //   // console.log({ ChangeSpotindex: storeindex });
+    //   console.log({ ChangeSpotStores: stores });
+    // }, [stores]);
+  const [detailstores, setDetailstores] = useState<any>([]);
+  const stores: any = [];
+  
+  const getData = async (num:number) => {    
+    const response = await axios.get(
+      `http://j7a104.p.ssafy.io:8080/courses/spots/${num}`,
+      );
+      return response.data.responseData
+      // console.log('상세페이지', response.data.responseData)
+    // console.log({ menu: response.data.responseData });
+    // stores.push(response.data.responseData)
+    // console.log({stores: stores})
+    // const tmpArr = [...detailstores];
+    // tmpArr.push(response.data.responseData.tags);
+    // console.log({temp:tmpArr})
+    // setDetailstores(tmpArr);
+
+  };
+  const setData = async () => { 
+    const arr = [];
+    if (storeindex == 0) {
+      console.log({ ChangeSpotStores: algoList.one });
+      changeList = algoList.one
+    }
+    else if (storeindex == 1) {
+      console.log({ ChangeSpotStores: algoList });
+      changeList = algoList.two
+    }
+    else if (storeindex == 2) {
+      // console.log({ ChangeSpotStores: algoList.thr });
+      changeList = algoList.thr
+    }
+    else if (storeindex == 3) {
+      // console.log({ ChangeSpotStores: algoList.fou });
+      changeList = algoList.fou
+    }
+    else if (storeindex == 4) {
+      // console.log({ ChangeSpotStores: algoList.fiv });
+      changeList = algoList.fiv
+    }
+    var len = changeList?.length;
+    for (var i = 0; i < len; i++) {
+      const stackData = await getData(changeList[i]);
+      arr.push(stackData)
+    }
+    setDetailstores(arr);
+  }
 
   useEffect(() => {
-    // console.log({ ChangeSpotindex: storeindex });
-    console.log({ ChangeSpotStores: stores });
-  }, [stores]);
+    setData()
+    console.log({ ChangeSpotindex: storeindex });
+  
+   
 
-  return (
-    <ScrollView>
-      <View>
-        {stores?.map((store, idx) => {
-          return <SpotItem key={idx} item={store} navigation={navigation} />;
-        })}
+  }, [algoList]
+  );
 
+    return (
+      <ScrollView>
+        <View>
+          {detailstores?.map((store:any, idx:number) => {
+            return <SpotItem key={idx} item={store} navigation={navigation} />;
+          })}
+
+        </View>
         {/* <Button
         title="코스보기 페이지로"
         onPress={() => {
@@ -102,13 +163,10 @@ function ChangeSpot({ navigation }: ChangeSpotProps) {
         onPress={() => {
         console.log(stores.thumb);
         }}></Button> */}
-      </View>
-    </ScrollView>
-  );
-}
-// const stores = [{ name: 'STUN HOUS', tel: '0507-1304-1597', addr1: '갈월동 19-4', addr2: '갈월동', Latitude: 37.5454352, Longitude: 126.9726477, menu: ['Popresso'], price: [4500], thumb: 'https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20190826_277%2F1566788683492Jeaet_JPEG%2FUAX7h1H3Lg2fsyUL8-4vd8Vk.jpg', rating: 2.65 },
-// {name: '꼬마카롱'	, tel: '0507-1312-4137', addr1:	'갈월동 51-2', addr2:	'갈월동', Latitude:	37.5462755, Longitude:	126.9747784, menu:	['마카롱', '오늘의마카롱 6구', '아이스아메리카노'], price:	[2000, 10000, 3000], thumb:	'https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20211014_158%2F1634177123299kMQew_JPEG%2Fug6uk7NNIZPpctbjtLseRCZh.jpeg.jpg', rating:	4.42}
-// ]
+      </ScrollView>
+    );
+  }
+
 
 export const styles = StyleSheet.create({
   storeList: {

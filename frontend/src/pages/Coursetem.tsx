@@ -20,13 +20,21 @@ function CourseItem({ item, navigation, idx }: Props) {
   const dispatch = useAppDispatch();
   const stores = useSelector((state: RootState) => state.stores).stores;
   function dispatchIndex(i: number) {
-      dispatch(
-        storeSlice.actions.setstore({
-      stores: stores,
-      storeindex: i,
-    }),
-  );
+    dispatch(
+      storeSlice.actions.setstore({
+        stores: stores,
+        storeindex: i,
+      }),
+    );
   }
+  let images;
+  if (item.image) {
+    if (item.image[0] == '\"') {
+    images = <Image style={styles.imageBox} source={{ uri: item.image.slice(1, item.image.length) }} />
+  } else {
+    images = <Image style={styles.imageBox} source={{ uri: item.image }} />
+  }
+}
   return (
     <View>
       <Pressable
@@ -36,10 +44,11 @@ function CourseItem({ item, navigation, idx }: Props) {
             return;
           }
           console.log('페이지 넘김', item.id);
+          console.log({image: item.image[0]})
           navigation.navigate('DetailSpot', {spotId: item.id});
         }}>
         <View style={{flex: 4}}>
-          <Image style={styles.imageBox} source={{uri: item.image}} />
+          {images}
         </View>
         <View style={{ flex: 8, justifyContent: 'space-between' }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between',  marginTop: 8  }}>
@@ -50,7 +59,7 @@ function CourseItem({ item, navigation, idx }: Props) {
             </View>
             <View style={{flex:2}}>
           <Pressable>
-              <FontAwesomeIcon icon={faChevronUp} />
+              <FontAwesomeIcon icon={faChevronUp} />                
               </Pressable>
               </View> 
             </View>
