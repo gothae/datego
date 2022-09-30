@@ -19,7 +19,7 @@ public class SpotDetailRes {
     String phone;
     double rate;
     int price;
-    BigDecimal latitube;
+    BigDecimal latitude;
     BigDecimal longitude;
     List<MenuVO> menus;
     List<TagVO> tags;

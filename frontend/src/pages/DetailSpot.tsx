@@ -76,9 +76,13 @@ function DetailSpot({navigation, route}: Props) {
     for (i = 0; i < 3; i++) {
       tags.push('#' + detailstores.tags[i].name + ' ');
     }
-    tagList = tags.map((tag, index) => <Text key={index}>{tag}</Text>);
+    tagList = tags.map((tag, index) => (
+      <Text key={index} style={{color: '#000000'}}>
+        {tag}
+      </Text>
+    ));
   } else {
-    tagList = <Text>태그 없음</Text>;
+    tagList = <Text style={{color: '#000000'}}>태그 없음</Text>;
   }
 
   if (detailstores.menus) {
@@ -90,9 +94,15 @@ function DetailSpot({navigation, route}: Props) {
       prices.push(detailstores.menus[i].price);
     }
     if (menus) {
-      menuList = menus.map((menu, index) => <Text key={index}>{menu}</Text>);
+      menuList = menus.map((menu, index) => (
+        <Text key={index} style={{color: '#000000'}}>
+          {menu}
+        </Text>
+      ));
       priceList = prices.map((price, index) => (
-        <Text key={index}>{price}</Text>
+        <Text key={index} style={{color: '#000000'}}>
+          {price}
+        </Text>
       ));
     }
   } else {
@@ -208,12 +218,14 @@ function DetailSpot({navigation, route}: Props) {
           {images}
         </View>
         <View style={{alignItems: 'center', marginVertical: 8}}>
-          <Text style={{fontSize: 20}}>{detailstores.name}</Text>
+          <Text style={{fontSize: 20, color: '#000000'}}>
+            {detailstores.name}
+          </Text>
           <View style={{flexDirection: 'row', marginVertical: '3%'}}>
             {tagList}
           </View>
           <Text style={{color: '#FFA856', fontSize: 32}}>{ratescore}</Text>
-          <Text>{scorerate} / 5.0 </Text>
+          <Text style={{color: '#000000'}}>{scorerate} / 5.0 </Text>
         </View>
         <View>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -221,7 +233,13 @@ function DetailSpot({navigation, route}: Props) {
               icon={faLocationDot}
               style={{alignItems: 'flex-end', marginLeft: 8}}
             />
-            <Text style={{marginLeft: 8, marginVertical: 8, fontSize: 16}}>
+            <Text
+              style={{
+                marginLeft: 8,
+                marginVertical: 8,
+                fontSize: 16,
+                color: '#000000',
+              }}>
               {detailstores.address}
             </Text>
           </View>
@@ -230,7 +248,13 @@ function DetailSpot({navigation, route}: Props) {
               icon={faPhone}
               style={{alignItems: 'flex-end', marginLeft: 8}}
             />
-            <Text style={{marginLeft: 8, marginVertical: 8, fontSize: 16}}>
+            <Text
+              style={{
+                marginLeft: 8,
+                marginVertical: 8,
+                fontSize: 16,
+                color: '#000000',
+              }}>
               {detailstores.phone}
             </Text>
           </View>
@@ -313,6 +337,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginHorizontal: '10%',
     marginVertical: '2%',
+    color: '#000000',
   },
 });
 export default DetailSpot;

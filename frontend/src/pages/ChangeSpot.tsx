@@ -30,8 +30,10 @@ export interface Item {
 }
 function ChangeSpot({ navigation }: ChangeSpotProps) {
   const stores = useSelector((state: RootState) => state.stores).stores;
+  // const storeindex: number = useSelector((state: RootState) => state.stores).storeindex;
 
   useEffect(() => {
+    // console.log({ ChangeSpotindex: storeindex });
     console.log({ ChangeSpotStores: stores });
   }, [stores]);
 

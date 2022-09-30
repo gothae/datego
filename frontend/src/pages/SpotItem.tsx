@@ -46,7 +46,7 @@ function SpotItem({ item, navigation }: Props) {
         <Image style={styles.imageBox} source={{uri: item.image}}></Image>
       </View>
       <View style={{flex: 8, justifyContent:'space-between'}}>
-        <Text style={{ fontSize: 24, fontWeight: 'bold', marginTop: 8 }}>{item.name}</Text>
+        <Text style={{ fontSize: 24, fontWeight: 'bold', marginTop: 8, color:'#000000' }}>{item.name}</Text>
         <View style={{ alignItems:'flex-end',  marginBottom:8, marginRight:8}}>
             <Button title='변경' color={'#FFA856'}
               titleStyle={{
@@ -61,9 +61,9 @@ function SpotItem({ item, navigation }: Props) {
               }}
               onPress={() => {
                 if (!navigation) return;
-                // console.log({ 지정인덱스: storeindex })
                 const newCourse = replaceSelectedElement(stores, storeindex, item);
                 dispatchCourse(newCourse)
+                // console.log({ 새로운코스: newCourse })
                 navigation.navigate('Course', {});
               }}
           ></Button>

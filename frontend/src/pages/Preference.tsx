@@ -30,7 +30,6 @@ function Preference({navigation}: PreferenceProps) {
   const dispatch = useAppDispatch();
 
   const getData = async () => {
-    console.log(2);
     const response = await axios.get(
       'http://j7a104.p.ssafy.io:8080/categories',
     );
