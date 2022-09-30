@@ -160,12 +160,16 @@ function DetailSpot({navigation, route}: Props) {
     }
     if (menus) {
       menuList = menus.map((menu, index) => (
-        <Text key={index} style={{color: '#000000', fontSize: 18}}>
+        <Text
+          key={index}
+          style={{color: '#000000', fontSize: 18, marginBottom: 5}}>
           {menu}
         </Text>
       ));
       priceList = prices.map((price, index) => (
-        <Text key={index} style={{color: '#000000', fontSize: 18}}>
+        <Text
+          key={index}
+          style={{color: '#000000', fontSize: 18, marginBottom: 5}}>
           {price}
         </Text>
       ));
@@ -390,6 +394,8 @@ function DetailSpot({navigation, route}: Props) {
               alignItems: 'center',
               marginTop: 10,
               backgroundColor: '#ECECEC',
+              marginHorizontal: '5%',
+              borderRadius: 8,
             }}>
             <FontAwesomeIcon
               icon={faLocationDot}
@@ -405,12 +411,18 @@ function DetailSpot({navigation, route}: Props) {
               {detailstores.address}
             </Text>
           </View>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              Linking.openURL(`tel:${detailstores.phone}`);
+              console.log(`tel:${detailstores.phone}`);
+            }}>
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
                 backgroundColor: '#FAFAFA',
+                marginHorizontal: '5%',
+                borderRadius: 8,
               }}>
               <FontAwesomeIcon
                 icon={faPhone}
@@ -422,20 +434,38 @@ function DetailSpot({navigation, route}: Props) {
                   marginVertical: 8,
                   fontSize: 18,
                   color: '#000000',
-                }}
-                onPress={() => {
-                  Linking.openURL(`tel:${detailstores.phone}`);
                 }}>
                 {detailstores.phone}
               </Text>
             </View>
           </TouchableOpacity>
 
-          <View style={{alignItems: 'center', marginTop: 20}}>
-            <FontAwesomeIcon
-              icon={faClipboard}
-              style={{alignItems: 'flex-end'}}
-            />
+          <View
+            style={{
+              alignItems: 'center',
+              marginTop: 20,
+              borderWidth: 2,
+              borderColor: 'black',
+              borderStyle: 'dashed',
+              backgroundColor: '#ffffff',
+              marginHorizontal: '5%',
+              padding: '5%',
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginHorizontal: '5%',
+              }}>
+              <FontAwesomeIcon
+                icon={faClipboard}
+                style={{alignItems: 'flex-end', marginRight: 5}}
+              />
+              <Text style={{marginLeft: 5, fontWeight: 'bold', fontSize: 18}}>
+                MENUS
+              </Text>
+            </View>
+
             {/* <Text style={{ marginLeft: 8, marginVertical: 8, fontSize: 16 }}>{stores.menu} {stores.price}</Text> */}
 
             <View style={{flexDirection: 'row'}}>
