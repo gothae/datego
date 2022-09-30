@@ -206,9 +206,9 @@ function Course({navigation}: CourseProps) {
     dispatch(
       storeSlice.actions.setstore({
         stores: response.data.responseData.Spots,
-      })
-      
+      }) 
     );
+    const stores = response.data.responseData.Spots;
     if (stores?.length == 2) {
       // console.log({알고리스트: response.data.responseData.spotIds})
       dispatch(
@@ -217,6 +217,7 @@ function Course({navigation}: CourseProps) {
           two: response.data.responseData.spotIds[1].second,
         })
       )
+      console.log({추천리스스반영완료 : response.data.responseData.spotIds[0].first })
     }
     else if (stores?.length == 3) {
       console.log({algoAll: response.data.responseData.spotIds})
@@ -228,6 +229,7 @@ function Course({navigation}: CourseProps) {
           thr: response.data.responseData.spotIds[2].third,
         })
       )
+      console.log({추천리스스반영완료 : response.data.responseData.spotIds[0].first })
     }
     else if (stores?.length == 4) {
       dispatch(
