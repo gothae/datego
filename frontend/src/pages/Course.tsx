@@ -71,7 +71,7 @@ type Ref = {
   fifth: number[];
 };
 
-function Course({navigation, prefrence }: Props) {
+function Course({navigation}: CourseProps) {
   // const [myPosition, setMyPosition] = useState<{
   //   latitude: number;
   //   longitude: number;
@@ -230,12 +230,11 @@ function Course({navigation, prefrence }: Props) {
         categoryList: {
           food: [1],
           cafe: [1],
-          play: [9],
+          play: [1],
           drink: [1],
         },
-        price: 60000,
+        price: 100000,
         id: 45,
-        // prefrence
       },
     );
 
