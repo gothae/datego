@@ -5,7 +5,8 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  Animated,
+  Linking,
+  TouchableOpacity,
 } from 'react-native';
 import {Button} from '@react-native-material/core';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
@@ -404,26 +405,32 @@ function DetailSpot({navigation, route}: Props) {
               {detailstores.address}
             </Text>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              backgroundColor: '#FAFAFA',
-            }}>
-            <FontAwesomeIcon
-              icon={faPhone}
-              style={{alignItems: 'flex-end', marginLeft: 8}}
-            />
-            <Text
+          <TouchableOpacity>
+            <View
               style={{
-                marginLeft: 8,
-                marginVertical: 8,
-                fontSize: 18,
-                color: '#000000',
+                flexDirection: 'row',
+                alignItems: 'center',
+                backgroundColor: '#FAFAFA',
               }}>
-              {detailstores.phone}
-            </Text>
-          </View>
+              <FontAwesomeIcon
+                icon={faPhone}
+                style={{alignItems: 'flex-end', marginLeft: 8}}
+              />
+              <Text
+                style={{
+                  marginLeft: 8,
+                  marginVertical: 8,
+                  fontSize: 18,
+                  color: '#000000',
+                }}
+                onPress={() => {
+                  Linking.openURL(`tel:${detailstores.phone}`);
+                }}>
+                {detailstores.phone}
+              </Text>
+            </View>
+          </TouchableOpacity>
+
           <View style={{alignItems: 'center', marginTop: 20}}>
             <FontAwesomeIcon
               icon={faClipboard}
