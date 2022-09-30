@@ -1,7 +1,13 @@
 import * as React from 'react';
 import {View, Text, Button} from 'react-native';
-
-function CourseIng({navigation}) {
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/reducer';
+import {useState, useEffect, useCallback, useMemo} from 'react';
+function CourseIng({ navigation }) {
+  const stores: any = useSelector((state: RootState) => state.stores).stores;
+  useEffect(() => {
+    console.log({진행중인코스: stores})
+  }, [stores]);
   return (
     <View>
       <View>
