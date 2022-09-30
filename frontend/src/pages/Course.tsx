@@ -64,7 +64,7 @@ type Ref = {
   fifth: number[];
 };
 
-function Course({ navigation }: CourseProps) {
+function Course({navigation}: CourseProps) {
   const spotId: number = 1;
   const [refItems, setRefItems] = useState<Ref>({
     first: [0],
@@ -192,10 +192,10 @@ function Course({ navigation }: CourseProps) {
 
     // response.data.responseData.map(res => {
     //   console.log("map", res);
-      
+
     //   console.log(res.data.responseData.Spots.image.substring(3));
     //   인덱스 0번이 h가 아니면 잘라버려서 이미지 뜨게 해주기;
-      
+
     //   // res = res.data.responseData.Spots.image.substring(3, res.data.responseData.Spots.image.length() - 2);
     // })
   
@@ -308,7 +308,12 @@ function Course({ navigation }: CourseProps) {
         <View>
           {stores?.map((store:any, idx:number) => {
             return (
-              <CourseItem key={idx} idx={idx} item={store} navigation={navigation} />
+              <CourseItem
+                key={idx}
+                idx={idx}
+                item={store}
+                navigation={navigation}
+              />
             );
           })}
         </View>

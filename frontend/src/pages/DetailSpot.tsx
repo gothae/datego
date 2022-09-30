@@ -37,9 +37,9 @@ export type Store = {
   tags: any;
 };
 // type Menu = {
-//   name: string;
-//   price: number;
-// };
+//   name: string
+//   price: number
+// }
 
 function DetailSpot({navigation, route}: Props) {
   const spotId: number = route.params.spotId;
@@ -102,14 +102,15 @@ function DetailSpot({navigation, route}: Props) {
   if (detailstores.tags) {
     const tags: string[] = [];
     for (i = 0; i < 3; i++) {
-      tags.push('#' + detailstores.tags[i].name + ' ')
+      tags.push('#' + detailstores.tags[i].name + ' ');
     }
     tagList = tags.map((tag, index) => (
-      <Text key={index} style={{color:'#000000'}}>{tag}</Text>
+      <Text key={index} style={{color: '#000000'}}>
+        {tag}
+      </Text>
     ));
-  }
-  else {
-      tagList = <Text style={{color:'#000000'}}>태그 없음</Text>;
+  } else {
+    tagList = <Text style={{color: '#000000'}}>태그 없음</Text>;
   }
 
   if (detailstores.menus) {
@@ -122,10 +123,14 @@ function DetailSpot({navigation, route}: Props) {
     }
     if (menus) {
       menuList = menus.map((menu, index) => (
-        <Text key={index} style={{color:'#000000'}}>{menu}</Text>
+        <Text key={index} style={{color: '#000000'}}>
+          {menu}
+        </Text>
       ));
       priceList = prices.map((price, index) => (
-        <Text key={index} style={{color:'#000000'}}>{price}</Text>
+        <Text key={index} style={{color: '#000000'}}>
+          {price}
+        </Text>
       ));
     }
   } else {
@@ -134,21 +139,21 @@ function DetailSpot({navigation, route}: Props) {
   }
   let ratescore;
   if (detailstores.rate >= 4.5) {
-    ratescore = <Text>★ ★ ★ ★ ★</Text>
+    ratescore = <Text>★ ★ ★ ★ ★</Text>;
   } else if (detailstores.rate >= 3.5) {
-    ratescore = <Text>★ ★ ★ ★ ☆</Text>
+    ratescore = <Text>★ ★ ★ ★ ☆</Text>;
   } else if (detailstores.rate >= 2.5) {
-    ratescore = <Text>★ ★ ★ ☆ ☆</Text>
+    ratescore = <Text>★ ★ ★ ☆ ☆</Text>;
   } else if (detailstores.rate > 1.5) {
-    ratescore = <Text>★ ★ ☆ ☆ ☆</Text>
+    ratescore = <Text>★ ★ ☆ ☆ ☆</Text>;
   } else {
-    ratescore = <Text>★ ☆ ☆ ☆ ☆ </Text>
+    ratescore = <Text>★ ☆ ☆ ☆ ☆ </Text>;
   }
   let scorerate;
   if (detailstores.rate) {
-    scorerate = detailstores.rate.toFixed(1)
+    scorerate = detailstores.rate.toFixed(1);
   } else {
-    scorerate = 0
+    scorerate = 0;
   }
   let tag1;
   let tag2;
@@ -156,47 +161,42 @@ function DetailSpot({navigation, route}: Props) {
   let tag4;
   let tag5;
   if (detailstores.tags) {
-    tag1 = <View style={ styles.tag }>
-      <Text style={styles.text} >
-        {detailstores.tags[0].description}
-      </Text>
-      <Text style={styles.text}>
-        {detailstores.tags[0].count}</Text>
-    </View>
-    tag2 = <View style={ styles.tag }>
-    <Text style={styles.text} >
-      {detailstores.tags[1].description}
-    </Text>
-      <Text style={styles.text}>
-        {detailstores.tags[1].count}</Text>
-    </View>
-    tag3 = <View style={ styles.tag }>
-    <Text style={styles.text} >
-      {detailstores.tags[2].description}
-    </Text>
-      <Text style={styles.text}>
-        {detailstores.tags[2].count}</Text>
-  </View>
-  tag4 = <View style={ styles.tag }>
-  <Text style={styles.text} >
-    {detailstores.tags[3].description}
-    </Text>
-    <Text style={styles.text}>
-      {detailstores.tags[3].count}</Text>
-</View>
-tag5 = <View style={ styles.tag }>
-<Text style={styles.text} >
-  {detailstores.tags[4].description}
-</Text>
-  <Text style={styles.text}>
-    {detailstores.tags[4].count}</Text>
-    </View>
+    tag1 = (
+      <View style={styles.tag}>
+        <Text style={styles.text}>{detailstores.tags[0].description}</Text>
+        <Text style={styles.text}>{detailstores.tags[0].count}</Text>
+      </View>
+    );
+    tag2 = (
+      <View style={styles.tag}>
+        <Text style={styles.text}>{detailstores.tags[1].description}</Text>
+        <Text style={styles.text}>{detailstores.tags[1].count}</Text>
+      </View>
+    );
+    tag3 = (
+      <View style={styles.tag}>
+        <Text style={styles.text}>{detailstores.tags[2].description}</Text>
+        <Text style={styles.text}>{detailstores.tags[2].count}</Text>
+      </View>
+    );
+    tag4 = (
+      <View style={styles.tag}>
+        <Text style={styles.text}>{detailstores.tags[3].description}</Text>
+        <Text style={styles.text}>{detailstores.tags[3].count}</Text>
+      </View>
+    );
+    tag5 = (
+      <View style={styles.tag}>
+        <Text style={styles.text}>{detailstores.tags[4].description}</Text>
+        <Text style={styles.text}>{detailstores.tags[4].count}</Text>
+      </View>
+    );
   } else {
-    tag1 = <Text> 태그 없음 </Text>
-    tag2 = <Text> 태그 없음 </Text>
-    tag3 = <Text> 태그 없음 </Text>
-    tag4 = <Text> 태그 없음 </Text>
-    tag5 = <Text> 태그 없음 </Text>
+    tag1 = <Text> 태그 없음 </Text>;
+    tag2 = <Text> 태그 없음 </Text>;
+    tag3 = <Text> 태그 없음 </Text>;
+    tag4 = <Text> 태그 없음 </Text>;
+    tag5 = <Text> 태그 없음 </Text>;
   }
 
   return (
@@ -209,12 +209,14 @@ tag5 = <View style={ styles.tag }>
           {images}
         </View>
         <View style={{alignItems: 'center', marginVertical: 8}}>
-          <Text style={{ fontSize: 20, color:'#000000' }}>{detailstores.name}</Text>
+          <Text style={{fontSize: 20, color: '#000000'}}>
+            {detailstores.name}
+          </Text>
           <View style={{flexDirection: 'row', marginVertical: '3%'}}>
             {tagList}
           </View>
-          <Text style={{ color: '#FFA856', fontSize: 32 }}>{ ratescore }</Text>
-          <Text style={{ color:'#000000' }}>{scorerate} / 5.0 </Text>
+          <Text style={{color: '#FFA856', fontSize: 32}}>{ratescore}</Text>
+          <Text style={{color: '#000000'}}>{scorerate} / 5.0 </Text>
         </View>
         <View>
           <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -222,7 +224,13 @@ tag5 = <View style={ styles.tag }>
               icon={faLocationDot}
               style={{alignItems: 'flex-end', marginLeft: 8}}
             />
-            <Text style={{marginLeft: 8, marginVertical: 8, fontSize: 16, color:'#000000'}}>
+            <Text
+              style={{
+                marginLeft: 8,
+                marginVertical: 8,
+                fontSize: 16,
+                color: '#000000',
+              }}>
               {detailstores.address}
             </Text>
           </View>
@@ -231,7 +239,13 @@ tag5 = <View style={ styles.tag }>
               icon={faPhone}
               style={{alignItems: 'flex-end', marginLeft: 8}}
             />
-            <Text style={{marginLeft: 8, marginVertical: 8, fontSize: 16, color:'#000000'}}>
+            <Text
+              style={{
+                marginLeft: 8,
+                marginVertical: 8,
+                fontSize: 16,
+                color: '#000000',
+              }}>
               {detailstores.phone}
             </Text>
           </View>
@@ -243,12 +257,10 @@ tag5 = <View style={ styles.tag }>
             {/* <Text style={{ marginLeft: 8, marginVertical: 8, fontSize: 16 }}>{stores.menu} {stores.price}</Text> */}
 
             <View style={{flexDirection: 'row'}}>
-              <View style={{marginVertical: 12, marginRight:'12%'}}>
+              <View style={{marginVertical: 12, marginRight: '12%'}}>
                 {menuList}
               </View>
-              <View style={{marginVertical: 12 } }>
-                {priceList}
-              </View>
+              <View style={{marginVertical: 12}}>{priceList}</View>
             </View>
           </View>
         </View>
@@ -318,10 +330,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginHorizontal: 8,
     marginVertical: 8,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   text: {
-    fontSize: 16, marginHorizontal: '10%', marginVertical: '2%', color:'#000000'
-  }
-})
+    fontSize: 16,
+    marginHorizontal: '10%',
+    marginVertical: '2%',
+    color: '#000000',
+  },
+});
 export default DetailSpot;
