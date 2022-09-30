@@ -78,18 +78,18 @@ function Course({navigation}: CourseProps) {
       return;
     }
     // console.log({ hyunuk: stores[0] })
-    else if (stores?.length === 2){
-    setLocation({
-      P0: { latitude: stores[0].latitude, longitude: stores[0].longitude },
-      P1: { latitude: stores[1].latitude, longitude: stores[1].longitude },
-      P2: { latitude: stores[1].latitude, longitude: stores[1].longitude },
-    });
+    else if (stores?.length === 2) {
+      setLocation({
+        P0: {latitude: stores[0].latitude, longitude: stores[0].longitude},
+        P1: {latitude: stores[1].latitude, longitude: stores[1].longitude},
+        P2: {latitude: stores[1].latitude, longitude: stores[1].longitude},
+      });
     } else if (stores?.length > 2) {
       setLocation({
-      P0: { latitude: stores[0].latitude, longitude: stores[0].longitude },
-      P1: { latitude: stores[1].latitude, longitude: stores[1].longitude },
-      P2: { latitude: stores[2].latitude, longitude: stores[2].longitude },
-      })
+        P0: {latitude: stores[0].latitude, longitude: stores[0].longitude},
+        P1: {latitude: stores[1].latitude, longitude: stores[1].longitude},
+        P2: {latitude: stores[2].latitude, longitude: stores[2].longitude},
+      });
     }
   }, [stores]);
 
@@ -128,14 +128,18 @@ function Course({navigation}: CourseProps) {
   const dispatch = useAppDispatch();
   const getData = async () => {
     const dongId: number = 1;
-    const response = await axios.post(`http://j7a104.p.ssafy.io:8000/courses/${dongId}`,{
-      course: [1, 2, 3],
-      categoryList: {
-        'food': [1, 4, 5],
-        'cafe': [1, 4, 5],
-        'play': [1, 4, 5],
-        'drink': [1, 4, 5]
-      },);
+    const response = await axios.post(
+      `http://j7a104.p.ssafy.io:8000/courses/${dongId}`,
+      {
+        course: [1, 2, 3],
+        categoryList: {
+          food: [1, 4, 5],
+          cafe: [1, 4, 5],
+          play: [1, 4, 5],
+          drink: [1, 4, 5],
+        },
+      },
+    );
 
     // response.data.responseData.map(res => {
     //   console.log("map", res);
