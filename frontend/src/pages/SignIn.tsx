@@ -51,6 +51,7 @@ function SignIn({navigation}: SignInScreenProps) {
   async function signInWithKakao() {
     await login();
     const profile = await getKakaoProfile();
+
     const response = await axios.post(
       'http://j7a104.p.ssafy.io:8080/users/login',
       {

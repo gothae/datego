@@ -353,6 +353,20 @@ function Home({navigation}) {
             navigation.navigate('Ar3', {});
           }}
           title="빨강이키우기"
+          />
+          <Button
+          onPress={() => {
+            navigation.navigate('CourseIng', {});
+          }}
+          title="진행중인 코스"
+          />
+      </View>
+      <View>
+        <Button
+          onPress={onDelete}
+          title="회원탈퇴"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"
         />
       </View>
     </>
