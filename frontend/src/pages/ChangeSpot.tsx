@@ -29,6 +29,7 @@ export interface Item {
   image: string;
   rate: number;
   tags: string[];
+  images: string[];
 }
 
 function ChangeSpot({ navigation }: ChangeSpotProps) {
