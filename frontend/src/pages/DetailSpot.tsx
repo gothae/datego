@@ -11,15 +11,18 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {useState, useEffect, useMemo} from 'react';
 import axios from 'axios';
-import store from '../store';
+import store, { useAppDispatch } from '../store';
 import {Item} from './ChangeSpot';
 import {Menu} from 'react-native-paper';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/reducer';
+import storeSlice from '../slices/stores';
 // type DetailSpotProps = NativeStackScreenProps<ParamListBase, 'DetailSpot'>
 type Props = {
   route: any;
   navigation: any;
 };
-type Store = {
+export type Store = {
   id: number;
   name: string;
   phone: string;
@@ -43,6 +46,25 @@ function DetailSpot({navigation, route}: Props) {
   // console.log('페이지아이디', spotId)
   // stores에 id에 해당되는 정보 불러오기
   const [detailstores, setstores] = useState<Store>({} as Store);
+  const stores: any = useSelector((state: RootState) => state.stores).stores;
+  const storeindex: any = useSelector((state: RootState) => state.stores).storeindex;
+  const dispatch = useAppDispatch();
+  function dispatchCourse(c: any) {
+    dispatch(
+      storeSlice.actions.setstore({
+        stores: c,
+        storeindex: storeindex
+      }),
+    );
+  };
+  const replaceSelectedElement = (arr: any[], selectedIndex: number, newElement: any): any[] => {
+    return arr.map((element: any, index: number) => {
+      if (index === selectedIndex) {
+        return newElement;
+      }
+      return element;
+    });
+  };
   const getData = async () => {
     console.log('페이지아이디', spotId);
 
@@ -61,7 +83,15 @@ function DetailSpot({navigation, route}: Props) {
 
   if (detailstores.images) {
     console.log('스토어 받은거', detailstores.images[0]);
-    images = <Image style={{height: 250}} source={{uri: detailstores.images[0]}} />;
+    if (detailstores.images[0][0] == 'h') {
+      images = <Image style={{height: 250}} source={{uri: detailstores.images[0]}} />;
+    }
+    else if (detailstores.images[0][1] == 'h') {
+      images = <Image style={{height: 250}} source={{ uri: detailstores.images[0].slice(1, detailstores.images[0].length - 1) }} />
+    } else {
+      images = <Image style={{height: 250}} source={{ uri: detailstores.images[0].slice(1, detailstores.images[0].length - 1) }} />
+    }
+    // images = <Image style={{height: 250}} source={{uri: detailstores.images[0]}} />;
   } else {
     images = <Text>이미지 없음</Text>;
   }
@@ -168,44 +198,7 @@ tag5 = <View style={ styles.tag }>
     tag4 = <Text> 태그 없음 </Text>
     tag5 = <Text> 태그 없음 </Text>
   }
-  // var sortingField = "count";
-  
-  // tagList.sort()
-  // if (stores.tags) {
 
-  // }
-  // if (stores.menus) {
-  //   for (i = 0; i < len; i++) {
-  //     menu.push(stores.menus.name);
-  //     price.push(stores.menus.price);
-  //     console.log(menu);
-  //   }
-  // }
-  // if (stores.menus) {
-  //   const menuList = stores.menus.map((menu, index) => (
-  //     <Text key={index}>{menu}</Text>
-  //   ));
-  //   const priceList = stores.menus.map((price, index) => (
-  //     <Text key={index}>{price}</Text>
-  //   ));
-
-  // if (stores.menus){
-  //   menus = <Text style={{ marginLeft: 8, marginVertical: 8, fontSize: 16 }}>{stores.menus} {stores.price}</Text>;
-  // }
-  // else{
-  //   menus = <Text>메뉴 없음</Text>;
-  // }
-  // const stores =  { name: 'STUN HOUS', tel: '0507-1304-1597', addr1: '갈월동 19-4', addr2: '갈월동', Latitude: 37.5454352, Longitude: 126.9726477, menu: ['Popresso', '아메리카노'], price: [4500, 3000], thumb: 'https://search.pstatic.net/common/?autoRotate=true&type=w560_sharpen&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20190826_277%2F1566788683492Jeaet_JPEG%2FUAX7h1H3Lg2fsyUL8-4vd8Vk.jpg', rating: 2.65 }
-  //   const menuList = useMemo(() => {
-  //     if (stores.menus)
-  //   return stores.menus.map((menu, index) => (<Text key={index}>{menu}</Text>));
-  //   },
-  //  [stores]);
-  //   const priceList = useMemo(() => {
-  //     if (stores.price)
-  //     return stores.price.map((price, index) => (<Text key={index}>{price}</Text>));
-  //   },
-  //   [stores]);
   return (
     <ScrollView>
       <View>
@@ -301,6 +294,14 @@ tag5 = <View style={ styles.tag }>
             style={{
               borderRadius: 60,
               width: 100,
+            }}
+            onPress={() => {
+              console.log({이미지url: detailstores.images[0].slice(1, detailstores.images[0].length -1)})
+              const newCourse = replaceSelectedElement(stores, storeindex, detailstores);
+              dispatchCourse(newCourse)
+              // console.log({ 새로운코스: newCourse })
+
+              navigation.navigate('Course', {});
             }}
           />
         </View>
