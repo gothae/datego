@@ -8,6 +8,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class CategoryVO {
+    private int id;
+    private int categoryId;
     private String name;
     private String image;
 }

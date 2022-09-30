@@ -23,9 +23,6 @@ function Gallery({route, navigation}) {
   const [imageIndex, setImageIndex] = useState(0);
   var resIndex = 0;
   const [links, setLinks] = useState([]);
-  const unique = (value, index, self) => {
-    return self.indexOf(value) === index;
-  };
 
   const getData = async (dongId: number) => {
     const response = await axios.get(
@@ -39,23 +36,18 @@ function Gallery({route, navigation}) {
       var oneres = element;
       oneres.id = resIndex;
       resIndex = resIndex + 1;
-      console.log('link');
-      console.log(oneres.link);
       setLinks(links => links.concat({url: `${oneres.link}`}));
     });
-    setLinks(links => links.filter(unique));
-    console.log(links);
     return setImageurl(Imageurl => Imageurl.concat(newres));
   };
 
   const clickImage = (i: number) => {
-    console.log('clickImage');
-    console.log(i);
     setModalVisible(true);
     setImageIndex(imageIndex => i);
   };
 
   useEffect(() => {
+    setLinks(links => []);
     setImageurl(Imageurl => []);
     if (zone <= 5) {
       getData(zone);
@@ -75,8 +67,6 @@ function Gallery({route, navigation}) {
   }, []);
 
   const renderItem = useCallback(item => {
-    console.log('renderItem');
-    console.log(item.item.link);
     return (
       <TouchableOpacity
         onPress={() => clickImage(item.item.id)}

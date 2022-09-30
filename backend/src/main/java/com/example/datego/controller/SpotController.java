@@ -32,7 +32,7 @@ public class SpotController {
     }
 
     @PostMapping("/photo/{userSpotId}")
-    public ApiResponse savePhoto(@PathVariable("userSpotId") int userSpotId,@RequestParam MultipartFile image) throws Exception{
+    public ApiResponse savePhoto(@PathVariable("userSpotId") int userSpotId,@RequestPart("photo") MultipartFile image) throws Exception{
         int userIdx = authUtil.memberAuth();
         String url ="";
         try{

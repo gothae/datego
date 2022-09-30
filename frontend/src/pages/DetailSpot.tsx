@@ -1,5 +1,13 @@
 import * as React from 'react';
-import {View, Text, Image, ScrollView, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Linking,
+  TouchableOpacity,
+} from 'react-native';
 import {Button} from '@react-native-material/core';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
@@ -8,15 +16,17 @@ import {
   faLocationDot,
   faPhone,
   faClipboard,
+  faFire,
 } from '@fortawesome/free-solid-svg-icons';
 import {useState, useEffect, useMemo} from 'react';
 import axios from 'axios';
-import store, { useAppDispatch } from '../store';
+import store, {useAppDispatch} from '../store';
 import {Item} from './ChangeSpot';
 import {Menu} from 'react-native-paper';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store/reducer';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/reducer';
 import storeSlice from '../slices/stores';
+import AnimatedBar from 'react-native-animated-bar';
 // type DetailSpotProps = NativeStackScreenProps<ParamListBase, 'DetailSpot'>
 type Props = {
   route: any;
@@ -47,17 +57,23 @@ function DetailSpot({navigation, route}: Props) {
   // stores에 id에 해당되는 정보 불러오기
   const [detailstores, setstores] = useState<Store>({} as Store);
   const stores: any = useSelector((state: RootState) => state.stores).stores;
-  const storeindex: any = useSelector((state: RootState) => state.stores).storeindex;
+  const storeindex: any = useSelector(
+    (state: RootState) => state.stores,
+  ).storeindex;
   const dispatch = useAppDispatch();
   function dispatchCourse(c: any) {
     dispatch(
       storeSlice.actions.setstore({
         stores: c,
-        storeindex: storeindex
+        storeindex: storeindex,
       }),
     );
-  };
-  const replaceSelectedElement = (arr: any[], selectedIndex: number, newElement: any): any[] => {
+  }
+  const replaceSelectedElement = (
+    arr: any[],
+    selectedIndex: number,
+    newElement: any,
+  ): any[] => {
     return arr.map((element: any, index: number) => {
       if (index === selectedIndex) {
         return newElement;
@@ -84,12 +100,33 @@ function DetailSpot({navigation, route}: Props) {
   if (detailstores.images) {
     console.log('스토어 받은거', detailstores.images[0]);
     if (detailstores.images[0][0] == 'h') {
-      images = <Image style={{height: 250}} source={{uri: detailstores.images[0]}} />;
-    }
-    else if (detailstores.images[0][1] == 'h') {
-      images = <Image style={{height: 250}} source={{ uri: detailstores.images[0].slice(1, detailstores.images[0].length - 1) }} />
+      images = (
+        <Image style={{height: 250}} source={{uri: detailstores.images[0]}} />
+      );
+    } else if (detailstores.images[0][1] == 'h') {
+      images = (
+        <Image
+          style={{height: 250}}
+          source={{
+            uri: detailstores.images[0].slice(
+              1,
+              detailstores.images[0].length - 1,
+            ),
+          }}
+        />
+      );
     } else {
-      images = <Image style={{height: 250}} source={{ uri: detailstores.images[0].slice(1, detailstores.images[0].length - 1) }} />
+      images = (
+        <Image
+          style={{height: 250}}
+          source={{
+            uri: detailstores.images[0].slice(
+              1,
+              detailstores.images[0].length - 1,
+            ),
+          }}
+        />
+      );
     }
     // images = <Image style={{height: 250}} source={{uri: detailstores.images[0]}} />;
   } else {
@@ -123,12 +160,16 @@ function DetailSpot({navigation, route}: Props) {
     }
     if (menus) {
       menuList = menus.map((menu, index) => (
-        <Text key={index} style={{color: '#000000'}}>
+        <Text
+          key={index}
+          style={{color: '#000000', fontSize: 18, marginBottom: 5}}>
           {menu}
         </Text>
       ));
       priceList = prices.map((price, index) => (
-        <Text key={index} style={{color: '#000000'}}>
+        <Text
+          key={index}
+          style={{color: '#000000', fontSize: 18, marginBottom: 5}}>
           {price}
         </Text>
       ));
@@ -161,34 +202,159 @@ function DetailSpot({navigation, route}: Props) {
   let tag4;
   let tag5;
   if (detailstores.tags) {
+    var countList = [];
+    for (let index = 0; index < 5; index++) {
+      countList.push(detailstores.tags[index].count);
+    }
+    const tempMaxCount = Math.max.apply(1, countList);
     tag1 = (
       <View style={styles.tag}>
-        <Text style={styles.text}>{detailstores.tags[0].description}</Text>
-        <Text style={styles.text}>{detailstores.tags[0].count}</Text>
+        <AnimatedBar
+          progress={detailstores.tags[0].count / tempMaxCount}
+          // progress={0.7}
+          height={40}
+          borderColor="#DDD"
+          fillColor="#DDD"
+          barColor="#ffee58"
+          borderRadius={8}
+          borderWidth={4}
+          row>
+          <View style={styles.tag}>
+            <View>
+              <FontAwesomeIcon icon={faFire} style={{color: 'red'}} />
+            </View>
+            <View>
+              <Text style={styles.barText}>
+                {detailstores.tags[0].description}
+              </Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 18, color: 'gray'}}>
+                {detailstores.tags[0].count}
+              </Text>
+            </View>
+          </View>
+        </AnimatedBar>
       </View>
     );
     tag2 = (
       <View style={styles.tag}>
-        <Text style={styles.text}>{detailstores.tags[1].description}</Text>
-        <Text style={styles.text}>{detailstores.tags[1].count}</Text>
+        <AnimatedBar
+          progress={detailstores.tags[1].count / tempMaxCount}
+          // progress={0.5}
+          height={40}
+          borderColor="#DDD"
+          fillColor="#DDD"
+          barColor="#fff176"
+          borderRadius={8}
+          borderWidth={3}
+          row>
+          <View style={styles.tag}>
+            <View>
+              <FontAwesomeIcon icon={faFire} style={{color: 'red'}} />
+            </View>
+            <View>
+              <Text style={styles.barText}>
+                {detailstores.tags[1].description}
+              </Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 18, color: 'gray'}}>
+                {detailstores.tags[1].count}
+              </Text>
+            </View>
+          </View>
+        </AnimatedBar>
       </View>
     );
     tag3 = (
       <View style={styles.tag}>
-        <Text style={styles.text}>{detailstores.tags[2].description}</Text>
-        <Text style={styles.text}>{detailstores.tags[2].count}</Text>
+        <AnimatedBar
+          progress={detailstores.tags[2].count / tempMaxCount}
+          // progress={0.4}
+          height={40}
+          borderColor="#DDD"
+          fillColor="#DDD"
+          barColor="#fff59d"
+          borderRadius={8}
+          borderWidth={3}
+          row>
+          <View style={styles.tag}>
+            <View>
+              <FontAwesomeIcon icon={faFire} style={{color: 'red'}} />
+            </View>
+            <View>
+              <Text style={styles.barText}>
+                {detailstores.tags[2].description}
+              </Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 18, color: 'gray'}}>
+                {detailstores.tags[2].count}
+              </Text>
+            </View>
+          </View>
+        </AnimatedBar>
       </View>
     );
     tag4 = (
       <View style={styles.tag}>
-        <Text style={styles.text}>{detailstores.tags[3].description}</Text>
-        <Text style={styles.text}>{detailstores.tags[3].count}</Text>
+        <AnimatedBar
+          progress={detailstores.tags[3].count / tempMaxCount}
+          // progress={0.3}
+          height={40}
+          borderColor="#DDD"
+          fillColor="#DDD"
+          barColor="#fff9c4"
+          borderRadius={8}
+          borderWidth={3}
+          row>
+          <View style={styles.tag}>
+            <View>
+              <FontAwesomeIcon icon={faFire} style={{color: 'red'}} />
+            </View>
+            <View>
+              <Text style={styles.barText}>
+                {detailstores.tags[3].description}
+              </Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 18, color: 'gray'}}>
+                {detailstores.tags[3].count}
+              </Text>
+            </View>
+          </View>
+        </AnimatedBar>
       </View>
     );
     tag5 = (
       <View style={styles.tag}>
-        <Text style={styles.text}>{detailstores.tags[4].description}</Text>
-        <Text style={styles.text}>{detailstores.tags[4].count}</Text>
+        <AnimatedBar
+          progress={detailstores.tags[4].count / tempMaxCount}
+          // progress={0.2}
+          height={40}
+          borderColor="#DDD"
+          fillColor="#DDD"
+          barColor="#fffde7"
+          borderRadius={8}
+          borderWidth={3}
+          row>
+          <View style={styles.tag}>
+            <View>
+              <FontAwesomeIcon icon={faFire} style={{color: 'red'}} />
+            </View>
+            <View>
+              <Text style={styles.barText}>
+                {detailstores.tags[4].description}
+              </Text>
+            </View>
+            <View>
+              <Text style={{fontSize: 18, color: 'gray'}}>
+                {detailstores.tags[4].count}
+              </Text>
+            </View>
+          </View>
+        </AnimatedBar>
       </View>
     );
   } else {
@@ -209,17 +375,28 @@ function DetailSpot({navigation, route}: Props) {
           {images}
         </View>
         <View style={{alignItems: 'center', marginVertical: 8}}>
-          <Text style={{fontSize: 20, color: '#000000'}}>
+          <Text style={{fontSize: 30, color: '#000000', fontWeight: 'bold'}}>
             {detailstores.name}
           </Text>
-          <View style={{flexDirection: 'row', marginVertical: '3%'}}>
+          <View
+            style={{flexDirection: 'row', marginVertical: '3%', fontSize: 15}}>
             {tagList}
           </View>
           <Text style={{color: '#FFA856', fontSize: 32}}>{ratescore}</Text>
-          <Text style={{color: '#000000'}}>{scorerate} / 5.0 </Text>
+          <Text style={{color: '#000000', fontSize: 15}}>
+            {scorerate} / 5.0{' '}
+          </Text>
         </View>
         <View>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginTop: 10,
+              backgroundColor: '#ECECEC',
+              marginHorizontal: '5%',
+              borderRadius: 8,
+            }}>
             <FontAwesomeIcon
               icon={faLocationDot}
               style={{alignItems: 'flex-end', marginLeft: 8}}
@@ -228,32 +405,67 @@ function DetailSpot({navigation, route}: Props) {
               style={{
                 marginLeft: 8,
                 marginVertical: 8,
-                fontSize: 16,
+                fontSize: 18,
                 color: '#000000',
               }}>
               {detailstores.address}
             </Text>
           </View>
-          <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <FontAwesomeIcon
-              icon={faPhone}
-              style={{alignItems: 'flex-end', marginLeft: 8}}
-            />
-            <Text
+          <TouchableOpacity
+            onPress={() => {
+              Linking.openURL(`tel:${detailstores.phone}`);
+              console.log(`tel:${detailstores.phone}`);
+            }}>
+            <View
               style={{
-                marginLeft: 8,
-                marginVertical: 8,
-                fontSize: 16,
-                color: '#000000',
+                flexDirection: 'row',
+                alignItems: 'center',
+                backgroundColor: '#FAFAFA',
+                marginHorizontal: '5%',
+                borderRadius: 8,
               }}>
-              {detailstores.phone}
-            </Text>
-          </View>
-          <View style={{alignItems: 'center'}}>
-            <FontAwesomeIcon
-              icon={faClipboard}
-              style={{alignItems: 'flex-end'}}
-            />
+              <FontAwesomeIcon
+                icon={faPhone}
+                style={{alignItems: 'flex-end', marginLeft: 8}}
+              />
+              <Text
+                style={{
+                  marginLeft: 8,
+                  marginVertical: 8,
+                  fontSize: 18,
+                  color: '#000000',
+                }}>
+                {detailstores.phone}
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <View
+            style={{
+              alignItems: 'center',
+              marginTop: 20,
+              borderWidth: 2,
+              borderColor: 'black',
+              borderStyle: 'dashed',
+              backgroundColor: '#ffffff',
+              marginHorizontal: '5%',
+              padding: '5%',
+            }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginHorizontal: '5%',
+              }}>
+              <FontAwesomeIcon
+                icon={faClipboard}
+                style={{alignItems: 'flex-end', marginRight: 5}}
+              />
+              <Text style={{marginLeft: 5, fontWeight: 'bold', fontSize: 18}}>
+                MENUS
+              </Text>
+            </View>
+
             {/* <Text style={{ marginLeft: 8, marginVertical: 8, fontSize: 16 }}>{stores.menu} {stores.price}</Text> */}
 
             <View style={{flexDirection: 'row'}}>
@@ -264,7 +476,7 @@ function DetailSpot({navigation, route}: Props) {
             </View>
           </View>
         </View>
-        <View>
+        <View style={{marginTop: 20, marginBottom: 50}}>
           {tag1}
           {tag2}
           {tag3}
@@ -276,47 +488,25 @@ function DetailSpot({navigation, route}: Props) {
           onPress={() => {
             navigation.navigate('ChangeSpot', {});
           }}
+          color={'#FFA856'}
+          titleStyle={{
+            color: 'white',
+            fontSize: 30,
+            fontWeight: 'bold',
+          }}
+          style={{
+            height: 48,
+            justifyContent: 'center',
+          }}
         />
         <View
           style={{
             flexDirection: 'row',
-            justifyContent: 'space-between',
+            justifyContent: 'center',
             marginHorizontal: 16,
             marginVertical: 8,
-          }}>
-          <Button
-            title="닫기"
-            color={'#FFA856'}
-            titleStyle={{
-              color: 'white',
-              fontSize: 16,
-            }}
-            style={{
-              borderRadius: 60,
-              width: 100,
-            }}
-          />
-          <Button
-            title="변경"
-            color={'#FFA856'}
-            titleStyle={{
-              color: 'white',
-              fontSize: 16,
-            }}
-            style={{
-              borderRadius: 60,
-              width: 100,
-            }}
-            onPress={() => {
-              console.log({이미지url: detailstores.images[0].slice(1, detailstores.images[0].length -1)})
-              const newCourse = replaceSelectedElement(stores, storeindex, detailstores);
-              dispatchCourse(newCourse)
-              // console.log({ 새로운코스: newCourse })
-
-              navigation.navigate('Course', {});
-            }}
-          />
-        </View>
+          }}
+        />
       </View>
     </ScrollView>
   );
@@ -326,17 +516,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backfaceVisibility: 'visible',
     flexWrap: 'wrap',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginHorizontal: 8,
-    marginVertical: 8,
+    marginHorizontal: '5%',
+    // marginVertical: '1%',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 5,
   },
   text: {
-    fontSize: 16,
-    marginHorizontal: '10%',
-    marginVertical: '2%',
-    color: '#000000',
+    fontSize: 17,
+    // marginHorizontal: '10%',
+    // marginVertical: '2%',
+    color: 'black',
+  },
+  barText: {
+    fontSize: 18,
+    // marginHorizontal: '5%',
+    // marginVertical: '0%', //'0.8%',
+    color: 'black',
   },
 });
 export default DetailSpot;
