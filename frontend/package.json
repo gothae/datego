@@ -32,6 +32,7 @@
     "react-native-encrypted-storage": "4.0.2",
     "react-native-fast-image": "^8.6.1",
     "react-native-image-pan-zoom": "^2.1.12",
+    "react-native-image-picker": "^4.10.0",
     "react-native-image-zoom-viewer": "^3.0.1",
     "react-native-nmap": "0.0.66",
     "react-native-paper": "4.12.4",

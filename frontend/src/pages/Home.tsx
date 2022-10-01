@@ -20,6 +20,7 @@ import {useAppDispatch} from '../store';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../src/store/reducer';
 import {logout} from '@react-native-seoul/kakao-login';
+import {launchCamera} from 'react-native-image-picker';
 
 function Home({navigation}) {
   const myReviews = useSelector((state: RootState) => state.user.myReviews);
@@ -29,9 +30,10 @@ function Home({navigation}) {
   const domain = useSelector((state: RootState) => state.user.domain);
   const id = useSelector((state: RootState) => state.user.id);
 
+  //사진관련
+  const [imgUrl, setImgUrl] = useState('');
+
   const dongReviewCnt = [0, 0, 0, 0, 0, 0, 0, 0];
-  const [x, setX] = useState(-100);
-  const [y, setY] = useState(-100);
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
   const offset = 50;
@@ -55,6 +57,63 @@ function Home({navigation}) {
   const clickDong = (select: number) => {
     navigation.navigate('Gallery', {dongId: select});
   };
+
+  const base64ToFile = (base_data, filename) => {
+    var arr = base_data.split(','),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bstr = atob(arr[1]),
+      n = bstr.length,
+      u8arr = new Uint8Array(n);
+
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], filename, {type: mime});
+  };
+
+  const takePicture = async () => {
+    const userSpotId = 146;
+    const result = await launchCamera({
+      mediaType: 'photo',
+      saveToPhotos: true,
+      quality: 0.5,
+    });
+    if (result.didCancel) {
+      //사진찍기 취소한 경우
+      return null;
+    }
+    setImgUrl(result.assets[0].uri);
+
+    const localUri = result.assets[0].uri; // file://~~~.jpg
+    const filename = result.assets[0].fileName; //절대경로 떼고.jpg... "ngruehagf.jpg"
+    const type = result.assets[0].type;
+    console.log(localUri);
+    console.log(filename);
+    console.log(type);
+
+    const formData = new FormData();
+    formData.append('photo', result.assets[0]);
+
+    await axios
+      .post(
+        `http://j7a104.p.ssafy.io:8080/courses/photo/${userSpotId}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            accessToken,
+          },
+        },
+      )
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     const getMyReviews = async () => {
       const res = await axios.get('http://j7a104.p.ssafy.io:8080/main', {
@@ -353,6 +412,12 @@ function Home({navigation}) {
             navigation.navigate('Ar3', {});
           }}
           title="빨강이키우기"
+        />
+        <Button
+          onPress={() => {
+            takePicture();
+          }}
+          title="사진찍지"
         />
       </View>
     </>
