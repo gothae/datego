@@ -13,13 +13,15 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import {useEffect, useState} from 'react';
+import {useEffect, useCallback} from 'react';
 import axios from 'axios';
 import userSlice from '../slices/user';
 import {useAppDispatch} from '../store';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../src/store/reducer';
 import {logout} from '@react-native-seoul/kakao-login';
+import {launchCamera} from 'react-native-image-picker';
+import ImageResizer from 'react-native-image-resizer';
 
 function Home({navigation}) {
   const myReviews = useSelector((state: RootState) => state.user.myReviews);
@@ -29,9 +31,9 @@ function Home({navigation}) {
   const domain = useSelector((state: RootState) => state.user.domain);
   const id = useSelector((state: RootState) => state.user.id);
 
+  //사진관련
+
   const dongReviewCnt = [0, 0, 0, 0, 0, 0, 0, 0];
-  const [x, setX] = useState(-100);
-  const [y, setY] = useState(-100);
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
   const offset = 50;
@@ -55,6 +57,49 @@ function Home({navigation}) {
   const clickDong = (select: number) => {
     navigation.navigate('Gallery', {dongId: select});
   };
+
+  const takePicture = async () => {
+    const userSpotId = 149;
+    const result = await launchCamera({
+      mediaType: 'photo',
+      saveToPhotos: true,
+      quality: 0.5,
+      // includeBase64: true,
+    });
+    if (result.didCancel) {
+      //사진찍기 취소한 경우
+      return null;
+    }
+
+    const localUri = result.assets[0].uri; // file://~~~.jpg
+    const filename = result.assets[0].fileName;
+    const photo = {
+      uri: localUri,
+      type: 'multipart/form-data',
+      name: filename,
+    };
+    const formData = new FormData();
+    formData.append('photo', photo);
+
+    await axios
+      .post(
+        `http://j7a104.p.ssafy.io:8080/courses/photo/${userSpotId}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            accessToken,
+          },
+        },
+      )
+      .then(res => {
+        console.log(res);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     const getMyReviews = async () => {
       const res = await axios.get('http://j7a104.p.ssafy.io:8080/main', {
@@ -106,39 +151,39 @@ function Home({navigation}) {
     console.log('카카오로그아웃');
   }
 
-  async function onLogout() {
-    const response = await axios.post(
-      'http://j7a104.p.ssafy.io:8080/users/logout',
-      {
-        // 내아이피 사용
-        // const response = await axios.post('http://121.129.17.91/users/logout', {
-        headers: {accessToken: accessToken},
-      },
-    );
+  // async function onLogout() {
+  //   const response = await axios.post(
+  //     'http://j7a104.p.ssafy.io:8080/users/logout',
+  //     {
+  //       // 내아이피 사용
+  //       // const response = await axios.post('http://121.129.17.91/users/logout', {
+  //       headers: {accessToken: accessToken},
+  //     },
+  //   );
 
-    if (domain === 'GOOGLE') {
-      await GoogleSignin.signOut();
-      // 앱에서 로그아웃(자동로그인가능)
-      // auth().signOut();
-      // 구글에서 Logout 재로그인해야한다.
-      console.log('구글로그아웃');
-    }
-    if (domain === 'KAKAO') {
-      await logout();
-      console.log('카카오로그아웃');
-    }
-    console.log(response.data);
-    dispatch(
-      userSlice.actions.logoutUser({
-        email: '',
-        accessToken: '',
-        code: 0,
-        domain: '',
-      }),
-    );
+  //   if (domain === 'GOOGLE') {
+  //     await GoogleSignin.signOut();
+  //     // 앱에서 로그아웃(자동로그인가능)
+  //     // auth().signOut();
+  //     // 구글에서 Logout 재로그인해야한다.
+  //     console.log('구글로그아웃');
+  //   }
+  //   if (domain === 'KAKAO') {
+  //     await logout();
+  //     console.log('카카오로그아웃');
+  //   }
+  //   console.log(response.data);
+  //   dispatch(
+  //     userSlice.actions.logoutUser({
+  //       email: '',
+  //       accessToken: '',
+  //       code: 0,
+  //       domain: '',
+  //     }),
+  //   );
 
-    return;
-  }
+  //   return;
+  // }
 
   return (
     <>
@@ -353,13 +398,13 @@ function Home({navigation}) {
             navigation.navigate('Ar3', {});
           }}
           title="빨강이키우기"
-          />
-          <Button
+        />
+        <Button
           onPress={() => {
             navigation.navigate('CourseIng', {});
           }}
           title="진행중인 코스"
-          />
+        />
       </View>
       <View>
         <Button
@@ -367,6 +412,12 @@ function Home({navigation}) {
           title="회원탈퇴"
           color="#841584"
           accessibilityLabel="Learn more about this purple button"
+        />
+        <Button
+          onPress={() => {
+            takePicture();
+          }}
+          title="사진찍기"
         />
       </View>
     </>

@@ -51,14 +51,10 @@ function SignIn({navigation}: SignInScreenProps) {
   async function signInWithKakao() {
     await login();
     const profile = await getKakaoProfile();
-
-    const response = await axios.post(
-      'http://j7a104.p.ssafy.io:8080/users/login',
-      {
-        email: profile.email,
-        domain: 'KAKAO',
-      },
-    );
+    const response = await axios.post('http://j7a104.p.ssafy.io:8080/users/login', {
+      email: profile.email,
+      domain: 'KAKAO',
+    });
     console.log('카카오로그인요청');
     console.log(response.data);
     if (response.data.code === 200) {
