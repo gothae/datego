@@ -29,6 +29,7 @@ export interface Item {
   image: string;
   rate: number;
   tags: string[];
+  images: string[];
 }
 
 function ChangeSpot({ navigation }: ChangeSpotProps) {
@@ -61,11 +62,11 @@ function ChangeSpot({ navigation }: ChangeSpotProps) {
   const setData = async () => { 
     const arr = [];
     if (storeindex == 0) {
-      console.log({ ChangeSpotStores: algoList.one });
+      // console.log({ ChangeSpotStores: algoList.one });
       changeList = algoList.one
     }
     else if (storeindex == 1) {
-      console.log({ ChangeSpotStores: algoList });
+      // console.log({ ChangeSpotStores: algoList });
       changeList = algoList.two
     }
     else if (storeindex == 2) {

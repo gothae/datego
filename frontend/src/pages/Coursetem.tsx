@@ -34,7 +34,17 @@ function CourseItem({ item, navigation, idx }: Props) {
   } else {
     images = <Image style={styles.imageBox} source={{ uri: item.image }} />
   }
-}
+  } else if (item.images) {
+    if (item.images[0][0] == 'h') {
+      images = <Image style={styles.imageBox} source={{uri: item.images[0]}} />;
+    }
+    else if (item.images[0][1] == 'h') {
+      images = <Image style={styles.imageBox} source={{ uri: item.images[0].slice(1, item.images[0].length - 1) }} />
+    } else {
+      images = <Image style={styles.imageBox} source={{ uri: item.images[0].slice(1, item.images[0].length - 1) }} />
+    }
+  }
+  
   return (
     <View>
       <Pressable
@@ -43,8 +53,8 @@ function CourseItem({ item, navigation, idx }: Props) {
           if (!navigation) {
             return;
           }
-          console.log('페이지 넘김', item.id);
-          console.log({image: item.image[0]})
+          // console.log('페이지 넘김', item.id);
+          // console.log({image: item.image[0]})
           navigation.navigate('DetailSpot', {spotId: item.id});
         }}>
         <View style={{flex: 4}}>

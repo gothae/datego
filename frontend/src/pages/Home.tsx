@@ -13,7 +13,7 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import {useEffect, useState} from 'react';
+import {useEffect, useCallback} from 'react';
 import axios from 'axios';
 import userSlice from '../slices/user';
 import {useAppDispatch} from '../store';
@@ -21,6 +21,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../src/store/reducer';
 import {logout} from '@react-native-seoul/kakao-login';
 import {launchCamera} from 'react-native-image-picker';
+import ImageResizer from 'react-native-image-resizer';
 
 function Home({navigation}) {
   const myReviews = useSelector((state: RootState) => state.user.myReviews);
@@ -31,7 +32,6 @@ function Home({navigation}) {
   const id = useSelector((state: RootState) => state.user.id);
 
   //사진관련
-  const [imgUrl, setImgUrl] = useState('');
 
   const dongReviewCnt = [0, 0, 0, 0, 0, 0, 0, 0];
   const windowWidth = Dimensions.get('window').width;
@@ -58,19 +58,24 @@ function Home({navigation}) {
     navigation.navigate('Gallery', {dongId: select});
   };
 
-  const base64ToFile = (base_data, filename) => {
-    var arr = base_data.split(','),
-      mime = arr[0].match(/:(.*?);/)[1],
-      bstr = atob(arr[1]),
-      n = bstr.length,
-      u8arr = new Uint8Array(n);
+  // const onResponse = useCallback(async (response: any) => {
+  //   const localUri = response.assets[0].uri; // file://~~~.jpg
+  //   const base = response.assets[0].base64;
+  //   const imageName = response.assets[0].fileName;
+  // }, []);
 
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-
-    return new File([u8arr], filename, {type: mime});
-  };
+  // const takePicture = useCallback(() => {
+  //   return launchCamera({
+  //     mediaType: 'photo',
+  //     saveToPhotos: true,
+  //     quality: 0.5,
+  //     includeBase64: true,
+  //   })
+  //     .then(onResponse)
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // }, [onResponse]);
 
   const takePicture = async () => {
     const userSpotId = 146;
@@ -78,22 +83,24 @@ function Home({navigation}) {
       mediaType: 'photo',
       saveToPhotos: true,
       quality: 0.5,
+      // includeBase64: true,
     });
     if (result.didCancel) {
       //사진찍기 취소한 경우
       return null;
     }
-    setImgUrl(result.assets[0].uri);
 
     const localUri = result.assets[0].uri; // file://~~~.jpg
-    const filename = result.assets[0].fileName; //절대경로 떼고.jpg... "ngruehagf.jpg"
-    const type = result.assets[0].type;
-    console.log(localUri);
-    console.log(filename);
-    console.log(type);
+    const uriPath = localUri?.split("//").pop();
+    const imageName = localUri?.split("/").pop();
+    // console.log(localUri);
+    // console.log(filename);
+    // console.log(type);
+    console.log(result.assets[0]);
 
     const formData = new FormData();
     formData.append('photo', result.assets[0]);
+    // formData.append('photo', new Blob([JSON.stringify(result.assets[0])], {type: 'application/json'}));
 
     await axios
       .post(
@@ -107,10 +114,12 @@ function Home({navigation}) {
         },
       )
       .then(res => {
+        console.log("then");
         console.log(res);
       })
-      .catch(err => {
-        console.log(err);
+      .catch(error => {
+        console.log('error');
+        // console.log(error.response);
       });
   };
 
@@ -165,39 +174,39 @@ function Home({navigation}) {
     console.log('카카오로그아웃');
   }
 
-  async function onLogout() {
-    const response = await axios.post(
-      'http://j7a104.p.ssafy.io:8080/users/logout',
-      {
-        // 내아이피 사용
-        // const response = await axios.post('http://121.129.17.91/users/logout', {
-        headers: {accessToken: accessToken},
-      },
-    );
+  // async function onLogout() {
+  //   const response = await axios.post(
+  //     'http://j7a104.p.ssafy.io:8080/users/logout',
+  //     {
+  //       // 내아이피 사용
+  //       // const response = await axios.post('http://121.129.17.91/users/logout', {
+  //       headers: {accessToken: accessToken},
+  //     },
+  //   );
 
-    if (domain === 'GOOGLE') {
-      await GoogleSignin.signOut();
-      // 앱에서 로그아웃(자동로그인가능)
-      // auth().signOut();
-      // 구글에서 Logout 재로그인해야한다.
-      console.log('구글로그아웃');
-    }
-    if (domain === 'KAKAO') {
-      await logout();
-      console.log('카카오로그아웃');
-    }
-    console.log(response.data);
-    dispatch(
-      userSlice.actions.logoutUser({
-        email: '',
-        accessToken: '',
-        code: 0,
-        domain: '',
-      }),
-    );
+  //   if (domain === 'GOOGLE') {
+  //     await GoogleSignin.signOut();
+  //     // 앱에서 로그아웃(자동로그인가능)
+  //     // auth().signOut();
+  //     // 구글에서 Logout 재로그인해야한다.
+  //     console.log('구글로그아웃');
+  //   }
+  //   if (domain === 'KAKAO') {
+  //     await logout();
+  //     console.log('카카오로그아웃');
+  //   }
+  //   console.log(response.data);
+  //   dispatch(
+  //     userSlice.actions.logoutUser({
+  //       email: '',
+  //       accessToken: '',
+  //       code: 0,
+  //       domain: '',
+  //     }),
+  //   );
 
-    return;
-  }
+  //   return;
+  // }
 
   return (
     <>
@@ -415,9 +424,23 @@ function Home({navigation}) {
         />
         <Button
           onPress={() => {
+            navigation.navigate('CourseIng', {});
+          }}
+          title="진행중인 코스"
+        />
+      </View>
+      <View>
+        <Button
+          onPress={onDelete}
+          title="회원탈퇴"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"
+        />
+        <Button
+          onPress={() => {
             takePicture();
           }}
-          title="사진찍지"
+          title="사진찍기"
         />
       </View>
     </>
