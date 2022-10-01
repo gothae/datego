@@ -58,27 +58,8 @@ function Home({navigation}) {
     navigation.navigate('Gallery', {dongId: select});
   };
 
-  // const onResponse = useCallback(async (response: any) => {
-  //   const localUri = response.assets[0].uri; // file://~~~.jpg
-  //   const base = response.assets[0].base64;
-  //   const imageName = response.assets[0].fileName;
-  // }, []);
-
-  // const takePicture = useCallback(() => {
-  //   return launchCamera({
-  //     mediaType: 'photo',
-  //     saveToPhotos: true,
-  //     quality: 0.5,
-  //     includeBase64: true,
-  //   })
-  //     .then(onResponse)
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  // }, [onResponse]);
-
   const takePicture = async () => {
-    const userSpotId = 146;
+    const userSpotId = 149;
     const result = await launchCamera({
       mediaType: 'photo',
       saveToPhotos: true,
@@ -91,16 +72,14 @@ function Home({navigation}) {
     }
 
     const localUri = result.assets[0].uri; // file://~~~.jpg
-    const uriPath = localUri?.split("//").pop();
-    const imageName = localUri?.split("/").pop();
-    // console.log(localUri);
-    // console.log(filename);
-    // console.log(type);
-    console.log(result.assets[0]);
-
+    const filename = result.assets[0].fileName;
+    const photo = {
+      uri: localUri,
+      type: 'multipart/form-data',
+      name: filename,
+    };
     const formData = new FormData();
-    formData.append('photo', result.assets[0]);
-    // formData.append('photo', new Blob([JSON.stringify(result.assets[0])], {type: 'application/json'}));
+    formData.append('photo', photo);
 
     await axios
       .post(
@@ -114,12 +93,10 @@ function Home({navigation}) {
         },
       )
       .then(res => {
-        console.log("then");
         console.log(res);
       })
       .catch(error => {
-        console.log('error');
-        // console.log(error.response);
+        console.log(error);
       });
   };
 
