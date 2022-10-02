@@ -34,21 +34,6 @@ import { Platform, PermissionsAndroid } from 'react-native';
 
 type CourseProps = NativeStackScreenProps<ParamListBase, 'Course'>;
 
-type Store = {
-  name: string;
-  id: number;
-  tel: string;
-  addr1: string;
-  addr2: string;
-  Latitude: number;
-  Longitude: number;
-  menu: string[];
-  price: number[];
-  thumb: string;
-  rating: number;
-  tags: string[];
-};
-
 type K = {
   latitude: number;
   longitude: number;
@@ -60,13 +45,6 @@ type Location = {
   P2: K;
   P3: K;
   P4: K;
-};
-type Ref = {
-  first: number[];
-  second: number[];
-  third: number[];
-  fourth: number[];
-  fifth: number[];
 };
 
 function Course({ navigation }: CourseProps) {
@@ -91,17 +69,6 @@ function Course({ navigation }: CourseProps) {
   useEffect(() => { requestCameraPermission },
     [])
 
-
-
-  const spotId: number = 1;
-  const [refItems, setRefItems] = useState<Ref>({
-    first: [0],
-    second: [0],
-    third: [0],
-    fourth: [0],
-    fifth: [0],
-  });
-
   const stores: any = useSelector((state: RootState) => state.stores).stores;
   const first: any = useSelector((state: RootState) => state.algolist).one;
   const second: any = useSelector((state: RootState) => state.algolist).two;
@@ -123,12 +90,19 @@ function Course({ navigation }: CourseProps) {
     fou: [],
     fiv: [],
   });
+
   useEffect(() => {
     getData();
   }, []);
-  useEffect(() => {
-    console.log({first, second, third, fourth, fifth});
-  }, [first, second, third]);
+  const [total, setTotal] = useState<number>(0);
+
+  useEffect(() => { 
+    var currentPrice = 0;
+    for (var i = 0; i < stores.length; i++) {
+      currentPrice = currentPrice + stores[i].price
+    }
+    setTotal(Math.round( currentPrice / 10000))
+  }, [stores])
   useEffect(() => {
     if (stores?.length === 0) {
       return;
@@ -189,7 +163,7 @@ function Course({ navigation }: CourseProps) {
           fiv: [fifth],
         });
     }
-  }, [stores, first, second, third]);
+  }, [stores, first, second, third, fourth, fifth]);
 
   const [myPosition, setMyPosition] = useState<K>({
     latitude: 123.456,
@@ -199,7 +173,7 @@ function Course({ navigation }: CourseProps) {
   useEffect(() => {
     Geolocation.getCurrentPosition(
       info => {
-        console.log({ 현재위치: myPosition })
+        console.log( '현재위치',myPosition )
         setMyPosition({
           latitude: info.coords.latitude,
           longitude: info.coords.longitude
@@ -211,12 +185,6 @@ function Course({ navigation }: CourseProps) {
       }
     );
   }, [location]);
-
-  useEffect(() => {
-    console.log({현재위치:myPosition})
-  }
-  ,[location])
-
 
   const dispatch = useAppDispatch();
   const getData = async () => {
@@ -237,7 +205,6 @@ function Course({ navigation }: CourseProps) {
       },
     );
     console.log('추천코스 받기 완료')
-    console.log(response.data.responseData.Spots[0].quest)
     dispatch(
       storeSlice.actions.setstore({
         stores: response.data.responseData.Spots,
@@ -252,12 +219,6 @@ function Course({ navigation }: CourseProps) {
         }),
       );
     } else if (stores?.length == 3) {
-      console.log({algoAll: response.data.responseData.spotIds});
-      console.log({
-        algoFirst: response.data.responseData.spotIds[0].first,
-        algoSecond: response.data.responseData.spotIds[1].second,
-        algoThird: response.data.responseData.spotIds[0].third,
-      });
       dispatch(
         algolistSlice.actions.setalgolist({
           one: response.data.responseData.spotIds[0].first,
@@ -291,7 +252,7 @@ function Course({ navigation }: CourseProps) {
     if (!location) {
     return null;
   }
-  // console.log('스토어즈:', stores)
+  
   return (
     <ScrollView>
       <View style={{flex: 1}}>
@@ -397,24 +358,24 @@ function Course({ navigation }: CourseProps) {
           })}
         </View>
                 
-      <View style={{flex:2, alignItems:'center'}}><Button style={{width:'100%', backgroundColor:'orange'}} 
-      title='위치허용' titleStyle={{fontSize:25}} onPress={requestCameraPermission}></Button></View>
         <View>
+          <Text style={{color:'#000000', fontSize: 24, marginLeft: '4%', marginVertical: '1.5%' , fontWeight: 'bold'}}> 예상가격 : {total} 만원</Text>
+        </View>
+      {/* <View style={{flex:2, alignItems:'center'}}><Button style={{width:'100%', backgroundColor:'orange'}} 
+      title='위치허용' titleStyle={{fontSize:25}} onPress={requestCameraPermission}></Button></View> */}
+        <View >
           <Button
             title="코스 시작"
             color={'#FFA856'}
             titleStyle={{
               color: 'white',
-              fontSize: 30,
+              fontSize: 26,
               fontWeight: 'bold',
             }}
             style={{
               height: 48,
-              justifyContent: 'center',
             }}
             onPress={() => {
-              // console.log('스토어어', stores);
-              // console.log('스토어길이', stores.length);
               navigation.navigate('CourseIng', {});
             }}
           />
