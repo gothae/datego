@@ -49,15 +49,6 @@ function ChangeSpot({ navigation }: ChangeSpotProps) {
       `http://j7a104.p.ssafy.io:8080/courses/spots/${num}`,
     );
       return response.data.responseData
-      // console.log('상세페이지', response.data.responseData)
-    // console.log({ menu: response.data.responseData });
-    // stores.push(response.data.responseData)
-    // console.log({stores: stores})
-    // const tmpArr = [...detailstores];
-    // tmpArr.push(response.data.responseData.tags);
-    // console.log({temp:tmpArr})
-    // setDetailstores(tmpArr);
-
   };
   const setData = async () => { 
     const arr = [];
@@ -104,66 +95,7 @@ function ChangeSpot({ navigation }: ChangeSpotProps) {
           {detailstores?.map((store:any, idx:number) => {
             return <SpotItem key={idx} item={store} navigation={navigation} />;
           })}
-
         </View>
-        {/* <Button
-        title="코스보기 페이지로"
-        onPress={() => {
-          navigation.navigate('Course', {});
-        }}
-      />
-      <Button
-        title="디테일 페이지로"
-        onPress={() => {
-          navigation.navigate('DetailSpot', {});
-        }}
-      /> */}
-        {/* stores = [딕1, 딕2]
-      for => 딕1
-      딕1.name,
-      .addr */}
-        {/* {storeList} */}
-        {/* <Text>Spot2</Text>
-      <Text>Spot3</Text>
-      <Text>Spot4</Text>
-      <Text>Spot5</Text>
-      <View>
-
-        <Pressable style={styles.storeList}
-        onPress={() => {
-          navigation.navigate('DetailSpot', {});
-        }}
-        >
-        <View style={{flex:4}}>
-            <Image style={styles.imageBox} source={{uri: stores.thumb}}></Image>
-          </View>
-          <View style={{flex: 8, justifyContent:'space-between'}}>
-            <Text style={{ fontSize: 24, fontWeight: 'bold', marginTop: 8 }}>{stores.name}</Text>
-            <View style={{ alignItems:'flex-end',  marginBottom:8, marginRight:8}}>
-              <Button title='변경' color={'#FFA856'}
-                  titleStyle={{
-                    color: "white",
-                    fontSize: 14,
-                    fontWeight:'bold'
-                }}
-                style={{
-                  borderRadius: 60,
-                  height: 24,
-                  justifyContent:'center'
-                }}
-                onPress={() => {
-                  navigation.navigate('Course', {});
-                }}
-              ></Button>
-
-              </View>
-          </View>
-        </Pressable>
-        </View>
-      <Button title="콘솔용"
-        onPress={() => {
-        console.log(stores.thumb);
-        }}></Button> */}
       </ScrollView>
     );
   }
