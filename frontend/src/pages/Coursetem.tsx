@@ -254,8 +254,6 @@ function CourseItem({ item, navigation, idx }: Props) {
           if (!navigation) {
             return;
           }
-          // console.log('페이지 넘김', item.id);
-          // console.log({image: item.image[0]})
           navigation.navigate('DetailSpot', {spotId: item.id});
       }}>
         {/* 이미지 */}
