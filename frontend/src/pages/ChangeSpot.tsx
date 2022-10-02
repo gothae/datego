@@ -21,7 +21,6 @@ export interface Item {
   name: string;
   phone: string;
   address: string;
-  // addr2: string
   latitude: number;
   longitude: number;
   menus: string[];
@@ -30,6 +29,7 @@ export interface Item {
   rate: number;
   tags: string[];
   images: string[];
+  quest: string;
 }
 
 function ChangeSpot({ navigation }: ChangeSpotProps) {
@@ -46,10 +46,8 @@ function ChangeSpot({ navigation }: ChangeSpotProps) {
   
   const getData = async (num:number) => {    
     const response = await axios.get(
-      `http://j7a104.p.ssafy.io:8080/courses/spots/${num}`, {
-        spots: []
-      }
-      );
+      `http://j7a104.p.ssafy.io:8080/courses/spots/${num}`,
+    );
       return response.data.responseData
       // console.log('상세페이지', response.data.responseData)
     // console.log({ menu: response.data.responseData });
