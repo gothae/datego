@@ -29,6 +29,8 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
 import {Item} from './ChangeSpot';
 import algolistSlice from '../slices/algolist';
+import Geolocation from 'react-native-geolocation-service';
+import { Platform, PermissionsAndroid } from 'react-native';
 
 type CourseProps = NativeStackScreenProps<ParamListBase, 'Course'>;
 
@@ -67,7 +69,37 @@ type Ref = {
   fifth: number[];
 };
 
-function Course({navigation}: CourseProps) {
+function Course({ navigation }: CourseProps) {
+  // 위치정보 허용 함수
+  const requestCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      );
+      const granted2 = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log("You can use the geo");
+      } else {
+        console.log("Geo permission denied");
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  }; 
+  useEffect(() => { requestCameraPermission },
+    [])
+
+
+
+  // useEffect(() => {
+  //   let currentPostion;
+  //   currentPostion = <Marker
+  //     coordinate={myPosition}
+  //     onClick={() => console.warn('onClick! p0')}
+  //      />
+  // }, [myPosition]);
   // const [myPosition, setMyPosition] = useState<{
   //   latitude: number;
   //   longitude: number;
@@ -123,6 +155,7 @@ function Course({navigation}: CourseProps) {
   // const P0 = { latitude: 37.53698, longitude: 127.0017 };
   // const P1 = { latitude: 37.53154, longitude: 127.007 };
   // const P2 = { latitude: 37.55392, longitude: 126.9767 };
+
 
   const [location, setLocation] = useState<Location>({
     P0: {latitude: 37.53698, longitude: 127.0017},
@@ -207,10 +240,32 @@ function Course({navigation}: CourseProps) {
         });
     }
   }, [stores, first, second, third]);
-  // useEffect(() => {
-  //   console.log({첫추천:recomList})
-  // }
-  // ,[recomList])
+
+  const [myPosition, setMyPosition] = useState<K>({
+    latitude: 123.456,
+    longitude: 123.567
+  });
+  
+  useEffect(() => {
+    Geolocation.getCurrentPosition(
+      info => {
+        console.log({ 현재위치: myPosition })
+        setMyPosition({
+          latitude: info.coords.latitude,
+          longitude: info.coords.longitude
+        });
+      },
+      console.error,
+      {
+        enableHighAccuracy: true,
+      }
+    );
+  }, [location]);
+
+  useEffect(() => {
+    console.log({현재위치:myPosition})
+  }
+  ,[location])
   // useEffect(() => {
   //   const stores = useSelector((state: RootState) => state.stores).stores;
   //   console.log({메세지: stores})
@@ -219,10 +274,11 @@ function Course({navigation}: CourseProps) {
   const dispatch = useAppDispatch();
   const getData = async () => {
     const dongId: number = 1;
+    console.log('추천코스받아오기')
     const response = await axios.post(
       `http://j7a104.p.ssafy.io:8000/courses/${dongId}`,
       {
-        course: [1, 2, 3, 1],
+        course: [1, 2, 3],
         categoryList: {
           food: [1],
           cafe: [1],
@@ -231,9 +287,9 @@ function Course({navigation}: CourseProps) {
         },
         price: 60000,
         id: 45,
-        // prefrence
       },
     );
+    console.log('추천코스 받기 완료')
     dispatch(
       storeSlice.actions.setstore({
         stores: response.data.responseData.Spots,
@@ -284,13 +340,14 @@ function Course({navigation}: CourseProps) {
           two: response.data.responseData.spotIds[1].second,
           thr: response.data.responseData.spotIds[2].third,
           fou: response.data.responseData.spotIds[3].fourth,
-          fiu: response.data.responseData.spotIds[4].fifth,
+          fiv: response.data.responseData.spotIds[4].fifth,
         }),
-      );
-    }
-  };
-
-  if (!location) {
+        );
+      }
+    };
+    const markerImg = require('../assets/현재위치.png');
+    
+    if (!location) {
     return null;
   }
   // console.log('스토어즈:', stores)
@@ -300,36 +357,54 @@ function Course({navigation}: CourseProps) {
         <View style={{flex: 1}}>
           <NaverMapView
             style={{height: 270, marginHorizontal: 10, marginVertical: 10}}
-            showsMyLocationButton={true}
+            // showsMyLocationButton={true}
             center={{...location.P0, zoom: 14}}
             // onTouch={e => console.warn('onTouch', JSON.stringify(e.nativeEvent))}
             onCameraChange={e =>
               console.warn('onCameraChange', JSON.stringify(e))
             }
             onMapClick={e => console.warn('onMapClick', JSON.stringify(e))}>
+              <Marker
+              coordinate={myPosition}
+              onClick={() => console.warn('onClick! p0')}
+              image={markerImg}
+              width={36}
+              height={36}
+              />
             <Marker
               coordinate={location.P0}
+              pinColor={'orange'}
+              width={36}
+              height={36}
               onClick={() => console.warn('onClick! p0')}
             />
             <Marker
               coordinate={location.P1}
               pinColor="blue"
               onClick={() => console.warn('onClick! p1')}
+              width={36}
+              height={36}
             />
             <Marker
               coordinate={location.P2}
               pinColor="red"
               onClick={() => console.warn('onClick! p2')}
+              width={36}
+              height={36}
             />
             <Marker
               coordinate={location.P3}
               pinColor="#FFA856"
               onClick={() => console.warn('onClick! p2')}
+              width={36}
+              height={36}
             />
             <Marker
               coordinate={location.P4}
               pinColor="purple"
               onClick={() => console.warn('onClick! p2')}
+              width={36}
+              height={36}
             />
             <Path
               coordinates={[location.P0, location.P1]}
@@ -376,10 +451,13 @@ function Course({navigation}: CourseProps) {
                 idx={idx}
                 item={store}
                 navigation={navigation}
-              />
+                />
             );
           })}
         </View>
+                
+      <View style={{flex:2, alignItems:'center'}}><Button style={{width:'100%', backgroundColor:'orange'}} 
+      title='위치허용' titleStyle={{fontSize:25}} onPress={requestCameraPermission}></Button></View>
         <View>
           <Button
             title="코스 시작"
@@ -418,7 +496,6 @@ function Course({navigation}: CourseProps) {
 
 const styles = StyleSheet.create({
   storeList: {
-    flexDirection: 'row',
     backfaceVisibility: 'visible',
     flexWrap: 'wrap',
     borderWidth: 1,

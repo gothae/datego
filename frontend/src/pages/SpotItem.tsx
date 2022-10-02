@@ -28,7 +28,7 @@ type Props = {
   navigation : any
 }
 function SpotItem({ item, navigation }: Props) {
-  console.log({아이템:item})
+  // console.log({아이템:item})
   const stores: any = useSelector((state: RootState) => state.stores).stores;
   const storeindex: any = useSelector((state: RootState) => state.stores).storeindex;
   const dispatch = useAppDispatch();

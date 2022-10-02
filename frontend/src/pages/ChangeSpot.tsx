@@ -46,7 +46,9 @@ function ChangeSpot({ navigation }: ChangeSpotProps) {
   
   const getData = async (num:number) => {    
     const response = await axios.get(
-      `http://j7a104.p.ssafy.io:8080/courses/spots/${num}`,
+      `http://j7a104.p.ssafy.io:8080/courses/spots/${num}`, {
+        spots: []
+      }
       );
       return response.data.responseData
       // console.log('상세페이지', response.data.responseData)
@@ -70,11 +72,11 @@ function ChangeSpot({ navigation }: ChangeSpotProps) {
       changeList = algoList.two
     }
     else if (storeindex == 2) {
-      // console.log({ ChangeSpotStores: algoList.thr });
+      console.log({ ChangeSpotStores: algoList.thr });
       changeList = algoList.thr
     }
     else if (storeindex == 3) {
-      // console.log({ ChangeSpotStores: algoList.fou });
+      console.log({ ChangeSpotStores: algoList.fou });
       changeList = algoList.fou
     }
     else if (storeindex == 4) {
