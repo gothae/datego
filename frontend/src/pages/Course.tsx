@@ -93,42 +93,6 @@ function Course({ navigation }: CourseProps) {
 
 
 
-  // useEffect(() => {
-  //   let currentPostion;
-  //   currentPostion = <Marker
-  //     coordinate={myPosition}
-  //     onClick={() => console.warn('onClick! p0')}
-  //      />
-  // }, [myPosition]);
-  // const [myPosition, setMyPosition] = useState<{
-  //   latitude: number;
-  //   longitude: number;
-  // } | null>;
-
-  // const [message, setMessage] = useState("");
-  // async function getGeolocation() {
-  //   const options = { provider: "gps" || "network" };
-  //   const position = await Geolocation.getCurrentPosition({ provider: "gps" });
-  //   setMessage(position);
-  // }
-  // useEffect(effect: () => {
-  //   //getCurrentPostion도 가능
-  //   Geolocation.watchPosition(
-  //     success: info => {
-  //     setMyPosition(value: {
-  //       latitude: info.coords.latitude,
-  //       longitude: info.coords.longitude,
-  //     });
-  //   },
-  //     console.error,
-  //     options: {
-  //     enableHighAccury: true,
-  //     timeout: 20000,
-  //   }, deeps: []
-  //   );
-
-  // const [longitude, setLogitude] = useState('0');
-
   const spotId: number = 1;
   const [refItems, setRefItems] = useState<Ref>({
     first: [0],
@@ -137,25 +101,13 @@ function Course({ navigation }: CourseProps) {
     fourth: [0],
     fifth: [0],
   });
-  // useEffect(() => {
-  //   first = useSelector((state: RootState) => state.algolist).one;
-  //   second= useSelector((state: RootState) => state.algolist).two;
-  //   third: any = useSelector((state: RootState) => state.algolist).thr;
-  //   const fourth: any = useSelector((state: RootState) => state.algolist).fou;
-  //   const fifth: any = useSelector((state: RootState) => state.algolist).fiv;
-  // },
-  //   []);
+
   const stores: any = useSelector((state: RootState) => state.stores).stores;
   const first: any = useSelector((state: RootState) => state.algolist).one;
   const second: any = useSelector((state: RootState) => state.algolist).two;
   const third: any = useSelector((state: RootState) => state.algolist).thr;
   const fourth: any = useSelector((state: RootState) => state.algolist).fou;
   const fifth: any = useSelector((state: RootState) => state.algolist).fiv;
-  // console.log('이미지', stores);
-  // const P0 = { latitude: 37.53698, longitude: 127.0017 };
-  // const P1 = { latitude: 37.53154, longitude: 127.007 };
-  // const P2 = { latitude: 37.55392, longitude: 126.9767 };
-
 
   const [location, setLocation] = useState<Location>({
     P0: {latitude: 37.53698, longitude: 127.0017},
@@ -181,7 +133,7 @@ function Course({ navigation }: CourseProps) {
     if (stores?.length === 0) {
       return;
     }
-    // console.log({ hyunuk: stores[0] })
+
     else if (stores?.length === 2) {
       setLocation({
         P0: {latitude: stores[0].latitude, longitude: stores[0].longitude},
@@ -193,7 +145,6 @@ function Course({ navigation }: CourseProps) {
       setRecomList({
         one: [first],
         two: [second],
-        // thr: third
       });
     } else if (stores?.length === 3) {
       setLocation({
@@ -208,7 +159,6 @@ function Course({ navigation }: CourseProps) {
         two: [second],
         thr: [third],
       });
-      // console.log({확인중: second})
     } else if (stores?.length === 4) {
       setLocation({
         P0: {latitude: stores[0].latitude, longitude: stores[0].longitude},
@@ -266,10 +216,7 @@ function Course({ navigation }: CourseProps) {
     console.log({현재위치:myPosition})
   }
   ,[location])
-  // useEffect(() => {
-  //   const stores = useSelector((state: RootState) => state.stores).stores;
-  //   console.log({메세지: stores})
-  // }, [])
+
 
   const dispatch = useAppDispatch();
   const getData = async () => {
@@ -290,6 +237,7 @@ function Course({ navigation }: CourseProps) {
       },
     );
     console.log('추천코스 받기 완료')
+    console.log(response.data.responseData.Spots[0].quest)
     dispatch(
       storeSlice.actions.setstore({
         stores: response.data.responseData.Spots,
@@ -297,16 +245,12 @@ function Course({ navigation }: CourseProps) {
     );
     const stores = response.data.responseData.Spots;
     if (stores?.length == 2) {
-      // console.log({알고리스트: response.data.responseData.spotIds})
       dispatch(
         algolistSlice.actions.setalgolist({
           one: response.data.responseData.spotIds[0].first,
           two: response.data.responseData.spotIds[1].second,
         }),
       );
-      console.log({
-        추천리스스반영완료: response.data.responseData.spotIds[0].first,
-      });
     } else if (stores?.length == 3) {
       console.log({algoAll: response.data.responseData.spotIds});
       console.log({
@@ -321,9 +265,6 @@ function Course({ navigation }: CourseProps) {
           thr: response.data.responseData.spotIds[2].third,
         }),
       );
-      console.log({
-        추천리스스반영완료: response.data.responseData.spotIds[0].first,
-      });
     } else if (stores?.length == 4) {
       dispatch(
         algolistSlice.actions.setalgolist({
@@ -482,17 +423,6 @@ function Course({ navigation }: CourseProps) {
     </ScrollView>
   );
 }
-// const spotId = 1
-// const getData = async () => {
-//   const response = await axios.post(`http://j7a104.p.ssafy.io:8080/courses/${spotId}?page=1`, {
-
-//     spots: [1, 2, 3, 4, 5, 7]
-
-//   });
-//   console.log(response.data.responseData.spots);
-//   const inputStores: StoreLists = response.data.responseData.spots;
-//   console.log(inputStores)
-// };
 
 const styles = StyleSheet.create({
   storeList: {
