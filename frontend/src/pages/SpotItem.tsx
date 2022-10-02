@@ -22,6 +22,7 @@ type Items = {
   images: string[];
   rate: number;
   tags: string[];
+  quest: string;
 }
 type Props = {
   item: Items
@@ -88,7 +89,6 @@ function SpotItem({ item, navigation }: Props) {
                 if (!navigation) return;
                 const newCourse = replaceSelectedElement(stores, storeindex, item);
                 dispatchCourse(newCourse)
-                // console.log({ 새로운코스: newCourse })
                 navigation.navigate('Course', {});
               }}
           ></Button>
