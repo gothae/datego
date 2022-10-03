@@ -59,7 +59,10 @@ def price_filter(spots, menus, course, price):
         avg = 0
         for j, menu_row in menu_price.iterrows():
             avg += menu_row['price']
-        avg /= len(menu_price)
+        if len(menu_price) == 0:
+            pass
+        else:
+            avg /= len(menu_price)
 
         if course == 1 or course == 3:
             if avg <= price  * 0.5:
