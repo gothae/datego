@@ -33,7 +33,7 @@ public class ReviewService {
         List<Spot_Tag> spot_tags = spot_tagRepository.findBySpotId(spotId);
         List<ReviewVO> reviews = new ArrayList<>();
         for (int i = 0; i < spot_tags.size(); i++) {
-            Tag tempTag = tagRepository.findById(spot_tags.get(i).getId());
+            Tag tempTag = spot_tags.get(i).getTag();
             ReviewVO tempReview = ReviewVO.builder()
                     .id(tempTag.getId())
                     .name(tempTag.getName())
