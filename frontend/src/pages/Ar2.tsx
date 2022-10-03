@@ -30,8 +30,11 @@ const ArScene2 = () => {
     setScale(newScaleAry);
     if (newScale > 5) {
       Alert.alert('돼지 키우기 미션 클리어');
-      console.log({미션번호: number})
-      setClearM([...clearM, number])
+      const clearList=[];
+      for(var i=0;i<clearM.length;i++){
+        clearList.push(clearM[i]);
+      }
+      clearList.push(number);
       const unclearList=[];
       for(var i =0; i < unclearM.length; i++){
         if(unclearM[i] != number){
@@ -44,7 +47,7 @@ const ArScene2 = () => {
       dispatch(
         courseSlice.actions.setCourse({
           missions: {
-            clearMissions: clearM,
+            clearMissions: clearList,
             unclearMissions: unclearList
           }
         }),

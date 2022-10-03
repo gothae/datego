@@ -135,6 +135,11 @@ function CourseIng({navigation}) {
     latitude: 137.539455,
     longitude: 126.9916965
   })
+  useEffect(() => {
+    console.log({ 성공한미션: missionList.clearMissions })
+    console.log({ 남은미션: missionList.unclearMissions })
+    setX(missionList);
+  }, [missionList])
 useEffect(()=>{
   Geolocation.getCurrentPosition(
     info => {

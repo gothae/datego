@@ -41,7 +41,11 @@ const ArScene1 = () => {
     if (counter === 4) {
       Alert.alert('미션 클리어');
       console.log({미션번호: number})
-      setClearM([...clearM, number])
+      const clearList=[];
+      for(var i=0;i<clearM.length;i++){
+        clearList.push(clearM[i]);
+      }
+      clearList.push(number);
       const unclearList=[];
       for(var i =0; i < unclearM.length; i++){
         if(unclearM[i] != number){
@@ -54,7 +58,7 @@ const ArScene1 = () => {
       dispatch(
         courseSlice.actions.setCourse({
           missions: {
-            clearMissions: clearM,
+            clearMissions: clearList,
             unclearMissions: unclearList
           }
         }),
@@ -237,7 +241,6 @@ const ArScene1 = () => {
 function Ar1({route,navigation}) {
   number = route.params.num;
   return (
-    
     <ViroARSceneNavigator
       autofocus={true}
       initialScene={{
