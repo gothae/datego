@@ -10,8 +10,8 @@ const courseSlice = createSlice({
     initialState,
     reducers:{
         setCourse(state, action){
-        state.missions.clearMissions += action.payload.missions.clearMissions
-        console.log(state.missions.clearMissions);
+            state.missions.clearMissions = action.payload.missions.clearMissions
+            state.missions.unclearMissions = action.payload.missions.unclearMissions
     },
 },
 extraReducers: builder => {},

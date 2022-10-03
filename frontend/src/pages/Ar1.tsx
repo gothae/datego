@@ -30,37 +30,43 @@ const ArScene1 = () => {
   const [coinVisible4, setCoinVisible4] = useState(true);
   const [coinVisible5, setCoinVisible5] = useState(true);
   const [counter, setCounter] = useState(1);
-  // const [clearM, setClearM] = useState()
+
   const missionList: any = useSelector((state:RootState)=> state.course).missions
-  var clearM : number[] = missionList.clearMissions;
-  // useEffect(()=>{
-  //   console.log(missionList); 
-  // },[])
-  var unclearM : number[] = missionList.unclearMissions;
+
+  const [clearM, setClearM] = useState<number[]>(missionList.clearMissions);
+  const [unclearM, setUnclearM] = useState<number[]>(missionList.unclearMissions);
+
   const dispatch = useAppDispatch();
-  const countCoin = () => {
-    console.log("클리어")
-    console.log(clearM);
-    setCounter(counter + 1);
-    console.log(counter);
-    if (counter === 3) {
+  useEffect(() => {
+    if (counter === 4) {
       Alert.alert('미션 클리어');
-      clearM.push(number);
+      setClearM([...clearM, number])
       const unclearList=[];
-      for(var i =0;i<unclearM.length;i++){
-        if(unclearM[i]===number){
-          continue;
+      for(var i =0; i < unclearM.length; i++){
+        if(unclearM[i] != number){
+          unclearList.push(unclearM[i]);
         }
-        unclearList.push(unclearM[i]);
       }
+      setUnclearM(unclearList)
+      console.log('성공한 미션 리스트',clearM)
+      console.log('남은 미션', unclearList)
       dispatch(
         courseSlice.actions.setCourse({
-          clear:clearM,
-          unclear: unclearList
+          missions: {
+            clearMissions: clearM,
+            unclearMissions: unclearList
+          }
         }),
       )
     }
-  };
+  }, [counter])
+  const countCoin = () => {
+    console.log("클리어")
+    setCounter(counter + 1);
+    console.log(counter);
+  }
+
+
   const moveObject1 = (dragToPos, source) => {
     //console.log(dragToPos);
     if (coinVisible1) {
