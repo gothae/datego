@@ -5,6 +5,7 @@ import GestureRecognizer from 'react-native-swipe-gestures';
 // import courseSlice from '../slices/course';
 import {useSelector} from 'react-redux';
 import {useState, useEffect, useCallback, useMemo} from 'react';
+import defaultImage from '../assets/check.png';
 import {
   View,
   Text,
@@ -15,6 +16,7 @@ import {
   Pressable,
   ScrollView,
   ImageBackground,
+  ImageSourcePropType,
 } from 'react-native';
 import {Button} from '@react-native-material/core';
 import NaverMapView, {
@@ -27,6 +29,7 @@ import NaverMapView, {
 } from 'react-native-nmap';
 import store from '../store';
 import { statusCodes } from '@react-native-google-signin/google-signin';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 type TagObj={
   count: number,
   description : string,
@@ -88,8 +91,14 @@ function CourseIng({navigation}) {
       navigation.navigate('Ar3', {num:number});
     }
   }
+  const [myPosition, setMyPosition] = useState<K>({
+    latitude: 223.456,
+    longitude: 123.567
+  });
+  
   const stores: any = useSelector((state:RootState) => state.stores).stores;
   const missionList: any = useSelector((state:RootState)=> state.course).missions
+  const [checkImg, setCheckImg] = useState("");
   const [store, setStore] = useState<Store>({
     id: 1,
   name: "로딩중",
@@ -106,51 +115,58 @@ function CourseIng({navigation}) {
   quest: ""
   });
   const [storePosition, setStorePosition] = useState<K>({
-    latitude: 37.539455,
+    latitude: 137.539455,
     longitude: 126.9916965
   })
 
-useEffect(() => {
+useEffect(() => {  
   setStore(stores[0]);
   setX(missionList);
   let pos :K={
     latitude : stores[0].latitude,
     longitude : stores[0].longitude
   }
-  setStorePosition(pos);
-  setNumber(0);
-}, [])
-
-
-const [myPosition, setMyPosition] = useState<K>({
-  latitude: 123.456,
-  longitude: 123.567
-});
-
-useEffect(()=>{
   Geolocation.getCurrentPosition(
     info => {
       setMyPosition({
         latitude : info.coords.latitude,
         longitude : info.coords.longitude
       });
+      console.log(myPosition);
+      console.log(pos);
+      console.log(getDist(pos));
     },
     console.error,
     {
       enableHighAccuracy:true,
     }
   );
-},[]);
-// function getDist(){
-//   console.log(myPosition.longitude);
-//   console.log(myPosition.latitude);
-//   return "HI";
-//   // var x = (Math.cos(store.location.latitude)*6400*2*Math.PI/360) * Math.abs(store.location.longitude-myPosition.longitude);
-//   // var y = 111*Math.abs(store.location.latitude-myPosition.latitude);
-//   // return Math.round((Math.sqrt(x*x+y*y))*1000/1000*1000)+" M"; 
-// }
-const[number, setNumber] = useState(0);
+  console.log(myPosition);
+  let diss = getDist(pos);
+  console.log(diss);
+  setStorePosition(pos);
+  setDist(0);
+  setNumber(0);  
+}, [])
+useEffect(()=>{
+  
+  let pos :K={
+    latitude : stores[number].latitude,
+    longitude : stores[number].longitude
+  }
+  setStorePosition(pos);
+},[store])
 
+
+
+function getDist(location : K){  
+  var x = (Math.cos(location.latitude)*6400*2*Math.PI/360) * Math.abs(location.longitude-myPosition.longitude);
+  var y = 111*Math.abs(location.latitude-myPosition.latitude);
+  return Math.round((Math.sqrt(x*x+y*y))*1000/1000*1000); 
+}
+const[number, setNumber] = useState(0);
+const[dist, setDist] = useState(0);
+const[opacityNum, setOpactiy] = useState(1);
   const [x, setX] = useState<Mission>({
     clearMissions: [],
     unclearMissions: [0,1,2,3,4]
@@ -179,8 +195,22 @@ const[number, setNumber] = useState(0);
       latitude : stores[number].latitude,
       longitude : stores[number].longitude
     }
+    if(x.clearMissions.includes(number)){
+      setCheckImg("https://user-images.githubusercontent.com/66546079/193565621-41c38492-5cfa-46ef-bc4a-215095ec9ceb.png");
+      setOpactiy(0.4);
+    }
+    else{
+      setCheckImg("");
+      setOpactiy(1);
+    }
     setStorePosition(pos2);
   },[number])
+  useEffect(()=>{
+    if(x.clearMissions.includes(number)){
+      setCheckImg("https://user-images.githubusercontent.com/66546079/193565621-41c38492-5cfa-46ef-bc4a-215095ec9ceb.png");
+      setOpactiy(0.4);
+    }
+  },[x])
 
   const onDecrease = () => {
     console.log("decrease");
@@ -272,11 +302,14 @@ const[number, setNumber] = useState(0);
           }}>
             <View style={{flex:1, alignItems:'center'}}>
               <View style={{width:'80%',flex:5}}>
-                <View style={{flex:1,flexDirection:'row', borderWidth:1, borderRadius: 15, borderColor:'gray'}}>
-                  <Image style={{flex:3, resizeMode:'cover', borderRadius: 15}} source={{uri:images}}></Image>
-                  <View style={{flex:2, alignItems:'center'}}>
+                <ImageBackground resizeMode="contain" source={{uri:checkImg}}style={{flex:1,flexDirection:'row', borderWidth:1, borderRadius: 15, borderColor:'gray'}}>
+                  <Image style={{flex:3, resizeMode:'cover', borderRadius: 15, opacity:opacityNum}} source={{uri:images}}></Image>
+                  <View style={{flex:2, alignItems:'center', opacity:opacityNum}}>
                     <Text style={{flex:3, marginTop:'25%',color:'black', fontSize:25}}>{store.name}</Text>
-                    <Text style={{flex:2, color:'black'}}>HI</Text>
+                    <View style={{flex:2, flexDirection:'row'}}>
+                      <Text style={{flex:5, marginLeft:'15%',color:'black',textAlign:"center"}}>{dist} M</Text>
+                      <TouchableOpacity style={{flex:1, marginTop:'8%'}} activeOpacity={0.5}><Image style={{width:50, height:10}}
+                        resizeMode="contain" source={{uri:"https://user-images.githubusercontent.com/66546079/193567076-b88dbfb6-ad87-45f6-953c-3ea02960ca70.png"}}></Image></TouchableOpacity></View>
                     <View style={{flex:2, flexDirection:'column', alignItems:'center', justifyContent:'space-around'}}>
                       <View style={{flex:2, flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
                       <Text style={{paddingLeft:'5%', paddingRight:'5%',marginRight:'2%', backgroundColor:'orange', borderRadius:5}}>{tagList[0]}</Text>
@@ -288,7 +321,7 @@ const[number, setNumber] = useState(0);
                       </View>
                       </View>
                   </View>                  
-                </View>
+                </ImageBackground>
               </View>
               <View style={{flex:2, width:'70%', flexDirection:'row', justifyContent:'space-around', alignItems:'center'}}>
                 <Image style={{flex:1, resizeMode:'contain', marginRight: '10%'}}source={require('../assets/scroll.png')}></Image>
@@ -300,6 +333,7 @@ const[number, setNumber] = useState(0);
             </GestureRecognizer>
             </View>
           </View>
+
 )
 }
 

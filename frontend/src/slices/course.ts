@@ -1,8 +1,8 @@
 import {createSlice} from '@reduxjs/toolkit';
 const initialState = {    
     missions: {
-        clearMissions:[],
-        unclearMissions:[0,1,2,3,4]}
+        clearMissions:[0],
+        unclearMissions:[1,2,3,4]}
     }
 
 const courseSlice = createSlice({
