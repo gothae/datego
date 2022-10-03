@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Button} from 'react-native';
 import {StyleSheet} from 'react-native';
 import {Alert} from 'react-native';
@@ -11,8 +11,22 @@ import {
   ViroAnimations,
   ViroMaterials,
 } from '@viro-community/react-viro';
+import courseSlice from '../slices/course';
+import { useSelector } from 'react-redux';
+import { RootState } from '../store/reducer';
+import { useAppDispatch } from '../store';
 
+var number=-1;
 const ArScene3 = () => {
+  const missionList: any = useSelector((state:RootState)=> state.course).missions
+
+  const [clearM, setClearM] = useState<number[]>(missionList.clearMissions);
+  const [unclearM, setUnclearM] = useState<number[]>(missionList.unclearMissions);
+  const dispatch = useAppDispatch();
+  useEffect(() => { 
+    console.log('성공한 미션 리스트',clearM)
+    console.log('남은 미션', unclearM)
+  }, [])
   const [redScale, setScale] = useState([0.05, 0.05, 0.05]);
   const scaleObject = (scaleFactor, source) => {
     let newScale = redScale[0] * 1.1;
@@ -20,6 +34,29 @@ const ArScene3 = () => {
     setScale(newScaleAry);
     if (newScale > 0.2) {
       Alert.alert('미니언 키우기 미션 클리어');
+      const clearList=[];
+      for(var i=0;i<clearM.length;i++){
+        clearList.push(clearM[i]);
+      }
+      clearList.push(number);
+      
+      const unclearList=[];
+      for(var i =0; i < unclearM.length; i++){
+        if(unclearM[i] != number){
+          unclearList.push(unclearM[i]);
+        }
+      }
+      setUnclearM(unclearList)
+      console.log('성공한 미션 리스트',clearM)
+      console.log('남은 미션', unclearList)
+      dispatch(
+        courseSlice.actions.setCourse({
+          missions: {
+            clearMissions: clearList,
+            unclearMissions: unclearList
+          }
+        }),
+      )
     }
   };
   return (
@@ -45,7 +82,8 @@ const ArScene3 = () => {
     </ViroARScene>
   );
 };
-function Ar3({navigation}) {
+function Ar3({ navigation, route }) {
+  number = route.params.num;
   return (
     <ViroARSceneNavigator
       autofocus={true}

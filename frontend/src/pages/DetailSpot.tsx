@@ -45,6 +45,7 @@ export type Store = {
   images: string[];
   rate: number;
   tags: any;
+  quest: string;
 };
 // type Menu = {
 //   name: string
