@@ -1,6 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
-const initialState = {
-    
+const initialState = {    
     missions: {
         clearMissions:[],
         unclearMissions:[0,1,2,3,4]}
@@ -11,7 +10,8 @@ const courseSlice = createSlice({
     initialState,
     reducers:{
         setCourse(state, action){
-        state.missions = action.payload.missions
+        state.missions.clearMissions += action.payload.missions.clearMissions
+        console.log(state.missions.clearMissions);
     },
 },
 extraReducers: builder => {},

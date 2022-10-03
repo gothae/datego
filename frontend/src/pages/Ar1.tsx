@@ -1,6 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Button} from 'react-native';
 import {StyleSheet} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import { RootState } from '../store/reducer';
+import {useAppDispatch} from '../store';
 import {Alert} from 'react-native';
 import {
   ViroARScene,
@@ -11,7 +14,15 @@ import {
   ViroAnimations,
   ViroMaterials,
 } from '@viro-community/react-viro';
+import courseSlice from '../slices/course';
+type Mission = {
+  clearMissions : number[];
+  unclearMissions : number[];
+}
+var number=-1;
 const ArScene1 = () => {
+  console.log("넘버입니다.");
+  console.log(number);
   const [coinPosition, setPosition] = useState([1, -3, 1]);
   const [coinVisible1, setCoinVisible1] = useState(true);
   const [coinVisible2, setCoinVisible2] = useState(true);
@@ -19,12 +30,35 @@ const ArScene1 = () => {
   const [coinVisible4, setCoinVisible4] = useState(true);
   const [coinVisible5, setCoinVisible5] = useState(true);
   const [counter, setCounter] = useState(1);
-
+  // const [clearM, setClearM] = useState()
+  const missionList: any = useSelector((state:RootState)=> state.course).missions
+  var clearM : number[] = missionList.clearMissions;
+  // useEffect(()=>{
+  //   console.log(missionList); 
+  // },[])
+  var unclearM : number[] = missionList.unclearMissions;
+  const dispatch = useAppDispatch();
   const countCoin = () => {
+    console.log("클리어")
+    console.log(clearM);
     setCounter(counter + 1);
     console.log(counter);
     if (counter === 3) {
       Alert.alert('미션 클리어');
+      clearM.push(number);
+      const unclearList=[];
+      for(var i =0;i<unclearM.length;i++){
+        if(unclearM[i]===number){
+          continue;
+        }
+        unclearList.push(unclearM[i]);
+      }
+      dispatch(
+        courseSlice.actions.setCourse({
+          clear:clearM,
+          unclear: unclearList
+        }),
+      )
     }
   };
   const moveObject1 = (dragToPos, source) => {
@@ -193,8 +227,10 @@ const ArScene1 = () => {
     </ViroARScene>
   );
 };
-function Ar1({navigation}) {
+function Ar1({route,navigation}) {
+  number = route.params.num;
   return (
+    
     <ViroARSceneNavigator
       autofocus={true}
       initialScene={{
@@ -203,7 +239,7 @@ function Ar1({navigation}) {
       style={styles.f1}
     />
   );
-}
+} 
 ViroAnimations.registerAnimations({
   move: {
     properties: {

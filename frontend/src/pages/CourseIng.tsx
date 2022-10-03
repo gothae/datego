@@ -78,14 +78,14 @@ function CourseIng({navigation}) {
 
 
   function _onPress(mission:string){
-    if(mission==="꿀꿀이를 키우자!"){
-      navigation.navigate('Ar2', {});
+    if(mission==="꿀꿀이를 키우자"){
+      navigation.navigate('Ar2', {num:number});
     }
     else if(mission==="돈을 줍자!"){
-      navigation.navigate('Ar1', {});
+      navigation.navigate('Ar1', {num:number});
     }
-    else if(mission==="빨강이를 키우자!"){
-      navigation.navigate('Ar3', {});
+    else if(mission==="빨강이를 키우자"){
+      navigation.navigate('Ar3', {num:number});
     }
   }
   const stores: any = useSelector((state:RootState) => state.stores).stores;
@@ -113,6 +113,12 @@ function CourseIng({navigation}) {
 useEffect(() => {
   setStore(stores[0]);
   setX(missionList);
+  let pos :K={
+    latitude : stores[0].latitude,
+    longitude : stores[0].longitude
+  }
+  setStorePosition(pos);
+  setNumber(0);
 }, [])
 
 
@@ -149,23 +155,11 @@ const[number, setNumber] = useState(0);
     clearMissions: [],
     unclearMissions: [0,1,2,3,4]
   });  
-  async function test(){
-    setNumber((number+1)%stores.length);
-  }
   const onIncrease = () =>{
     console.log("increase");
-    test()
-    // setNumber((number+1)%stores.length);
-    console.log(number);
-    setStore(stores[number]);
-    let pos :K={
-      latitude : stores[number].latitude,
-      longitude : stores[number].longitude
-    }
-    console.log("Store");
-    setStorePosition(pos);
-    console.log(pos);
+    setNumber((number+1)%stores.length);
   }
+
   let tagList;
   if(typeof store.tags[0]==="string"){
     tagList = store.tags;
@@ -179,22 +173,27 @@ const[number, setNumber] = useState(0);
     }
   }
   
-  const onDecrease = () => {
-    console.log("decrease");
-    if(number==0){
-      setNumber(stores.length-1);
-    }
-    else{
-      setNumber(number-1);
-    }
+  useEffect(()=>{
     setStore(stores[number]);
     let pos2 :K={
       latitude : stores[number].latitude,
       longitude : stores[number].longitude
     }
     setStorePosition(pos2);
-  }
+  },[number])
 
+  const onDecrease = () => {
+    console.log("decrease");
+    console.log(number);
+
+    if(number==0){
+      setNumber(stores.length-1);
+    }
+    else{
+      setNumber(number-1);
+    }
+  }
+    
   let images;
   if (store.image) {
     if (store.image[0] == '\"') {
