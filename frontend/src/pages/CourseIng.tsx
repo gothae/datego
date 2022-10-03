@@ -17,6 +17,7 @@ import {
   ScrollView,
   ImageBackground,
   ImageSourcePropType,
+  Alert,
 } from 'react-native';
 import {Button} from '@react-native-material/core';
 import NaverMapView, {
@@ -78,10 +79,11 @@ function CourseIng({navigation}) {
     }
   }; 
 
+  
 
 
   function _onPress(mission:string){
-    if(mission==="꿀꿀이를 키우자"){
+    if(mission==="꿀꿀이를 키우자!"){
       navigation.navigate('Ar2', {num:number});
     }
     else if(mission==="돈을 줍자!"){
@@ -96,6 +98,23 @@ function CourseIng({navigation}) {
     longitude: 123.567
   });
   
+  function _onReload(){
+    console.log("clicd");
+    Alert.alert("위치변경");
+    Geolocation.getCurrentPosition(
+      info => {
+        setMyPosition({
+          latitude : info.coords.latitude,
+          longitude : info.coords.longitude
+        });
+      },
+      console.error,
+      {
+        enableHighAccuracy:true,
+      }
+    );
+  }
+
   const stores: any = useSelector((state:RootState) => state.stores).stores;
   const missionList: any = useSelector((state:RootState)=> state.course).missions
   const [checkImg, setCheckImg] = useState("");
@@ -118,7 +137,23 @@ function CourseIng({navigation}) {
     latitude: 137.539455,
     longitude: 126.9916965
   })
-
+useEffect(()=>{
+  Geolocation.getCurrentPosition(
+    info => {
+      setMyPosition({
+        latitude : info.coords.latitude,
+        longitude : info.coords.longitude
+      });
+    },
+    console.error,
+    {
+      enableHighAccuracy:true,
+    }
+  );  
+},[storePosition])
+useEffect(()=>{
+  setDist(getDist(storePosition))
+},[myPosition])
 useEffect(() => {  
   setStore(stores[0]);
   setX(missionList);
@@ -126,30 +161,9 @@ useEffect(() => {
     latitude : stores[0].latitude,
     longitude : stores[0].longitude
   }
-  Geolocation.getCurrentPosition(
-    info => {
-      setMyPosition({
-        latitude : info.coords.latitude,
-        longitude : info.coords.longitude
-      });
-      console.log(myPosition);
-      console.log(pos);
-      console.log(getDist(pos));
-    },
-    console.error,
-    {
-      enableHighAccuracy:true,
-    }
-  );
-  console.log(myPosition);
-  let diss = getDist(pos);
-  console.log(diss);
   setStorePosition(pos);
-  setDist(0);
-  setNumber(0);  
 }, [])
-useEffect(()=>{
-  
+useEffect(()=>{  
   let pos :K={
     latitude : stores[number].latitude,
     longitude : stores[number].longitude
@@ -308,7 +322,7 @@ const[opacityNum, setOpactiy] = useState(1);
                     <Text style={{flex:3, marginTop:'25%',color:'black', fontSize:25}}>{store.name}</Text>
                     <View style={{flex:2, flexDirection:'row'}}>
                       <Text style={{flex:5, marginLeft:'15%',color:'black',textAlign:"center"}}>{dist} M</Text>
-                      <TouchableOpacity style={{flex:1, marginTop:'8%'}} activeOpacity={0.5}><Image style={{width:50, height:10}}
+                      <TouchableOpacity onPress={_onReload} style={{flex:1, marginTop:'8%'}} activeOpacity={0.5}><Image style={{width:50, height:15}} 
                         resizeMode="contain" source={{uri:"https://user-images.githubusercontent.com/66546079/193567076-b88dbfb6-ad87-45f6-953c-3ea02960ca70.png"}}></Image></TouchableOpacity></View>
                     <View style={{flex:2, flexDirection:'column', alignItems:'center', justifyContent:'space-around'}}>
                       <View style={{flex:2, flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
