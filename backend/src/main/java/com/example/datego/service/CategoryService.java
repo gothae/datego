@@ -24,10 +24,10 @@ public class CategoryService {
        List<CategoryVO> cafeList = new ArrayList<>();
         List<CategoryVO> drinkList = new ArrayList<>();
        for(Tag tag : cafe){
-            cafeList.add(new CategoryVO(tag.getName(), tag.getImageLink()));
+            cafeList.add(new CategoryVO(tag.getId(),2,tag.getName(), tag.getImageLink()));
        }
        for(Tag tag : drink){
-           drinkList.add(new CategoryVO(tag.getName(), tag.getImageLink()));
+           drinkList.add(new CategoryVO(tag.getId(),3,tag.getName(), tag.getImageLink()));
        }
        categories.setCafes(cafeList);
        categories.setDrinks(drinkList);

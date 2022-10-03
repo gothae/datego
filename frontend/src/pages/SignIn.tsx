@@ -84,13 +84,15 @@ function SignIn({navigation}: SignInScreenProps) {
   async function userInfo() {
     console.log(age);
     console.log(gender);
-
-    const response = await axios.post('http://j7a104.p.ssafy.io:8080/users/info', {
-      email: email,
-      domain: domain,
-      age: age,
-      gender: gender,
-    });
+    const response = await axios.post(
+      'http://j7a104.p.ssafy.io:8080/users/info',
+      {
+        email: email,
+        domain: domain,
+        age: age,
+        gender: gender,
+      },
+    );
     console.log(response.data);
     dispatch(
       userSlice.actions.setUser({
@@ -104,10 +106,13 @@ function SignIn({navigation}: SignInScreenProps) {
   }
   async function test() {
     console.log(2);
-    const response = await axios.post('http://j7a104.p.ssafy.io:8080/users/login', {
-      email: 'accent680@naver.com',
-      domain: 'KAKAO',
-    });
+    const response = await axios.post(
+      'http://j7a104.p.ssafy.io:8080/users/login',
+      {
+        email: 'accent680@naver.com',
+        domain: 'KAKAO',
+      },
+    );
     console.log(3);
     console.log(response.data);
     dispatch(

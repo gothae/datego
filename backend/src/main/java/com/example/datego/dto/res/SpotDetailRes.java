@@ -18,8 +18,9 @@ public class SpotDetailRes {
     String address;
     String phone;
     double rate;
+    String quest;
     int price;
-    BigDecimal latitube;
+    BigDecimal latitude;
     BigDecimal longitude;
     List<MenuVO> menus;
     List<TagVO> tags;

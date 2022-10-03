@@ -2,57 +2,94 @@ import * as React from 'react';
 import {
   View,
   Text,
-  Image,
   FlatList,
-  StyleSheet,
-  TouchableHighlight,
   Button,
   Dimensions,
+  Modal,
+  TouchableOpacity,
 } from 'react-native';
 import {useState, useEffect, useCallback} from 'react';
-import auth from '@react-native-firebase/auth';
 import axios from 'axios';
 import {RootState} from '../store/reducer';
 import {useSelector} from 'react-redux';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {ParamListBase} from '@react-navigation/native';
 import FastImage from 'react-native-fast-image';
-type GalleryProps = NativeStackScreenProps<ParamListBase, 'Gallery'>;
+import ImageViewer from 'react-native-image-zoom-viewer';
 
-function Gallery({navigation}: GalleryProps) {
+function Gallery({route, navigation}) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
-  const dongId = 1;
-  // const photos = [];
+  const zone = route.params.dongId;
   const [Imageurl, setImageurl] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [imageIndex, setImageIndex] = useState(0);
+  var resIndex = 0;
+  const [links, setLinks] = useState([]);
 
-  const getData = async () => {
+  const getData = async (dongId: number) => {
     const response = await axios.get(
       `http://j7a104.p.ssafy.io:8080/users/images/${dongId}`,
       {
         headers: {accessToken},
       },
     );
-    return setImageurl(response.data.responseData.photos);
+    var newres = response.data.responseData.photos;
+    newres.forEach(element => {
+      var oneres = element;
+      oneres.id = resIndex;
+      resIndex = resIndex + 1;
+      setLinks(links => links.concat({url: `${oneres.link}`}));
+    });
+    return setImageurl(Imageurl => Imageurl.concat(newres));
+  };
+
+  const clickImage = (i: number) => {
+    setModalVisible(true);
+    setImageIndex(imageIndex => i);
   };
 
   useEffect(() => {
-    getData();
-  }, [dongId]);
+    setLinks(links => []);
+    setImageurl(Imageurl => []);
+    if (zone <= 5) {
+      getData(zone);
+    } else if (zone === 7) {
+      for (let index = 6; index <= 9; index++) {
+        getData(index);
+      }
+    } else if (zone === 10) {
+      for (let index = 10; index <= 17; index++) {
+        getData(index);
+      }
+    } else {
+      for (let index = 10; index <= 17; index++) {
+        getData(index);
+      }
+    }
+  }, []);
 
   const renderItem = useCallback(item => {
-    console.log('renderItem');
-    console.log(item.item.link);
     return (
-      <View>
-        <Text>{item.item.name}</Text>
-        <FastImage
-          source={{uri: `${item.item.link}`}}
-          style={{
-            height: Dimensions.get('window').width / 3,
-            width: Dimensions.get('window').width / 3,
-          }}
-        />
-      </View>
+      <TouchableOpacity
+        onPress={() => clickImage(item.item.id)}
+        style={{
+          paddingBottom: 10,
+          paddingTop: 10,
+          paddingLeft: 2,
+          paddingRight: 2,
+        }}>
+        <View>
+          <Text>
+            {item.item.name}
+            {zone}
+          </Text>
+          <FastImage
+            source={{uri: `${item.item.link}`}}
+            style={{
+              height: Dimensions.get('window').width / 3,
+              width: Dimensions.get('window').width / 3,
+            }}
+          />
+        </View>
+      </TouchableOpacity>
     );
   }, []);
 
@@ -63,10 +100,16 @@ function Gallery({navigation}: GalleryProps) {
           <FlatList
             data={Imageurl}
             numColumns={3}
-            keyExtractor={item => item.name.toString()}
+            keyExtractor={item => item.id}
             renderItem={renderItem}
           />
         </View>
+        <Modal
+          visible={modalVisible}
+          transparent={true}
+          onRequestClose={() => setModalVisible(false)}>
+          <ImageViewer imageUrls={links} index={imageIndex} />
+        </Modal>
       </View>
       <Button
         title="Go Home"
@@ -78,17 +121,4 @@ function Gallery({navigation}: GalleryProps) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 50,
-  },
-  tinyLogo: {
-    width: 100,
-    height: 100,
-  },
-  logo: {
-    width: 66,
-    height: 58,
-  },
-});
 export default Gallery;

@@ -9,11 +9,27 @@ import { RootState } from '../store/reducer';
 import { useAppDispatch } from '../store';
 import storeSlice from '../slices/stores';
 // type ChangeSpotProps = NativeStackScreenProps<ParamListBase, 'ChangeSpot'>
+type Items = {
+  id: number;
+  name: string;
+  phone: string;
+  address: string;
+  // addr2: string
+  latitude: number;
+  longitude: number;
+  menus: string[];
+  price: number[];
+  images: string[];
+  rate: number;
+  tags: string[];
+  quest: string;
+}
 type Props = {
-  item: Item
+  item: Items
   navigation : any
 }
 function SpotItem({ item, navigation }: Props) {
+  // console.log({아이템:item})
   const stores: any = useSelector((state: RootState) => state.stores).stores;
   const storeindex: any = useSelector((state: RootState) => state.stores).storeindex;
   const dispatch = useAppDispatch();
@@ -33,6 +49,14 @@ function SpotItem({ item, navigation }: Props) {
       return element;
     });
   };
+  let images;
+  if (item.images) {
+    if (item.images[0][0] == '\"') {
+    images = <Image style={styles.imageBox} source={{ uri: item.images[0].slice(1, item.images[0].length) }} />
+  } else {
+    images = <Image style={styles.imageBox} source={{ uri: item.images[0] }} />
+  }
+}
   return (
     <View>
       <Pressable style={styles.storeList}
@@ -40,10 +64,12 @@ function SpotItem({ item, navigation }: Props) {
         onPress={() => {
           if (!navigation) return;
       navigation.navigate('DetailSpot',{spotId: item.id});
+          // console.log({사진주소:item.images})
     }}
     >
     <View style={{flex:4}}>
-        <Image style={styles.imageBox} source={{uri: item.image}}></Image>
+          {/* <Image style={styles.imageBox} source={{uri: item.image}}></Image> */}
+          {images}
       </View>
       <View style={{flex: 8, justifyContent:'space-between'}}>
         <Text style={{ fontSize: 24, fontWeight: 'bold', marginTop: 8, color:'#000000' }}>{item.name}</Text>
@@ -63,7 +89,6 @@ function SpotItem({ item, navigation }: Props) {
                 if (!navigation) return;
                 const newCourse = replaceSelectedElement(stores, storeindex, item);
                 dispatchCourse(newCourse)
-                // console.log({ 새로운코스: newCourse })
                 navigation.navigate('Course', {});
               }}
           ></Button>
