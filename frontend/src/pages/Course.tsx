@@ -210,42 +210,42 @@ function Course({ navigation }: CourseProps) {
         stores: response.data.responseData.Spots,
       }),
     );
-    const stores = response.data.responseData.Spots;
-    if (stores?.length == 2) {
-      dispatch(
-        algolistSlice.actions.setalgolist({
-          one: response.data.responseData.spotIds[0].first,
-          two: response.data.responseData.spotIds[1].second,
-        }),
-      );
-    } else if (stores?.length == 3) {
-      dispatch(
-        algolistSlice.actions.setalgolist({
-          one: response.data.responseData.spotIds[0].first,
-          two: response.data.responseData.spotIds[1].second,
-          thr: response.data.responseData.spotIds[2].third,
-        }),
-      );
-    } else if (stores?.length == 4) {
-      dispatch(
-        algolistSlice.actions.setalgolist({
-          one: response.data.responseData.spotIds[0].first,
-          two: response.data.responseData.spotIds[1].second,
-          thr: response.data.responseData.spotIds[2].third,
-          fou: response.data.responseData.spotIds[3].fourth,
-        }),
-      );
-    } else if (stores?.length == 5) {
-      dispatch(
-        algolistSlice.actions.setalgolist({
-          one: response.data.responseData.spotIds[0].first,
-          two: response.data.responseData.spotIds[1].second,
-          thr: response.data.responseData.spotIds[2].third,
-          fou: response.data.responseData.spotIds[3].fourth,
-          fiv: response.data.responseData.spotIds[4].fifth,
-        }),
-        );
-      }
+    // const stores = response.data.responseData.Spots;
+    // if (stores?.length == 2) {
+    //   dispatch(
+    //     algolistSlice.actions.setalgolist({
+    //       one: response.data.responseData.spotIds[0].first,
+    //       two: response.data.responseData.spotIds[1].second,
+    //     }),
+    //   );
+    // } else if (stores?.length == 3) {
+    //   dispatch(
+    //     algolistSlice.actions.setalgolist({
+    //       one: response.data.responseData.spotIds[0].first,
+    //       two: response.data.responseData.spotIds[1].second,
+    //       thr: response.data.responseData.spotIds[2].third,
+    //     }),
+    //   );
+    // } else if (stores?.length == 4) {
+    //   dispatch(
+    //     algolistSlice.actions.setalgolist({
+    //       one: response.data.responseData.spotIds[0].first,
+    //       two: response.data.responseData.spotIds[1].second,
+    //       thr: response.data.responseData.spotIds[2].third,
+    //       fou: response.data.responseData.spotIds[3].fourth,
+    //     }),
+    //   );
+    // } else if (stores?.length == 5) {
+    //   dispatch(
+    //     algolistSlice.actions.setalgolist({
+    //       one: response.data.responseData.spotIds[0].first,
+    //       two: response.data.responseData.spotIds[1].second,
+    //       thr: response.data.responseData.spotIds[2].third,
+    //       fou: response.data.responseData.spotIds[3].fourth,
+    //       fiv: response.data.responseData.spotIds[4].fifth,
+    //     }),
+    //     );
+    //   }
     };
     const markerImg = require('../assets/현재위치.png');
     
