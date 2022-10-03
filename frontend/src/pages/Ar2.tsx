@@ -11,8 +11,17 @@ import {
   ViroAnimations,
   ViroMaterials,
 } from '@viro-community/react-viro';
-
+import courseSlice from '../slices/course';
+import { RootState } from '../store/reducer';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../store';
+var number=-1;
 const ArScene2 = () => {
+  const missionList: any = useSelector((state:RootState)=> state.course).missions
+
+  const [clearM, setClearM] = useState<number[]>(missionList.clearMissions);
+  const [unclearM, setUnclearM] = useState<number[]>(missionList.unclearMissions);
+  const dispatch = useAppDispatch();
 
   const [pigScale, setScale] = useState([1, 1, 1]);
   const scaleObject = (scaleFactor, source) => {
@@ -21,6 +30,25 @@ const ArScene2 = () => {
     setScale(newScaleAry);
     if (newScale > 5) {
       Alert.alert('돼지 키우기 미션 클리어');
+      console.log({미션번호: number})
+      setClearM([...clearM, number])
+      const unclearList=[];
+      for(var i =0; i < unclearM.length; i++){
+        if(unclearM[i] != number){
+          unclearList.push(unclearM[i]);
+        }
+      }
+      setUnclearM(unclearList)
+      console.log('성공한 미션 리스트',clearM)
+      console.log('남은 미션', unclearList)
+      dispatch(
+        courseSlice.actions.setCourse({
+          missions: {
+            clearMissions: clearM,
+            unclearMissions: unclearList
+          }
+        }),
+      )
     }
   };
   return (
@@ -42,7 +70,8 @@ const ArScene2 = () => {
     </ViroARScene>
   );
 };
-function Ar2({navigation}) {
+function Ar2({ navigation, route }) {
+  number = route.params.num;
   return (
     <ViroARSceneNavigator
       autofocus={true}

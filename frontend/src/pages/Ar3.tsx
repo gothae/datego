@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Button} from 'react-native';
 import {StyleSheet} from 'react-native';
 import {Alert} from 'react-native';
@@ -23,6 +23,10 @@ const ArScene3 = () => {
   const [clearM, setClearM] = useState<number[]>(missionList.clearMissions);
   const [unclearM, setUnclearM] = useState<number[]>(missionList.unclearMissions);
   const dispatch = useAppDispatch();
+  useEffect(() => { 
+    console.log('성공한 미션 리스트',clearM)
+    console.log('남은 미션', unclearM)
+  }, [])
   const [redScale, setScale] = useState([0.05, 0.05, 0.05]);
   const scaleObject = (scaleFactor, source) => {
     let newScale = redScale[0] * 1.1;

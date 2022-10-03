@@ -40,6 +40,7 @@ const ArScene1 = () => {
   useEffect(() => {
     if (counter === 4) {
       Alert.alert('미션 클리어');
+      console.log({미션번호: number})
       setClearM([...clearM, number])
       const unclearList=[];
       for(var i =0; i < unclearM.length; i++){
