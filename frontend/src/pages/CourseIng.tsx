@@ -5,13 +5,13 @@ import GestureRecognizer from 'react-native-swipe-gestures';
 // import courseSlice from '../slices/course';
 import {useSelector} from 'react-redux';
 import {useState, useEffect, useCallback, useMemo} from 'react';
-import defaultImage from '../assets/check.png';
 import {
   View,
   Text,
   Dimensions,
   StyleSheet,
   PermissionsAndroid,
+  Touchable,
   Image,
   Pressable,
   ScrollView,
@@ -30,7 +30,7 @@ import NaverMapView, {
 } from 'react-native-nmap';
 import store from '../store';
 import { statusCodes } from '@react-native-google-signin/google-signin';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { TouchableOpacity } from 'react-native';
 type TagObj={
   count: number,
   description : string,
@@ -99,8 +99,6 @@ function CourseIng({navigation}) {
   });
   
   function _onReload(){
-    console.log("clicd");
-    Alert.alert("위치변경");
     Geolocation.getCurrentPosition(
       info => {
         setMyPosition({
@@ -288,9 +286,9 @@ const[opacityNum, setOpactiy] = useState(1);
             center={{...storePosition, zoom: 14}}
             // onTouch={e => console.warn('onTouch', JSON.stringify(e.nativeEvent))}
             onCameraChange={e =>
-              console.warn('onCameraChange', JSON.stringify(e))
+              console.log('onCameraChange', JSON.stringify(e))
             }
-            onMapClick={e => console.warn('onMapClick', JSON.stringify(e))}>
+            onMapClick={e => console.log('onMapClick', JSON.stringify(e))}>
             <Marker
               coordinate={storePosition}
               onClick={() => console.log(storePosition)}
@@ -320,9 +318,9 @@ const[opacityNum, setOpactiy] = useState(1);
                   <Image style={{flex:3, resizeMode:'cover', borderRadius: 15, opacity:opacityNum}} source={{uri:images}}></Image>
                   <View style={{flex:2, alignItems:'center', opacity:opacityNum}}>
                     <Text style={{flex:3, marginTop:'25%',color:'black', fontSize:25}}>{store.name}</Text>
-                    <View style={{flex:2, flexDirection:'row'}}>
-                      <Text style={{flex:5, marginLeft:'15%',color:'black',textAlign:"center"}}>{dist} M</Text>
-                      <TouchableOpacity onPress={_onReload} style={{flex:1, marginTop:'8%'}} activeOpacity={0.5}><Image style={{width:50, height:15}} 
+                    <View style={{flex:2, flexDirection:'row', justifyContent:'center', alignItems:'baseline'}}>
+                      <Text style={{flex:2, paddingLeft:"15%",color:'black',textAlign:"center"}}>{dist} M</Text>
+                      <TouchableOpacity onPress={()=>_onReload()} style={{flex:1}} activeOpacity={0.5}><Image style={{width:50, height:15}} 
                         resizeMode="contain" source={{uri:"https://user-images.githubusercontent.com/66546079/193567076-b88dbfb6-ad87-45f6-953c-3ea02960ca70.png"}}></Image></TouchableOpacity></View>
                     <View style={{flex:2, flexDirection:'column', alignItems:'center', justifyContent:'space-around'}}>
                       <View style={{flex:2, flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
