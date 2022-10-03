@@ -6,6 +6,7 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {DraxProvider, DraxView, DraxList} from 'react-native-drax';
@@ -24,6 +25,7 @@ const gestureRootViewStyle = {flex: 1};
 // export default function DragItems({navigation}) {
 function DragItems() {
   const navigation = useNavigation();
+  const dongId = useSelector((state: RootState) => state.user.dongId);
   const userId = useSelector((state: RootState) => state.user.id);
   const myfood = useSelector((state: RootState) => state.category.myfood);
   const mycafe = useSelector((state: RootState) => state.category.mycafe);
@@ -181,91 +183,86 @@ function DragItems() {
     }
     setStateCourse();
   }, [receivingItemList]);
-  
+
   // useEffect(() => {
-    //   console.log('현재내코스 설정');
+  //   console.log('현재내코스 설정');
   //   dispatch(
-    //     categorySlice.actions.setCourse({
-      //       mycourse: currentcourse,
+  //     categorySlice.actions.setCourse({
+  //       mycourse: currentcourse,
   //     }),
   //   );
   // }, [currentcourse]);
-  
+
   const FlatListItemSeparator = () => {
     return <View style={styles.itemSeparator} />;
   };
-  
+
   const goNext = () => {
-    console.log(3);
     navigation.navigate('Course', {});
   };
 
   async function setPreference() {
-    console.log('코스 및 취향설정');
-    console.log(myfood);
-    console.log(mycafe);
-    console.log(mydrink);
-    console.log(myplay);
-    console.log(myprice);
-    console.log(currentcourse);
-    const response = await axios.post(
-      'http://j7a104.p.ssafy.io:8000/courses/1',
-      {
-        course: currentcourse,
-        categoryList: {
-          food: myfood,
-          cafe: mycafe,
-          play: myplay,
-          drink: mydrink,
+    if (currentcourse.length > 0) {
+      const response = await axios.post(
+        `http://j7a104.p.ssafy.io:8000/courses/${dongId}`,
+        {
+          course: currentcourse,
+          categoryList: {
+            food: myfood,
+            cafe: mycafe,
+            play: myplay,
+            drink: mydrink,
+          },
+          price: myprice[0],
+          id: userId,
         },
-        price: myprice[0],
-        id: userId,
-      },
-    );
-    console.log('여기', response.data.responseData.Spots);
-    dispatch(
-      storeSlice.actions.setstore({
-        stores: response.data.responseData.Spots,
-      }),
-    );
-   const stores = response.data.responseData.Spots;  
-    if (stores?.length == 2) {
+      );
+      console.log(response);
       dispatch(
-        algolistSlice.actions.setalgolist({
-          one: response.data.responseData.spotIds[0].first,
-          two: response.data.responseData.spotIds[1].second,
+        storeSlice.actions.setstore({
+          stores: response.data.responseData.Spots,
         }),
       );
-    } else if (stores?.length == 3) {
-      dispatch(
-        algolistSlice.actions.setalgolist({
-          one: response.data.responseData.spotIds[0].first,
-          two: response.data.responseData.spotIds[1].second,
-          thr: response.data.responseData.spotIds[2].third,
-        }),
-      );
-    } else if (stores?.length == 4) {
-      dispatch(
-        algolistSlice.actions.setalgolist({
-          one: response.data.responseData.spotIds[0].first,
-          two: response.data.responseData.spotIds[1].second,
-          thr: response.data.responseData.spotIds[2].third,
-          fou: response.data.responseData.spotIds[3].fourth,
-        }),
-      );
-    } else if (stores?.length == 5) {
-      dispatch(
-        algolistSlice.actions.setalgolist({
-          one: response.data.responseData.spotIds[0].first,
-          two: response.data.responseData.spotIds[1].second,
-          thr: response.data.responseData.spotIds[2].third,
-          fou: response.data.responseData.spotIds[3].fourth,
-          fiv: response.data.responseData.spotIds[4].fifth,
-        }),
-    );
-    console.log(2);
-  }
-  goNext();
+      const stores = response.data.responseData.Spots;
+      if (stores?.length == 2) {
+        dispatch(
+          algolistSlice.actions.setalgolist({
+            one: response.data.responseData.spotIds[0].first,
+            two: response.data.responseData.spotIds[1].second,
+          }),
+        );
+      } else if (stores?.length == 3) {
+        dispatch(
+          algolistSlice.actions.setalgolist({
+            one: response.data.responseData.spotIds[0].first,
+            two: response.data.responseData.spotIds[1].second,
+            thr: response.data.responseData.spotIds[2].third,
+          }),
+        );
+      } else if (stores?.length == 4) {
+        dispatch(
+          algolistSlice.actions.setalgolist({
+            one: response.data.responseData.spotIds[0].first,
+            two: response.data.responseData.spotIds[1].second,
+            thr: response.data.responseData.spotIds[2].third,
+            fou: response.data.responseData.spotIds[3].fourth,
+          }),
+        );
+      } else if (stores?.length == 5) {
+        dispatch(
+          algolistSlice.actions.setalgolist({
+            one: response.data.responseData.spotIds[0].first,
+            two: response.data.responseData.spotIds[1].second,
+            thr: response.data.responseData.spotIds[2].third,
+            fou: response.data.responseData.spotIds[3].fourth,
+            fiv: response.data.responseData.spotIds[4].fifth,
+          }),
+        );
+      }
+      goNext();
+    } else {
+      Alert.alert('코스 순서를 설정해주세요');
+    }
   }
   return (
     <GestureHandlerRootView style={gestureRootViewStyle}>
