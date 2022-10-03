@@ -13,16 +13,18 @@ import {useEffect, useState} from 'react';
 import {useAppDispatch} from '../store';
 import categorySlice from '../slices/category';
 import storeSlice from '../slices/stores';
-
+import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
 import axios from 'axios';
+import algolistSlice from '../slices/algolist';
 
 const gestureRootViewStyle = {flex: 1};
 
-export default function DragItems() {
+// export default function DragItems({navigation}) {
+function DragItems() {
+  const navigation = useNavigation();
   const userId = useSelector((state: RootState) => state.user.id);
-
   const myfood = useSelector((state: RootState) => state.category.myfood);
   const mycafe = useSelector((state: RootState) => state.category.mycafe);
   const myplay = useSelector((state: RootState) => state.category.myplay);
@@ -179,18 +181,23 @@ export default function DragItems() {
     }
     setStateCourse();
   }, [receivingItemList]);
-
+  
   // useEffect(() => {
-  //   console.log('현재내코스 설정');
+    //   console.log('현재내코스 설정');
   //   dispatch(
-  //     categorySlice.actions.setCourse({
-  //       mycourse: currentcourse,
+    //     categorySlice.actions.setCourse({
+      //       mycourse: currentcourse,
   //     }),
   //   );
   // }, [currentcourse]);
-
+  
   const FlatListItemSeparator = () => {
     return <View style={styles.itemSeparator} />;
+  };
+  
+  const goNext = () => {
+    console.log(3);
+    navigation.navigate('Course', {});
   };
 
   async function setPreference() {
@@ -221,14 +228,45 @@ export default function DragItems() {
         stores: response.data.responseData.Spots,
       }),
     );
+   const stores = response.data.responseData.Spots;  
+    if (stores?.length == 2) {
+      dispatch(
+        algolistSlice.actions.setalgolist({
+          one: response.data.responseData.spotIds[0].first,
+          two: response.data.responseData.spotIds[1].second,
+        }),
+      );
+    } else if (stores?.length == 3) {
+      dispatch(
+        algolistSlice.actions.setalgolist({
+          one: response.data.responseData.spotIds[0].first,
+          two: response.data.responseData.spotIds[1].second,
+          thr: response.data.responseData.spotIds[2].third,
+        }),
+      );
+    } else if (stores?.length == 4) {
+      dispatch(
+        algolistSlice.actions.setalgolist({
+          one: response.data.responseData.spotIds[0].first,
+          two: response.data.responseData.spotIds[1].second,
+          thr: response.data.responseData.spotIds[2].third,
+          fou: response.data.responseData.spotIds[3].fourth,
+        }),
+      );
+    } else if (stores?.length == 5) {
+      dispatch(
+        algolistSlice.actions.setalgolist({
+          one: response.data.responseData.spotIds[0].first,
+          two: response.data.responseData.spotIds[1].second,
+          thr: response.data.responseData.spotIds[2].third,
+          fou: response.data.responseData.spotIds[3].fourth,
+          fiv: response.data.responseData.spotIds[4].fifth,
+        }),
+    );
     console.log(2);
-    goNext();
   }
-  const goNext = () => {
-    console.log(3);
-    // navigation.navigate('Course', {});
-  };
-
+  goNext();
+  }
   return (
     <GestureHandlerRootView style={gestureRootViewStyle}>
       <DraxProvider>
@@ -327,3 +365,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
   },
 });
+
+export default DragItems;
