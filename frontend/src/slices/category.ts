@@ -1,13 +1,14 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
-  food: [],
   cafe: [],
   drink: [],
-  activity: [],
-  cost: 0,
   mycourse: [],
-  mycategory: [],
+  myfood: [],
+  mycafe: [],
+  myplay: [],
+  mydrink: [],
+  myprice: 0,
 };
 const categorySlice = createSlice({
   name: 'category',
@@ -18,10 +19,20 @@ const categorySlice = createSlice({
       state.drink = action.payload.drink;
     },
     setCourse(state, action) {
-      state.mycourse = action.payload.course;
-      console.log('마이코스');
-      console.log(action.payload.course);
-      console.log(state.mycourse);
+      state.mycourse = action.payload.mycourse;
+      state.myfood = action.payload.myfood;
+      state.mycafe = action.payload.mycafe;
+      state.myplay = action.payload.myplay;
+      state.mydrink = action.payload.mydrink;
+      state.myprice = action.payload.myprice;
+    },
+    deletCourse(state, action) {
+      state.mycourse = action.payload.mycourse;
+      state.myfood = action.payload.myfood;
+      state.mycafe = action.payload.mycafe;
+      state.myplay = action.payload.myplay;
+      state.mydrink = action.payload.mydrink;
+      state.myprice = action.payload.myprice;
     },
   },
   extraReducers: builder => {},

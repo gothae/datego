@@ -2,12 +2,14 @@ import * as React from 'react';
 import {
   View,
   Text,
-  Button,
   FlatList,
   Image,
   StyleSheet,
   TouchableOpacity,
-  TouchableHighlight,
+  Alert,
+  Modal,
+  Pressable,
+  TextInput,
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
@@ -24,14 +26,7 @@ import storeSlice from '../slices/stores';
 type PreferenceProps = NativeStackScreenProps<ParamListBase, 'Preference'>;
 
 function Preference({navigation}: PreferenceProps) {
-  const userId = useSelector((state: RootState) => state.user.id);
-  const food = useSelector((state: RootState) => state.category.food);
-  const cafe = useSelector((state: RootState) => state.category.cafe);
-  const drink = useSelector((state: RootState) => state.category.drink);
-  const activity = useSelector((state: RootState) => state.category.activity);
-  const mycourse = useSelector((state: RootState) => state.category.mycourse);
-  const cost = useSelector((state: RootState) => state.category.cost);
-  const [count, setCount] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const [containerWidth, setContainerWidth] = useState(0);
 
@@ -43,6 +38,7 @@ function Preference({navigation}: PreferenceProps) {
     const response = await axios.get(
       'http://j7a104.p.ssafy.io:8080/categories',
     );
+    console.log('서버에서 카페, 드링크가져왔음.');
     dispatch(
       categorySlice.actions.setCategory({
         cafe: response.data.responseData.cafes,
@@ -50,9 +46,22 @@ function Preference({navigation}: PreferenceProps) {
       }),
     );
   };
+  const deleteData = async () => {
+    dispatch(
+      categorySlice.actions.deletCourse({
+        mycourse: [],
+        myfood: [],
+        mycafe: [],
+        myplay: [],
+        mydrink: [],
+        myprice: [],
+      }),
+    );
+  };
 
   useEffect(() => {
     getData();
+    deleteData();
   }, []);
 
   const arr = [
@@ -316,62 +325,73 @@ function Preference({navigation}: PreferenceProps) {
     </View>
   );
 
-  const CourseItem: Object = ({item}) => {
-    <View>
-      <Text style={{color: 'black', fontSize: 20, marginLeft: 10}}>
-        {item[0].title}
-      </Text>
-    </View>;
-  };
-  const setPreference = () => {
-    const getCourse = async () => {
-      const response = await axios.post(
-        'http://j7a104.p.ssafy.io:8000/courses/1',
-        {
-          course: mycourse,
-          categoryList: {
-            food: selectFood,
-            cafe: selectCafe,
-            play: selectActivity,
-            drink: selectDrink,
-          },
-          price: selectPrice[0],
-          id: userId,
-        },
-      );
-      console.log('여기', response.data.responseData)
-      dispatch(
-        storeSlice.actions.setstore({
-          stores: response.data.responseData.Spots,
-        }),
-      );
-    };
-    getCourse();
+  const myfood = useSelector((state: RootState) => state.category.myfood);
+  const mycafe = useSelector((state: RootState) => state.category.mycafe);
+  const mydrink = useSelector((state: RootState) => state.category.mydrink);
+  const myplay = useSelector((state: RootState) => state.category.myplay);
+  const myprice = useSelector((state: RootState) => state.category.myprice);
 
-  };
-
-  
+  async function setMyCourse() {
+    console.log('내취향 세팅합니다.');
+    console.log(1);
+    console.log(selectFood);
+    console.log(selectCafe);
+    console.log(selectDrink);
+    console.log(selectActivity);
+    console.log(selectPrice);
+    console.log('현재스테이트값들');
+    dispatch(
+      categorySlice.actions.setCourse({
+        myfood: selectFood,
+        mycafe: selectCafe,
+        mydrink: selectDrink,
+        myplay: selectActivity,
+        myprice: selectPrice,
+      }),
+    );
+  }
 
   return (
     <View style={{flex: 1}}>
-      {/* <View>
-          <PriceBar totalStep={12} nowStep={count} />
-          <Button onPress={() => setCount(prev => prev + 3)} title="1증가" />
-          <Button onPress={() => setCount(prev => --prev)} title="1감소" />
-        </View> */}
       <View style={{flex: 1}}>
         <FlatList data={arr} renderItem={({item}) => <Item item={item} />} />
       </View>
-      <DragItems />
+
       <TouchableOpacity
         style={styles.customBtnBG}
         onPress={() => {
-          setPreference();
-          console.log('넘겨주는것', userId)
-          navigation.navigate('Course', {});
+          setMyCourse();
+          setModalVisible(true);
         }}>
-        <Text style={styles.customBtnText}>설정 완료</Text>
+        <Text style={styles.customBtnText}>취향 설정 완료</Text>
       </TouchableOpacity>
+
+      {/* 모달부분 */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+          deleteData();
+          navigation.navigate('Home', {});
+        }}>
+        <Pressable
+          style={{
+            flex: 1,
+            backgroundColor: 'rgba(0,0,0,0.5)',
+          }}
+          onPress={() => {
+            setModalVisible(!modalVisible);
+            navigation.navigate('Home', {});
+          }}
+        />
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <DragItems />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -385,6 +405,38 @@ const styles = StyleSheet.create({
 
   customBtnBG: {
     backgroundColor: '#FFA856',
+  },
+  centeredView: {
+    flex: 1,
+    position: 'absolute',
+    alignSelf: 'center',
+    top: '30%',
+    width: '80%',
+    height: '40%',
+  },
+  modalView: {
+    backgroundColor: 'white',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 3,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    height: '100%',
+    width: '100%',
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#2196F3',
   },
 });
 
