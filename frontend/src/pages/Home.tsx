@@ -13,7 +13,7 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import {useEffect, useCallback} from 'react';
+import {useEffect} from 'react';
 import axios from 'axios';
 import userSlice from '../slices/user';
 import {useAppDispatch} from '../store';
@@ -21,7 +21,6 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../src/store/reducer';
 import {logout} from '@react-native-seoul/kakao-login';
 import {launchCamera} from 'react-native-image-picker';
-import ImageResizer from 'react-native-image-resizer';
 
 function Home({navigation}) {
   const myReviews = useSelector((state: RootState) => state.user.myReviews);
@@ -551,6 +550,7 @@ const styles = (dongReviewCnt: any[], offset: number, l: number, t: number) =>
       fontSize: 14,
       fontWeight: 'bold',
       textAlign: 'center',
+      color: 'black',
     },
   });
 export default Home;
