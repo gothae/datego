@@ -186,6 +186,14 @@ function Home({navigation}) {
       </View>
       <View>
         <Button
+          title="Review"
+          onPress={() => {
+            navigation.navigate('Review', {});
+          }}
+        />
+      </View>
+      <View>
+        <Button
           onPress={onLogout}
           title="로그아웃"
           color="#841584"
