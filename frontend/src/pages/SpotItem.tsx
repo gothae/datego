@@ -22,13 +22,14 @@ type Items = {
   images: string[];
   rate: number;
   tags: string[];
+  quest: string;
 }
 type Props = {
   item: Items
   navigation : any
 }
 function SpotItem({ item, navigation }: Props) {
-  console.log({아이템:item})
+  // console.log({아이템:item})
   const stores: any = useSelector((state: RootState) => state.stores).stores;
   const storeindex: any = useSelector((state: RootState) => state.stores).storeindex;
   const dispatch = useAppDispatch();
@@ -88,7 +89,6 @@ function SpotItem({ item, navigation }: Props) {
                 if (!navigation) return;
                 const newCourse = replaceSelectedElement(stores, storeindex, item);
                 dispatchCourse(newCourse)
-                // console.log({ 새로운코스: newCourse })
                 navigation.navigate('Course', {});
               }}
           ></Button>

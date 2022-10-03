@@ -18,6 +18,7 @@ public class SpotDetailRes {
     String address;
     String phone;
     double rate;
+    String quest;
     int price;
     BigDecimal latitude;
     BigDecimal longitude;

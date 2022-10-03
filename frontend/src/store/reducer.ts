@@ -9,8 +9,8 @@ const rootReducer = combineReducers({
   user: userSlice.reducer,
   stores: storeSlice.reducer,
   category: categorySlice.reducer,
-  course : courseSlice.reducer,
-  algolist: algolistSlice.reducer
+  course: courseSlice.reducer,
+  algolist: algolistSlice.reducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
