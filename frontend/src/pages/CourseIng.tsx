@@ -11,9 +11,13 @@ import {
   Dimensions,
   StyleSheet,
   PermissionsAndroid,
+  Touchable,
   Image,
   Pressable,
   ScrollView,
+  ImageBackground,
+  ImageSourcePropType,
+  Alert,
 } from 'react-native';
 import {Button} from '@react-native-material/core';
 import NaverMapView, {
@@ -26,13 +30,26 @@ import NaverMapView, {
 } from 'react-native-nmap';
 import store from '../store';
 import { statusCodes } from '@react-native-google-signin/google-signin';
+import { TouchableOpacity } from 'react-native';
+type TagObj={
+  count: number,
+  description : string,
+  name : string
+}
 type Store={
-  name: string;
-  image: string;
   id: number;
-  tags: string[];
-  location : K
-  mission: string;
+  name: string;
+  phone: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+  menus: string[];
+  price: number[];
+  image: string;
+  rate: number;
+  tags: any;
+  images: string[];
+  quest: string;
 }
 type K = {
   latitude: number;
@@ -62,40 +79,67 @@ function CourseIng({navigation}) {
     }
   }; 
 
+  
 
 
   function _onPress(mission:string){
-    console.log(mission);
     if(mission==="꿀꿀이를 키우자!"){
-      navigation.navigate('Ar2', {});
+      navigation.navigate('Ar2', {num:number});
     }
     else if(mission==="돈을 줍자!"){
-      navigation.navigate('Ar1', {});
+      navigation.navigate('Ar1', {num:number});
     }
-    else if(mission==="빨강이를 키우자!"){
-      navigation.navigate('Ar3', {});
+    else if(mission==="빨강이를 키우자"){
+      navigation.navigate('Ar3', {num:number});
     }
   }
-  const stores: any = useSelector((state:RootState) => state.course).stores;
-  const missionList: any = useSelector((state:RootState)=> state.course).missions;
+  const [myPosition, setMyPosition] = useState<K>({
+    latitude: 223.456,
+    longitude: 123.567
+  });
+  
+  function _onReload(){
+    Geolocation.getCurrentPosition(
+      info => {
+        setMyPosition({
+          latitude : info.coords.latitude,
+          longitude : info.coords.longitude
+        });
+      },
+      console.error,
+      {
+        enableHighAccuracy:true,
+      }
+    );
+  }
+
+  const stores: any = useSelector((state:RootState) => state.stores).stores;
+  const missionList: any = useSelector((state:RootState)=> state.course).missions
+  const [checkImg, setCheckImg] = useState("");
   const [store, setStore] = useState<Store>({
-    name: "김씨 고깃집",
-    image: "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA5MDJfMjM1%2FMDAxNjYyMTA5MDk3Njcx.ayvBzFbHugL03yMrrSYJ-4qqBVHjVT7W83CVQ6FkY2og.vshkd-ZSSYK2yJtEfyMJhlt6wovfMPPX5i0_grtLh-gg.JPEG.bomin78%2FDSCF9485.JPG&type=a340",
-    id:0,
-    tags: ["맛집","분위기가 좋은", "가성비","한식"],
-    location : {latitude:37.53698, longitude:127.0017},
-    mission: "꿀꿀이를 키우자!"
-});
-
-useEffect(() => {
-  setStore(stores[0]);
-}, [stores])
-
-const [myPosition, setMyPosition] = useState<K>({
-  latitude: 123.456,
-  longitude: 123.567
-});
-
+    id: 1,
+  name: "로딩중",
+  phone: "",
+  address: "",
+  latitude: 0,
+  longitude: 0,
+  menus: [],
+  price: [],
+  image: "",
+  rate: 0,
+  tags: [],
+  images: ["",""],
+  quest: ""
+  });
+  const [storePosition, setStorePosition] = useState<K>({
+    latitude: 137.539455,
+    longitude: 126.9916965
+  })
+  useEffect(() => {
+    console.log({ 성공한미션: missionList.clearMissions })
+    console.log({ 남은미션: missionList.unclearMissions })
+    setX(missionList);
+  }, [missionList])
 useEffect(()=>{
   Geolocation.getCurrentPosition(
     info => {
@@ -108,34 +152,116 @@ useEffect(()=>{
     {
       enableHighAccuracy:true,
     }
-  );
-},[]);
-// function getDist(){
-//   console.log(myPosition.longitude);
-//   console.log(myPosition.latitude);
-//   return "HI";
-//   // var x = (Math.cos(store.location.latitude)*6400*2*Math.PI/360) * Math.abs(store.location.longitude-myPosition.longitude);
-//   // var y = 111*Math.abs(store.location.latitude-myPosition.latitude);
-//   // return Math.round((Math.sqrt(x*x+y*y))*1000/1000*1000)+" M"; 
-// }
-const[number, setNumber] = useState(0);
+  );  
+},[storePosition])
+useEffect(()=>{
+  setDist(getDist(storePosition))
+},[myPosition])
+useEffect(() => {  
+  setStore(stores[0]);
+  setX(missionList);
+  let pos :K={
+    latitude : stores[0].latitude,
+    longitude : stores[0].longitude
+  }
+  setStorePosition(pos);
+}, [])
+useEffect(()=>{  
+  let pos :K={
+    latitude : stores[number].latitude,
+    longitude : stores[number].longitude
+  }
+  setStorePosition(pos);
+},[store])
 
+
+
+function getDist(location : K){  
+  var x = (Math.cos(location.latitude)*6400*2*Math.PI/360) * Math.abs(location.longitude-myPosition.longitude);
+  var y = 111*Math.abs(location.latitude-myPosition.latitude);
+  return Math.round((Math.sqrt(x*x+y*y))*1000/1000*1000); 
+}
+const[number, setNumber] = useState(0);
+const[dist, setDist] = useState(0);
+const[opacityNum, setOpactiy] = useState(1);
   const [x, setX] = useState<Mission>({
-    clearMissions: [1,2,3],
-    unclearMissions: [4,5]
+    clearMissions: [],
+    unclearMissions: [0,1,2,3,4]
   });  
   const onIncrease = () =>{
     console.log("increase");
-    // setNumber((number+1)%stores.length);
-    // setStore(stores[number]);
+    setNumber((number+1)%stores.length);
   }
+
+  let tagList;
+  if(typeof store.tags[0]==="string"){
+    tagList = store.tags;
+  }
+  else{
+    tagList=[];
+    for(var i=0;i<store.tags.length;i++){
+      var a : TagObj = store.tags[i];
+      
+      tagList.push(a.name);
+    }
+  }
+  
+  useEffect(()=>{
+    setStore(stores[number]);
+    let pos2 :K={
+      latitude : stores[number].latitude,
+      longitude : stores[number].longitude
+    }
+    if(x.clearMissions.includes(number)){
+      setCheckImg("https://user-images.githubusercontent.com/66546079/193565621-41c38492-5cfa-46ef-bc4a-215095ec9ceb.png");
+      setOpactiy(0.4);
+    }
+    else{
+      setCheckImg("");
+      setOpactiy(1);
+    }
+    setStorePosition(pos2);
+  },[number])
+  useEffect(()=>{
+    if(x.clearMissions.includes(number)){
+      setCheckImg("https://user-images.githubusercontent.com/66546079/193565621-41c38492-5cfa-46ef-bc4a-215095ec9ceb.png");
+      setOpactiy(0.4);
+    }
+  },[x])
+
   const onDecrease = () => {
     console.log("decrease");
-    // setNumber(number-1>=0?number-1:0);
-    // setStore(stores[number]);
+    console.log(number);
+
+    if(number==0){
+      setNumber(stores.length-1);
+    }
+    else{
+      setNumber(number-1);
+    }
   }
-
-
+    
+  let images;
+  if (store.image) {
+    if (store.image[0] == '\"') {
+    images = store.image.slice(1, store.image.length)
+  } else {
+    images = store.image
+  }
+  } else if (store.images) {
+    if (store.images[0][0] == 'h') {
+      images = store.images[0]
+    }
+    else if (store.images[0][1] == 'h') {
+      images = store.images[0].slice(1, store.images[0].length - 1) 
+    } else {
+      images = store.images[0].slice(1, store.images[0].length - 1)
+    }
+  }
+  // let tagList;
+  // if(store.tags){
+  //   if(stores.tags[0].name)
+  // }
   let clearMedal;
   let unclearMedal;
   clearMedal = x.clearMissions.map((a, index)=>(
@@ -159,20 +285,18 @@ const[number, setNumber] = useState(0);
   return (
     
     <View style={{flex:1}}>
-      
-
         <NaverMapView
             style={{flex:2.5, marginHorizontal: 10, marginVertical: 10}}
             showsMyLocationButton={true}
-            center={{...myPosition, zoom: 14}}
+            center={{...storePosition, zoom: 14}}
             // onTouch={e => console.warn('onTouch', JSON.stringify(e.nativeEvent))}
             onCameraChange={e =>
-              console.warn('onCameraChange', JSON.stringify(e))
+              console.log('onCameraChange', JSON.stringify(e))
             }
-            onMapClick={e => console.warn('onMapClick', JSON.stringify(e))}>
+            onMapClick={e => console.log('onMapClick', JSON.stringify(e))}>
             <Marker
-              coordinate={myPosition}
-              onClick={() => console.warn('onClick! p0')}
+              coordinate={storePosition}
+              onClick={() => console.log(storePosition)}
             />
             </NaverMapView>
             <View style={{flex:5}}>
@@ -195,36 +319,49 @@ const[number, setNumber] = useState(0);
           }}>
             <View style={{flex:1, alignItems:'center'}}>
               <View style={{width:'80%',flex:5}}>
-                <View style={{flex:1,flexDirection:'row', borderWidth:1, borderRadius: 15, borderColor:'gray'}}>
-                  <Image style={{flex:3, resizeMode:'cover', borderRadius: 15}} source={{uri:store.image}}></Image>
-                  <View style={{flex:2, alignItems:'center'}}>
+                <ImageBackground resizeMode="contain" source={{uri:checkImg}}style={{flex:1,flexDirection:'row', borderWidth:1, borderRadius: 15, borderColor:'gray'}}>
+                  <Image style={{flex:3, resizeMode:'cover', borderRadius: 15, opacity:opacityNum}} source={{uri:images}}></Image>
+                  <View style={{flex:2, alignItems:'center', opacity:opacityNum}}>
                     <Text style={{flex:3, marginTop:'25%',color:'black', fontSize:25}}>{store.name}</Text>
-                    <Text style={{flex:2, color:'black'}}>HI</Text>
+                    <View style={{flex:2, flexDirection:'row', justifyContent:'center', alignItems:'baseline'}}>
+                      <Text style={{flex:2, paddingLeft:"15%",color:'black',textAlign:"center"}}>{dist} M</Text>
+                      <TouchableOpacity onPress={()=>_onReload()} style={{flex:1}} activeOpacity={0.5}><Image style={{width:50, height:15}} 
+                        resizeMode="contain" source={{uri:"https://user-images.githubusercontent.com/66546079/193567076-b88dbfb6-ad87-45f6-953c-3ea02960ca70.png"}}></Image></TouchableOpacity></View>
                     <View style={{flex:2, flexDirection:'column', alignItems:'center', justifyContent:'space-around'}}>
                       <View style={{flex:2, flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
-                      <Text style={{paddingLeft:'5%', paddingRight:'5%',marginRight:'2%', backgroundColor:'orange', borderRadius:5}}>{store.tags[0]}</Text>
-                      <Text style={{paddingLeft:'5%', paddingRight:'5%',backgroundColor:'orange', borderRadius:5}}>{store.tags[1]}</Text>
+                      <Text style={{paddingLeft:'5%', paddingRight:'5%',marginRight:'2%', backgroundColor:'orange', borderRadius:5}}>{tagList[0]}</Text>
+                      <Text style={{paddingLeft:'5%', paddingRight:'5%',backgroundColor:'orange', borderRadius:5}}>{tagList[1]}</Text>
                       </View>
                       <View style={{flex:2, flexDirection:'row', alignItems:'baseline'}}>
-                      <Text style={{paddingLeft:'5%', marginRight:'2%', paddingRight:'5%',backgroundColor:'orange', borderRadius:5}}>{store.tags[2]}</Text>
-                      <Text style={{paddingLeft:'5%', paddingRight:'5%',backgroundColor:'orange', borderRadius:5}}>{store.tags[3]}</Text>
+                      <Text style={{paddingLeft:'5%', marginRight:'2%', paddingRight:'5%',backgroundColor:'orange', borderRadius:5}}>{tagList[2]}</Text>
+                      <Text style={{paddingLeft:'5%', paddingRight:'5%',backgroundColor:'orange', borderRadius:5}}>{tagList[3]}</Text>
                       </View>
                       </View>
                   </View>                  
-                </View>
+                </ImageBackground>
               </View>
               <View style={{flex:2, width:'70%', flexDirection:'row', justifyContent:'space-around', alignItems:'center'}}>
                 <Image style={{flex:1, resizeMode:'contain', marginRight: '10%'}}source={require('../assets/scroll.png')}></Image>
-                <Text style={{flex: 5, color:'black', fontSize:18}}>{store.mission}</Text>
-                <Button style={{flex:2, backgroundColor:'white'}} titleStyle={{color:'orange'}}title="GO!!" onPress={()=>_onPress(store.mission)}></Button></View>
+                <Text style={{flex: 5, color:'black', fontSize:18}}>{store.quest}</Text>
+                <Button style={{flex:2, backgroundColor:'white'}} titleStyle={{color:'orange'}}title="GO!!" onPress={()=>_onPress(store.quest)}></Button></View>
               <View style={{flex:2, alignItems:'center'}}><Button style={{width:'100%', backgroundColor:'orange'}} 
               title='그만하기' titleStyle={{fontSize:25}} onPress={requestCameraPermission}></Button></View>
             </View>
             </GestureRecognizer>
             </View>
           </View>
+
 )
 }
 
+var styles = StyleSheet.create({
+    helloWorldTextStyle: {
+    flex:1,
+    flexDirection:'row',
+    borderWidth:1, 
+    borderRadius: 15, 
+    borderColor:'gray'
+  },
+});
 
 export default CourseIng;
