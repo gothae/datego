@@ -48,6 +48,7 @@ function ChangeSpot({ navigation }: ChangeSpotProps) {
     const response = await axios.get(
       `http://j7a104.p.ssafy.io:8080/courses/spots/${num}`,
     );
+      console.log(response.data.responseData);
       return response.data.responseData
   };
   const setData = async () => { 

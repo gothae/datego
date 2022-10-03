@@ -14,6 +14,7 @@ import {
   Image,
   Pressable,
   ScrollView,
+  ImageBackground,
 } from 'react-native';
 import {Button} from '@react-native-material/core';
 import NaverMapView, {
@@ -26,6 +27,11 @@ import NaverMapView, {
 } from 'react-native-nmap';
 import store from '../store';
 import { statusCodes } from '@react-native-google-signin/google-signin';
+type TagObj={
+  count: number,
+  description : string,
+  name : string
+}
 type Store={
   id: number;
   name: string;
@@ -37,7 +43,7 @@ type Store={
   price: number[];
   image: string;
   rate: number;
-  tags: string[];
+  tags: any;
   images: string[];
   quest: string;
 }
@@ -72,7 +78,6 @@ function CourseIng({navigation}) {
 
 
   function _onPress(mission:string){
-    console.log(mission);
     if(mission==="꿀꿀이를 키우자!"){
       navigation.navigate('Ar2', {});
     }
@@ -84,7 +89,6 @@ function CourseIng({navigation}) {
     }
   }
   const stores: any = useSelector((state:RootState) => state.stores).stores;
-  console.log(stores);
   const missionList: any = useSelector((state:RootState)=> state.course).missions
   const [store, setStore] = useState<Store>({
     id: 1,
@@ -110,6 +114,7 @@ useEffect(() => {
   setStore(stores[0]);
   setX(missionList);
 }, [])
+
 
 const [myPosition, setMyPosition] = useState<K>({
   latitude: 123.456,
@@ -144,18 +149,36 @@ const[number, setNumber] = useState(0);
     clearMissions: [],
     unclearMissions: [0,1,2,3,4]
   });  
+  async function test(){
+    setNumber((number+1)%stores.length);
+  }
   const onIncrease = () =>{
     console.log("increase");
-    setNumber((number+1)%stores.length);
+    test()
+    // setNumber((number+1)%stores.length);
+    console.log(number);
     setStore(stores[number]);
     let pos :K={
       latitude : stores[number].latitude,
       longitude : stores[number].longitude
     }
-    console.log("12345")
-    console.log(pos);
+    console.log("Store");
     setStorePosition(pos);
+    console.log(pos);
   }
+  let tagList;
+  if(typeof store.tags[0]==="string"){
+    tagList = store.tags;
+  }
+  else{
+    tagList=[];
+    for(var i=0;i<store.tags.length;i++){
+      var a : TagObj = store.tags[i];
+      
+      tagList.push(a.name);
+    }
+  }
+  
   const onDecrease = () => {
     console.log("decrease");
     if(number==0){
@@ -189,7 +212,10 @@ const[number, setNumber] = useState(0);
       images = store.images[0].slice(1, store.images[0].length - 1)
     }
   }
-
+  // let tagList;
+  // if(store.tags){
+  //   if(stores.tags[0].name)
+  // }
   let clearMedal;
   let unclearMedal;
   clearMedal = x.clearMissions.map((a, index)=>(
@@ -254,12 +280,12 @@ const[number, setNumber] = useState(0);
                     <Text style={{flex:2, color:'black'}}>HI</Text>
                     <View style={{flex:2, flexDirection:'column', alignItems:'center', justifyContent:'space-around'}}>
                       <View style={{flex:2, flexDirection:'row', alignItems:'center', justifyContent:'space-between'}}>
-                      <Text style={{paddingLeft:'5%', paddingRight:'5%',marginRight:'2%', backgroundColor:'orange', borderRadius:5}}>{store.tags[0]}</Text>
-                      <Text style={{paddingLeft:'5%', paddingRight:'5%',backgroundColor:'orange', borderRadius:5}}>{store.tags[1]}</Text>
+                      <Text style={{paddingLeft:'5%', paddingRight:'5%',marginRight:'2%', backgroundColor:'orange', borderRadius:5}}>{tagList[0]}</Text>
+                      <Text style={{paddingLeft:'5%', paddingRight:'5%',backgroundColor:'orange', borderRadius:5}}>{tagList[1]}</Text>
                       </View>
                       <View style={{flex:2, flexDirection:'row', alignItems:'baseline'}}>
-                      <Text style={{paddingLeft:'5%', marginRight:'2%', paddingRight:'5%',backgroundColor:'orange', borderRadius:5}}>{store.tags[2]}</Text>
-                      <Text style={{paddingLeft:'5%', paddingRight:'5%',backgroundColor:'orange', borderRadius:5}}>{store.tags[3]}</Text>
+                      <Text style={{paddingLeft:'5%', marginRight:'2%', paddingRight:'5%',backgroundColor:'orange', borderRadius:5}}>{tagList[2]}</Text>
+                      <Text style={{paddingLeft:'5%', paddingRight:'5%',backgroundColor:'orange', borderRadius:5}}>{tagList[3]}</Text>
                       </View>
                       </View>
                   </View>                  
@@ -278,5 +304,14 @@ const[number, setNumber] = useState(0);
 )
 }
 
+var styles = StyleSheet.create({
+    helloWorldTextStyle: {
+    flex:1,
+    flexDirection:'row',
+    borderWidth:1, 
+    borderRadius: 15, 
+    borderColor:'gray'
+  },
+});
 
 export default CourseIng;
