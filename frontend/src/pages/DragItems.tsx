@@ -1,14 +1,34 @@
 import * as React from 'react';
-import {StyleSheet, Text, View, Dimensions, Image} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {DraxProvider, DraxView, DraxList} from 'react-native-drax';
 import {useEffect, useState} from 'react';
 import {useAppDispatch} from '../store';
 import categorySlice from '../slices/category';
+import storeSlice from '../slices/stores';
 
-const gestureRootViewStyle = {flex: 0.5};
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/reducer';
+import axios from 'axios';
+
+const gestureRootViewStyle = {flex: 1};
 
 export default function DragItems() {
+  const userId = useSelector((state: RootState) => state.user.id);
+
+  const myfood = useSelector((state: RootState) => state.category.myfood);
+  const mycafe = useSelector((state: RootState) => state.category.mycafe);
+  const myplay = useSelector((state: RootState) => state.category.myplay);
+  const mydrink = useSelector((state: RootState) => state.category.mydrink);
+  const myprice = useSelector((state: RootState) => state.category.myprice);
+
   const draggableItemList = [
     {
       id: 1,
@@ -38,33 +58,33 @@ export default function DragItems() {
   const FirstReceivingItemList = [
     {
       id: 0,
-      name: '채워주세요',
+      name: '채워',
       image: 'https://cdn-icons-png.flaticon.com/512/1223/1223479.png',
-      background_color: '#ffaaff',
+      background_color: '#D8D8D8',
     },
     {
       id: 0,
       name: '채워',
       image: 'https://cdn-icons-png.flaticon.com/512/1223/1223479.png',
-      background_color: '#ffaaff',
+      background_color: '#D8D8D8',
     },
     {
       id: 0,
       name: '채워',
       image: 'https://cdn-icons-png.flaticon.com/512/1223/1223479.png',
-      background_color: 'white',
+      background_color: '#D8D8D8',
     },
     {
       id: 0,
       name: '채워',
       image: 'https://cdn-icons-png.flaticon.com/512/1223/1223479.png',
-      background_color: '#ffaaff',
+      background_color: '#D8D8D8',
     },
     {
       id: 0,
       name: '채워',
       image: 'https://cdn-icons-png.flaticon.com/512/1223/1223479.png',
-      background_color: '#ffaaff',
+      background_color: '#D8D8D8',
     },
   ];
 
@@ -77,22 +97,26 @@ export default function DragItems() {
   const DragUIComponent = ({item, index}) => {
     return (
       <DraxView
-        style={[
-          styles.centeredContent,
-          styles.draggableBox,
-          {backgroundColor: item.background_color},
-        ]}
+        style={{
+          borderRadius: 5,
+          width: Dimensions.get('window').width / 4 - 20,
+          height: Dimensions.get('window').width / 4 - 30,
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginRight: 5,
+          backgroundColor: item.background_color,
+        }}
         draggingStyle={styles.dragging}
         dragReleasedStyle={styles.dragging}
         hoverDraggingStyle={styles.hoverDragging}
         dragPayload={index}
-        longPressDelay={150}
+        longPressDelay={100}
         key={index}>
         <Image
           style={{height: '60%', width: '100%', resizeMode: 'contain'}}
           source={{uri: item.image}}
         />
-        <Text style={styles.textStyle}>{item.name}</Text>
+        <Text style={{fontSize: 12, textAlign: 'center'}}>{item.name}</Text>
       </DraxView>
     );
   };
@@ -100,28 +124,24 @@ export default function DragItems() {
   const ReceivingZoneUIComponent = ({item, index}) => {
     return (
       <DraxView
-        style={[
-          styles.centeredContent,
-          styles.receivingZone,
-          {backgroundColor: item.background_color},
-        ]}
+        style={{
+          borderRadius: 5,
+          height: Dimensions.get('window').width / 4 - 30,
+          width: Dimensions.get('window').width / 4 - 35,
+          justifyContent: 'center',
+          backgroundColor: item.background_color,
+        }}
         receivingStyle={styles.receiving}
         renderContent={({viewState}) => {
           const receivingDrag = viewState && viewState.receivingDrag;
           const payload = receivingDrag && receivingDrag.payload;
           return (
-            <View
-              style={{
-                borderColor: 'black',
-                borderStyle: 'solid',
-                borderWidth: 3,
-                borderRadius: 30,
-              }}>
+            <View>
               <Image
-                style={{height: '70%', width: '100%', resizeMode: 'contain'}}
+                style={{height: '60%', width: '100%', resizeMode: 'contain'}}
                 source={{uri: item.image}}
               />
-              <Text style={{fontSize: 8, textAlign: 'center'}}>
+              <Text style={{fontSize: 10, textAlign: 'center'}}>
                 {item.name}
               </Text>
             </View>
@@ -145,11 +165,9 @@ export default function DragItems() {
     );
   };
   const dispatch = useAppDispatch();
-  const [mycourse, setMyCourse] = useState([]);
+  const [currentcourse, setMyCourse] = useState([]);
 
   useEffect(() => {
-    console.log('변경합니다.', receivingItemList.length);
-    console.log(mycourse);
     async function setStateCourse() {
       let checklist = [];
       for (let i = 0; i < receivingItemList.length; i++) {
@@ -162,29 +180,74 @@ export default function DragItems() {
     setStateCourse();
   }, [receivingItemList]);
 
-  useEffect(() => {
-    console.log(mycourse);
-    dispatch(
-      categorySlice.actions.setCourse({
-        course: mycourse,
-      }),
-    );
-  }, [mycourse]);
+  // useEffect(() => {
+  //   console.log('현재내코스 설정');
+  //   dispatch(
+  //     categorySlice.actions.setCourse({
+  //       mycourse: currentcourse,
+  //     }),
+  //   );
+  // }, [currentcourse]);
 
   const FlatListItemSeparator = () => {
     return <View style={styles.itemSeparator} />;
   };
 
+  async function setPreference() {
+    console.log('코스 및 취향설정');
+    console.log(myfood);
+    console.log(mycafe);
+    console.log(mydrink);
+    console.log(myplay);
+    console.log(myprice);
+    console.log(currentcourse);
+    const response = await axios.post(
+      'http://j7a104.p.ssafy.io:8000/courses/1',
+      {
+        course: currentcourse,
+        categoryList: {
+          food: myfood,
+          cafe: mycafe,
+          play: myplay,
+          drink: mydrink,
+        },
+        price: myprice[0],
+        id: userId,
+      },
+    );
+    console.log('여기', response.data.responseData.Spots);
+    dispatch(
+      storeSlice.actions.setstore({
+        stores: response.data.responseData.Spots,
+      }),
+    );
+    console.log(2);
+    goNext();
+  }
+  const goNext = () => {
+    console.log(3);
+    // navigation.navigate('Course', {});
+  };
+
   return (
     <GestureHandlerRootView style={gestureRootViewStyle}>
-      <View style={{borderTopWidth: 2, borderColor: 'orange'}}>
-        <Text style={{color: 'black', fontSize: 15, marginLeft: 10}}>
-          코스 순서 설정
-        </Text>
-      </View>
       <DraxProvider>
         <View style={styles.container}>
-          <View style={styles.draxListContainer}>
+          <View style={{backgroundColor: '#FFA856'}}>
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 20,
+                marginLeft: 10,
+              }}>
+              코스 순서 설정
+            </Text>
+          </View>
+          <View
+            style={{
+              justifyContent: 'center',
+              flex: 1,
+            }}>
             <DraxList
               data={dragItemMiddleList}
               renderItemContent={DragUIComponent}
@@ -193,12 +256,29 @@ export default function DragItems() {
               ItemSeparatorComponent={FlatListItemSeparator}
               scrollEnabled={true}
             />
+            <Text style={{fontSize: 9}}> ※ 아래로 드래그해서 설정해주세요</Text>
           </View>
-          <View style={styles.receivingContainer}>
+          <Text style={{fontSize: 12}}> 코스순서</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-evenly',
+              alignItems: 'center',
+              flex: 0.8,
+            }}>
             {receivingItemList.map((item, index) =>
               ReceivingZoneUIComponent({item, index}),
             )}
           </View>
+          <TouchableOpacity
+            style={{backgroundColor: '#FFA856'}}
+            onPress={() => {
+              setPreference();
+            }}>
+            <Text style={{textAlign: 'center', fontSize: 20, color: '#fff'}}>
+              순서 설정 완료
+            </Text>
+          </TouchableOpacity>
         </View>
       </DraxProvider>
     </GestureHandlerRootView>
@@ -208,30 +288,16 @@ export default function DragItems() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 5,
   },
   centeredContent: {
-    borderRadius: 10,
+    borderRadius: 5,
   },
-  receivingZone: {
-    height: Dimensions.get('window').width / 4 - 30,
-    borderRadius: 50,
-    width: Dimensions.get('window').width / 4 - 30,
-    justifyContent: 'center',
-    marginRight: 5,
-  },
+  receivingZone: {},
   receiving: {
     borderColor: 'red',
     borderWidth: 2,
   },
-  draggableBox: {
-    width: Dimensions.get('window').width / 4 - 30,
-    height: Dimensions.get('window').width / 4 - 30,
-    borderRadius: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 5,
-  },
+  draggableBox: {},
   dragging: {
     opacity: 0.5,
   },
@@ -239,25 +305,18 @@ const styles = StyleSheet.create({
     borderColor: 'magenta',
     borderWidth: 2,
   },
-  receivingContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-  },
+  receivingContainer: {},
   itemSeparator: {
     height: 15,
   },
   draxListContainer: {
-    alignItems: 'center',
-    height: 60,
+    flex: 1,
   },
   receivingZoneContainer: {
     padding: 5,
     height: 100,
   },
-  textStyle: {
-    fontSize: 12,
-    textAlign: 'center',
-  },
+  textStyle: {},
   headerStyle: {
     marginTop: 20,
     fontSize: 18,
