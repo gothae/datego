@@ -213,7 +213,8 @@ async def get_courses(dong:int , req:SelectItem):
         d = {}
         d[orders[i]] = []
         for j in range(len(recommends[i])):
-            d[orders[i]].append(int(recommends[i][j]))
+            if int(recommends[i][j]) != -1:
+                d[orders[i]].append(int(recommends[i][j]))
         spotIds.append(d)
         
     response.update({"code": 200})
