@@ -27,12 +27,19 @@ import NaverMapView, {
 import store from '../store';
 import { statusCodes } from '@react-native-google-signin/google-signin';
 type Store={
-  name: string;
-  image: string;
   id: number;
+  name: string;
+  phone: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+  menus: string[];
+  price: number[];
+  image: string;
+  rate: number;
   tags: string[];
-  location : K
-  mission: string;
+  images: string[];
+  quest: string;
 }
 type K = {
   latitude: number;
@@ -76,20 +83,33 @@ function CourseIng({navigation}) {
       navigation.navigate('Ar3', {});
     }
   }
-  const stores: any = useSelector((state:RootState) => state.course).stores;
-  const missionList: any = useSelector((state:RootState)=> state.course).missions;
+  const stores: any = useSelector((state:RootState) => state.stores).stores;
+  console.log(stores);
+  const missionList: any = useSelector((state:RootState)=> state.course).missions
   const [store, setStore] = useState<Store>({
-    name: "김씨 고깃집",
-    image: "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjA5MDJfMjM1%2FMDAxNjYyMTA5MDk3Njcx.ayvBzFbHugL03yMrrSYJ-4qqBVHjVT7W83CVQ6FkY2og.vshkd-ZSSYK2yJtEfyMJhlt6wovfMPPX5i0_grtLh-gg.JPEG.bomin78%2FDSCF9485.JPG&type=a340",
-    id:0,
-    tags: ["맛집","분위기가 좋은", "가성비","한식"],
-    location : {latitude:37.53698, longitude:127.0017},
-    mission: "꿀꿀이를 키우자!"
-});
+    id: 1,
+  name: "로딩중",
+  phone: "",
+  address: "",
+  latitude: 0,
+  longitude: 0,
+  menus: [],
+  price: [],
+  image: "",
+  rate: 0,
+  tags: [],
+  images: ["",""],
+  quest: ""
+  });
+  const [storePosition, setStorePosition] = useState<K>({
+    latitude: 37.539455,
+    longitude: 126.9916965
+  })
 
 useEffect(() => {
   setStore(stores[0]);
-}, [stores])
+  setX(missionList);
+}, [])
 
 const [myPosition, setMyPosition] = useState<K>({
   latitude: 123.456,
@@ -121,20 +141,54 @@ useEffect(()=>{
 const[number, setNumber] = useState(0);
 
   const [x, setX] = useState<Mission>({
-    clearMissions: [1,2,3],
-    unclearMissions: [4,5]
+    clearMissions: [],
+    unclearMissions: [0,1,2,3,4]
   });  
   const onIncrease = () =>{
     console.log("increase");
-    // setNumber((number+1)%stores.length);
-    // setStore(stores[number]);
+    setNumber((number+1)%stores.length);
+    setStore(stores[number]);
+    let pos :K={
+      latitude : stores[number].latitude,
+      longitude : stores[number].longitude
+    }
+    console.log("12345")
+    console.log(pos);
+    setStorePosition(pos);
   }
   const onDecrease = () => {
     console.log("decrease");
-    // setNumber(number-1>=0?number-1:0);
-    // setStore(stores[number]);
+    if(number==0){
+      setNumber(stores.length-1);
+    }
+    else{
+      setNumber(number-1);
+    }
+    setStore(stores[number]);
+    let pos2 :K={
+      latitude : stores[number].latitude,
+      longitude : stores[number].longitude
+    }
+    setStorePosition(pos2);
   }
 
+  let images;
+  if (store.image) {
+    if (store.image[0] == '\"') {
+    images = store.image.slice(1, store.image.length)
+  } else {
+    images = store.image
+  }
+  } else if (store.images) {
+    if (store.images[0][0] == 'h') {
+      images = store.images[0]
+    }
+    else if (store.images[0][1] == 'h') {
+      images = store.images[0].slice(1, store.images[0].length - 1) 
+    } else {
+      images = store.images[0].slice(1, store.images[0].length - 1)
+    }
+  }
 
   let clearMedal;
   let unclearMedal;
@@ -159,20 +213,18 @@ const[number, setNumber] = useState(0);
   return (
     
     <View style={{flex:1}}>
-      
-
         <NaverMapView
             style={{flex:2.5, marginHorizontal: 10, marginVertical: 10}}
             showsMyLocationButton={true}
-            center={{...myPosition, zoom: 14}}
+            center={{...storePosition, zoom: 14}}
             // onTouch={e => console.warn('onTouch', JSON.stringify(e.nativeEvent))}
             onCameraChange={e =>
               console.warn('onCameraChange', JSON.stringify(e))
             }
             onMapClick={e => console.warn('onMapClick', JSON.stringify(e))}>
             <Marker
-              coordinate={myPosition}
-              onClick={() => console.warn('onClick! p0')}
+              coordinate={storePosition}
+              onClick={() => console.log(storePosition)}
             />
             </NaverMapView>
             <View style={{flex:5}}>
@@ -196,7 +248,7 @@ const[number, setNumber] = useState(0);
             <View style={{flex:1, alignItems:'center'}}>
               <View style={{width:'80%',flex:5}}>
                 <View style={{flex:1,flexDirection:'row', borderWidth:1, borderRadius: 15, borderColor:'gray'}}>
-                  <Image style={{flex:3, resizeMode:'cover', borderRadius: 15}} source={{uri:store.image}}></Image>
+                  <Image style={{flex:3, resizeMode:'cover', borderRadius: 15}} source={{uri:images}}></Image>
                   <View style={{flex:2, alignItems:'center'}}>
                     <Text style={{flex:3, marginTop:'25%',color:'black', fontSize:25}}>{store.name}</Text>
                     <Text style={{flex:2, color:'black'}}>HI</Text>
@@ -215,8 +267,8 @@ const[number, setNumber] = useState(0);
               </View>
               <View style={{flex:2, width:'70%', flexDirection:'row', justifyContent:'space-around', alignItems:'center'}}>
                 <Image style={{flex:1, resizeMode:'contain', marginRight: '10%'}}source={require('../assets/scroll.png')}></Image>
-                <Text style={{flex: 5, color:'black', fontSize:18}}>{store.mission}</Text>
-                <Button style={{flex:2, backgroundColor:'white'}} titleStyle={{color:'orange'}}title="GO!!" onPress={()=>_onPress(store.mission)}></Button></View>
+                <Text style={{flex: 5, color:'black', fontSize:18}}>{store.quest}</Text>
+                <Button style={{flex:2, backgroundColor:'white'}} titleStyle={{color:'orange'}}title="GO!!" onPress={()=>_onPress(store.quest)}></Button></View>
               <View style={{flex:2, alignItems:'center'}}><Button style={{width:'100%', backgroundColor:'orange'}} 
               title='그만하기' titleStyle={{fontSize:25}} onPress={requestCameraPermission}></Button></View>
             </View>
