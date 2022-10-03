@@ -251,6 +251,7 @@ const styles = (offset: number, windowWidth: number, windowHeight: number) =>
       fontSize: 14,
       fontWeight: 'bold',
       textAlign: 'center',
+      color: 'black',
     },
   });
 export default SelectDong;
