@@ -230,73 +230,73 @@ function DragItems() {
         courseSlice.actions.setCourse({
           missions: {
             unclearMissions: missionList,
+            clearMissions: [],
           },
         }),
       );
 
-      // const response = await axios.post(
-      //   `http://j7a104.p.ssafy.io:8000/courses/${dongId}`,
-      //   {
-      //     course: currentcourse,
-      //     categoryList: {
-      //       food: myfood,
-      //       cafe: mycafe,
-      //       play: myplay,
-      //       drink: mydrink,
-      //     },
-      //     price: myprice[0],
-      //     id: userId,
-      //   },
-      // );
-      // console.log(response);
+      const response = await axios.post(
+        `http://j7a104.p.ssafy.io:8000/courses/${dongId}`,
+        {
+          course: currentcourse,
+          categoryList: {
+            food: myfood,
+            cafe: mycafe,
+            play: myplay,
+            drink: mydrink,
+          },
+          price: myprice[0],
+          id: userId,
+        },
+      );
+      console.log(response);
 
-      // dispatch(
-      //   storeSlice.actions.setstore({
-      //     stores: response.data.responseData.Spots,
-      //   }),
-      // );
-      // const stores = response.data.responseData.Spots;
-      // if (stores?.length == 2) {
-      //   dispatch(
-      //     algolistSlice.actions.setalgolist({
-      //       one: response.data.responseData.spotIds[0].first,
-      //       two: response.data.responseData.spotIds[1].second,
-      //     }),
-      //   );
-      // } else if (stores?.length == 3) {
-      //   dispatch(
-      //     algolistSlice.actions.setalgolist({
-      //       one: response.data.responseData.spotIds[0].first,
-      //       two: response.data.responseData.spotIds[1].second,
-      //       thr: response.data.responseData.spotIds[2].third,
-      //     }),
-      //   );
-      // } else if (stores?.length == 4) {
-      //   dispatch(
-      //     algolistSlice.actions.setalgolist({
-      //       one: response.data.responseData.spotIds[0].first,
-      //       two: response.data.responseData.spotIds[1].second,
-      //       thr: response.data.responseData.spotIds[2].third,
-      //       fou: response.data.responseData.spotIds[3].fourth,
-      //     }),
-      //   );
-      // } else if (stores?.length == 5) {
-      //   dispatch(
-      //     algolistSlice.actions.setalgolist({
-      //       one: response.data.responseData.spotIds[0].first,
-      //       two: response.data.responseData.spotIds[1].second,
-      //       thr: response.data.responseData.spotIds[2].third,
-      //       fou: response.data.responseData.spotIds[3].fourth,
-      //       fiv: response.data.responseData.spotIds[4].fifth,
-      //     }),
-      //   );
-      // }
-      // goNext();
+      dispatch(
+        storeSlice.actions.setstore({
+          stores: response.data.responseData.Spots,
+        }),
+      );
+      const stores = response.data.responseData.Spots;
+      if (stores?.length == 2) {
+        dispatch(
+          algolistSlice.actions.setalgolist({
+            one: response.data.responseData.spotIds[0].first,
+            two: response.data.responseData.spotIds[1].second,
+          }),
+        );
+      } else if (stores?.length == 3) {
+        dispatch(
+          algolistSlice.actions.setalgolist({
+            one: response.data.responseData.spotIds[0].first,
+            two: response.data.responseData.spotIds[1].second,
+            thr: response.data.responseData.spotIds[2].third,
+          }),
+        );
+      } else if (stores?.length == 4) {
+        dispatch(
+          algolistSlice.actions.setalgolist({
+            one: response.data.responseData.spotIds[0].first,
+            two: response.data.responseData.spotIds[1].second,
+            thr: response.data.responseData.spotIds[2].third,
+            fou: response.data.responseData.spotIds[3].fourth,
+          }),
+        );
+      } else if (stores?.length == 5) {
+        dispatch(
+          algolistSlice.actions.setalgolist({
+            one: response.data.responseData.spotIds[0].first,
+            two: response.data.responseData.spotIds[1].second,
+            thr: response.data.responseData.spotIds[2].third,
+            fou: response.data.responseData.spotIds[3].fourth,
+            fiv: response.data.responseData.spotIds[4].fifth,
+          }),
+        );
+      }
+      goNext();
     } else {
       Alert.alert('코스 순서를 설정해주세요 (3개이상)');
     }
   }
-  const [courseLoading, setLoading] = useState(0);
 
   return (
     <GestureHandlerRootView style={gestureRootViewStyle}>
@@ -353,17 +353,10 @@ function DragItems() {
           </View>
           <TouchableOpacity
             style={{backgroundColor: '#FFA856'}}
-            activeOpacity={courseLoading ? 0.5 : 1}
             onPress={() => {
               setPreference();
-              setLoading(1);
             }}>
-            <Text
-              style={
-                courseLoading
-                  ? {color: 'red'}
-                  : {textAlign: 'center', fontSize: 20, color: '#fff'}
-              }>
+            <Text style={{textAlign: 'center', fontSize: 20, color: '#fff'}}>
               순서 설정 완료
             </Text>
           </TouchableOpacity>
