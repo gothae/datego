@@ -212,11 +212,11 @@ function CourseIng({navigation}) {
     };
     if (x.clearMissions.includes(number)) {
       setCheckImg(
-        'https://user-images.githubusercontent.com/66546079/193565621-41c38492-5cfa-46ef-bc4a-215095ec9ceb.png',
+        'https://user-images.githubusercontent.com/66546079/193739256-b409970a-6887-461d-a513-f524324978ca.png',
       );
       setOpactiy(0.4);
     } else {
-      setCheckImg('');
+      setCheckImg('1234');
       setOpactiy(1);
     }
     setStorePosition(pos2);
@@ -224,7 +224,7 @@ function CourseIng({navigation}) {
   useEffect(() => {
     if (x.clearMissions.includes(number)) {
       setCheckImg(
-        'https://user-images.githubusercontent.com/66546079/193565621-41c38492-5cfa-46ef-bc4a-215095ec9ceb.png',
+        'https://user-images.githubusercontent.com/66546079/193739256-b409970a-6887-461d-a513-f524324978ca.png',
       );
       setOpactiy(0.4);
     }
