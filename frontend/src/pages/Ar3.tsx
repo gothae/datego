@@ -66,7 +66,13 @@ const ArScene3 = () => {
     let newScaleAry = [newScale, newScale, newScale];
     setScale(newScaleAry);
     if (newScale > 0.2) {
-      Alert.alert('미니언 키우기 미션 클리어');
+      Alert.alert('Alert Title', 'My Alert Msg', [
+        {
+          text: '클리어!!!',
+          onPress: () => navigation.navigate('CourseIng', {}),
+          style: 'cancel',
+        },
+      ]);
       const clearList=[];
       for(var i=0;i<clearM.length;i++){
         clearList.push(clearM[i]);

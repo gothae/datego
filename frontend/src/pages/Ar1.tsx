@@ -77,7 +77,7 @@ const ArScene1 = () => {
   
   useEffect(() => {
     if (counter === 4) {
-      Alert.alert('Alert Title', 'My Alert Msg', [
+      Alert.alert('Alert Title', '미션 성공!!', [
         {
           text: '클리어!!!',
           onPress: () => navigation.navigate('CourseIng', {}),
