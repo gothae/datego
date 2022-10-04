@@ -111,30 +111,6 @@ function Gallery({route, navigation}) {
           <ImageViewer imageUrls={links} index={imageIndex} />
         </Modal>
       </View>
-      <View
-        style={{position: 'absolute', bottom: 0, width: '100%', height: 48}}>
-        <Button
-          title="Go Home"
-          style={{
-            height: 48,
-            position: 'absolute',
-            bottom: 0,
-            width: '100%',
-            padding: 5,
-          }}
-          color={'#FFA856'}
-          titleStyle={{
-            color: 'white',
-            fontSize: 26,
-            fontWeight: 'bold',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          onPress={() => {
-            navigation.navigate('Home', {});
-          }}
-        />
-      </View>
     </View>
   );
 }
