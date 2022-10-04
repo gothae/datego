@@ -97,7 +97,12 @@ function Course({ navigation }: CourseProps) {
     var currentPrice = 0;
     for (var i = 0; i < stores.length; i++) {
       if (stores[i].menus) {
-        currentPrice = currentPrice + stores[i].price + stores[i].menus[0].price
+        if (stores[i].menus.length == 0) {
+          currentPrice = 0
+         }
+         else{
+          currentPrice = currentPrice + stores[i].price + stores[i].menus[0].price
+        }
       }
       else {
         currentPrice = currentPrice + stores[i].price
