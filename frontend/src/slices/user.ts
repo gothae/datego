@@ -6,6 +6,7 @@ const initialState = {
   code: 0,
   domain: '',
   id: 0,
+  dongId: 0,
   preference: [],
   myReviews: [],
 };
@@ -39,6 +40,7 @@ const userSlice = createSlice({
     },
     setPreference(state, action) {
       state.preference = action.payload.preference;
+      state.dongId = action.payload.dongId;
     },
   },
   extraReducers: builder => {},

@@ -204,7 +204,7 @@ async def get_courses(dong:int , req:SelectItem):
             tag_result = tag_result_proxy.fetchall()
             tags.append(tag_result[0][0])
 
-        spot.setValue(tags, price_result[0][2], image_result[0][0])
+        spot.setValue(tags, price_result[0][2] if price_result else 0, image_result[0][0] if  image_result else '')
         spots.append(spot.__str__())
 
     # 코스를 (음식-카페-음식-놀것) 최대 20개의 index가 들어간다.

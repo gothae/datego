@@ -42,16 +42,23 @@ function Home({navigation}) {
 
   const setDongReviewCnt = () => {
     myReviews.map(review => {
-      if (review['id'] === 1) dongReviewCnt[0] = review['count'];
-      else if (review['id'] === 2) dongReviewCnt[1] = review['count'];
-      else if (review['id'] === 3) dongReviewCnt[2] = review['count'];
-      else if (review['id'] === 4) dongReviewCnt[3] = review['count'];
-      else if (review['id'] === 5) dongReviewCnt[4] = review['count'];
-      else if (6 <= review['id'] && review['id'] <= 9)
-        dongReviewCnt[5] += review['count'];
-      else if (10 <= review['id'] && review['id'] <= 17)
-        dongReviewCnt[6] += review['count'];
-      else dongReviewCnt[7] += review['count'];
+      if (review.id === 1) {
+        dongReviewCnt[0] = review.count;
+      } else if (review.id === 2) {
+        dongReviewCnt[1] = review.count;
+      } else if (review.id === 3) {
+        dongReviewCnt[2] = review.count;
+      } else if (review.id === 4) {
+        dongReviewCnt[3] = review.count;
+      } else if (review.id === 5) {
+        dongReviewCnt[4] = review.count;
+      } else if (review.id >= 6 && review.id <= 9) {
+        dongReviewCnt[5] += review.count;
+      } else if (review.id >= 10 && review.id <= 17) {
+        dongReviewCnt[6] += review.count;
+      } else {
+        dongReviewCnt[7] += review.count;
+      }
     });
   };
   setDongReviewCnt();
@@ -358,6 +365,15 @@ function Home({navigation}) {
         {/* 데이트할 동 선택 페이지로 이동 */}
         <TouchableOpacity
           onPress={() => {
+                  navigation.navigate('Review', {});
+                }}>
+          <Text style={{color: 'white', fontSize: 30, textAlign: 'center'}}>
+           리뷰
+          </Text>
+
+          </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
             navigation.navigate('SelectDong', {offset: offset});
           }}
           style={styles([], 0, windowWidth, windowHeight).goBtn}>
@@ -377,64 +393,8 @@ function Home({navigation}) {
             진행중인 코스
           </Text>
         </TouchableOpacity>
-
-      <View>
-        <Button
-          title="Go Preference"
-          onPress={() => {
-            navigation.navigate('Preference', {});
-          }}
-        />
-      </View>
-      <View>
-        <Button
-          onPress={onLogout}
-          title="로그아웃"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
-      </View>
-      <View>
-        <Button
-          onPress={() => {
-            navigation.navigate('Ar1', {});
-          }}
-          title="돈줍기"
-        />
-        <Button
-          onPress={() => {
-            navigation.navigate('Ar2', {});
-          }}
-          title="돼지키우기"
-        />
-        <Button
-          onPress={() => {
-            navigation.navigate('Ar3', {});
-          }}
-          title="빨강이키우기"
-        />
-        <Button
-          onPress={() => {
-            navigation.navigate('CourseIng', {});
-          }}
-          title="진행중인 코스"
-        />
-      </View>
-      <View>
-        <Button
-          onPress={onDelete}
-          title="회원탈퇴"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
-        <Button
-          onPress={() => {
-            takePicture();
-          }}
-          title="사진찍기"
-        />
-      </View>
-    </>
+      </ImageBackground>
+    </View>
   );
 }
 const bgColors = ['#FDFDFD', '#FFE4E4', '#FFA7A6', '#FF899D'];

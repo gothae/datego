@@ -22,10 +22,12 @@ import {RootState} from '../store/reducer';
 import PriceBar from '../pages/PriceBar';
 import DragItems from '../pages/DragItems';
 import storeSlice from '../slices/stores';
+import userSlice from '../slices/user';
 
 type PreferenceProps = NativeStackScreenProps<ParamListBase, 'Preference'>;
 
-function Preference({navigation}: PreferenceProps) {
+function Preference({route, navigation}: PreferenceProps) {
+  const dongId = route.params.selected;
   const [modalVisible, setModalVisible] = useState(false);
 
   const [containerWidth, setContainerWidth] = useState(0);
@@ -43,6 +45,11 @@ function Preference({navigation}: PreferenceProps) {
       categorySlice.actions.setCategory({
         cafe: response.data.responseData.cafes,
         drink: response.data.responseData.drinks,
+      }),
+    );
+    dispatch(
+      userSlice.actions.setPreference({
+        dongId: dongId,
       }),
     );
   };
@@ -332,23 +339,39 @@ function Preference({navigation}: PreferenceProps) {
   const myprice = useSelector((state: RootState) => state.category.myprice);
 
   async function setMyCourse() {
-    console.log('내취향 세팅합니다.');
-    console.log(1);
-    console.log(selectFood);
-    console.log(selectCafe);
-    console.log(selectDrink);
-    console.log(selectActivity);
-    console.log(selectPrice);
-    console.log('현재스테이트값들');
-    dispatch(
-      categorySlice.actions.setCourse({
-        myfood: selectFood,
-        mycafe: selectCafe,
-        mydrink: selectDrink,
-        myplay: selectActivity,
-        myprice: selectPrice,
-      }),
-    );
+    let checkblank = 0;
+    if (
+      (selectFood.length,
+      selectCafe.length,
+      selectDrink.length,
+      selectActivity.length,
+      selectPrice.length > 0)
+    ) {
+      checkblank = 1;
+    }
+    if (selectFood.length === 0) {
+      Alert.alert('음식선택해주세요');
+    } else if (selectCafe.length === 0) {
+      Alert.alert('카페선택해주세요');
+    } else if (selectDrink.length === 0) {
+      Alert.alert('음주선택해주세요');
+    } else if (selectActivity.length === 0) {
+      Alert.alert('활동선택해주세요');
+    } else if (selectPrice.length === 0) {
+      Alert.alert('가격선택해주세요');
+    }
+    if (checkblank) {
+      dispatch(
+        categorySlice.actions.setCourse({
+          myfood: selectFood,
+          mycafe: selectCafe,
+          mydrink: selectDrink,
+          myplay: selectActivity,
+          myprice: selectPrice,
+        }),
+      );
+      setModalVisible(true);
+    }
   }
 
   return (
@@ -361,7 +384,6 @@ function Preference({navigation}: PreferenceProps) {
         style={styles.customBtnBG}
         onPress={() => {
           setMyCourse();
-          setModalVisible(true);
         }}>
         <Text style={styles.customBtnText}>취향 설정 완료</Text>
       </TouchableOpacity>

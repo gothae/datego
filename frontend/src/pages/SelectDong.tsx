@@ -55,7 +55,7 @@ function SelectDong({navigation: {navigate}, route}) {
   };
 
   return (
-    <View style={{flex:1, backgroundColor: 'whitesmoke'}}>
+    <View style={{flex: 1, backgroundColor: 'whitesmoke'}}>
       <View>
         <View
           style={{
