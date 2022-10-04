@@ -238,8 +238,8 @@ function DragItems() {
       }
       dispatch(
         userSpotSlice.actions.setUserSpot({
-          userSpotList:userSpotLists
-        })
+          userSpotList: userSpotLists,
+        }),
       );
       console.log('미션리스트');
       console.log(missionList);
