@@ -186,7 +186,7 @@ const ArScene1 = () => {
       <ViroAmbientLight color={'#ffffff'} influenceBitMask={1} />
       <ViroNode>
         <Viro3DObject
-          source={require('./res/stellar.obj')}
+          source={{uri:'https://popoimages.s3.ap-northeast-2.amazonaws.com/DateGo/stellar.obj'}}
           position={[1, 3, -2]}
           scale={[5, 5, 5]}
           rotation={[0, 90, 0]}
@@ -196,12 +196,12 @@ const ArScene1 = () => {
           visible={coinVisible1}
           animation={{name: 'rotate', run: true, loop: true}}
           //animation={{name: 'move', run: true, loop: true}}
-          resources={[require('./res/stellar.mtl')]}
+          resources={[require('../assets/res/stellar.mtl')]}
         />
       </ViroNode>
       <ViroNode>
         <Viro3DObject
-          source={require('./res/stellar.obj')}
+          source={{uri:'https://popoimages.s3.ap-northeast-2.amazonaws.com/DateGo/stellar.obj'}}
           position={[1.5, 3, -2]}
           scale={[5, 5, 5]}
           rotation={[0, 90, 0]}
@@ -211,12 +211,12 @@ const ArScene1 = () => {
           visible={coinVisible2}
           animation={{name: 'rotate', run: true, loop: true}}
           //animation={{name: 'move', run: true, loop: true}}
-          resources={[require('./res/stellar.mtl')]}
+          resources={[require('../assets/res/stellar.mtl')]}
         />
       </ViroNode>
       <ViroNode>
         <Viro3DObject
-          source={require('./res/stellar.obj')}
+          source={{uri:'https://popoimages.s3.ap-northeast-2.amazonaws.com/DateGo/stellar.obj'}}
           position={[-2, 2, 1]}
           scale={[5, 5, 5]}
           rotation={[0, 90, 0]}
@@ -226,12 +226,12 @@ const ArScene1 = () => {
           visible={coinVisible3}
           animation={{name: 'rotate', run: true, loop: true}}
           //animation={{name: 'move', run: true, loop: true}}
-          resources={[require('./res/stellar.mtl')]}
+          resources={[require('../assets/res/stellar.mtl')]}
         />
       </ViroNode>
       <ViroNode>
         <Viro3DObject
-          source={require('./res/stellar.obj')}
+          source={{uri:'https://popoimages.s3.ap-northeast-2.amazonaws.com/DateGo/stellar.obj'}}
           position={[2, 0, -1]}
           scale={[5, 5, 5]}
           rotation={[0, 90, 0]}
@@ -241,12 +241,12 @@ const ArScene1 = () => {
           visible={coinVisible4}
           animation={{name: 'rotate', run: true, loop: true}}
           //animation={{name: 'move', run: true, loop: true}}
-          resources={[require('./res/stellar.mtl')]}
+          resources={[require('../assets/res/stellar.mtl')]}
         />
       </ViroNode>
       <ViroNode>
         <Viro3DObject
-          source={require('./res/stellar.obj')}
+          source={{uri:'https://popoimages.s3.ap-northeast-2.amazonaws.com/DateGo/stellar.obj'}}
           position={[-1, 3, 0]}
           scale={[5, 5, 5]}
           rotation={[0, 90, 0]}
@@ -256,12 +256,12 @@ const ArScene1 = () => {
           visible={coinVisible5}
           animation={{name: 'rotate', run: true, loop: true}}
           //animation={{name: 'move', run: true, loop: true}}
-          resources={[require('./res/stellar.mtl')]}
+          resources={[require('../assets/res/stellar.mtl')]}
         />
       </ViroNode>
       <ViroNode position={[-0.5, -0.5, -0.5]}>
         <Viro3DObject
-          source={require('./res/gold_bag.obj')}
+          source={{uri:'https://popoimages.s3.ap-northeast-2.amazonaws.com/DateGo/gold_bag.obj'}}
           position={[1, -2, -2]}
           scale={[0.05, 0.05, 0.05]}
           rotation={[-90, 0, 0]}
@@ -273,8 +273,8 @@ const ArScene1 = () => {
           materials={['bag']}
           // transformBehaviors={['billboardX']}
           resources={[
-            require('./res/gold_bag.mtl'),
-            require('./res/gold_bag.jpg'),
+            require('../assets/res/gold_bag.mtl'),
+            require('../assets/res/gold_bag.jpg'),
           ]}
         />
       </ViroNode>
@@ -305,7 +305,7 @@ ViroAnimations.registerAnimations({
 ViroMaterials.createMaterials({
   bag: {
     lightingModel: 'Blinn',
-    diffuseTexture: require('./res/gold_bag.jpg'),
+    diffuseTexture: require('../assets/res/gold_bag.jpg'),
   },
 });
 var styles = StyleSheet.create({
