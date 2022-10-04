@@ -6,6 +6,7 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
@@ -14,11 +15,6 @@ import axios from 'axios';
 
 function FinalReview() {
   // const stores = useSelector((state: RootState) => state.stores.stores);
-  let reviews0 = [];
-  let reviews1 = [];
-  let reviews2 = [];
-  let reviews3 = [];
-  let reviews4 = [];
   const stores = [
     {
       address: '서울 용산구 서계동 219-4',
@@ -68,40 +64,42 @@ function FinalReview() {
   const [modalVisible2, setModalVisible2] = useState(false);
   const [modalVisible3, setModalVisible3] = useState(false);
   const [modalVisible4, setModalVisible4] = useState(false);
+  const [reviews0, setRevuews0] = useState([]);
+  const [reviews1, setRevuews1] = useState([]);
+  const [reviews2, setRevuews2] = useState([]);
+  const [reviews3, setRevuews3] = useState([]);
+  const [reviews4, setRevuews4] = useState([]);
 
   async function getData0(spotId) {
     const response = await axios.get(
       `http://j7a104.p.ssafy.io:8080/spots/${spotId}/reviews`,
     );
-    console.log(response.data.responseData);
-    reviews0 = response.data.responseData;
-    console.log(reviews0);
+    setRevuews0(response.data.responseData);
   }
   async function getData1(spotId) {
     const response = await axios.get(
       `http://j7a104.p.ssafy.io:8080/spots/${spotId}/reviews`,
     );
-    reviews1 = response.data.responseData;
+    setRevuews1(response.data.responseData);
   }
   async function getData2(spotId) {
     const response = await axios.get(
       `http://j7a104.p.ssafy.io:8080/spots/${spotId}/reviews`,
     );
-    reviews2 = response.data.responseData;
+    setRevuews2(response.data.responseData);
   }
   async function getData3(spotId) {
     const response = await axios.get(
       `http://j7a104.p.ssafy.io:8080/spots/${spotId}/reviews`,
     );
-    reviews3 = response.data.responseData;
+    setRevuews3(response.data.responseData);
   }
   async function getData4(spotId) {
     const response = await axios.get(
       `http://j7a104.p.ssafy.io:8080/spots/${spotId}/reviews`,
     );
-    reviews4 = response.data.responseData;
+    setRevuews4(response.data.responseData);
   }
-
   useEffect(() => {
     let spotId = 0;
     for (let i = 0; i < stores.length; i++) {
@@ -129,25 +127,38 @@ function FinalReview() {
     }
   }, []);
 
+  const numColumns = 3;
+
+  const Item = ({item}) => (
+    <View
+      style={{
+        backgroundColor: '#FFA856',
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: Dimensions.get('window').width / 3,
+        height: Dimensions.get('window').height / 15,
+        borderRadius: 30,
+      }}>
+      <Text
+        style={{
+          color: 'white',
+          fontSize: 12,
+        }}>
+        #{item.name}
+      </Text>
+    </View>
+  );
+
   return (
     <View>
       <View>
-        <Text>이미지</Text>
+        <FlatList
+          data={reviews0}
+          renderItem={({item}) => <Item item={item} />}
+          numColumns={numColumns}
+        />
       </View>
-      <View>
-        <Text>음식점이름</Text>
-      </View>
-      <View>
-        <Text>태그들</Text>
-      </View>
-      <View>
-        <Text>평점매기기</Text>
-      </View>
-      <View>
-        <Text>평가안하기</Text>
-        <Text>확인</Text>
-      </View>
-      <Modal animationType="slide" transparent={true} visible={modalVisible2}>
+      {/* <Modal animationType="slide" transparent={true} visible={modalVisible0}>
         <View
           style={{
             flex: 1,
@@ -155,68 +166,16 @@ function FinalReview() {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <View style={{flex: 1, justifyContent: 'center'}}>
-            <TouchableOpacity
-              style={{backgroundColor: 'red'}}
-              onPress={() => {
-                setModalVisible2(false);
-                console.log(2);
-              }}>
-              <Text>평가안하기</Text>
-            </TouchableOpacity>
+          <View>
+            <Text>이미지</Text>
           </View>
-          <View style={{flex: 1, justifyContent: 'center'}}>
-            <TouchableOpacity
-              style={{backgroundColor: 'blue'}}
-              onPress={() => {
-                setModalVisible2(false);
-                console.log(2);
-              }}>
-              <Text>확인</Text>
-            </TouchableOpacity>
+          <View>
+            <Text>음식점이름</Text>
           </View>
-        </View>
-      </Modal>
-
-      <Modal animationType="slide" transparent={true} visible={modalVisible1}>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: '#fff',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <View style={{flex: 1, justifyContent: 'center'}}>
-            <TouchableOpacity
-              style={{backgroundColor: 'red'}}
-              onPress={() => {
-                setModalVisible1(false);
-                console.log(1);
-              }}>
-              <Text>평가안하기</Text>
-            </TouchableOpacity>
+          <View />
+          <View>
+            <Text>평점매기기</Text>
           </View>
-          <View style={{flex: 1, justifyContent: 'center'}}>
-            <TouchableOpacity
-              style={{backgroundColor: 'blue'}}
-              onPress={() => {
-                setModalVisible1(false);
-                console.log(1);
-              }}>
-              <Text>확인</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-
-      <Modal animationType="slide" transparent={true} visible={modalVisible0}>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: '#fff',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
           <View style={{flex: 1, justifyContent: 'center'}}>
             <TouchableOpacity
               style={{backgroundColor: 'red'}}
@@ -238,7 +197,7 @@ function FinalReview() {
             </TouchableOpacity>
           </View>
         </View>
-      </Modal>
+      </Modal> */}
     </View>
   );
 }
