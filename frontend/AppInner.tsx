@@ -18,6 +18,7 @@ import Ar2 from './src/pages/Ar2';
 import Ar3 from './src/pages/Ar3';
 import Review from './src/pages/Review';
 import FinishCourse from './src/pages/FinishCourse';
+import FinalReview from './src/pages/FinalReview';
 import {useSelector} from 'react-redux';
 import {RootState} from './src/store/reducer';
 // import DragAble from './src/pages/DragAble';
@@ -42,6 +43,7 @@ export type LoggedInParamList = {
   Ar3: undefined;
   Review: undefined;
   FinishCourse: undefined;
+  FinalReview: undefined;
 };
 
 // export type RootStackParamList = {
@@ -173,6 +175,11 @@ function AppInner() {
         name="FinishCourse"
         component={FinishCourse}
         options={{title: 'FinishCourse'}}
+      />
+      <Stack.Screen
+        name="FinalReview"
+        component={FinalReview}
+        options={{title: 'FinalReview'}}
       />
     </Stack.Navigator>
   ) : (

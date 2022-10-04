@@ -34,13 +34,15 @@ const ArScene1 = () => {
   const [coinVisible4, setCoinVisible4] = useState(true);
   const [coinVisible5, setCoinVisible5] = useState(true);
   const [counter, setCounter] = useState(1);
-  
+
   const missionList: any = useSelector(
     (state: RootState) => state.course,
   ).missions;
 
   const stores: any = useSelector((state: RootState) => state.stores).stores;
-  const userSpotList = useSelector((state: RootState) => state.userSpot).userSpotList;
+  const userSpotList = useSelector(
+    (state: RootState) => state.userSpot,
+  ).userSpotList;
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [clearM, setClearM] = useState<number[]>(missionList.clearMissions);
   const [unclearM, setUnclearM] = useState<number[]>(
@@ -51,30 +53,32 @@ const ArScene1 = () => {
   const spotId = stores[number].id;
   var userSpotId = 0;
   console.log(spotId);
-  const getData =async () => {
-    const res = await axios.get(`http://j7a104.p.ssafy.io:8080/courses/mission/${spotId}`, {
+  const getData = async () => {
+    const res = await axios.get(
+      `http://j7a104.p.ssafy.io:8080/courses/mission/${spotId}`,
+      {
         headers: {accessToken},
-      });
-      console.log(res.data.responseData);
-      userSpotId = res.data.responseData.id;
-      console.log(userSpotId);
-      const newSpotList=[];
-      for(var i =0;i<userSpotList.length;i++){
-        if(i===number){
-          newSpotList.push(userSpotId);
-        }
-        else{
-          newSpotList.push(userSpotList[i]);
-        }
+      },
+    );
+    console.log(res.data.responseData);
+    userSpotId = res.data.responseData.id;
+    console.log(userSpotId);
+    const newSpotList = [];
+    for (var i = 0; i < userSpotList.length; i++) {
+      if (i === number) {
+        newSpotList.push(userSpotId);
+      } else {
+        newSpotList.push(userSpotList[i]);
       }
-      dispatch(
-        userSpotSlice.actions.setUserSpot({
-          userSpotList:newSpotList
-        })        
-      );
-      console.log(newSpotList);
     }
-  
+    dispatch(
+      userSpotSlice.actions.setUserSpot({
+        userSpotList: newSpotList,
+      }),
+    );
+    console.log(newSpotList);
+  };
+
   useEffect(() => {
     if (counter === 4) {
       Alert.alert('Alert Title', '미션 성공!!', [
@@ -84,8 +88,7 @@ const ArScene1 = () => {
           style: 'cancel',
         },
       ]);
-      getData(),      
-      console.log({미션번호: number});
+      getData(), console.log({미션번호: number});
       const clearList = [];
       for (var i = 0; i < clearM.length; i++) {
         clearList.push(clearM[i]);
