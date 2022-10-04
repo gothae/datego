@@ -384,6 +384,14 @@ function Home({navigation}) {
             진행중인 코스
           </Text>
         </TouchableOpacity>
+        <View>
+          <Button
+            onPress={() => {
+              navigation.navigate('FinishCourse', {});
+            }}
+            title="코스완료"
+          />
+        </View>
       </ImageBackground>
       {/* <View>
         <Button

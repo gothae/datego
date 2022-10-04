@@ -212,14 +212,14 @@ function DragItems() {
 
   async function setPreference() {
     if (currentcourse.length > 2) {
-      console.log(currentcourse);
-      console.log(myfood);
-      console.log(mycafe);
-      console.log(myplay);
-      console.log(mydrink);
-      console.log(myprice[0]);
-      console.log(dongId);
-      console.log(userId);
+      console.log('현재코스', currentcourse);
+      console.log('음식', myfood);
+      console.log('카페', mycafe);
+      console.log('놀이', myplay);
+      console.log('음주', mydrink);
+      console.log('가격', myprice[0]);
+      console.log('동', dongId);
+      console.log('유저아이디', userId);
       const missionList = [];
       for (let i = 0; i < currentcourse.length; i++) {
         missionList.push(i);
