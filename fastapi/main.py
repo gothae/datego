@@ -23,7 +23,7 @@ TAG_TABLE = db.Table('tag',  metadata, autoload=True, autoload_with=engine)
 IMAGE_TABLE = db.Table('image', metadata, autoload=True, autoload_with=engine)
 
 # user_spot = 유저 장소 평가 내역, spot_courses = 장소 태그 평가 내역
-@app.get("/courses/{dong}")
+@app.post("/courses/{dong}")
 async def get_courses(dong:int , req:SelectItem):
     #spot_tag : spot별로 어떤 태그에 count 어떻게 있는지 이루어진 테이블
     # DB테이블형식으로 나옵니다
@@ -213,7 +213,8 @@ async def get_courses(dong:int , req:SelectItem):
         d = {}
         d[orders[i]] = []
         for j in range(len(recommends[i])):
-            d[orders[i]].append(int(recommends[i][j]))
+            if int(recommends[i][j]) != -1:
+                d[orders[i]].append(int(recommends[i][j]))
         spotIds.append(d)
         
     response.update({"code": 200})

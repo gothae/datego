@@ -25,6 +25,7 @@ def category_filter(dataFrame, spot_category_detail, categories):
         for category in categories:
             if category in spot_categories:
                 data.append(row)
+                break
     return pd.DataFrame(data)
 
 #해당 구역만 분류해주기
@@ -59,7 +60,9 @@ def price_filter(spots, menus, course, price):
         avg = 0
         for j, menu_row in menu_price.iterrows():
             avg += menu_row['price']
-        avg /= len(menu_price)
+
+        if len(menu_price) != 0:
+            avg /= len(menu_price)
 
         if course == 1 or course == 3:
             if avg <= price  * 0.5:
@@ -67,6 +70,8 @@ def price_filter(spots, menus, course, price):
         elif course == 2:
             if avg <= price  * 0.3:
                 data.append(row)
+        else:
+            data.append(row)
     return pd.DataFrame(data)
 
 #식당과 놀거리 경우, 태그선택안하므로 유저리뷰 기준으로 좋아하는 태그를 뽑는다

@@ -27,43 +27,43 @@ function SelectDong({navigation: {navigate}, route}) {
 
   const clickDong = (dong: number) => {
     if (dong === 1) {
-      setX(windowWidth * 0.71);
-      setY(125 - offset);
+      setX(windowWidth * 0.722);
+      setY(windowHeight * 0.195);
     } else if (dong === 2) {
-      setX(windowWidth * 0.67);
-      setY(240 - offset);
+      setX(windowWidth * 0.7);
+      setY(windowHeight * 0.36);
     } else if (dong === 3) {
-      setX(windowWidth * 0.44);
-      setY(155 - offset);
+      setX(windowWidth * 0.45);
+      setY(windowHeight * 0.265);
     } else if (dong === 4) {
-      setX(windowWidth * 0.375);
-      setY(240 - offset);
+      setX(windowWidth * 0.377);
+      setY(windowHeight * 0.385);
     } else if (dong === 5) {
-      setX(windowWidth * 0.33);
-      setY(340 - offset);
+      setX(windowWidth * 0.26);
+      setY(windowHeight * 0.513);
     } else if (dong === 7) {
-      setX(windowWidth * 0.67);
-      setY(340 - offset);
+      setX(windowWidth * 0.66);
+      setY(windowHeight * 0.505);
     } else if (dong === 10) {
-      setX(windowWidth * 0.11);
-      setY(260 - offset);
+      setX(windowWidth * 0.135);
+      setY(windowHeight * 0.32);
     } else if (dong === 18) {
-      setX(windowWidth * 0.152);
-      setY(140 - offset);
+      setX(windowWidth * 0.175);
+      setY(windowHeight * 0.177);
     }
     setSelected(dong);
   };
 
   return (
-    <View>
+    <View style={{flex:1, backgroundColor: 'whitesmoke'}}>
       <View>
         <View
           style={{
             left: x,
             top: y,
             backgroundColor: '#FF8D8D',
-            width: 50,
-            height: 50,
+            width: 60,
+            height: 60,
             zIndex: 10,
             borderRadius: 30,
             opacity: 0.4,
@@ -159,7 +159,7 @@ const styles = (offset: number, windowWidth: number, windowHeight: number) =>
   StyleSheet.create({
     btn: {
       position: 'absolute',
-      top: windowHeight * 0.6,
+      top: windowHeight * 0.65,
       left: windowWidth * 0.25,
       width: windowWidth * 0.5,
       paddingTop: 10,
@@ -170,81 +170,88 @@ const styles = (offset: number, windowWidth: number, windowHeight: number) =>
     itaewon_1: {
       position: 'absolute',
       left: windowWidth * 0.64,
-      top: 50 - offset,
+      top: windowHeight * 0.15 - offset,
       backgroundColor: '#FFFCF0',
-      width: 100,
-      height: 100,
+      width: windowWidth * 0.3,
+      height: windowHeight * 0.13,
       borderRadius: 80,
+      justifyContent: 'center',
     },
     hannam_2: {
       position: 'absolute',
-      left: windowWidth * 0.58,
-      top: 160 - offset,
+      left: windowWidth * 0.6,
+      top: windowHeight * 0.3 - offset,
       backgroundColor: '#FFFCF0',
-      width: 110,
-      height: 110,
-      borderRadius: 60,
+      width: 0.335 * windowWidth,
+      height: 0.15 * windowHeight,
+      borderRadius: 70,
+      justifyContent: 'center',
     },
     yongsan_3: {
       position: 'absolute',
-      left: windowWidth * 0.417,
-      top: 80 - offset,
+      left: windowWidth * 0.41,
+      top: windowHeight * 0.225 - offset,
       backgroundColor: '#FFFCF0',
-      width: 70,
-      height: 95,
+      width: 0.225 * windowWidth,
+      height: 0.126 * windowHeight,
       borderRadius: 50,
+      justifyContent: 'center',
     },
     hangangro_4: {
       position: 'absolute',
       left: windowWidth * 0.333,
-      top: 180 - offset,
+      top: windowHeight * 0.37 - offset,
       backgroundColor: '#FFFCF0',
-      width: 80,
-      height: 70,
-      borderRadius: 60,
+      width: 0.25 * windowWidth,
+      height: 0.08 * windowHeight,
+      borderRadius: 50,
+      justifyContent: 'center',
     },
     ichon_5: {
       position: 'absolute',
-      left: windowWidth * 0.208,
-      top: 260 - offset,
+      left: windowWidth * 0.1,
+      top: windowHeight * 0.456 - offset,
       backgroundColor: '#FFFCF0',
-      width: 140,
-      height: 120,
-      borderRadius: 60,
+      width: 0.48 * windowWidth,
+      height: 0.15 * windowHeight,
+      borderRadius: 100,
+      justifyContent: 'center',
     },
     dongbingo_7: {
       position: 'absolute',
-      left: windowWidth * 0.625,
-      top: 275 - offset,
+      left: windowWidth * 0.59,
+      top: windowHeight * 0.46 - offset,
       backgroundColor: '#FFFCF0',
-      width: 80,
-      height: 80,
+      width: 0.3 * windowWidth,
+      height: 0.13 * windowHeight,
       borderRadius: 60,
+      justifyContent: 'center',
     },
     wonhyoro_10: {
       position: 'absolute',
-      left: windowWidth * 0.056,
-      top: 190 - offset,
+      left: windowWidth * 0.05,
+      top: windowHeight * 0.285 - offset,
       backgroundColor: '#FFFCF0',
-      width: 90,
-      height: 90,
+      width: 0.32 * windowWidth,
+      height: 0.12 * windowHeight,
       borderRadius: 60,
+      justifyContent: 'center',
     },
     cheongpa_18: {
       position: 'absolute',
-      left: windowWidth * 0.056,
-      top: 60 - offset,
+      left: windowWidth * 0.076,
+      top: windowHeight * 0.114 - offset,
       backgroundColor: '#FFFCF0',
-      width: 120,
-      height: 120,
-      borderRadius: 60,
+      width: 0.35 * windowWidth,
+      height: 0.16 * windowHeight,
+      borderRadius: 70,
+      justifyContent: 'center',
     },
     text: {
-      flex: 1,
-      fontSize: 12,
+      fontSize: 14,
       fontWeight: 'bold',
       textAlign: 'center',
-      justifyContent: 'center',
+      color: 'black',
     },
   });
 export default SelectDong;

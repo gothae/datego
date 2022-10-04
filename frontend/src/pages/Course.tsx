@@ -22,7 +22,6 @@ import {useState, useEffect, useCallback, useMemo} from 'react';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
 import axios from 'axios';
-import {getDefaultMiddleware} from '@reduxjs/toolkit';
 import {useAppDispatch} from '../store';
 import storeSlice from '../slices/stores';
 import {useSelector} from 'react-redux';
@@ -46,6 +45,7 @@ type Location = {
   P3: K;
   P4: K;
 };
+
 
 function Course({ navigation }: CourseProps) {
   // 위치정보 허용 함수
@@ -91,9 +91,6 @@ function Course({ navigation }: CourseProps) {
     fiv: [],
   });
 
-  useEffect(() => {
-    getData();
-  }, []);
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => { 
@@ -186,68 +183,7 @@ function Course({ navigation }: CourseProps) {
     );
   }, [location]);
 
-  const dispatch = useAppDispatch();
-  const getData = async () => {
-    const dongId: number = 1;
-    console.log('추천코스받아오기')
-    const response = await axios.post(
-      `http://j7a104.p.ssafy.io:8000/courses/${dongId}`,
-      {
-        course: [1, 2, 3],
-        categoryList: {
-          food: [1],
-          cafe: [1],
-          play: [9],
-          drink: [1],
-        },
-        price: 60000,
-        id: 45,
-      },
-    );
-    console.log('추천코스 받기 완료')
-    dispatch(
-      storeSlice.actions.setstore({
-        stores: response.data.responseData.Spots,
-      }),
-    );
-    const stores = response.data.responseData.Spots;
-    if (stores?.length == 2) {
-      dispatch(
-        algolistSlice.actions.setalgolist({
-          one: response.data.responseData.spotIds[0].first,
-          two: response.data.responseData.spotIds[1].second,
-        }),
-      );
-    } else if (stores?.length == 3) {
-      dispatch(
-        algolistSlice.actions.setalgolist({
-          one: response.data.responseData.spotIds[0].first,
-          two: response.data.responseData.spotIds[1].second,
-          thr: response.data.responseData.spotIds[2].third,
-        }),
-      );
-    } else if (stores?.length == 4) {
-      dispatch(
-        algolistSlice.actions.setalgolist({
-          one: response.data.responseData.spotIds[0].first,
-          two: response.data.responseData.spotIds[1].second,
-          thr: response.data.responseData.spotIds[2].third,
-          fou: response.data.responseData.spotIds[3].fourth,
-        }),
-      );
-    } else if (stores?.length == 5) {
-      dispatch(
-        algolistSlice.actions.setalgolist({
-          one: response.data.responseData.spotIds[0].first,
-          two: response.data.responseData.spotIds[1].second,
-          thr: response.data.responseData.spotIds[2].third,
-          fou: response.data.responseData.spotIds[3].fourth,
-          fiv: response.data.responseData.spotIds[4].fifth,
-        }),
-        );
-      }
-    };
-    const markerImg = require('../assets/현재위치.png');
+  const markerImg = require('../assets/현재위치.png');
     
     if (!location) {
     return null;
