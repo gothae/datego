@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ImStarFull } from "react-icons/im";
+import {ImStarFull} from 'react-icons/im';
 import styled from 'styled-components';
 import {View, Text, Image, ScrollView, StyleSheet} from 'react-native';
 import {Button} from '@react-native-material/core';
@@ -21,10 +21,10 @@ type Props = {
   route: any;
   navigation: any;
 };
-type Review ={
+type Review = {
   id: number;
   name: string;
-}
+};
 type Store = {
   id: number;
   name: string;
@@ -39,7 +39,6 @@ type Store = {
   rate: number;
   tags: any;
 };
-
 
 let reviewLength: number;
 function Review({navigation, route}: Props) {
@@ -70,34 +69,36 @@ function Review({navigation, route}: Props) {
 
   if (detailstores.images) {
     //console.log('스토어 받은거', detailstores.images[0]);
-    images = <Image style={{height: 250}} source={{uri: detailstores.images[0]}} />;
+    images = (
+      <Image style={{height: 250}} source={{uri: detailstores.images[0]}} />
+    );
   } else {
     images = <Text>이미지 없음</Text>;
-  };
+  }
   let i: number;
   let reviewList;
-  const rs:Review[] = [];
-  for(i=0;i<reviewLength;i++){
+  const rs: Review[] = [];
+  for (i = 0; i < reviewLength; i++) {
     //console.log(reviews[i]);
     rs.push(reviews[i]);
-  };
+  }
   console.log(rs);
   //reviewList = rs.map((review, index)=>(
-    //console.log(review.name)
-    // <Button
-    //         title={review.name}
-    //         key={review.id}
-    //         color={'#FFA856'}
-    //         titleStyle={{
-    //           color: 'white',
-    //           fontSize: 16,
-    //         }}
-    //         style={{
-    //           borderRadius: 60,
-    //           width: 100,
-    //         }}
-    //       />
-    //<Text key={review['id']} style={{color:'#000000'}}>{review['name']}</Text>
+  //console.log(review.name)
+  // <Button
+  //         title={review.name}
+  //         key={review.id}
+  //         color={'#FFA856'}
+  //         titleStyle={{
+  //           color: 'white',
+  //           fontSize: 16,
+  //         }}
+  //         style={{
+  //           borderRadius: 60,
+  //           width: 100,
+  //         }}
+  //       />
+  //<Text key={review['id']} style={{color:'#000000'}}>{review['name']}</Text>
   //));
   return (
     <ScrollView>
@@ -109,20 +110,25 @@ function Review({navigation, route}: Props) {
           {images}
         </View>
         <View style={{alignItems: 'center', marginVertical: 8}}>
-          <Text style={{ fontSize: 20, color:'#000000' }}>{detailstores.name}</Text>
+          <Text style={{fontSize: 20, color: '#000000'}}>
+            {detailstores.name}
+          </Text>
           <View style={{flexDirection: 'row', marginVertical: '3%'}}>
             {reviewList}
           </View>
         </View>
         <View>
-        {[1, 2, 3, 4, 5].map(el => (
-          <View className={`fas fa-star ${(clicked >= el) | (hovered >= el) && 'yellowStar'}`}
-            key={el}
-            onMouseEnter={() => setHovered(el)}
-            onMouseLeave={() => setHovered(null)}
-            onClick={() => setClicked(el)}
-          />
-        ))}
+          {[1, 2, 3, 4, 5].map(el => (
+            <View
+              className={`fas fa-star ${
+                (clicked >= el) | (hovered >= el) && 'yellowStar'
+              }`}
+              key={el}
+              onMouseEnter={() => setHovered(el)}
+              onMouseLeave={() => setHovered(null)}
+              onClick={() => setClicked(el)}
+            />
+          ))}
         </View>
         <View
           style={{
@@ -176,10 +182,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginHorizontal: 8,
     marginVertical: 8,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   text: {
-    fontSize: 16, marginHorizontal: '10%', marginVertical: '2%', color:'#000000'
-  }
-})
+    fontSize: 16,
+    marginHorizontal: '10%',
+    marginVertical: '2%',
+    color: '#000000',
+  },
+});
 export default Review;
