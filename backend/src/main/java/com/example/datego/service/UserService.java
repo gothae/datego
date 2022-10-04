@@ -12,6 +12,7 @@ import com.example.datego.utils.CookieUtil;
 import com.example.datego.vo.UserImageVO;
 import com.example.datego.vo.entity.Enum.Role;
 import com.example.datego.vo.entity.Enum.Status;
+import com.example.datego.vo.entity.Photo;
 import com.example.datego.vo.entity.RefreshToken;
 import com.example.datego.vo.entity.User;
 import com.example.datego.vo.entity.User_Spot;
@@ -41,9 +42,13 @@ public class UserService {
         List<UserImageVO> userImageVOs = new ArrayList<>();
         List<User_Spot> user_spotList = user_spotRepository.findAllByDongIdAndUserId(dongId, userId);
         for(User_Spot user_spot : user_spotList){
+            Optional<Photo> myPhoto = photoRepository.findByUserspot_Id(user_spot.getId());
+            if(myPhoto.isEmpty()){
+                continue;
+            }
             userImageVOs.add(new UserImageVO(
                     spotRepository.findById(user_spot.getSpot().getId()).get().getName(),
-                    photoRepository.findByUserspot_Id(user_spot.getId()).getPhotoLink()
+                    myPhoto.get().getPhotoLink()
                     ));
         }
         userImageRes.setPhotos(userImageVOs);

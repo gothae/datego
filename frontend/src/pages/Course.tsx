@@ -96,10 +96,15 @@ function Course({ navigation }: CourseProps) {
   useEffect(() => { 
     var currentPrice = 0;
     for (var i = 0; i < stores.length; i++) {
-      currentPrice = currentPrice + stores[i].price
+      if (stores[i].menus) {
+        currentPrice = currentPrice + stores[i].price + stores[i].menus[0].price
+      }
+      else {
+        currentPrice = currentPrice + stores[i].price
+      }
     }
     setTotal(Math.round( currentPrice / 10000))
-  }, [stores])
+  }, [stores, first, second, third, fourth, fifth])
   useEffect(() => {
     if (stores?.length === 0) {
       return;

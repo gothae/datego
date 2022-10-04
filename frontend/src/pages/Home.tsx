@@ -393,62 +393,6 @@ function Home({navigation}) {
           title="파이널리뷰"
         />
       </View>
-      {/* <View>
-        <Button
-          title="Go Preference"
-          onPress={() => {
-            navigation.navigate('Preference', {});
-          }}
-        />
-      </View>
-      <View>
-        <Button
-          onPress={onLogout}
-          title="로그아웃"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
-      </View>
-      <View>
-        <Button
-          onPress={() => {
-            navigation.navigate('Ar1', {});
-          }}
-          title="돈줍기"
-        />
-        <Button
-          onPress={() => {
-            navigation.navigate('Ar2', {});
-          }}
-          title="돼지키우기"
-        />
-        <Button
-          onPress={() => {
-            navigation.navigate('Ar3', {});
-          }}
-          title="빨강이키우기"
-        />
-        <Button
-          onPress={() => {
-            navigation.navigate('CourseIng', {});
-          }}
-          title="진행중인 코스"
-        />
-      </View>
-      <View>
-        <Button
-          onPress={onDelete}
-          title="회원탈퇴"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
-        <Button
-          onPress={() => {
-            takePicture();
-          }}
-          title="사진찍기"
-        />
-      </View> */}
     </View>
   );
 }

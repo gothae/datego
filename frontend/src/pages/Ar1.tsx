@@ -19,7 +19,6 @@ import courseSlice from '../slices/course';
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import userSpotSlice from '../slices/userSpot';
-
 type Mission = {
   clearMissions: number[];
   unclearMissions: number[];
@@ -82,7 +81,7 @@ const ArScene1 = () => {
 
   useEffect(() => {
     if (counter === 4) {
-      Alert.alert('Alert Title', 'My Alert Msg', [
+      Alert.alert('Alert Title', '미션 성공!!', [
         {
           text: '클리어!!!',
           onPress: () => navigation.navigate('CourseIng', {}),
