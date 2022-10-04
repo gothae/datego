@@ -26,20 +26,32 @@ function SelectDong({navigation: {navigate}, route}) {
 
   return (
     <View style={{flex: 1}}>
-      <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+        <View style={{flex: 1}} />
         <TouchableOpacity
-          style={{flex: 1, alignItems: 'center'}}
+          style={{
+            flex: 1,
+            alignItems: 'center',
+          }}
           onPress={() => clickDong(18)}>
           <Image
             source={{
               uri: 'https://user-images.githubusercontent.com/66546079/193845296-69d3618a-e5ba-46c6-99bd-0a2c891fa789.png',
             }}
             style={styles.cheongpa_18}
+            resizeMode="contain"
           />
           <Text style={styles.text}>
             청파{'\n'}남영{'\n'}효창
           </Text>
         </TouchableOpacity>
+        <View style={{flex: 1}} />
+        <View style={{flex: 1}} />
         <TouchableOpacity
           onPress={() => clickDong(1)}
           style={{
@@ -56,8 +68,10 @@ function SelectDong({navigation: {navigate}, route}) {
           />
           <Text style={styles.text}>이태원</Text>
         </TouchableOpacity>
+        <View style={{flex: 1}} />
       </View>
       <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{flex: 1}} />
         <TouchableOpacity
           onPress={() => clickDong(3)}
           style={{
@@ -74,6 +88,7 @@ function SelectDong({navigation: {navigate}, route}) {
           />
           <Text style={styles.text}>용산동</Text>
         </TouchableOpacity>
+        <View style={{flex: 1}} />
       </View>
       <View
         style={{
@@ -82,6 +97,7 @@ function SelectDong({navigation: {navigate}, route}) {
           position: 'relative',
           bottom: '5%',
         }}>
+        <View style={{flex: 1}} />
         <TouchableOpacity
           onPress={() => clickDong(10)}
           style={{
@@ -98,9 +114,15 @@ function SelectDong({navigation: {navigate}, route}) {
           />
           <Text style={styles.text}>원효로</Text>
         </TouchableOpacity>
+        <View style={{flex: 1}} />
+        <View style={{flex: 1}} />
         <TouchableOpacity
           onPress={() => clickDong(2)}
-          style={{flex: 1, alignItems: 'center', marginLeft: '10%'}}>
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            marginLeft: '10%',
+          }}>
           <Image
             source={{
               uri: 'https://user-images.githubusercontent.com/66546079/193842872-d78d057b-d09f-4953-8a04-7f201d78b48a.png',
@@ -109,6 +131,7 @@ function SelectDong({navigation: {navigate}, route}) {
           />
           <Text style={styles.text}>한남동</Text>
         </TouchableOpacity>
+        <View style={{flex: 1}} />
       </View>
       <View
         style={{
@@ -117,6 +140,7 @@ function SelectDong({navigation: {navigate}, route}) {
           position: 'relative',
           bottom: '10%',
         }}>
+        <View style={{flex: 1}} />
         <TouchableOpacity
           onPress={() => clickDong(4)}
           style={{
@@ -133,6 +157,7 @@ function SelectDong({navigation: {navigate}, route}) {
           />
           <Text style={styles.text}>한강로</Text>
         </TouchableOpacity>
+        <View style={{flex: 1}} />
       </View>
       <View
         style={{
@@ -141,6 +166,7 @@ function SelectDong({navigation: {navigate}, route}) {
           position: 'relative',
           bottom: '20%',
         }}>
+        <View style={{flex: 1}} />
         <TouchableOpacity
           onPress={() => clickDong(5)}
           style={{
@@ -157,6 +183,8 @@ function SelectDong({navigation: {navigate}, route}) {
           />
           <Text style={styles.text}>이촌동</Text>
         </TouchableOpacity>
+        <View style={{flex: 1}} />
+        <View style={{flex: 1}} />
         <TouchableOpacity
           onPress={() => clickDong(7)}
           style={{
@@ -173,6 +201,7 @@ function SelectDong({navigation: {navigate}, route}) {
           />
           <Text style={styles.text}>동빙고{'\n'}서빙고</Text>
         </TouchableOpacity>
+        <View style={{flex: 1}} />
       </View>
       {/* 데이트할 동 선택 페이지로 이동 */}
       <View style={{flex: 1.4, alignItems: 'center'}}>
