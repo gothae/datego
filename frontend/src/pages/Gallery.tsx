@@ -3,7 +3,6 @@ import {
   View,
   Text,
   FlatList,
-  Button,
   Dimensions,
   Modal,
   TouchableOpacity,
@@ -14,6 +13,7 @@ import {RootState} from '../store/reducer';
 import {useSelector} from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import ImageViewer from 'react-native-image-zoom-viewer';
+import {Button} from '@react-native-material/core';
 
 function Gallery({route, navigation}) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
@@ -77,15 +77,15 @@ function Gallery({route, navigation}) {
           paddingRight: 2,
         }}>
         <View>
-          <Text>
+          <Text style={{color: 'gray', fontSize: 16}}>
             {item.item.name}
             {zone}
           </Text>
           <FastImage
             source={{uri: `${item.item.link}`}}
             style={{
-              height: Dimensions.get('window').width / 3,
-              width: Dimensions.get('window').width / 3,
+              height: Dimensions.get('window').width / 3 - 4,
+              width: Dimensions.get('window').width / 3 - 4,
             }}
           />
         </View>
@@ -94,7 +94,7 @@ function Gallery({route, navigation}) {
   }, []);
 
   return (
-    <View>
+    <View style={{flex: 1}}>
       <View>
         <View>
           <FlatList
@@ -111,12 +111,6 @@ function Gallery({route, navigation}) {
           <ImageViewer imageUrls={links} index={imageIndex} />
         </Modal>
       </View>
-      <Button
-        title="Go Home"
-        onPress={() => {
-          navigation.navigate('Home', {});
-        }}
-      />
     </View>
   );
 }
