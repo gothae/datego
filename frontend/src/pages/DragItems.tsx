@@ -38,56 +38,56 @@ function DragItems() {
       id: 1,
       name: '밥',
       image: 'https://cdn-icons-png.flaticon.com/512/894/894483.png',
-      background_color: 'red',
+      background_color: '#FFE79C',
     },
     {
       id: 2,
       name: '카페',
       image: 'https://cdn-icons-png.flaticon.com/512/590/590836.png',
-      background_color: 'pink',
+      background_color: '#FFEAD6',
     },
     {
       id: 3,
       name: '음주',
       image: 'https://cdn-icons-png.flaticon.com/512/1744/1744761.png',
-      background_color: 'orange',
+      background_color: '#FFE79C',
     },
     {
       id: 4,
       name: '활동',
-      image: 'https://cdn-icons-png.flaticon.com/512/1223/1223479.png',
-      background_color: '#aaaaff',
+      image: 'https://cdn-icons-png.flaticon.com/512/1886/1886385.png',
+      background_color: '#FFEAD6',
     },
   ];
   const FirstReceivingItemList = [
     {
       id: 0,
-      name: '채워',
-      image: 'https://cdn-icons-png.flaticon.com/512/1223/1223479.png',
+      name: '채워주세요',
+      image: 'https://cdn-icons-png.flaticon.com/512/2476/2476199.png',
       background_color: '#D8D8D8',
     },
     {
       id: 0,
-      name: '채워',
-      image: 'https://cdn-icons-png.flaticon.com/512/1223/1223479.png',
+      name: '채워주세요',
+      image: 'https://cdn-icons-png.flaticon.com/512/2476/2476199.png',
       background_color: '#D8D8D8',
     },
     {
       id: 0,
-      name: '채워',
-      image: 'https://cdn-icons-png.flaticon.com/512/1223/1223479.png',
+      name: '채워주세요',
+      image: 'https://cdn-icons-png.flaticon.com/512/2476/2476199.png',
       background_color: '#D8D8D8',
     },
     {
       id: 0,
-      name: '채워',
-      image: 'https://cdn-icons-png.flaticon.com/512/1223/1223479.png',
+      name: '채워주세요',
+      image: 'https://cdn-icons-png.flaticon.com/512/2476/2476199.png',
       background_color: '#D8D8D8',
     },
     {
       id: 0,
-      name: '채워',
-      image: 'https://cdn-icons-png.flaticon.com/512/1223/1223479.png',
+      name: '채워주세요',
+      image: 'https://cdn-icons-png.flaticon.com/512/2476/2476199.png',
       background_color: '#D8D8D8',
     },
   ];
@@ -103,10 +103,9 @@ function DragItems() {
       <DraxView
         style={{
           borderRadius: 5,
-          width: Dimensions.get('window').width / 4 - 20,
+          width: Dimensions.get('window').width / 4 - 30,
           height: Dimensions.get('window').width / 4 - 30,
           justifyContent: 'center',
-          alignItems: 'center',
           marginRight: 5,
           backgroundColor: item.background_color,
         }}
@@ -130,8 +129,8 @@ function DragItems() {
       <DraxView
         style={{
           borderRadius: 5,
-          height: Dimensions.get('window').width / 4 - 30,
-          width: Dimensions.get('window').width / 4 - 35,
+          height: Dimensions.get('window').width / 4 - 40,
+          width: Dimensions.get('window').width / 4 - 40,
           justifyContent: 'center',
           backgroundColor: item.background_color,
         }}
@@ -142,10 +141,19 @@ function DragItems() {
           return (
             <View>
               <Image
-                style={{height: '60%', width: '100%', resizeMode: 'contain'}}
+                style={{
+                  height: '60%',
+                  width: '100%',
+                  resizeMode: 'contain',
+                }}
                 source={{uri: item.image}}
               />
-              <Text style={{fontSize: 10, textAlign: 'center'}}>
+              <Text
+                style={
+                  item.name.length > 3
+                    ? {fontSize: 8, textAlign: 'center'}
+                    : {fontSize: 9, textAlign: 'center'}
+                }>
                 {item.name}
               </Text>
             </View>
@@ -202,7 +210,14 @@ function DragItems() {
   };
 
   async function setPreference() {
-    if (currentcourse.length > 0) {
+    if (currentcourse.length > 2) {
+      console.log(currentcourse);
+      console.log(myfood);
+      console.log(mycafe);
+      console.log(myplay);
+      console.log(mydrink);
+      console.log(myprice[0]);
+      console.log(userId);
       const response = await axios.post(
         `http://j7a104.p.ssafy.io:8000/courses/${dongId}`,
         {
@@ -218,6 +233,7 @@ function DragItems() {
         },
       );
       console.log(response);
+
       dispatch(
         storeSlice.actions.setstore({
           stores: response.data.responseData.Spots,
@@ -261,18 +277,23 @@ function DragItems() {
       }
       goNext();
     } else {
-      Alert.alert('코스 순서를 설정해주세요');
+      Alert.alert('코스 순서를 설정해주세요 (3개이상)');
     }
   }
   return (
     <GestureHandlerRootView style={gestureRootViewStyle}>
       <DraxProvider>
         <View style={styles.container}>
-          <View style={{backgroundColor: '#FFA856'}}>
+          <View
+            style={{
+              backgroundColor: '#FFA856',
+              flex: 0.5,
+              justifyContent: 'center',
+            }}>
             <Text
               style={{
                 color: 'white',
-                fontSize: 20,
+                fontSize: 22,
                 marginLeft: 10,
               }}>
               코스 순서 설정
@@ -280,20 +301,27 @@ function DragItems() {
           </View>
           <View
             style={{
-              justifyContent: 'center',
+              flexDirection: 'row',
+              justifyContent: 'space-evenly',
+              alignItems: 'center',
               flex: 1,
             }}>
-            <DraxList
+            {dragItemMiddleList.map((item, index) =>
+              DragUIComponent({item, index}),
+            )}
+            {/* <DraxList
               data={dragItemMiddleList}
               renderItemContent={DragUIComponent}
               keyExtractor={(item, index) => index.toString()}
               numColumns={4}
               ItemSeparatorComponent={FlatListItemSeparator}
-              scrollEnabled={true}
-            />
-            <Text style={{fontSize: 9}}> ※ 아래로 드래그해서 설정해주세요</Text>
+              scrollEnabled={false}
+            /> */}
           </View>
-          <Text style={{fontSize: 12}}> 코스순서</Text>
+          <Text style={{fontSize: 9}}>
+            ※ 위 아이콘을 아래로 드래그해서 설정해주세요.
+          </Text>
+          <Text style={{fontSize: 12}}> 코스순서 ( 3개 이상 넣어주세요. )</Text>
           <View
             style={{
               flexDirection: 'row',

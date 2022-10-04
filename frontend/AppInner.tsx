@@ -16,9 +16,13 @@ import SelectDong from './src/pages/SelectDong';
 import Ar1 from './src/pages/Ar1';
 import Ar2 from './src/pages/Ar2';
 import Ar3 from './src/pages/Ar3';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from './src/store/reducer';
 // import DragAble from './src/pages/DragAble';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {containsKey, getData, removeData, storeData} from './AsyncService';
+import userSlice from './src/slices/user';
+import {useAppDispatch} from './src/store';
 
 export type LoggedInParamList = {
   Home: undefined;
@@ -45,56 +49,30 @@ type HomeScreenProps = NativeStackScreenProps<ParamListBase>;
 const Stack = createNativeStackNavigator();
 
 function AppInner() {
+  // const dispatch = useAppDispatch();
+
+  // async function check() {
+  //   const hasToken = await containsKey('master');
+  //   if (hasToken) {
+  //     const deleteToken = await removeData('master');
+  //     const myToken = await getData('master');
+  //     dispatch(
+  //       userSlice.actions.setUser({
+  //         accessToken: myToken,
+  //       }),
+  //     );
+  //   } else {
+  //     console.log('없음');
+  //   }
+  // }
+  // React.useEffect(() => {
+  //   console.log('시작합니다.');
+  //   check();
+  // });
+
   const isLoggedIn = useSelector(
     (state: RootState) => !!state.user.accessToken,
   );
-  // return (
-  //   <Stack.Navigator>
-  //     <Stack.Screen name="Home" component={Home} options={{title: 'Home'}} />
-  //     <Stack.Screen
-  //       name="Gallery"
-  //       component={Gallery}
-  //       options={{title: 'Gallery'}}
-  //     />
-  //     <Stack.Screen
-  //       name="Map"
-  //       component={Map}
-  //       options={{title: 'Map'}}
-  //     />
-  //     <Stack.Screen
-  //       name="Preference"
-  //       component={Preference}
-  //       options={{title: 'Preference'}}
-  //     />
-  //     <Stack.Screen
-  //       name="Course"
-  //       component={Course}
-  //       options={{title: 'Course'}}
-  //     />
-  //     {/* <Stack.Screen
-  //       name="DragAble"
-  //       component={DragAble}
-  //       options={{title: 'DragAble'}}
-  //     /> */}
-
-  //     <Stack.Screen
-  //       name="ChangeSpot"
-  //       component={ChangeSpot}
-  //       options={{title: 'ChangeSpot'}}
-  //     />
-  //     <Stack.Screen
-  //       name="DetailSpot"
-  //       component={DetailSpot}
-  //       options={{title: 'DetailSpot'}}
-  //     />
-  //     <Stack.Screen
-  //       name="CourseIng"
-  //       component={CourseIng}
-  //       options={{title: 'CourseIng'}}
-  //     />
-  //   </Stack.Navigator>
-  // );
-  // 로그인검증
   return isLoggedIn ? (
     <Stack.Navigator>
       <Stack.Screen
@@ -151,11 +129,6 @@ function AppInner() {
         component={Course}
         options={{title: 'Course'}}
       />
-      {/* <Stack.Screen
-        name="DragAble"
-        component={DragAble}
-        options={{title: 'DragAble'}}
-      /> */}
 
       <Stack.Screen
         name="ChangeSpot"

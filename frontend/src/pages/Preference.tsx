@@ -28,7 +28,6 @@ type PreferenceProps = NativeStackScreenProps<ParamListBase, 'Preference'>;
 
 function Preference({route, navigation}: PreferenceProps) {
   const dongId = route.params.selected;
-  console.log(dongId);
   const [modalVisible, setModalVisible] = useState(false);
 
   const [containerWidth, setContainerWidth] = useState(0);
