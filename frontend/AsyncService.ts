@@ -15,7 +15,6 @@ export const getData = async (key: string) => {
 
     if (value !== null) {
       const data = JSON.parse(value);
-      console.log('data입니다.');
       console.log(data);
       return data;
     }
