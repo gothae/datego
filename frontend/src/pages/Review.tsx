@@ -49,14 +49,13 @@ function Review({navigation, route}: Props) {
   // console.log('페이지아이디', spotId)
   // stores에 id에 해당되는 정보 불러오기
   const [detailstores, setstores] = useState<Store>({} as Store);
-  const [reviews, setreviews] = useState<Review>({id:1,name:"test"} as Review);
-  let response;
-  let response2;
+  const [reviews, setreviews] = useState<Review>({} as Review);
+
   const getData = async () => {
-    response = await axios.get(
+    const response = await axios.get(
       `http://j7a104.p.ssafy.io:8080/courses/spots/${spotId}`,
     );
-    response2 = await axios.get(
+    const response2 = await axios.get(
       `http://j7a104.p.ssafy.io:8080/spots/${spotId}/reviews`,
     );
     reviewLength = response2.data.responseData.length;
@@ -65,7 +64,6 @@ function Review({navigation, route}: Props) {
   };
   useEffect(() => {
     getData();
-    
   }, []);
 
   let images;
@@ -76,7 +74,7 @@ function Review({navigation, route}: Props) {
   } else {
     images = <Text>이미지 없음</Text>;
   };
-  var i: number;
+  let i: number;
   let reviewList;
   const rs:Review[] = [];
   for(i=0;i<reviewLength;i++){
@@ -84,22 +82,23 @@ function Review({navigation, route}: Props) {
     rs.push(reviews[i]);
   };
   console.log(rs);
-  reviewList = rs.map((review, index)=>(
-    <Button
-            title={review.name}
-            key={review.id}
-            color={'#FFA856'}
-            titleStyle={{
-              color: 'white',
-              fontSize: 16,
-            }}
-            style={{
-              borderRadius: 60,
-              width: 100,
-            }}
-          />
+  //reviewList = rs.map((review, index)=>(
+    //console.log(review.name)
+    // <Button
+    //         title={review.name}
+    //         key={review.id}
+    //         color={'#FFA856'}
+    //         titleStyle={{
+    //           color: 'white',
+    //           fontSize: 16,
+    //         }}
+    //         style={{
+    //           borderRadius: 60,
+    //           width: 100,
+    //         }}
+    //       />
     //<Text key={review['id']} style={{color:'#000000'}}>{review['name']}</Text>
-  ));
+  //));
   return (
     <ScrollView>
       <View>

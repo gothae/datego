@@ -31,17 +31,11 @@ export type LoggedInParamList = {
   DetailSpot: undefined;
   CourseIng: undefined;
   SignIn: undefined;
-<<<<<<< HEAD
-  Ar1: undefined;
-  Ar2: undefined;
-  Ar3: undefined;
-  Review: undefined;
-=======
   SelectDong: undefined;
   Ar1: undefined;
   Ar2: undefined;
   Ar3: undefined;
->>>>>>> a6accd92e7d2a2e434db0d995d7043b25a5ecb48
+  Review: undefined;
 };
 
 // export type RootStackParamList = {
