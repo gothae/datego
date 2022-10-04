@@ -1,6 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Button} from 'react-native';
 import {StyleSheet} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
+import { RootState } from '../store/reducer';
+import {useAppDispatch} from '../store';
 import {Alert} from 'react-native';
 import {
   ViroARScene,
@@ -11,7 +14,15 @@ import {
   ViroAnimations,
   ViroMaterials,
 } from '@viro-community/react-viro';
+import courseSlice from '../slices/course';
+type Mission = {
+  clearMissions : number[];
+  unclearMissions : number[];
+}
+var number=-1;
 const ArScene1 = () => {
+  console.log("넘버입니다.");
+  console.log(number);
   const [coinPosition, setPosition] = useState([1, -3, 1]);
   const [coinVisible1, setCoinVisible1] = useState(true);
   const [coinVisible2, setCoinVisible2] = useState(true);
@@ -20,13 +31,47 @@ const ArScene1 = () => {
   const [coinVisible5, setCoinVisible5] = useState(true);
   const [counter, setCounter] = useState(1);
 
+  const missionList: any = useSelector((state:RootState)=> state.course).missions
+
+  const [clearM, setClearM] = useState<number[]>(missionList.clearMissions);
+  const [unclearM, setUnclearM] = useState<number[]>(missionList.unclearMissions);
+
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (counter === 4) {
+      Alert.alert('미션 클리어');
+      console.log({미션번호: number})
+      const clearList=[];
+      for(var i=0;i<clearM.length;i++){
+        clearList.push(clearM[i]);
+      }
+      clearList.push(number);
+      const unclearList=[];
+      for(var i =0; i < unclearM.length; i++){
+        if(unclearM[i] != number){
+          unclearList.push(unclearM[i]);
+        }
+      }
+      setUnclearM(unclearList)
+      console.log('성공한 미션 리스트',clearM)
+      console.log('남은 미션', unclearList)
+      dispatch(
+        courseSlice.actions.setCourse({
+          missions: {
+            clearMissions: clearList,
+            unclearMissions: unclearList
+          }
+        }),
+      )
+    }
+  }, [counter])
   const countCoin = () => {
+    console.log("클리어")
     setCounter(counter + 1);
     console.log(counter);
-    if (counter === 3) {
-      Alert.alert('미션 클리어');
-    }
-  };
+  }
+
+
   const moveObject1 = (dragToPos, source) => {
     //console.log(dragToPos);
     if (coinVisible1) {
@@ -193,7 +238,8 @@ const ArScene1 = () => {
     </ViroARScene>
   );
 };
-function Ar1({navigation}) {
+function Ar1({route,navigation}) {
+  number = route.params.num;
   return (
     <ViroARSceneNavigator
       autofocus={true}
@@ -203,7 +249,7 @@ function Ar1({navigation}) {
       style={styles.f1}
     />
   );
-}
+} 
 ViroAnimations.registerAnimations({
   move: {
     properties: {

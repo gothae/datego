@@ -25,6 +25,7 @@ def category_filter(dataFrame, spot_category_detail, categories):
         for category in categories:
             if category in spot_categories:
                 data.append(row)
+                break
     return pd.DataFrame(data)
 
 #해당 구역만 분류해주기
