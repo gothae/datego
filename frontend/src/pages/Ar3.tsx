@@ -15,6 +15,9 @@ import courseSlice from '../slices/course';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/reducer';
 import { useAppDispatch } from '../store';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import userSpotSlice from '../slices/userSpot';
 
 var number=-1;
 const ArScene3 = () => {
@@ -23,6 +26,36 @@ const ArScene3 = () => {
   const [clearM, setClearM] = useState<number[]>(missionList.clearMissions);
   const [unclearM, setUnclearM] = useState<number[]>(missionList.unclearMissions);
   const dispatch = useAppDispatch();
+  const stores: any = useSelector((state: RootState) => state.stores).stores;
+  const userSpotList = useSelector((state: RootState) => state.userSpot).userSpotList;
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  const navigation = useNavigation();
+  const spotId = stores[number].id;
+  var userSpotId = 0;
+  console.log(spotId);
+  const getData =async () => {
+    const res = await axios.get(`http://j7a104.p.ssafy.io:8080/courses/mission/${spotId}`, {
+        headers: {accessToken},
+      });
+      console.log(res.data.responseData);
+      userSpotId = res.data.responseData.id;
+      console.log(userSpotId);
+      const newSpotList=[];
+      for(var i =0;i<userSpotList.length;i++){
+        if(i===number){
+          newSpotList.push(userSpotId);
+        }
+        else{
+          newSpotList.push(userSpotList[i]);
+        }
+      }
+      dispatch(
+        userSpotSlice.actions.setUserSpot({
+          userSpotList:newSpotList
+        })        
+      );
+      console.log(newSpotList);
+    }
   useEffect(() => { 
     console.log('성공한 미션 리스트',clearM)
     console.log('남은 미션', unclearM)
@@ -39,7 +72,7 @@ const ArScene3 = () => {
         clearList.push(clearM[i]);
       }
       clearList.push(number);
-      
+      getData();
       const unclearList=[];
       for(var i =0; i < unclearM.length; i++){
         if(unclearM[i] != number){

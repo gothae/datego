@@ -85,7 +85,7 @@ function AppInner() {
         options={{
           title: 'DATE GO',
           headerStyle: {
-            backgroundColor: 'orange',
+            backgroundColor: '#FFA856',
           },
           headerTintColor: 'white',
           headerTitleStyle: {

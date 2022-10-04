@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.awt.print.Pageable;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -30,7 +31,8 @@ public class SpotService {
 
     @Autowired
     SpotRepository spotRepository;
-
+    @Autowired
+    UserRepository userRepository;
     @Autowired
     MenuRepository menuRepository;
 
@@ -172,6 +174,23 @@ public class SpotService {
         changeSpotRes.setSpots(spots);
         apiResponse.setResponseData(changeSpotRes);
 
+        return apiResponse;
+    }
+
+    public ApiResponse getUserSpotId(int spotId, int userIdx) {
+        ApiResponse apiResponse = new ApiResponse();
+        User user = userRepository.findById(userIdx).get();
+        Spot spot = spotRepository.findSpotById(spotId);
+        User_Spot userSpot = User_Spot.builder()
+                                .user(user)
+                                .spot(spot)
+                .createdAt(LocalDateTime.now())
+                                .build();
+        User_Spot savedUserSpot = user_spotRepository.save(userSpot);
+        int id = savedUserSpot.getId();
+        Map<String,Integer> map = new HashMap<>();
+        map.put("id",id);
+        apiResponse.setResponseData(map);
         return apiResponse;
     }
 }
