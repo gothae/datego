@@ -365,6 +365,15 @@ function Home({navigation}) {
         {/* 데이트할 동 선택 페이지로 이동 */}
         <TouchableOpacity
           onPress={() => {
+                  navigation.navigate('Review', {});
+                }}>
+          <Text style={{color: 'white', fontSize: 30, textAlign: 'center'}}>
+           리뷰
+          </Text>
+
+          </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
             navigation.navigate('SelectDong', {offset: offset});
           }}
           style={styles([], 0, windowWidth, windowHeight).goBtn}>
