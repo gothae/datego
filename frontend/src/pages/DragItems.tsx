@@ -23,6 +23,7 @@ import {RootState} from '../store/reducer';
 import axios from 'axios';
 import algolistSlice from '../slices/algolist';
 import courseSlice from '../slices/course';
+import userSpotSlice from '../slices/userSpot';
 
 const gestureRootViewStyle = {flex: 1};
 
@@ -230,9 +231,16 @@ function DragItems() {
       console.log('동', dongId);
       console.log('유저아이디', userId);
       const missionList = [];
+      const userSpotLists = [];
       for (let i = 0; i < currentcourse.length; i++) {
         missionList.push(i);
+        userSpotLists.push(0);
       }
+      dispatch(
+        userSpotSlice.actions.setUserSpot({
+          userSpotList:userSpotLists
+        })
+      );
       console.log('미션리스트');
       console.log(missionList);
       dispatch(
