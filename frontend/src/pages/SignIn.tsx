@@ -30,6 +30,7 @@ import {
   getProfile as getKakaoProfile,
   logout,
 } from '@react-native-seoul/kakao-login';
+import {containsKey, getData, removeData, storeData} from '../../AsyncService';
 
 type SignInScreenProps = NativeStackScreenProps<RootStackParamList, 'SignIn'>;
 
@@ -51,10 +52,13 @@ function SignIn({navigation}: SignInScreenProps) {
   async function signInWithKakao() {
     await login();
     const profile = await getKakaoProfile();
-    const response = await axios.post('http://j7a104.p.ssafy.io:8080/users/login', {
-      email: profile.email,
-      domain: 'KAKAO',
-    });
+    const response = await axios.post(
+      'http://j7a104.p.ssafy.io:8080/users/login',
+      {
+        email: profile.email,
+        domain: 'KAKAO',
+      },
+    );
     console.log('카카오로그인요청');
     console.log(response.data);
     if (response.data.code === 200) {
@@ -104,8 +108,8 @@ function SignIn({navigation}: SignInScreenProps) {
       }),
     );
   }
+
   async function test() {
-    console.log(2);
     const response = await axios.post(
       'http://j7a104.p.ssafy.io:8080/users/login',
       {
@@ -113,8 +117,16 @@ function SignIn({navigation}: SignInScreenProps) {
         domain: 'KAKAO',
       },
     );
-    console.log(3);
-    console.log(response.data);
+    console.log('마스터로그인');
+    // async스토리지 사용법 (Appinner랑 비교해서 사용)
+    // const hasPersons = await containsKey('master');
+    // if (!hasPersons) {
+    //   console.log('넣는다');
+    //   await storeData('master', response.data.responseData.accessToken);
+    // } else {
+    //   console.log('안넣는다');
+    // }
+
     dispatch(
       userSlice.actions.setUser({
         email: 'accent680@naver.com',
