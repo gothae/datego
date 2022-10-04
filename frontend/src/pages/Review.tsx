@@ -1,7 +1,13 @@
 import * as React from 'react';
-import {ImStarFull} from 'react-icons/im';
-import styled from 'styled-components';
-import {View, Text, Image, ScrollView, StyleSheet, Pressable} from 'react-native';
+import {Rating} from 'react-native-ratings';
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  StyleSheet,
+  Pressable,
+} from 'react-native';
 import {Button} from '@react-native-material/core';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
@@ -16,8 +22,8 @@ import axios from 'axios';
 import store from '../store';
 import {stores} from './ChangeSpot';
 import {Menu} from 'react-native-paper';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store/reducer';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/reducer';
 // type DetailSpotProps = NativeStackScreenProps<ParamListBase, 'DetailSpot'>
 type Props = {
   route: any;
@@ -68,18 +74,36 @@ function Review({navigation, route}: Props) {
   };
   useEffect(() => {
     getData();
-    setStores({ "address": "서울특별시 용산구 이촌동 301-155", "id": 1079, "image": "\"https://search.pstatic.net/common/?autoRotate=true&quality=95&type=w750&src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjAzMTJfOTEg%2FMDAxNjQ3MDY5Mzk2NzU0.dnC7J2ToMGXAwratpmje1zqTEvC8iGBGK5i2OmN34eog.Av_Z8KB903Mg-ZUmfuggdf6JZ2YCDr3e0z0z6rtTSJ8g.JPEG.yangrijjang%2F20220118_151854.jpg\"", "latitude": 37.5217268, "longitude": 126.9671423, "name": "브루클린더버거조인트 동부이촌점", "phone": "02-790-7180", "price": 9800, "quest": "빨강이를 키우자", "rate": 5, "tags": [Array] })
-    console.log("디테일스토어", detailstores)
-    console.log('스토어', stores)
-    console.log('리뷰', reviews.length)
+    setStores({
+      address: '서울특별시 용산구 이촌동 301-155',
+      id: 1079,
+      image:
+        '"https://search.pstatic.net/common/?autoRotate=true&quality=95&type=w750&src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjAzMTJfOTEg%2FMDAxNjQ3MDY5Mzk2NzU0.dnC7J2ToMGXAwratpmje1zqTEvC8iGBGK5i2OmN34eog.Av_Z8KB903Mg-ZUmfuggdf6JZ2YCDr3e0z0z6rtTSJ8g.JPEG.yangrijjang%2F20220118_151854.jpg"',
+      latitude: 37.5217268,
+      longitude: 126.9671423,
+      name: '브루클린더버거조인트 동부이촌점',
+      phone: '02-790-7180',
+      price: 9800,
+      quest: '빨강이를 키우자',
+      rate: 5,
+      tags: [Array],
+    });
+    console.log('디테일스토어', detailstores);
+    console.log('스토어', stores);
+    console.log('리뷰', reviews.length);
   }, []);
 
   let images;
   if (stores.image) {
-    if (stores.image[0] == '\"') {
-      images = <Image style={{height: 250}} source={{ uri: stores.image.slice(1, stores.image.length) }} />
+    if (stores.image[0] == '"') {
+      images = (
+        <Image
+          style={{height: 250}}
+          source={{uri: stores.image.slice(1, stores.image.length)}}
+        />
+      );
     } else {
-      images = <Image style={{height: 250}} source={{ uri: stores.image }} />
+      images = <Image style={{height: 250}} source={{uri: stores.image}} />;
     }
   }
   // if (stores.images) {
@@ -92,7 +116,6 @@ function Review({navigation, route}: Props) {
   //     images = <Image style={styles.imageBox} source={{ uri: stores.images[0].slice(1, stores.images[0].length - 1) }} />
   //   }
   // }
-
 
   // if (stores.images) {
   //   //console.log('스토어 받은거', detailstores.images[0]);
@@ -110,9 +133,8 @@ function Review({navigation, route}: Props) {
       //console.log(reviews[i]);
       rs.push(reviews[i]);
     }
-    console.log('rs',rs);
-
-  }, [stores])
+    console.log('rs', rs);
+  }, [stores]);
   //reviewList = rs.map((review, index)=>(
   //console.log(review.name)
   // <Button
@@ -130,6 +152,14 @@ function Review({navigation, route}: Props) {
   //       />
   //<Text key={review['id']} style={{color:'#000000'}}>{review['name']}</Text>
   //));
+  const [rating, setRating] = useState(0);
+
+  // Catch Rating value
+  const handleRating = (rate: number) => {
+    console.log(rate);
+    // other logic
+  };
+  // eslint-disable-next-line prettier/prettier
   return (
     <ScrollView>
       <View>
@@ -156,19 +186,13 @@ function Review({navigation, route}: Props) {
               <Text style={{ color: '#000000' }}>{review.name}</Text></Pressable>
           })}
         </View>
-        {/* <View>
-          {[1, 2, 3, 4, 5].map(el => (
-            <View
-              className={`fas fa-star ${
-                (clicked >= el) | (hovered >= el) && 'yellowStar'
-              }`}
-              key={el}
-              onMouseEnter={() => setHovered(el)}
-              onMouseLeave={() => setHovered(null)}
-              onClick={() => setClicked(el)}
-            />
-          ))}
-        </View> */}
+        <View>
+          <Rating
+            type="star"
+            ratingCount={5}
+            onFinishRating={handleRating}
+          />
+        </View>
         <View
           style={{
             flexDirection: 'row',
@@ -205,13 +229,6 @@ function Review({navigation, route}: Props) {
     </ScrollView>
   );
 }
-const textList = [
-  '별로에요',
-  '그저 그래요',
-  '보통이에요',
-  '좋아요',
-  '최고예요',
-];
 const styles = StyleSheet.create({
   tag: {
     flexDirection: 'row',
