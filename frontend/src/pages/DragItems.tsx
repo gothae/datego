@@ -6,6 +6,7 @@ import {
   Dimensions,
   Image,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {DraxProvider, DraxView, DraxList} from 'react-native-drax';
@@ -18,12 +19,14 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
 import axios from 'axios';
 import algolistSlice from '../slices/algolist';
+import courseSlice from '../slices/course';
 
 const gestureRootViewStyle = {flex: 1};
 
 // export default function DragItems({navigation}) {
 function DragItems() {
   const navigation = useNavigation();
+  const dongId = useSelector((state: RootState) => state.user.dongId);
   const userId = useSelector((state: RootState) => state.user.id);
   const myfood = useSelector((state: RootState) => state.category.myfood);
   const mycafe = useSelector((state: RootState) => state.category.mycafe);
@@ -36,56 +39,56 @@ function DragItems() {
       id: 1,
       name: '밥',
       image: 'https://cdn-icons-png.flaticon.com/512/894/894483.png',
-      background_color: 'red',
+      background_color: '#FFE79C',
     },
     {
       id: 2,
       name: '카페',
       image: 'https://cdn-icons-png.flaticon.com/512/590/590836.png',
-      background_color: 'pink',
+      background_color: '#FFEAD6',
     },
     {
       id: 3,
       name: '음주',
       image: 'https://cdn-icons-png.flaticon.com/512/1744/1744761.png',
-      background_color: 'orange',
+      background_color: '#FFE79C',
     },
     {
       id: 4,
       name: '활동',
-      image: 'https://cdn-icons-png.flaticon.com/512/1223/1223479.png',
-      background_color: '#aaaaff',
+      image: 'https://cdn-icons-png.flaticon.com/512/1886/1886385.png',
+      background_color: '#FFEAD6',
     },
   ];
   const FirstReceivingItemList = [
     {
       id: 0,
-      name: '채워',
-      image: 'https://cdn-icons-png.flaticon.com/512/1223/1223479.png',
+      name: '채워주세요',
+      image: 'https://cdn-icons-png.flaticon.com/512/2476/2476199.png',
       background_color: '#D8D8D8',
     },
     {
       id: 0,
-      name: '채워',
-      image: 'https://cdn-icons-png.flaticon.com/512/1223/1223479.png',
+      name: '채워주세요',
+      image: 'https://cdn-icons-png.flaticon.com/512/2476/2476199.png',
       background_color: '#D8D8D8',
     },
     {
       id: 0,
-      name: '채워',
-      image: 'https://cdn-icons-png.flaticon.com/512/1223/1223479.png',
+      name: '채워주세요',
+      image: 'https://cdn-icons-png.flaticon.com/512/2476/2476199.png',
       background_color: '#D8D8D8',
     },
     {
       id: 0,
-      name: '채워',
-      image: 'https://cdn-icons-png.flaticon.com/512/1223/1223479.png',
+      name: '채워주세요',
+      image: 'https://cdn-icons-png.flaticon.com/512/2476/2476199.png',
       background_color: '#D8D8D8',
     },
     {
       id: 0,
-      name: '채워',
-      image: 'https://cdn-icons-png.flaticon.com/512/1223/1223479.png',
+      name: '채워주세요',
+      image: 'https://cdn-icons-png.flaticon.com/512/2476/2476199.png',
       background_color: '#D8D8D8',
     },
   ];
@@ -101,10 +104,9 @@ function DragItems() {
       <DraxView
         style={{
           borderRadius: 5,
-          width: Dimensions.get('window').width / 4 - 20,
+          width: Dimensions.get('window').width / 4 - 30,
           height: Dimensions.get('window').width / 4 - 30,
           justifyContent: 'center',
-          alignItems: 'center',
           marginRight: 5,
           backgroundColor: item.background_color,
         }}
@@ -128,8 +130,8 @@ function DragItems() {
       <DraxView
         style={{
           borderRadius: 5,
-          height: Dimensions.get('window').width / 4 - 30,
-          width: Dimensions.get('window').width / 4 - 35,
+          height: Dimensions.get('window').width / 4 - 40,
+          width: Dimensions.get('window').width / 4 - 40,
           justifyContent: 'center',
           backgroundColor: item.background_color,
         }}
@@ -140,10 +142,19 @@ function DragItems() {
           return (
             <View>
               <Image
-                style={{height: '60%', width: '100%', resizeMode: 'contain'}}
+                style={{
+                  height: '60%',
+                  width: '100%',
+                  resizeMode: 'contain',
+                }}
                 source={{uri: item.image}}
               />
-              <Text style={{fontSize: 10, textAlign: 'center'}}>
+              <Text
+                style={
+                  item.name.length > 3
+                    ? {fontSize: 8, textAlign: 'center'}
+                    : {fontSize: 9, textAlign: 'center'}
+                }>
                 {item.name}
               </Text>
             </View>
@@ -181,101 +192,126 @@ function DragItems() {
     }
     setStateCourse();
   }, [receivingItemList]);
-  
+
   // useEffect(() => {
-    //   console.log('현재내코스 설정');
+  //   console.log('현재내코스 설정');
   //   dispatch(
-    //     categorySlice.actions.setCourse({
-      //       mycourse: currentcourse,
+  //     categorySlice.actions.setCourse({
+  //       mycourse: currentcourse,
   //     }),
   //   );
   // }, [currentcourse]);
-  
+
   const FlatListItemSeparator = () => {
     return <View style={styles.itemSeparator} />;
   };
-  
+
   const goNext = () => {
-    console.log(3);
     navigation.navigate('Course', {});
   };
 
   async function setPreference() {
-    console.log('코스 및 취향설정');
-    console.log(myfood);
-    console.log(mycafe);
-    console.log(mydrink);
-    console.log(myplay);
-    console.log(myprice);
-    console.log(currentcourse);
-    const response = await axios.post(
-      'http://j7a104.p.ssafy.io:8000/courses/1',
-      {
-        course: currentcourse,
-        categoryList: {
-          food: myfood,
-          cafe: mycafe,
-          play: myplay,
-          drink: mydrink,
-        },
-        price: myprice[0],
-        id: userId,
-      },
-    );
-    console.log('여기', response.data.responseData.Spots);
-    dispatch(
-      storeSlice.actions.setstore({
-        stores: response.data.responseData.Spots,
-      }),
-    );
-   const stores = response.data.responseData.Spots;  
-    if (stores?.length == 2) {
+    if (currentcourse.length > 2) {
+      console.log(currentcourse);
+      console.log(myfood);
+      console.log(mycafe);
+      console.log(myplay);
+      console.log(mydrink);
+      console.log(myprice[0]);
+      console.log(dongId);
+      console.log(userId);
+      const missionList = [];
+      for (let i = 0; i < currentcourse.length; i++) {
+        missionList.push(i);
+      }
+      console.log('미션리스트');
+      console.log(missionList);
       dispatch(
-        algolistSlice.actions.setalgolist({
-          one: response.data.responseData.spotIds[0].first,
-          two: response.data.responseData.spotIds[1].second,
+        courseSlice.actions.setCourse({
+          missions: {
+            unclearMissions: missionList,
+          },
         }),
       );
-    } else if (stores?.length == 3) {
-      dispatch(
-        algolistSlice.actions.setalgolist({
-          one: response.data.responseData.spotIds[0].first,
-          two: response.data.responseData.spotIds[1].second,
-          thr: response.data.responseData.spotIds[2].third,
-        }),
-      );
-    } else if (stores?.length == 4) {
-      dispatch(
-        algolistSlice.actions.setalgolist({
-          one: response.data.responseData.spotIds[0].first,
-          two: response.data.responseData.spotIds[1].second,
-          thr: response.data.responseData.spotIds[2].third,
-          fou: response.data.responseData.spotIds[3].fourth,
-        }),
-      );
-    } else if (stores?.length == 5) {
-      dispatch(
-        algolistSlice.actions.setalgolist({
-          one: response.data.responseData.spotIds[0].first,
-          two: response.data.responseData.spotIds[1].second,
-          thr: response.data.responseData.spotIds[2].third,
-          fou: response.data.responseData.spotIds[3].fourth,
-          fiv: response.data.responseData.spotIds[4].fifth,
-        }),
-    );
-    console.log(2);
+
+      // const response = await axios.post(
+      //   `http://j7a104.p.ssafy.io:8000/courses/${dongId}`,
+      //   {
+      //     course: currentcourse,
+      //     categoryList: {
+      //       food: myfood,
+      //       cafe: mycafe,
+      //       play: myplay,
+      //       drink: mydrink,
+      //     },
+      //     price: myprice[0],
+      //     id: userId,
+      //   },
+      // );
+      // console.log(response);
+
+      // dispatch(
+      //   storeSlice.actions.setstore({
+      //     stores: response.data.responseData.Spots,
+      //   }),
+      // );
+      // const stores = response.data.responseData.Spots;
+      // if (stores?.length == 2) {
+      //   dispatch(
+      //     algolistSlice.actions.setalgolist({
+      //       one: response.data.responseData.spotIds[0].first,
+      //       two: response.data.responseData.spotIds[1].second,
+      //     }),
+      //   );
+      // } else if (stores?.length == 3) {
+      //   dispatch(
+      //     algolistSlice.actions.setalgolist({
+      //       one: response.data.responseData.spotIds[0].first,
+      //       two: response.data.responseData.spotIds[1].second,
+      //       thr: response.data.responseData.spotIds[2].third,
+      //     }),
+      //   );
+      // } else if (stores?.length == 4) {
+      //   dispatch(
+      //     algolistSlice.actions.setalgolist({
+      //       one: response.data.responseData.spotIds[0].first,
+      //       two: response.data.responseData.spotIds[1].second,
+      //       thr: response.data.responseData.spotIds[2].third,
+      //       fou: response.data.responseData.spotIds[3].fourth,
+      //     }),
+      //   );
+      // } else if (stores?.length == 5) {
+      //   dispatch(
+      //     algolistSlice.actions.setalgolist({
+      //       one: response.data.responseData.spotIds[0].first,
+      //       two: response.data.responseData.spotIds[1].second,
+      //       thr: response.data.responseData.spotIds[2].third,
+      //       fou: response.data.responseData.spotIds[3].fourth,
+      //       fiv: response.data.responseData.spotIds[4].fifth,
+      //     }),
+      //   );
+      // }
+      // goNext();
+    } else {
+      Alert.alert('코스 순서를 설정해주세요 (3개이상)');
+    }
   }
-  goNext();
-  }
+  const [courseLoading, setLoading] = useState(0);
+
   return (
     <GestureHandlerRootView style={gestureRootViewStyle}>
       <DraxProvider>
         <View style={styles.container}>
-          <View style={{backgroundColor: '#FFA856'}}>
+          <View
+            style={{
+              backgroundColor: '#FFA856',
+              flex: 0.5,
+              justifyContent: 'center',
+            }}>
             <Text
               style={{
                 color: 'white',
-                fontSize: 20,
+                fontSize: 22,
                 marginLeft: 10,
               }}>
               코스 순서 설정
@@ -283,20 +319,27 @@ function DragItems() {
           </View>
           <View
             style={{
-              justifyContent: 'center',
+              flexDirection: 'row',
+              justifyContent: 'space-evenly',
+              alignItems: 'center',
               flex: 1,
             }}>
-            <DraxList
+            {dragItemMiddleList.map((item, index) =>
+              DragUIComponent({item, index}),
+            )}
+            {/* <DraxList
               data={dragItemMiddleList}
               renderItemContent={DragUIComponent}
               keyExtractor={(item, index) => index.toString()}
               numColumns={4}
               ItemSeparatorComponent={FlatListItemSeparator}
-              scrollEnabled={true}
-            />
-            <Text style={{fontSize: 9}}> ※ 아래로 드래그해서 설정해주세요</Text>
+              scrollEnabled={false}
+            /> */}
           </View>
-          <Text style={{fontSize: 12}}> 코스순서</Text>
+          <Text style={{fontSize: 9}}>
+            ※ 위 아이콘을 아래로 드래그해서 설정해주세요.
+          </Text>
+          <Text style={{fontSize: 12}}> 코스순서 ( 3개 이상 넣어주세요. )</Text>
           <View
             style={{
               flexDirection: 'row',
@@ -310,10 +353,17 @@ function DragItems() {
           </View>
           <TouchableOpacity
             style={{backgroundColor: '#FFA856'}}
+            activeOpacity={courseLoading ? 0.5 : 1}
             onPress={() => {
               setPreference();
+              setLoading(1);
             }}>
-            <Text style={{textAlign: 'center', fontSize: 20, color: '#fff'}}>
+            <Text
+              style={
+                courseLoading
+                  ? {color: 'red'}
+                  : {textAlign: 'center', fontSize: 20, color: '#fff'}
+              }>
               순서 설정 완료
             </Text>
           </TouchableOpacity>
