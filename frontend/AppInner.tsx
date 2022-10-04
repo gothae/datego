@@ -16,7 +16,6 @@ import SelectDong from './src/pages/SelectDong';
 import Ar1 from './src/pages/Ar1';
 import Ar2 from './src/pages/Ar2';
 import Ar3 from './src/pages/Ar3';
-
 import Review from './src/pages/Review';
 import {useSelector} from 'react-redux';
 import {RootState} from './src/store/reducer';
