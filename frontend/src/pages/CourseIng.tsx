@@ -62,21 +62,23 @@ type Mission = {
 
 function CourseIng({navigation}) {
   const requestCameraPermission = async () => {
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      );
-      const granted2 = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('You can use the geo');
-      } else {
-        console.log('Geo permission denied');
-      }
-    } catch (err) {
-      console.warn(err);
-    }
+    console.log('카메라요청');
+    navigation.navigate('FinishCourse');
+    // try {
+    //   const granted = await PermissionsAndroid.request(
+    //     PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+    //   );
+    //   const granted2 = await PermissionsAndroid.request(
+    //     PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+    //   );
+    //   if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+    //     console.log('You can use the geo');
+    //   } else {
+    //     console.log('Geo permission denied');
+    //   }
+    // } catch (err) {
+    //   console.warn(err);
+    // }
   };
 
   function _onPress(mission: string) {
@@ -284,7 +286,6 @@ function CourseIng({navigation}) {
   // tags: [],
   // location : {latitude:stores[0].location.latitude, longitude:stores[0].location.longitude}
   // });
-
   return (
     <View style={{flex: 1}}>
       <NaverMapView
@@ -467,7 +468,11 @@ function CourseIng({navigation}) {
                 {store.quest}
               </Text>
               <Button
-                style={{flex: 2, backgroundColor: 'white'}}
+                style={
+                  dist > 100
+                    ? {flex: 2, backgroundColor: 'white'}
+                    : {display: 'none'}
+                }
                 titleStyle={{color: 'orange'}}
                 title="GO!!"
                 onPress={() => _onPress(store.quest)}
