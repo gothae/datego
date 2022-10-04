@@ -55,4 +55,10 @@ public class SpotController {
                                 @RequestParam("page") int page){
         return spotService.getChangeSpot(changeSpotReq, spotId, page);
     }
+
+    @GetMapping("/mission/{spotId}")
+    public ApiResponse getUserSpotId(@PathVariable("spotId") int spotId){
+        int userIdx = authUtil.memberAuth();
+        return spotService.getUserSpotId(spotId, userIdx);
+    }
 }
