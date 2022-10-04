@@ -60,7 +60,7 @@ function Gallery({route, navigation}) {
         getData(index);
       }
     } else {
-      for (let index = 10; index <= 17; index++) {
+      for (let index = 18; index <= 24; index++) {
         getData(index);
       }
     }
@@ -77,10 +77,7 @@ function Gallery({route, navigation}) {
           paddingRight: 2,
         }}>
         <View>
-          <Text style={{color: 'gray', fontSize: 16}}>
-            {item.item.name}
-            {zone}
-          </Text>
+          <Text style={{color: 'gray', fontSize: 16}}>{item.item.name}</Text>
           <FastImage
             source={{uri: `${item.item.link}`}}
             style={{
