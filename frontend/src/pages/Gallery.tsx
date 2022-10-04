@@ -6,6 +6,7 @@ import {
   Dimensions,
   Modal,
   TouchableOpacity,
+  StyleSheet,
 } from 'react-native';
 import {useState, useEffect, useCallback} from 'react';
 import axios from 'axios';
@@ -14,6 +15,7 @@ import {useSelector} from 'react-redux';
 import FastImage from 'react-native-fast-image';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import {Button} from '@react-native-material/core';
+import {styles} from './ChangeSpot';
 
 function Gallery({route, navigation}) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
@@ -108,8 +110,16 @@ function Gallery({route, navigation}) {
           <ImageViewer imageUrls={links} index={imageIndex} />
         </Modal>
       </View>
+      {links.length === 0 ? (
+        <Text style={textStyle.noImg}>등록된 사진이 없습니다</Text>
+      ) : null}
     </View>
   );
 }
 
+const textStyle = StyleSheet.create({
+  noImg: {
+    textAlign: 'center',
+  },
+});
 export default Gallery;
