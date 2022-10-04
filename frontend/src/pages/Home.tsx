@@ -256,6 +256,14 @@ function Home({navigation}) {
             진행중인 코스
           </Text>
         </TouchableOpacity>
+      </ImageBackground>
+      <View>
+        <Button
+          onPress={() => {
+            navigation.navigate('FinalReview', {});
+          }}
+          title="파이널리뷰"
+        />
       </View>
     </View>
   );
