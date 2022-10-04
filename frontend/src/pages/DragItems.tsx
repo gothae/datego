@@ -124,7 +124,9 @@ function DragItems() {
           style={{height: '60%', width: '100%', resizeMode: 'contain'}}
           source={{uri: item.image}}
         />
-        <Text style={{fontSize: 12, textAlign: 'center'}}>{item.name}</Text>
+        <Text style={{fontSize: 12, textAlign: 'center', color: 'black'}}>
+          {item.name}
+        </Text>
       </DraxView>
     );
   };
@@ -156,8 +158,8 @@ function DragItems() {
               <Text
                 style={
                   item.name.length > 3
-                    ? {fontSize: 8, textAlign: 'center'}
-                    : {fontSize: 9, textAlign: 'center'}
+                    ? {fontSize: 8, textAlign: 'center', color: 'black'}
+                    : {fontSize: 9, textAlign: 'center', color: 'black'}
                 }>
                 {item.name}
               </Text>
@@ -236,8 +238,8 @@ function DragItems() {
       }
       dispatch(
         userSpotSlice.actions.setUserSpot({
-          userSpotList:userSpotLists
-        })
+          userSpotList: userSpotLists,
+        }),
       );
       console.log('미션리스트');
       console.log(missionList);
@@ -344,10 +346,12 @@ function DragItems() {
               DragUIComponent({item, index}),
             )}
           </View>
-          <Text style={{fontSize: 9}}>
+          <Text style={{fontSize: 9, color: 'black'}}>
             ※ 위 아이콘을 아래로 드래그해서 설정해주세요.
           </Text>
-          <Text style={{fontSize: 12}}> 코스순서 ( 3개 이상 넣어주세요. )</Text>
+          <Text style={{fontSize: 12, color: 'black'}}>
+            코스순서 ( 3개 이상 넣어주세요. )
+          </Text>
           <View
             style={{
               flexDirection: 'row',

@@ -385,6 +385,14 @@ function Home({navigation}) {
           </Text>
         </TouchableOpacity>
       </ImageBackground>
+      <View>
+        <Button
+          onPress={() => {
+            navigation.navigate('FinalReview', {});
+          }}
+          title="파이널리뷰"
+        />
+      </View>
     </View>
   );
 }
