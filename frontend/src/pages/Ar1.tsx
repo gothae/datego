@@ -16,9 +16,13 @@ import {
   ViroMaterials,
 } from '@viro-community/react-viro';
 import courseSlice from '../slices/course';
+<<<<<<< HEAD
 import {useNavigation} from '@react-navigation/native';
 import axios from 'axios';
 import userSpotSlice from '../slices/userSpot';
+=======
+
+>>>>>>> develop
 type Mission = {
   clearMissions: number[];
   unclearMissions: number[];

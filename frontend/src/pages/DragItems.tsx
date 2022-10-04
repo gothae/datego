@@ -7,6 +7,9 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  Modal,
+  Pressable,
+  Animated,
 } from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {DraxProvider, DraxView, DraxList} from 'react-native-drax';
@@ -207,12 +210,16 @@ function DragItems() {
     return <View style={styles.itemSeparator} />;
   };
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const goNext = () => {
+    setModalVisible(!modalVisible);
     navigation.navigate('Course', {});
   };
 
   async function setPreference() {
     if (currentcourse.length > 2) {
+      setModalVisible(!modalVisible);
       console.log('현재코스', currentcourse);
       console.log('음식', myfood);
       console.log('카페', mycafe);
@@ -305,6 +312,7 @@ function DragItems() {
       Alert.alert('코스 순서를 설정해주세요 (3개이상)');
     }
   }
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <GestureHandlerRootView style={gestureRootViewStyle}>
@@ -335,14 +343,6 @@ function DragItems() {
             {dragItemMiddleList.map((item, index) =>
               DragUIComponent({item, index}),
             )}
-            {/* <DraxList
-              data={dragItemMiddleList}
-              renderItemContent={DragUIComponent}
-              keyExtractor={(item, index) => index.toString()}
-              numColumns={4}
-              ItemSeparatorComponent={FlatListItemSeparator}
-              scrollEnabled={false}
-            /> */}
           </View>
           <Text style={{fontSize: 9}}>
             ※ 위 아이콘을 아래로 드래그해서 설정해주세요.
@@ -369,6 +369,24 @@ function DragItems() {
             </Text>
           </TouchableOpacity>
         </View>
+        <Modal animationType="slide" transparent={true} visible={modalVisible}>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: '#fff',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Image
+              style={{
+                width: Dimensions.get('window').width / 2,
+                height: Dimensions.get('window').width / 2,
+              }}
+              source={require('../assets/KakaoTalk_20221004_150552857.png')}
+            />
+            <Text style={{fontSize: 15, color: 'black'}}>기다려주세요.</Text>
+          </View>
+        </Modal>
       </DraxProvider>
     </GestureHandlerRootView>
   );
@@ -414,6 +432,10 @@ const styles = StyleSheet.create({
   },
   DragContainer: {
     backgroundColor: 'black',
+  },
+  fadingContainer: {
+    padding: 20,
+    backgroundColor: 'powderblue',
   },
 });
 
