@@ -377,7 +377,7 @@ function Home({navigation}) {
             진행중인 코스
           </Text>
         </TouchableOpacity>
-
+      </ImageBackground>
       <View>
         <Button
           title="Go Preference"
@@ -434,7 +434,7 @@ function Home({navigation}) {
           title="사진찍기"
         />
       </View>
-    </>
+    </View>
   );
 }
 const bgColors = ['#FDFDFD', '#FFE4E4', '#FFA7A6', '#FF899D'];
