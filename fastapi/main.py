@@ -174,7 +174,7 @@ async def get_courses(dong:int , req:SelectItem):
         result_proxy = connection.execute(spot_query)
         result = result_proxy.fetchall() #spot 테이블에서 해당 id인 spot 찾은거
 
-        j = result[0][9] #category_id
+        j = result[0][8] #category_id
         category_query = db.select([CATEGORY_TABLE]).where(CATEGORY_TABLE.columns.id == j)
         category_result_proxy = connection.execute(category_query)
         category_result = category_result_proxy.fetchall()
