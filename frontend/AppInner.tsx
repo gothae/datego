@@ -16,6 +16,7 @@ import SelectDong from './src/pages/SelectDong';
 import Ar1 from './src/pages/Ar1';
 import Ar2 from './src/pages/Ar2';
 import Ar3 from './src/pages/Ar3';
+import Review from './src/pages/Review';
 import {useSelector} from 'react-redux';
 import {RootState} from './src/store/reducer';
 // import DragAble from './src/pages/DragAble';
@@ -34,6 +35,7 @@ export type LoggedInParamList = {
   Ar1: undefined;
   Ar2: undefined;
   Ar3: undefined;
+  Review: undefined;
 };
 
 // export type RootStackParamList = {
@@ -186,6 +188,11 @@ function AppInner() {
         name="Ar3"
         component={Ar3}
         options={{title: '빨강이를 키워보자!!'}}
+      />
+      <Stack.Screen
+        name="Review"
+        component={Review}
+        options={{title: 'Review'}}
       />
     </Stack.Navigator>
   ) : (
