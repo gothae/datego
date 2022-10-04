@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, Button} from 'react-native';
 import {StyleSheet} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import { RootState } from '../store/reducer';
+import {RootState} from '../store/reducer';
 import {useAppDispatch} from '../store';
 import {Alert} from 'react-native';
 import {
@@ -16,12 +16,12 @@ import {
 } from '@viro-community/react-viro';
 import courseSlice from '../slices/course';
 type Mission = {
-  clearMissions : number[];
-  unclearMissions : number[];
-}
-var number=-1;
+  clearMissions: number[];
+  unclearMissions: number[];
+};
+var number = -1;
 const ArScene1 = () => {
-  console.log("넘버입니다.");
+  console.log('넘버입니다.');
   console.log(number);
   const [coinPosition, setPosition] = useState([1, -3, 1]);
   const [coinVisible1, setCoinVisible1] = useState(true);
@@ -31,46 +31,49 @@ const ArScene1 = () => {
   const [coinVisible5, setCoinVisible5] = useState(true);
   const [counter, setCounter] = useState(1);
 
-  const missionList: any = useSelector((state:RootState)=> state.course).missions
+  const missionList: any = useSelector(
+    (state: RootState) => state.course,
+  ).missions;
 
   const [clearM, setClearM] = useState<number[]>(missionList.clearMissions);
-  const [unclearM, setUnclearM] = useState<number[]>(missionList.unclearMissions);
+  const [unclearM, setUnclearM] = useState<number[]>(
+    missionList.unclearMissions,
+  );
 
   const dispatch = useAppDispatch();
   useEffect(() => {
     if (counter === 4) {
       Alert.alert('미션 클리어');
-      console.log({미션번호: number})
-      const clearList=[];
-      for(var i=0;i<clearM.length;i++){
+      console.log({미션번호: number});
+      const clearList = [];
+      for (var i = 0; i < clearM.length; i++) {
         clearList.push(clearM[i]);
       }
       clearList.push(number);
-      const unclearList=[];
-      for(var i =0; i < unclearM.length; i++){
-        if(unclearM[i] != number){
+      const unclearList = [];
+      for (var i = 0; i < unclearM.length; i++) {
+        if (unclearM[i] != number) {
           unclearList.push(unclearM[i]);
         }
       }
-      setUnclearM(unclearList)
-      console.log('성공한 미션 리스트',clearM)
-      console.log('남은 미션', unclearList)
+      setUnclearM(unclearList);
+      console.log('성공한 미션 리스트', clearM);
+      console.log('남은 미션', unclearList);
       dispatch(
         courseSlice.actions.setCourse({
           missions: {
             clearMissions: clearList,
-            unclearMissions: unclearList
-          }
+            unclearMissions: unclearList,
+          },
         }),
-      )
+      );
     }
-  }, [counter])
+  }, [counter]);
   const countCoin = () => {
-    console.log("클리어")
+    console.log('클리어');
     setCounter(counter + 1);
     console.log(counter);
-  }
-
+  };
 
   const moveObject1 = (dragToPos, source) => {
     //console.log(dragToPos);
@@ -147,7 +150,7 @@ const ArScene1 = () => {
           scale={[5, 5, 5]}
           rotation={[0, 90, 0]}
           type="OBJ"
-          dragType='FixedDistance'
+          dragType="FixedDistance"
           onDrag={moveObject1}
           visible={coinVisible1}
           animation={{name: 'rotate', run: true, loop: true}}
@@ -162,7 +165,7 @@ const ArScene1 = () => {
           scale={[5, 5, 5]}
           rotation={[0, 90, 0]}
           type="OBJ"
-          dragType='FixedDistance'
+          dragType="FixedDistance"
           onDrag={moveObject2}
           visible={coinVisible2}
           animation={{name: 'rotate', run: true, loop: true}}
@@ -177,7 +180,7 @@ const ArScene1 = () => {
           scale={[5, 5, 5]}
           rotation={[0, 90, 0]}
           type="OBJ"
-          dragType='FixedDistance'
+          dragType="FixedDistance"
           onDrag={moveObject3}
           visible={coinVisible3}
           animation={{name: 'rotate', run: true, loop: true}}
@@ -192,7 +195,7 @@ const ArScene1 = () => {
           scale={[5, 5, 5]}
           rotation={[0, 90, 0]}
           type="OBJ"
-          dragType='FixedDistance'
+          dragType="FixedDistance"
           onDrag={moveObject4}
           visible={coinVisible4}
           animation={{name: 'rotate', run: true, loop: true}}
@@ -206,7 +209,7 @@ const ArScene1 = () => {
           position={[-1, 3, 0]}
           scale={[5, 5, 5]}
           rotation={[0, 90, 0]}
-          dragType='FixedDistance'
+          dragType="FixedDistance"
           type="OBJ"
           onDrag={moveObject5}
           visible={coinVisible5}
@@ -215,8 +218,7 @@ const ArScene1 = () => {
           resources={[require('./res/stellar.mtl')]}
         />
       </ViroNode>
-      <ViroNode
-        position={[-0.5, -0.5, -0.5]}>
+      <ViroNode position={[-0.5, -0.5, -0.5]}>
         <Viro3DObject
           source={require('./res/gold_bag.obj')}
           position={[1, -2, -2]}
@@ -238,7 +240,7 @@ const ArScene1 = () => {
     </ViroARScene>
   );
 };
-function Ar1({route,navigation}) {
+function Ar1({route, navigation}) {
   number = route.params.num;
   return (
     <ViroARSceneNavigator
@@ -249,7 +251,7 @@ function Ar1({route,navigation}) {
       style={styles.f1}
     />
   );
-} 
+}
 ViroAnimations.registerAnimations({
   move: {
     properties: {
