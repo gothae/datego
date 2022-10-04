@@ -30,7 +30,10 @@ import NaverMapView, {
 } from 'react-native-nmap';
 import store from '../store';
 import {statusCodes} from '@react-native-google-signin/google-signin';
+
 import {TouchableOpacity} from 'react-native';
+import axios from 'axios';
+import { launchCamera } from 'react-native-image-picker';
 type TagObj = {
   count: number;
   description: string;
@@ -61,6 +64,55 @@ type Mission = {
 };
 
 function CourseIng({navigation}) {
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
+
+  const takePicture = async () => {
+    console.log("HI");
+    const userSpotId = userSpotList[number];
+    const result = await launchCamera({
+      mediaType: 'photo',
+      saveToPhotos: true,
+      quality : 0.5,
+      // includeBase64: true,
+    });
+    if (result.didCancel) {
+      //사진찍기 취소한 경우
+      return null;
+    }
+
+    const localUri = result.assets[0].uri; // file://~~~.jpg
+    const filename = result.assets[0].fileName;
+    const photo = {
+      uri: localUri,
+      type: 'multipart/form-data',
+      name: filename,
+    };
+    const formData = new FormData();
+    formData.append('photo', photo);
+
+    await axios
+      .post(
+        `http://j7a104.p.ssafy.io:8080/courses/photo/${userSpotId}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            accessToken,
+          },
+        },
+      )
+      .then(res => {
+        console.log(res);
+        navigation.navigate('CourseIng',{});
+      })
+      .catch(error => {
+        console.log(error);
+        navigation.navigate('CourseIng',{});
+      });
+  };
+
+
+
   const requestCameraPermission = async () => {
     console.log('카메라요청');
     navigation.navigate('FinishCourse');
@@ -81,7 +133,7 @@ function CourseIng({navigation}) {
     // }
   };
 
-  function _onPress(mission: string) {
+   function _onPress(mission: string) {
     if (mission === '꿀꿀이를 키우자!') {
       navigation.navigate('Ar2', {num: number});
     } else if (mission === '돈을 줍자!') {
@@ -111,9 +163,11 @@ function CourseIng({navigation}) {
   }
 
   const stores: any = useSelector((state: RootState) => state.stores).stores;
+  const userSpotList:any = useSelector((state: RootState) => state.userSpot).userSpotList;
   const missionList: any = useSelector(
     (state: RootState) => state.course,
   ).missions;
+  const [userSpots,setUserSpots] = useState([0,0,0,0,0]);
   const [checkImg, setCheckImg] = useState('');
   const [store, setStore] = useState<Store>({
     id: 1,
@@ -134,6 +188,9 @@ function CourseIng({navigation}) {
     latitude: 137.539455,
     longitude: 126.9916965,
   });
+  useEffect(()=>{
+    setUserSpots(userSpotList);
+  },[userSpotList]);
   useEffect(() => {
     console.log({성공한미션: missionList.clearMissions});
     console.log({남은미션: missionList.unclearMissions});
@@ -164,6 +221,7 @@ function CourseIng({navigation}) {
       longitude: stores[0].longitude,
     };
     setStorePosition(pos);
+    setUserSpots(userSpotList);
   }, []);
   useEffect(() => {
     let pos: K = {
@@ -477,6 +535,21 @@ function CourseIng({navigation}) {
                 title="GO!!"
                 onPress={() => _onPress(store.quest)}
               />
+              <TouchableOpacity
+              onPress={() => takePicture()}
+              style={
+                userSpots[number] === 0
+                  ? {display:'none'}
+                  : {flex: 1}
+                }   activeOpacity={0.5}>
+                      <Image
+                        style={{width: 50, height: 20}}
+                        resizeMode="contain"
+                        source={{
+                          uri: 'https://user-images.githubusercontent.com/66546079/193750268-94723feb-51b0-4c72-a590-b60419f966c7.png',
+                        }}
+                      />
+              </TouchableOpacity>
             </View>
             <View style={{flex: 2, alignItems: 'center'}}>
               <Button
