@@ -23,10 +23,10 @@ public class ReviewController {
         return reviewService.getReviews(spotId);
     }
 
-    @PostMapping("{spotId}/reviews")
-    public ApiResponse postSpotReviews(@PathVariable("spotId") int spotId, @RequestBody ReviewReq reviewReq) {
+    @PostMapping("{userSpotId}/reviews")
+    public ApiResponse postSpotReviews(@PathVariable("userSpotId") int userSpotId, @RequestBody ReviewReq reviewReq) {
         int userId = authUtil.memberAuth();
-        return reviewService.postReviews(spotId, reviewReq, userId);
+        return reviewService.postReviews(userSpotId, reviewReq);
     }
 
 }

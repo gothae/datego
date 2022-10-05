@@ -45,12 +45,12 @@ public class ReviewService {
     }
 
     @Transactional
-    public ApiResponse postReviews(int spotId, ReviewReq reviewReq, int userId){
+    public ApiResponse postReviews(int userSpotId, ReviewReq reviewReq){
         ApiResponse apiResponse = new ApiResponse();
         List<Integer> reviewIds = reviewReq.getReviewIds();
-
+        User_Spot user_spot = user_spotRepository.findById(userSpotId).get();
         for(int reviewId : reviewIds){
-            Spot_Tag spot_tag = spot_tagRepository.findBySpotIdAndTagId(spotId, reviewId);
+            Spot_Tag spot_tag = spot_tagRepository.findBySpotIdAndTagId(user_spot.getSpot().getId(), reviewId);
             spot_tag.addCount();
             spot_tagRepository.save(spot_tag);
 
@@ -59,19 +59,12 @@ public class ReviewService {
             tagRepository.save(tag);
         }
 
-        Spot spot = spotRepository.findSpotById(spotId);
+        Spot spot = spotRepository.findSpotById(user_spot.getSpot().getId());
         spot.addRate(reviewReq.getRate());
         spot.addCount();
         spotRepository.save(spot);
 
-        User_Spot user_spot = User_Spot.builder()
-                .user(userRepository.findById(userId).get())
-                .spot(spot)
-                .rate(reviewReq.getRate())
-                .createdAt(LocalDateTime.now())
-                .build();
-
-        user_spotRepository.save(user_spot);
+        user_spot.setRate(reviewReq.getRate());
 
         return apiResponse;
     }
