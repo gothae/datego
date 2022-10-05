@@ -4,6 +4,7 @@ import {
   createNativeStackNavigator,
   NativeStackScreenProps,
 } from '@react-navigation/native-stack';
+import {Button, TouchableOpacity, Text, View} from 'react-native';
 import Home from './src/pages/Home';
 import Gallery from './src/pages/Gallery';
 import Preference from './src/pages/Preference';
@@ -21,6 +22,12 @@ import FinishCourse from './src/pages/FinishCourse';
 import FinalReview from './src/pages/FinalReview';
 import {useSelector} from 'react-redux';
 import {RootState} from './src/store/reducer';
+import axios from 'axios';
+import {
+  login,
+  getProfile as getKakaoProfile,
+  logout,
+} from '@react-native-seoul/kakao-login';
 // import DragAble from './src/pages/DragAble';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {containsKey, getData, removeData, storeData} from './AsyncService';
@@ -75,16 +82,33 @@ function AppInner() {
   //   console.log('시작합니다.');
   //   check();
   // });
-
+  const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const isLoggedIn = useSelector(
     (state: RootState) => !!state.user.accessToken,
   );
+  async function kakaoLogout() {
+    const response = await axios.post(
+      'http://j7a104.p.ssafy.io:8080/users/logout',
+      {
+        headers: {accessToken: accessToken},
+      },
+    );
+    // await logout();
+    console.log(response);
+    console.log('카카오로그아웃');
+  }
+
   return isLoggedIn ? (
     <Stack.Navigator>
       <Stack.Screen
         name="Home"
         component={Home}
         options={{
+          headerRight: ({}) => (
+            <TouchableOpacity onPress={() => kakaoLogout()}>
+              <Text style={{fontSize: 15, color: 'white'}}>로그아웃</Text>
+            </TouchableOpacity>
+          ),
           title: 'DATE GO',
           headerStyle: {
             backgroundColor: '#FFA856',

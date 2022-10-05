@@ -75,13 +75,10 @@ function CourseIng({navigation}) {
       quality: 0.5,
       // includeBase64: true,
     });
-    console.log(result);
-    console.log('위에 에러?');
     if (result.didCancel) {
       //사진찍기 취소한 경우
       return null;
     }
-
     const localUri = result.assets[0].uri; // file://~~~.jpg
     const filename = result.assets[0].fileName;
     const photo = {

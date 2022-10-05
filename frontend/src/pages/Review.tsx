@@ -199,26 +199,23 @@ function Review({navigation, route}: Props) {
           {images}
         </View>
         <View style={{alignItems: 'center', marginVertical: 8}}>
-          <Text style={{fontSize: 20, color: '#000000'}}>
-            {stores.name}
-          </Text>
+          <Text style={{fontSize: 20, color: '#000000'}}>{stores.name}</Text>
           <View style={{marginVertical: '3%'}}>{rendering()}</View>
         </View>
         <View>
           {reviews?.map((review: any) => {
-            return <Pressable
-              onPress={() => {
-              console.log('추가', review.id);
-              }}>
-              <Text style={{ color: '#000000' }}>{review.name}</Text></Pressable>
+            return (
+              <Pressable
+                onPress={() => {
+                  console.log('추가', review.id);
+                }}>
+                <Text style={{color: '#000000'}}>{review.name}</Text>
+              </Pressable>
+            );
           })}
         </View>
         <View>
-          <Rating
-            type="star"
-            ratingCount={5}
-            onFinishRating={handleRating}
-          />
+          <Rating type="star" ratingCount={5} onFinishRating={handleRating} />
         </View>
         {/* <View>
         {[1, 2, 3, 4, 5].map(el => (
