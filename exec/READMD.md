@@ -115,3 +115,37 @@ f84f8e48e435   jenkins/jenkins:latest   "/usr/bin/tini -- /u…"   42 hours ago 
 619653a3b702   mysql:latest             "docker-entrypoint.s…"   2 weeks ago    Up 2 weeks    33060/tcp, 0.0.0.0:3336->3306/tcp, :::3336->3306/tcp   mysqldb
 
 ```
+
+## 시연 시나리오
+
+### 메인페이지
+![main](./assets/main.jpg) 
+
+### 동 선택
+![dong_choose](./assets/dong_choose.jpg)
+
+### 카테고리 선택
+![category](./assets/category.jpg)
+![order](./assets/order.jpg)
+
+### 코스 선택, 변경, 상세보기
+![course](./assets/course.jpg)
+![spot_change](./assets/spot_change.jpg)
+![spot_detail](./assets/spot_detail.jpg)
+
+### 코스 시작
+![coursing](./assets/coursing.jpg)
+
+### ar 미션
+![mission_ar](./assets/mission_ar.jpg)
+![mission_clear](./assets/mission_clear.jpg)
+![course_clear](./assets/course_clear.jpg)
+
+### 코스 종료
+![course_end](./assets/course_end.jpg)
+
+### 리뷰 작성
+![review](./assets/review.jpg)
+
+### 끝
+![thanks](./assets/thanks.jpg)
