@@ -555,8 +555,8 @@ function CourseIng({navigation}) {
                 alignItems: 'center',
               }}>
               <Image
-                style={{flex: 1, resizeMode: 'contain', marginRight: '10%'}}
-                source={{uri:'https://user-images.githubusercontent.com/66546079/193999750-d5ec5b24-ffd0-463f-a65b-65431db0a3b0.png'}}
+                style={{flex: 1, resizeMode: 'contain', marginRight: '10%', height:'100%'}}
+                source={{uri:'https://user-images.githubusercontent.com/66546079/194001587-0b881554-3b90-4de6-b2c4-5e6d427bcc45.png'}}
               />
               <Text style={{flex: 5, color: 'black', fontSize: 18}}>
                 {store.quest}
