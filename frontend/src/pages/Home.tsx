@@ -30,6 +30,13 @@ function Home({navigation}) {
   const domain = useSelector((state: RootState) => state.user.domain);
   const id = useSelector((state: RootState) => state.user.id);
 
+  const medalUris = [
+    'https://cdn-icons-png.flaticon.com/512/179/179250.png',
+    'https://cdn-icons-png.flaticon.com/512/179/179250.png',
+    'https://cdn-icons-png.flaticon.com/512/179/179251.png',
+    'https://cdn-icons-png.flaticon.com/512/179/179249.png',
+  ];
+
   const dongReviewCnt = [0, 0, 0, 0, 0, 0, 0, 0];
   const offset = 50;
 
@@ -124,9 +131,15 @@ function Home({navigation}) {
             source={{
               uri: 'https://user-images.githubusercontent.com/66546079/193845296-69d3618a-e5ba-46c6-99bd-0a2c891fa789.png',
             }}
-            style={styles.cheongpa_18}
+            style={styles(true).cheongpa_18}
           />
-          <Text style={styles.text}>
+          <Image
+            source={{
+              uri: medalUris[dongReviewCnt[7] > 3 ? 3 : dongReviewCnt[7]],
+            }}
+            style={styles(dongReviewCnt[7] === 0 ? false : true).medal}
+          />
+          <Text style={styles(true).text}>
             청파{'\n'}남영{'\n'}효창
           </Text>
         </TouchableOpacity>
@@ -144,9 +157,15 @@ function Home({navigation}) {
             source={{
               uri: 'https://user-images.githubusercontent.com/66546079/193848026-58edaadd-35c1-4c0f-b920-50ed41751a43.png',
             }}
-            style={styles.itaewon_1}
+            style={styles(true).itaewon_1}
           />
-          <Text style={styles.text}>이태원</Text>
+          <Image
+            source={{
+              uri: medalUris[dongReviewCnt[0] > 3 ? 3 : dongReviewCnt[0]],
+            }}
+            style={styles(dongReviewCnt[0] === 0 ? false : true).medal}
+          />
+          <Text style={styles(true).text}>이태원</Text>
         </TouchableOpacity>
         <View style={{flex: 1}} />
       </View>
@@ -164,9 +183,15 @@ function Home({navigation}) {
             source={{
               uri: 'https://user-images.githubusercontent.com/66546079/193843990-59905ede-2b48-46ea-bf80-2001e3ee0b58.png',
             }}
-            style={styles.yongsan_3}
+            style={styles(true).yongsan_3}
           />
-          <Text style={styles.text}>용산동</Text>
+          <Image
+            source={{
+              uri: medalUris[dongReviewCnt[2] > 3 ? 3 : dongReviewCnt[2]],
+            }}
+            style={styles(dongReviewCnt[2] === 0 ? false : true).medal}
+          />
+          <Text style={styles(true).text}>용산동</Text>
         </TouchableOpacity>
         <View style={{flex: 1}} />
       </View>
@@ -190,9 +215,15 @@ function Home({navigation}) {
             source={{
               uri: 'https://user-images.githubusercontent.com/66546079/193846268-0ba53d6e-f25a-40d2-8236-b3b7b5b64972.png',
             }}
-            style={styles.wonhyoro_10}
+            style={styles(true).wonhyoro_10}
           />
-          <Text style={styles.text}>원효로</Text>
+          <Image
+            source={{
+              uri: medalUris[dongReviewCnt[6] > 3 ? 3 : dongReviewCnt[6]],
+            }}
+            style={styles(dongReviewCnt[6] === 0 ? false : true).medal}
+          />
+          <Text style={styles(true).text}>원효로</Text>
         </TouchableOpacity>
         <View style={{flex: 1}} />
         <View style={{flex: 1}} />
@@ -203,9 +234,15 @@ function Home({navigation}) {
             source={{
               uri: 'https://user-images.githubusercontent.com/66546079/193842872-d78d057b-d09f-4953-8a04-7f201d78b48a.png',
             }}
-            style={styles.hannam_2}
+            style={styles(true).hannam_2}
           />
-          <Text style={styles.text}>한남동</Text>
+          <Image
+            source={{
+              uri: medalUris[dongReviewCnt[1] > 3 ? 3 : dongReviewCnt[1]],
+            }}
+            style={styles(dongReviewCnt[1] === 0 ? false : true).medal}
+          />
+          <Text style={styles(true).text}>한남동</Text>
         </TouchableOpacity>
         <View style={{flex: 1}} />
       </View>
@@ -229,9 +266,15 @@ function Home({navigation}) {
             source={{
               uri: 'https://user-images.githubusercontent.com/66546079/193844402-37576296-b6e0-4895-a344-96108661ce47.png',
             }}
-            style={styles.hangangro_4}
+            style={styles(true).hangangro_4}
           />
-          <Text style={styles.text}>한강로</Text>
+          <Image
+            source={{
+              uri: medalUris[dongReviewCnt[3] > 3 ? 3 : dongReviewCnt[3]],
+            }}
+            style={styles(dongReviewCnt[3] === 0 ? false : true).medal}
+          />
+          <Text style={styles(true).text}>한강로</Text>
         </TouchableOpacity>
         <View style={{flex: 1}} />
       </View>
@@ -255,9 +298,15 @@ function Home({navigation}) {
             source={{
               uri: 'https://user-images.githubusercontent.com/66546079/193846926-3cb410f8-02d0-4461-8f92-f22e03e21dcf.png',
             }}
-            style={styles.ichon_5}
+            style={styles(true).ichon_5}
           />
-          <Text style={styles.text}>이촌동</Text>
+          <Image
+            source={{
+              uri: medalUris[dongReviewCnt[4] > 3 ? 3 : dongReviewCnt[4]],
+            }}
+            style={styles(dongReviewCnt[4] === 0 ? false : true).medal}
+          />
+          <Text style={styles(true).text}>이촌동</Text>
         </TouchableOpacity>
         <View style={{flex: 1}} />
         <View style={{flex: 1}} />
@@ -273,9 +322,15 @@ function Home({navigation}) {
             source={{
               uri: 'https://user-images.githubusercontent.com/66546079/193843300-3ed58ebe-fbb7-47a7-b5ea-10e01004e64b.png',
             }}
-            style={styles.dongbingo_7}
+            style={styles(true).dongbingo_7}
           />
-          <Text style={styles.text}>동빙고{'\n'}서빙고</Text>
+          <Image
+            source={{
+              uri: medalUris[dongReviewCnt[5] > 3 ? 3 : dongReviewCnt[5]],
+            }}
+            style={styles(dongReviewCnt[5] === 0 ? false : true).medal}
+          />
+          <Text style={styles(true).text}>동빙고{'\n'}서빙고</Text>
         </TouchableOpacity>
         <View style={{flex: 1}} />
       </View>
@@ -285,22 +340,9 @@ function Home({navigation}) {
           onPress={() => {
             navigation.navigate('SelectDong', {offset: offset});
           }}
-          style={styles.goBtn}>
+          style={styles(true).goBtn}>
           <Text style={{color: 'white', fontSize: 40, textAlign: 'center'}}>
             Go
-          </Text>
-        </TouchableOpacity>
-        <View style={{flex: 1}} />
-        <View style={{flex: 1}} />
-        <TouchableOpacity style={styles.counrseInProcess}>
-          <Text
-            style={{
-              color: '#FFA856',
-              fontSize: 30,
-              textAlign: 'center',
-              fontWeight: 'bold',
-            }}>
-            진행중인 코스
           </Text>
         </TouchableOpacity>
         <View style={{flex: 1}} />
@@ -309,82 +351,80 @@ function Home({navigation}) {
   );
 }
 
-const styles = StyleSheet.create({
-  counrseInProcess: {
-    // position: 'absolute',
-    // left: width * 1,
-    // top: height * 1,
-    // top: t * 0.7,
-    // left: l * 0.25,
-    // width: l * 0.5,
-    alignItems: 'center',
-  },
-  goBtn: {
-    position: 'relative',
-    bottom: 30,
-    width: 150,
-    paddingTop: 10,
-    paddingBottom: 10,
-    backgroundColor: 'orange',
-    borderRadius: 15,
-    alignItems: 'center',
-  },
-  itaewon_1: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-    // flex: 5,
-  },
-  hannam_2: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-  },
-  yongsan_3: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-  },
-  hangangro_4: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-  },
-  ichon_5: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-  },
-  dongbingo_7: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-  },
-  wonhyoro_10: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-  },
-  cheongpa_18: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-  },
-  text: {
-    position: 'relative',
-    top: 100,
-    fontSize: 14,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: 'black',
-  },
-});
+const styles = flag =>
+  StyleSheet.create({
+    medal: {
+      position: 'absolute',
+      left: 40,
+      width: 50,
+      height: 50,
+      opacity: flag ? 1 : 0,
+    },
+    goBtn: {
+      position: 'relative',
+      bottom: 30,
+      width: 150,
+      paddingTop: 10,
+      paddingBottom: 10,
+      backgroundColor: 'orange',
+      borderRadius: 15,
+      alignItems: 'center',
+    },
+    itaewon_1: {
+      position: 'absolute',
+      width: 100,
+      height: 100,
+      justifyContent: 'center',
+    },
+    hannam_2: {
+      position: 'absolute',
+      width: 100,
+      height: 100,
+      justifyContent: 'center',
+    },
+    yongsan_3: {
+      position: 'absolute',
+      width: 100,
+      height: 100,
+      justifyContent: 'center',
+    },
+    hangangro_4: {
+      position: 'absolute',
+      width: 100,
+      height: 100,
+      justifyContent: 'center',
+    },
+    ichon_5: {
+      position: 'absolute',
+      width: 100,
+      height: 100,
+      justifyContent: 'center',
+    },
+    dongbingo_7: {
+      position: 'absolute',
+      width: 100,
+      height: 100,
+      justifyContent: 'center',
+    },
+    wonhyoro_10: {
+      position: 'absolute',
+      width: 100,
+      height: 100,
+      justifyContent: 'center',
+    },
+    cheongpa_18: {
+      position: 'absolute',
+      width: 100,
+      height: 100,
+      justifyContent: 'center',
+    },
+    text: {
+      position: 'relative',
+      top: 100,
+      fontSize: 14,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      color: 'black',
+    },
+  });
 export default Home;
