@@ -331,7 +331,6 @@ function Preference({route, navigation}: PreferenceProps) {
       />
     </View>
   );
-  console.log('프리퍼런스뜹니다.');
 
   const myfood = useSelector((state: RootState) => state.category.myfood);
   const mycafe = useSelector((state: RootState) => state.category.mycafe);
@@ -350,28 +349,18 @@ function Preference({route, navigation}: PreferenceProps) {
   }, [userSpotLists]);
 
   async function setMyCourse() {
-    let checkblank = 0;
-    if (
-      (selectFood.length,
-      selectCafe.length,
-      selectDrink.length,
-      selectActivity.length,
-      selectPrice.length > 0)
-    ) {
-      checkblank = 1;
-    }
-    if (selectFood.length === 0) {
-      Alert.alert('음식선택해주세요');
-    } else if (selectCafe.length === 0) {
-      Alert.alert('카페선택해주세요');
-    } else if (selectDrink.length === 0) {
-      Alert.alert('음주선택해주세요');
-    } else if (selectActivity.length === 0) {
-      Alert.alert('활동선택해주세요');
-    } else if (selectPrice.length === 0) {
-      Alert.alert('가격선택해주세요');
-    }
-    if (checkblank) {
+    let courseLength =
+      (selectFood.length > 0 ? 1 : 0) +
+      (selectCafe.length > 0 ? 1 : 0) +
+      (selectDrink.length > 0 ? 1 : 0) +
+      (selectActivity.length > 0 ? 1 : 0);
+    const checkblank = courseLength < 3 ? 0 : 1;
+    console.log(courseLength);
+    console.log(checkblank);
+
+    if (checkblank === 0) {
+      Alert.alert('코스를 더 선택해주세요');
+    } else {
       dispatch(
         categorySlice.actions.setCourse({
           myfood: selectFood,
