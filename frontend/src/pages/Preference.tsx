@@ -10,6 +10,7 @@ import {
   Modal,
   Pressable,
   TextInput,
+  Dimensions,
 } from 'react-native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
@@ -29,6 +30,7 @@ type PreferenceProps = NativeStackScreenProps<ParamListBase, 'Preference'>;
 function Preference({route, navigation}: PreferenceProps) {
   const dongId = route.params.selected;
   const [modalVisible, setModalVisible] = useState(false);
+  const [modal2Visible, setModal2Visible] = useState(false);
 
   const [containerWidth, setContainerWidth] = useState(0);
 
@@ -337,16 +339,19 @@ function Preference({route, navigation}: PreferenceProps) {
   const mydrink = useSelector((state: RootState) => state.category.mydrink);
   const myplay = useSelector((state: RootState) => state.category.myplay);
   const myprice = useSelector((state: RootState) => state.category.myprice);
+  const missionList = useSelector(
+    (state: RootState) => state.course.missions.unclearMissions,
+  );
+  const stores = useSelector((state: RootState) => state.stores.stores);
   const userSpotLists = useSelector(
     (state: RootState) => state.userSpot.userSpotList,
   );
+
   useEffect(() => {
-    console.log(userSpotLists);
-    if (userSpotLists.length > 2) {
-      console.log('userSpotList입니다.');
-      setModalVisible(false);
-    }
-  }, [userSpotLists]);
+    console.log('스토어가 변경됩니다.');
+    console.log(stores);
+    setModal2Visible(false);
+  }, [stores.length]);
 
   async function setMyCourse() {
     let courseLength =
@@ -371,6 +376,11 @@ function Preference({route, navigation}: PreferenceProps) {
       setModalVisible(true);
     }
   }
+
+  const complete = () => {
+    setModalVisible(false);
+    setModal2Visible(true);
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -408,8 +418,27 @@ function Preference({route, navigation}: PreferenceProps) {
         />
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <DragItems />
+            <DragItems complete={complete} />
           </View>
+        </View>
+      </Modal>
+
+      <Modal animationType="slide" transparent={true} visible={modal2Visible}>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: '#fff',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Image
+            style={{
+              width: Dimensions.get('window').width / 2,
+              height: Dimensions.get('window').width / 2,
+            }}
+            source={require('../assets/KakaoTalk_20221004_150552857.png')}
+          />
+          <Text style={{fontSize: 15, color: 'black'}}>기다려주세요.</Text>
         </View>
       </Modal>
     </View>
