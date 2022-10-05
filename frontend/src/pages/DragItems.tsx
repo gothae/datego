@@ -233,7 +233,7 @@ function DragItems() {
     console.log('닫았어');
     navigation.navigate('Course', {});
   };
-  console.log('dragItem 입니다');
+  console.log('dragItems입니다.');
   async function setPreference() {
     if (currentcourse.length > 2) {
       console.log('열어');
