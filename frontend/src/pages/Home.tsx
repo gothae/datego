@@ -283,15 +283,6 @@ function Home({navigation}) {
       <View style={{flex: 1.4, alignItems: 'center'}}>
         <TouchableOpacity
           onPress={() => {
-                  navigation.navigate('Review', {});
-                }}>
-          <Text style={{color: 'white', fontSize: 30, textAlign: 'center'}}>
-           리뷰
-          </Text>
-
-          </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => {
             navigation.navigate('SelectDong', {offset: offset});
           }}
           style={styles.goBtn}>
@@ -313,20 +304,6 @@ function Home({navigation}) {
           </Text>
         </TouchableOpacity>
         <View style={{flex: 1}} />
-      </View>
-      <View>
-        <Button
-          onPress={() => {
-            navigation.navigate('FinalReview', {});
-          }}
-          title="파이널리뷰"
-        />
-        <Button
-          onPress={() => {
-            onLogout();
-          }}
-          title="로그아웃"
-        />
       </View>
     </View>
   );
