@@ -385,7 +385,7 @@ function CourseIng({navigation}) {
             flex: 5,
           }}>
           <View style={{flex: 1, alignItems: 'center'}}>
-            <View style={{width: '80%', flex: 5}}>
+            <View style={{width: '90%', flex: 5}}>
               <ImageBackground
                 resizeMode="contain"
                 source={{uri: checkImg}}
@@ -509,6 +509,7 @@ function CourseIng({navigation}) {
                 </View>
               </ImageBackground>
             </View>
+            {/* 퀘스트 사진찍기 */}
             <View
               style={{
                 flex: 2,
@@ -527,7 +528,7 @@ function CourseIng({navigation}) {
               <Button
                 style={
                   dist > 100
-                    ? {flex: 2, backgroundColor: 'white'}
+                    ? {flex: 3, backgroundColor: 'white',}
                     : {display: 'none'}
                 }
                 titleStyle={{color: 'orange'}}
