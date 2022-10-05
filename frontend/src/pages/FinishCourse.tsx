@@ -20,7 +20,7 @@ function FinishCourse() {
         width: (Dimensions.get('window').width - 30) / 5,
         height: (Dimensions.get('window').width - 30) / 5,
       }}
-      source={require('../assets/medal.png')}
+      source={{uri:'https://user-images.githubusercontent.com/66546079/193999740-9efdfe1b-605e-45e9-9934-de315ec8a25d.png'}}
     />
   ));
   let unclearMedal = unclearMissions.map((a, idx) => (
@@ -30,7 +30,7 @@ function FinishCourse() {
         height: (Dimensions.get('window').width - 30) / 5,
         opacity: 0.4,
       }}
-      source={require('../assets/medal.png')}
+      source={{uri:'https://user-images.githubusercontent.com/66546079/193999740-9efdfe1b-605e-45e9-9934-de315ec8a25d.png'}}
     />
   ));
 

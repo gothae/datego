@@ -229,7 +229,7 @@ function DragItems() {
   }
   const goNext = async () => {
     console.log('닫아');
-    await deletemodal();
+    deletemodal();
     console.log('닫았어');
     navigation.navigate('Course', {});
   };
@@ -237,6 +237,7 @@ function DragItems() {
   async function setPreference() {
     if (currentcourse.length > 2) {
       console.log('열어');
+      setModalVisible(true);
       await openModal();
       console.log(modalVisible);
 
@@ -387,11 +388,12 @@ function DragItems() {
             onPress={() => {
               setPreference();
             }}>
-            <Text style={{textAlign: 'center', fontSize: 20, color: '#fff'}}>
+            <Text style={{textAlign: 'center', fontSize: 20, color: '#fff', paddingBottom:5, paddingTop:5}}>
               순서 설정 완료
             </Text>
           </TouchableOpacity>
         </View>
+
         <Modal animationType="slide" transparent={true} visible={modalVisible}>
           <View
             style={{

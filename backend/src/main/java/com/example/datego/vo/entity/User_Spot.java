@@ -42,4 +42,7 @@ public class User_Spot {
     @JoinColumn(name = "spot_id")
     private Spot spot;
 
+    public void setRate(int rate){
+        this.rate = rate;
+    }
 }
