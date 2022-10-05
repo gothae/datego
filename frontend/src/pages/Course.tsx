@@ -29,7 +29,7 @@ import {RootState} from '../store/reducer';
 import {Item} from './ChangeSpot';
 import algolistSlice from '../slices/algolist';
 import Geolocation from 'react-native-geolocation-service';
-import { Platform, PermissionsAndroid } from 'react-native';
+import {Platform, PermissionsAndroid} from 'react-native';
 
 type CourseProps = NativeStackScreenProps<ParamListBase, 'Course'>;
 
@@ -46,8 +46,7 @@ type Location = {
   P4: K;
 };
 
-
-function Course({ navigation }: CourseProps) {
+function Course({navigation}: CourseProps) {
   // 위치정보 허용 함수
   const requestCameraPermission = async () => {
     try {
@@ -58,16 +57,18 @@ function Course({ navigation }: CourseProps) {
         PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log("You can use the geo");
+        console.log('You can use the geo');
       } else {
-        console.log("Geo permission denied");
+        console.log('Geo permission denied');
       }
     } catch (err) {
       console.warn(err);
     }
-  }; 
-  useEffect(() => { requestCameraPermission },
-    [])
+  };
+  useEffect(() => {
+    requestCameraPermission;
+    console.log('course입니다.');
+  }, []);
 
   const stores: any = useSelector((state: RootState) => state.stores).stores;
   const first: any = useSelector((state: RootState) => state.algolist).one;
@@ -93,29 +94,26 @@ function Course({ navigation }: CourseProps) {
 
   const [total, setTotal] = useState<number>(0);
 
-  useEffect(() => { 
+  useEffect(() => {
     var currentPrice = 0;
     for (var i = 0; i < stores.length; i++) {
       if (stores[i].menus) {
         if (stores[i].menus.length == 0) {
-          currentPrice = 0
-         }
-         else{
-          currentPrice = currentPrice + stores[i].price + stores[i].menus[0].price
+          currentPrice = 0;
+        } else {
+          currentPrice =
+            currentPrice + stores[i].price + stores[i].menus[0].price;
         }
-      }
-      else {
-        currentPrice = currentPrice + stores[i].price
+      } else {
+        currentPrice = currentPrice + stores[i].price;
       }
     }
-    setTotal(Math.round( currentPrice / 10000))
-  }, [stores, first, second, third, fourth, fifth])
+    setTotal(Math.round(currentPrice / 10000));
+  }, [stores, first, second, third, fourth, fifth]);
   useEffect(() => {
     if (stores?.length === 0) {
       return;
-    }
-
-    else if (stores?.length === 2) {
+    } else if (stores?.length === 2) {
       setLocation({
         P0: {latitude: stores[0].latitude, longitude: stores[0].longitude},
         P1: {latitude: stores[1].latitude, longitude: stores[1].longitude},
@@ -174,31 +172,31 @@ function Course({ navigation }: CourseProps) {
 
   const [myPosition, setMyPosition] = useState<K>({
     latitude: 123.456,
-    longitude: 123.567
+    longitude: 123.567,
   });
-  
+
   useEffect(() => {
     Geolocation.getCurrentPosition(
       info => {
-        console.log( '현재위치',myPosition )
+        console.log('현재위치', myPosition);
         setMyPosition({
           latitude: info.coords.latitude,
-          longitude: info.coords.longitude
+          longitude: info.coords.longitude,
         });
       },
       console.error,
       {
         enableHighAccuracy: true,
-      }
+      },
     );
   }, [location]);
 
   const markerImg = require('../assets/현재위치.png');
-    
-    if (!location) {
+
+  if (!location) {
     return null;
   }
-  
+
   return (
     <ScrollView>
       <View style={{flex: 1}}>
@@ -212,13 +210,13 @@ function Course({ navigation }: CourseProps) {
               console.warn('onCameraChange', JSON.stringify(e))
             }
             onMapClick={e => console.warn('onMapClick', JSON.stringify(e))}>
-              <Marker
+            <Marker
               coordinate={myPosition}
               onClick={() => console.warn('onClick! p0')}
               image={markerImg}
               width={36}
               height={36}
-              />
+            />
             <Marker
               coordinate={location.P0}
               pinColor={'orange'}
@@ -299,17 +297,27 @@ function Course({ navigation }: CourseProps) {
                 idx={idx}
                 item={store}
                 navigation={navigation}
-                />
+              />
             );
           })}
         </View>
-                
+
         <View>
-          <Text style={{color:'#000000', fontSize: 24, marginLeft: '4%', marginVertical: '1.5%' , fontWeight: 'bold'}}> 예상가격 : {total} 만원</Text>
+          <Text
+            style={{
+              color: '#000000',
+              fontSize: 24,
+              marginLeft: '4%',
+              marginVertical: '1.5%',
+              fontWeight: 'bold',
+            }}>
+            {' '}
+            예상가격 : {total} 만원
+          </Text>
         </View>
-      {/* <View style={{flex:2, alignItems:'center'}}><Button style={{width:'100%', backgroundColor:'orange'}} 
+        {/* <View style={{flex:2, alignItems:'center'}}><Button style={{width:'100%', backgroundColor:'orange'}}
       title='위치허용' titleStyle={{fontSize:25}} onPress={requestCameraPermission}></Button></View> */}
-        <View >
+        <View>
           <Button
             title="코스 시작"
             color={'#FFA856'}
