@@ -387,7 +387,7 @@ function DragItems() {
             onPress={() => {
               setPreference();
             }}>
-            <Text style={{textAlign: 'center', fontSize: 20, color: '#fff'}}>
+            <Text style={{textAlign: 'center', fontSize: 20, color: '#fff', paddingBottom:5, paddingTop:5}}>
               순서 설정 완료
             </Text>
           </TouchableOpacity>
