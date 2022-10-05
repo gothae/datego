@@ -7,7 +7,6 @@ import {
 import AppInner from './AppInner';
 import store from './src/store';
 import {Provider} from 'react-redux';
-
 function App() {
   return (
     <Provider store={store}>
