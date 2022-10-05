@@ -9,6 +9,14 @@ import store from './src/store';
 import {Provider} from 'react-redux';
 import {PermissionsAndroid} from 'react-native';
 
+import {LogBox} from 'react-native';
+// LogBox.ignoreLogs([
+//   'onCameraChange',
+//   'Cannot connect to Metro',
+//   'ComponentWillMount has beeen renamed, and is not recommended for use.',
+//   'source.uri should not be an empty string',
+// ]);
+LogBox.ignoreAllLogs();
 function App() {
   async function setPermissions() {
     console.log('허용받아볼게요');
