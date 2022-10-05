@@ -1,15 +1,13 @@
-import React from 'react';
-import {ImStarFull} from 'react-icons/im';
-import styled from 'styled-components';
+import * as React from 'react';
+import {Rating} from 'react-native-ratings';
 import {
   View,
   Text,
   Image,
   ScrollView,
   StyleSheet,
-  FlatList,
+  Pressable,
 } from 'react-native';
-import {useSelector} from 'react-redux';
 import {Button} from '@react-native-material/core';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {ParamListBase} from '@react-navigation/native';
@@ -22,17 +20,19 @@ import {
 import {useState, useEffect, useMemo} from 'react';
 import axios from 'axios';
 import store from '../store';
-import {Item} from './ChangeSpot';
+import {stores} from './ChangeSpot';
 import {Menu} from 'react-native-paper';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/reducer';
 // type DetailSpotProps = NativeStackScreenProps<ParamListBase, 'DetailSpot'>
 type Props = {
   route: any;
   navigation: any;
 };
-type Review = {
-  id: number;
-  name: string;
-};
+// type Review = {
+//   id: number;
+//   name: string;
+// };
 type Store = {
   id: number;
   name: string;
@@ -43,7 +43,7 @@ type Store = {
   longitude: number;
   menus: any;
   price: number[];
-  images: string[];
+  image: string;
   rate: number;
   tags: any;
 };
@@ -82,26 +82,16 @@ let reviewLength: number = 0;
 
 function Review({navigation, route}: Props) {
   const spotId: number = 1;
-
-  const numColumns = 3;
-  const [selectTag, setTag] = useState([]);
-  const [containerWidth, setContainerWidth] = useState(0);
-
-  const [tags, setTags] = useState([
-    [0, ''],
-    [1, ''],
-  ]);
+  // const stores = useSelector((state: RootState) => state.stores).stores;
+  const [stores, setStores] = useState<Store>({} as Store);
   const [hovered, setHovered] = useState(null);
   const [clicked, setClicked] = useState(null);
   // console.log('페이지아이디', spotId)
   // stores에 id에 해당되는 정보 불러오기
-  const [detailstores, setstores] = useState<Store>({} as Store);
-  const [reviews, setreviews] = useState<Review>({
-    id: 1,
-    name: 'test',
-  } as Review);
-  let response;
-  let response2;
+  const [detailstores, setDetailstores] = useState<Store>({} as Store);
+  const [reviews, setReviews] = useState([]);
+  let title;
+
   const getData = async () => {
     response = await axios.get(
       `http://j7a104.p.ssafy.io:8080/courses/spots/${spotId}`,
@@ -109,53 +99,97 @@ function Review({navigation, route}: Props) {
     response2 = await axios.get(
       `http://j7a104.p.ssafy.io:8080/spots/${spotId}/reviews`,
     );
-    setstores(response.data.responseData);
-    setreviews(response2.data.responseData);
     reviewLength = response2.data.responseData.length;
-    console.log('as', response2.data.responseData[0].id);
-    if (response2.data.responseData[0].id == 1) {
-      setTags(cafeTags);
-      console.log('c', cafeTags);
-      console.log('t', tags);
-      reviewLength = 13;
-    }
+    setDetailstores(response.data.responseData);
+    setReviews(response2.data.responseData);
   };
   useEffect(() => {
     getData();
+    setStores({
+      address: '서울특별시 용산구 이촌동 301-155',
+      id: 1079,
+      image:
+        '"https://search.pstatic.net/common/?autoRotate=true&quality=95&type=w750&src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMjAzMTJfOTEg%2FMDAxNjQ3MDY5Mzk2NzU0.dnC7J2ToMGXAwratpmje1zqTEvC8iGBGK5i2OmN34eog.Av_Z8KB903Mg-ZUmfuggdf6JZ2YCDr3e0z0z6rtTSJ8g.JPEG.yangrijjang%2F20220118_151854.jpg"',
+      latitude: 37.5217268,
+      longitude: 126.9671423,
+      name: '브루클린더버거조인트 동부이촌점',
+      phone: '02-790-7180',
+      price: 9800,
+      quest: '빨강이를 키우자',
+      rate: 5,
+      tags: [Array],
+    });
+    console.log('디테일스토어', detailstores);
+    console.log('스토어', stores);
+    console.log('리뷰', reviews.length);
   }, []);
   let images;
-  const rendering = () => {
-    const result = [];
-    for (let i = 0; i < reviewLength; i++) {
-      if (i % 3 == 0) {
-        result.push(<View />);
-      }
-      // eslint-disable-next-line prettier/prettier
-      result.push(<Button title={cafeTags[i][1]} />);
+  if (stores.image) {
+    if (stores.image[0] == '"') {
+      images = (
+        <Image
+          style={{height: 250}}
+          source={{uri: stores.image.slice(1, stores.image.length)}}
+        />
+      );
+    } else {
+      images = <Image style={{height: 250}} source={{uri: stores.image}} />;
     }
-    return result;
-  };
-  if (detailstores.images) {
-    console.log('스토어 받은거', detailstores.images[0]);
-    images = (
-      <Image style={{height: 250}} source={{uri: detailstores.images[0]}} />
-    );
-  } else {
-    images = <Text>이미지 없음</Text>;
   }
-  const Item = ({item}) => (
-    <View>
-      <FlatList
-        data={item[0][1]}
-        onLayout={e => setContainerWidth(e.nativeEvent.layout.width)}
-        renderItem={({item}) => (
-          <Items item={item} width={containerWidth / numColumns} />
-        )}
-        numColumns={numColumns}
-      />
-    </View>
-  );
+  // if (stores.images) {
+  //   if (stores.images[0][0] == 'h') {
+  //     images = <Image style={styles.imageBox} source={{ uri: stores.images[0] }} />;
+  //   }
+  //   else if (stores.images[0][1] == 'h') {
+  //     images = <Image style={styles.imageBox} source={{ uri: stores.images[0].slice(1, stores.images[0].length - 1) }} />
+  //   } else {
+  //     images = <Image style={styles.imageBox} source={{ uri: stores.images[0].slice(1, stores.images[0].length - 1) }} />
+  //   }
+  // }
 
+  // if (stores.images) {
+  //   //console.log('스토어 받은거', detailstores.images[0]);
+  //   images = (
+  //     <Image style={{height: 250}} source={{uri: stores.images[0]}} />
+  //   );
+  // } else {
+  //   images = <Text>이미지 없음</Text>;
+  // }
+  let reviewList;
+  useEffect(() => {
+    let i: number;
+    const rs: Review[] = [];
+    for (i = 0; i < reviews.length; i++) {
+      //console.log(reviews[i]);
+      rs.push(reviews[i]);
+    }
+    console.log('rs', rs);
+  }, [stores]);
+  //reviewList = rs.map((review, index)=>(
+  //console.log(review.name)
+  // <Button
+  //         title={review.name}
+  //         key={review.id}
+  //         color={'#FFA856'}
+  //         titleStyle={{
+  //           color: 'white',
+  //           fontSize: 16,
+  //         }}
+  //         style={{
+  //           borderRadius: 60,
+  //           width: 100,
+  //         }}
+  //       />
+  //<Text key={review['id']} style={{color:'#000000'}}>{review['name']}</Text>
+  //));
+  const [rating, setRating] = useState(0);
+
+  // Catch Rating value
+  const handleRating = (rate: number) => {
+    console.log(rate);
+    // other logic
+  };
+  // eslint-disable-next-line prettier/prettier
   return (
     <ScrollView>
       <View>
@@ -165,16 +199,23 @@ function Review({navigation, route}: Props) {
           {images}
         </View>
         <View style={{alignItems: 'center', marginVertical: 8}}>
-          <Text style={{fontSize: 20, color: '#000000'}}>
-            {detailstores.name}
-          </Text>
+          <Text style={{fontSize: 20, color: '#000000'}}>{stores.name}</Text>
           <View style={{marginVertical: '3%'}}>{rendering()}</View>
         </View>
-        <View style={{flex: 1}}>
-          <FlatList
-            data={cafeTags}
-            renderItem={({item}) => <Item item={item} />}
-          />
+        <View>
+          {reviews?.map((review: any) => {
+            return (
+              <Pressable
+                onPress={() => {
+                  console.log('추가', review.id);
+                }}>
+                <Text style={{color: '#000000'}}>{review.name}</Text>
+              </Pressable>
+            );
+          })}
+        </View>
+        <View>
+          <Rating type="star" ratingCount={5} onFinishRating={handleRating} />
         </View>
         {/* <View>
         {[1, 2, 3, 4, 5].map(el => (
@@ -238,6 +279,22 @@ const styles = StyleSheet.create({
     marginHorizontal: '10%',
     marginVertical: '2%',
     color: '#000000',
+  },
+  storeList: {
+    backfaceVisibility: 'visible',
+    flexWrap: 'wrap',
+    borderWidth: 1,
+    borderRadius: 15,
+    marginHorizontal: 8,
+    marginVertical: 8,
+  },
+  imageBox: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 15,
+    margin: 8,
+    height: 100,
+    width: 100,
   },
 });
 export default Review;

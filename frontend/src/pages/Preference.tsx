@@ -331,12 +331,23 @@ function Preference({route, navigation}: PreferenceProps) {
       />
     </View>
   );
+  console.log('프리퍼런스뜹니다.');
 
   const myfood = useSelector((state: RootState) => state.category.myfood);
   const mycafe = useSelector((state: RootState) => state.category.mycafe);
   const mydrink = useSelector((state: RootState) => state.category.mydrink);
   const myplay = useSelector((state: RootState) => state.category.myplay);
   const myprice = useSelector((state: RootState) => state.category.myprice);
+  const userSpotLists = useSelector(
+    (state: RootState) => state.userSpot.userSpotList,
+  );
+  useEffect(() => {
+    console.log(userSpotLists);
+    if (userSpotLists.length > 2) {
+      console.log('userSpotList입니다.');
+      setModalVisible(false);
+    }
+  }, [userSpotLists]);
 
   async function setMyCourse() {
     let checkblank = 0;
@@ -394,7 +405,7 @@ function Preference({route, navigation}: PreferenceProps) {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          setModalVisible(!modalVisible);
+          setModalVisible(false);
           deleteData();
           navigation.navigate('Home', {});
         }}>
@@ -404,7 +415,7 @@ function Preference({route, navigation}: PreferenceProps) {
             backgroundColor: 'rgba(0,0,0,0.5)',
           }}
           onPress={() => {
-            setModalVisible(!modalVisible);
+            setModalVisible(false);
             navigation.navigate('Home', {});
           }}
         />
