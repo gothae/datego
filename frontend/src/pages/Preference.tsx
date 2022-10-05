@@ -355,8 +355,6 @@ function Preference({route, navigation}: PreferenceProps) {
       (selectDrink.length > 0 ? 1 : 0) +
       (selectActivity.length > 0 ? 1 : 0);
     const checkblank = courseLength < 3 ? 0 : 1;
-    console.log(courseLength);
-    console.log(checkblank);
 
     if (checkblank === 0) {
       Alert.alert('코스를 더 선택해주세요');
