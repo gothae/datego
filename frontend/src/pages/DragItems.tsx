@@ -234,7 +234,6 @@ function DragItems() {
     navigation.navigate('Course', {});
   };
   console.log('dragItems입니다.');
-
   async function setPreference() {
     if (currentcourse.length > 2) {
       console.log('열어');

@@ -343,8 +343,9 @@ function Preference({route, navigation}: PreferenceProps) {
   );
   useEffect(() => {
     console.log(userSpotLists);
-    if (userSpotLists) {
+    if (userSpotLists.length > 2) {
       console.log('userSpotList입니다.');
+      setModalVisible(false);
     }
   }, [userSpotLists]);
 
