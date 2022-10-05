@@ -346,19 +346,12 @@ function Preference({route, navigation}: PreferenceProps) {
   const userSpotLists = useSelector(
     (state: RootState) => state.userSpot.userSpotList,
   );
-  useEffect(() => {
-    if (userSpotLists.length > 2) {
-      console.log('preference페이지입니다.');
-      setModalVisible(false);
-      setModal2Visible(true);
-    }
-  }, [userSpotLists]);
 
   useEffect(() => {
     console.log('스토어가 변경됩니다.');
     console.log(stores);
     setModal2Visible(false);
-  }, [stores]);
+  }, [stores.length]);
 
   async function setMyCourse() {
     let courseLength =
@@ -383,6 +376,11 @@ function Preference({route, navigation}: PreferenceProps) {
       setModalVisible(true);
     }
   }
+
+  const complete = () => {
+    setModalVisible(false);
+    setModal2Visible(true);
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -420,7 +418,7 @@ function Preference({route, navigation}: PreferenceProps) {
         />
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <DragItems />
+            <DragItems complete={complete} />
           </View>
         </View>
       </Modal>

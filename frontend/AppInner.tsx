@@ -225,7 +225,7 @@ function AppInner() {
       <Stack.Screen
         name="FinalReview"
         component={FinalReview}
-        options={{title: 'FinalReview'}}
+        options={{title: 'FinalReview', headerShown: false}}
       />
     </Stack.Navigator>
   ) : (

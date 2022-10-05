@@ -28,7 +28,7 @@ import userSpotSlice from '../slices/userSpot';
 const gestureRootViewStyle = {flex: 1};
 
 // export default function DragItems({navigation}) {
-function DragItems() {
+function DragItems({complete}) {
   const navigation = useNavigation();
   const dongId = useSelector((state: RootState) => state.user.dongId);
   const userId = useSelector((state: RootState) => state.user.id);
@@ -209,7 +209,7 @@ function DragItems() {
   };
 
   async function setPreference() {
-    console.log('취향설정끝');
+    complete();
     if (currentcourse.length > 2) {
       const missionList = [];
       const userSpotLists = [];

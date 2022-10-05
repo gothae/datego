@@ -13,14 +13,14 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../store/reducer';
 import {useEffect, useState} from 'react';
 import axios from 'axios';
-import { Button } from '@react-native-material/core';
-import { Rating } from 'react-native-ratings';
-import { useNavigation } from '@react-navigation/native';
+import {Button} from '@react-native-material/core';
+import {Rating} from 'react-native-ratings';
+import {useNavigation} from '@react-navigation/native';
 
 function FinalReview() {
   const navigation = useNavigation();
   const stores = useSelector((state: RootState) => state.stores.stores);
-  // useEffect(() => { 
+  // useEffect(() => {
   //   console.log('스토어즈', stores)
   // }, [stores])
 
@@ -34,13 +34,14 @@ function FinalReview() {
   const [reviews2, setRevuews2] = useState([]);
   const [reviews3, setRevuews3] = useState([]);
   const [reviews4, setRevuews4] = useState([]);
-  const userSpotId = useSelector((state: RootState) => state.userSpot.userSpotList);
+  const userSpotId = useSelector(
+    (state: RootState) => state.userSpot.userSpotList,
+  );
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
 
   // useEffect(() => {
   //   console.log('여기',userSpotId)
   // },[userSpotId])
-  
 
   const [selectedId, setSelectedId] = useState<number[]>([]);
   const [ratingScore, setRatingScore] = useState<number>(1);
@@ -77,14 +78,14 @@ function FinalReview() {
     setRevuews4(response.data.responseData);
   }
   useEffect(() => {
-    console.log("USERSPOTID");
+    console.log('USERSPOTID');
     console.log(userSpotId);
     let spotId = 0;
-    for (let i = userSpotId.length -1; i >= 0 ; i--) {
+    for (let i = userSpotId.length - 1; i >= 0; i--) {
       if (i === 0) {
         if (userSpotId[i] !== 0) {
-        setModalVisible0(true);
-        spotId = stores[i].id;
+          setModalVisible0(true);
+          spotId = stores[i].id;
           getData0(spotId);
         }
       } else if (i === 1) {
@@ -117,30 +118,29 @@ function FinalReview() {
 
   const numColumns = 3;
 
-  const Item = ({ item }) => (
+  const Item = ({item}) => (
     <TouchableOpacity
       style={{
-        backgroundColor: selectedId.indexOf(item.id) !== -1 ? "#F07E14" : "#FFA865",
+        backgroundColor:
+          selectedId.indexOf(item.id) !== -1 ? '#F07E14' : '#FFA865',
         justifyContent: 'center',
         alignItems: 'center',
         width: Dimensions.get('window').width / 3.7,
         height: Dimensions.get('window').height / 18,
         borderRadius: 30,
         marginVertical: '1%',
-        marginHorizontal: '2.6%'
+        marginHorizontal: '2.6%',
       }}
       onPress={() => {
         if (selectedId.indexOf(item.id) == -1) {
-          console.log('푸쉬')
-          setSelectedId([...selectedId, item.id])
-          
-        }
-        else {
-          console.log('팝')
+          console.log('푸쉬');
+          setSelectedId([...selectedId, item.id]);
+        } else {
+          console.log('팝');
           const idx = selectedId.indexOf(item.id);
           const prevArr: number[] = selectedId.slice(0, idx);
           const nextArr: number[] = selectedId.slice(idx + 1);
-          setSelectedId(prevArr.concat(nextArr))
+          setSelectedId(prevArr.concat(nextArr));
         }
       }}>
       <Text
@@ -156,99 +156,205 @@ function FinalReview() {
   let images0;
 
   if (stores[0].image) {
-    if (stores[0].image[0] == '\"') {
-    images0 = <Image style={styles.image} source={{ uri: stores[0].image.slice(1, stores[0].image.length) }} />
-  } else {
-    images0 = <Image style={styles.image} source={{ uri: stores[0].image }} />
-  }
+    if (stores[0].image[0] == '"') {
+      images0 = (
+        <Image
+          style={styles.image}
+          source={{uri: stores[0].image.slice(1, stores[0].image.length)}}
+        />
+      );
+    } else {
+      images0 = <Image style={styles.image} source={{uri: stores[0].image}} />;
+    }
   } else if (stores[0].images) {
     if (stores[0].images[0][0] == 'h') {
-      images0 = <Image style={styles.image} source={{uri: stores[0].images[0]}} />;
-    }
-    else if (stores[0].images[0][1] == 'h') {
-      images0 = <Image style={styles.image} source={{ uri: stores[0].images[0].slice(1, stores[0].images[0].length - 1) }} />
+      images0 = (
+        <Image style={styles.image} source={{uri: stores[0].images[0]}} />
+      );
+    } else if (stores[0].images[0][1] == 'h') {
+      images0 = (
+        <Image
+          style={styles.image}
+          source={{
+            uri: stores[0].images[0].slice(1, stores[0].images[0].length - 1),
+          }}
+        />
+      );
     } else {
-      images0 = <Image style={styles.image} source={{ uri: stores[0].images[0].slice(1, stores[0].images[0].length - 1) }} />
+      images0 = (
+        <Image
+          style={styles.image}
+          source={{
+            uri: stores[0].images[0].slice(1, stores[0].images[0].length - 1),
+          }}
+        />
+      );
     }
   }
   let images1;
 
   if (stores[1].image) {
-    if (stores[1].image[0] == '\"') {
-    images1 = <Image style={styles.image} source={{ uri: stores[1].image.slice(1, stores[1].image.length) }} />
-  } else {
-    images0 = <Image style={styles.image} source={{ uri: stores[1].image }} />
-  }
+    if (stores[1].image[0] == '"') {
+      images1 = (
+        <Image
+          style={styles.image}
+          source={{uri: stores[1].image.slice(1, stores[1].image.length)}}
+        />
+      );
+    } else {
+      images0 = <Image style={styles.image} source={{uri: stores[1].image}} />;
+    }
   } else if (stores[1].images) {
     if (stores[1].images[0][0] == 'h') {
-      images1 = <Image style={styles.image} source={{uri: stores[1].images[0]}} />;
-    }
-    else if (stores[1].images[0][1] == 'h') {
-      images1 = <Image style={styles.image} source={{ uri: stores[1].images[0].slice(1, stores[1].images[0].length - 1) }} />
+      images1 = (
+        <Image style={styles.image} source={{uri: stores[1].images[0]}} />
+      );
+    } else if (stores[1].images[0][1] == 'h') {
+      images1 = (
+        <Image
+          style={styles.image}
+          source={{
+            uri: stores[1].images[0].slice(1, stores[1].images[0].length - 1),
+          }}
+        />
+      );
     } else {
-      images1 = <Image style={styles.image} source={{ uri: stores[1].images[0].slice(1, stores[1].images[0].length - 1) }} />
+      images1 = (
+        <Image
+          style={styles.image}
+          source={{
+            uri: stores[1].images[0].slice(1, stores[1].images[0].length - 1),
+          }}
+        />
+      );
     }
   }
-  
+
   let images2 = <Text>가게 로딩중</Text>;
   if (stores.length > 2) {
     if (stores[2].image) {
-      if (stores[2].image[0] == '\"') {
-        images2 = <Image style={styles.image} source={{ uri: stores[2].image.slice(1, stores[2].image.length) }} />
+      if (stores[2].image[0] == '"') {
+        images2 = (
+          <Image
+            style={styles.image}
+            source={{uri: stores[2].image.slice(1, stores[2].image.length)}}
+          />
+        );
       } else {
-        images2 = <Image style={styles.image} source={{ uri: stores[2].image }} />
+        images2 = (
+          <Image style={styles.image} source={{uri: stores[2].image}} />
+        );
       }
     } else if (stores[2].images) {
       if (stores[2].images[0][0] == 'h') {
-        images2 = <Image style={styles.image} source={{ uri: stores[2].images[0] }} />;
-      }
-      else if (stores[2].images[0][1] == 'h') {
-        images2 = <Image style={styles.image} source={{ uri: stores[2].images[0].slice(1, stores[2].images[0].length - 1) }} />
+        images2 = (
+          <Image style={styles.image} source={{uri: stores[2].images[0]}} />
+        );
+      } else if (stores[2].images[0][1] == 'h') {
+        images2 = (
+          <Image
+            style={styles.image}
+            source={{
+              uri: stores[2].images[0].slice(1, stores[2].images[0].length - 1),
+            }}
+          />
+        );
       } else {
-        images2 = <Image style={styles.image} source={{ uri: stores[2].images[0].slice(1, stores[2].images[0].length - 1) }} />
+        images2 = (
+          <Image
+            style={styles.image}
+            source={{
+              uri: stores[2].images[0].slice(1, stores[2].images[0].length - 1),
+            }}
+          />
+        );
       }
     }
   }
   let images3 = <Text>가게 로딩중</Text>;
   if (stores.length > 3) {
     if (stores[3].image) {
-      if (stores[3].image[0] == '\"') {
-        images3 = <Image style={styles.image} source={{ uri: stores[3].image.slice(1, stores[3].image.length) }} />
+      if (stores[3].image[0] == '"') {
+        images3 = (
+          <Image
+            style={styles.image}
+            source={{uri: stores[3].image.slice(1, stores[3].image.length)}}
+          />
+        );
       } else {
-        images3 = <Image style={styles.image} source={{ uri: stores[3].image }} />
+        images3 = (
+          <Image style={styles.image} source={{uri: stores[3].image}} />
+        );
       }
     } else if (stores[3].images) {
       if (stores[3].images[0][0] == 'h') {
-        images3 = <Image style={styles.image} source={{ uri: stores[3].images[0] }} />;
-      }
-      else if (stores[3].images[0][1] == 'h') {
-        images3 = <Image style={styles.image} source={{ uri: stores[3].images[0].slice(1, stores[3].images[0].length - 1) }} />
+        images3 = (
+          <Image style={styles.image} source={{uri: stores[3].images[0]}} />
+        );
+      } else if (stores[3].images[0][1] == 'h') {
+        images3 = (
+          <Image
+            style={styles.image}
+            source={{
+              uri: stores[3].images[0].slice(1, stores[3].images[0].length - 1),
+            }}
+          />
+        );
       } else {
-        images3 = <Image style={styles.image} source={{ uri: stores[3].images[0].slice(1, stores[3].images[0].length - 1) }} />
+        images3 = (
+          <Image
+            style={styles.image}
+            source={{
+              uri: stores[3].images[0].slice(1, stores[3].images[0].length - 1),
+            }}
+          />
+        );
       }
     }
   }
-  let images4 =<Text>가게 로딩중</Text>;
+  let images4 = <Text>가게 로딩중</Text>;
   if (stores.length > 4) {
     if (stores[4].image) {
-      if (stores[4].image[0] == '\"') {
-        images4 = <Image style={styles.image} source={{ uri: stores[4].image.slice(1, stores[4].image.length) }} />
+      if (stores[4].image[0] == '"') {
+        images4 = (
+          <Image
+            style={styles.image}
+            source={{uri: stores[4].image.slice(1, stores[4].image.length)}}
+          />
+        );
       } else {
-        images4 = <Image style={styles.image} source={{ uri: stores[4].image }} />
+        images4 = (
+          <Image style={styles.image} source={{uri: stores[4].image}} />
+        );
       }
     } else if (stores[4].images) {
       if (stores[4].images[0][0] == 'h') {
-        images4 = <Image style={styles.image} source={{ uri: stores[4].images[0] }} />;
-      }
-      else if (stores[4].images[0][1] == 'h') {
-        images4 = <Image style={styles.image} source={{ uri: stores[4].images[0].slice(1, stores[4].images[0].length - 1) }} />
+        images4 = (
+          <Image style={styles.image} source={{uri: stores[4].images[0]}} />
+        );
+      } else if (stores[4].images[0][1] == 'h') {
+        images4 = (
+          <Image
+            style={styles.image}
+            source={{
+              uri: stores[4].images[0].slice(1, stores[4].images[0].length - 1),
+            }}
+          />
+        );
       } else {
-        images4 = <Image style={styles.image} source={{ uri: stores[4].images[0].slice(1, stores[4].images[0].length - 1) }} />
+        images4 = (
+          <Image
+            style={styles.image}
+            source={{
+              uri: stores[4].images[0].slice(1, stores[4].images[0].length - 1),
+            }}
+          />
+        );
       }
     }
   }
   const handleRating = (rate: number) => {
-    setRatingScore(rate)
+    setRatingScore(rate);
   };
   // useEffect(() => {
   //   console.log('평점', ratingScore);
@@ -262,27 +368,25 @@ function FinalReview() {
 
   // 유저스팟 리스트의 첫번째 꺼를 가져와서
 
-  
   async function postReview(userSpotId: number) {
-    console.log('reviewIds', selectedId)
-    console.log('rate', ratingScore)
-    console.log('userSpotId', userSpotId)
-    console.log('포스트좀해라')
-    
-    const response = await axios
-      .post(
-        `http://j7a104.p.ssafy.io:8080/spots/${userSpotId}/reviews`,
-        {
-          reviewIds: selectedId,
-          rate: ratingScore
-        },
-        { headers: { accessToken } },
-      );
-    console.log(response.data)
+    console.log('reviewIds', selectedId);
+    console.log('rate', ratingScore);
+    console.log('userSpotId', userSpotId);
+    console.log('포스트좀해라');
+
+    const response = await axios.post(
+      `http://j7a104.p.ssafy.io:8080/spots/${userSpotId}/reviews`,
+      {
+        reviewIds: selectedId,
+        rate: ratingScore,
+      },
+      {headers: {accessToken}},
+    );
+    console.log(response.data);
     // await axios.post(
     //   `http://j7a104.p.ssafy.io:8080/spots/${userSpotId}/reviews`, {headers: {accessToken}}, {
-        // reviewIds: selectedId,
-        // rate: ratingScore
+    // reviewIds: selectedId,
+    // rate: ratingScore
     //   }
     // );
   }
@@ -293,45 +397,77 @@ function FinalReview() {
   let name3 = <Text>가게 로딩중</Text>;
   let name4 = <Text>가게 로딩중</Text>;
   if (stores[0]?.name) {
-    name0 = <Text style={{fontSize: 30, color: '#000000', fontWeight: 'bold'}}>{ stores[0].name }</Text>
+    name0 = (
+      <Text style={{fontSize: 30, color: '#000000', fontWeight: 'bold'}}>
+        {stores[0].name}
+      </Text>
+    );
   }
   if (stores[1]?.name) {
-    name1 = <Text style={{fontSize: 30, color: '#000000', fontWeight: 'bold'}}>{ stores[1].name }</Text>
+    name1 = (
+      <Text style={{fontSize: 30, color: '#000000', fontWeight: 'bold'}}>
+        {stores[1].name}
+      </Text>
+    );
   }
   if (stores.length > 2) {
-    name2 = <Text style={{fontSize: 30, color: '#000000', fontWeight: 'bold'}}>{ stores[2].name }</Text>
+    name2 = (
+      <Text style={{fontSize: 30, color: '#000000', fontWeight: 'bold'}}>
+        {stores[2].name}
+      </Text>
+    );
   }
   if (stores.length > 3) {
-    name3 = <Text style={{fontSize: 30, color: '#000000', fontWeight: 'bold'}}>{ stores[3].name }</Text>
+    name3 = (
+      <Text style={{fontSize: 30, color: '#000000', fontWeight: 'bold'}}>
+        {stores[3].name}
+      </Text>
+    );
   }
   if (stores.length > 4) {
-    name4 = <Text style={{fontSize: 30, color: '#000000', fontWeight: 'bold'}}>{ stores[4].name }</Text>
+    name4 = (
+      <Text style={{fontSize: 30, color: '#000000', fontWeight: 'bold'}}>
+        {stores[4].name}
+      </Text>
+    );
   }
-  
 
   return (
-    <View  style={{ alignItems: 'center', justifyContent: 'center', flex: 1, backgroundColor: '#FFFFFF'  }}>
-      <View style={{ }}>
-      <View
-        style={{
-          height: Dimensions.get('window').height /3,
-          width: Dimensions.get('window').width / 1.2,
-          backgroundColor: 'orange',
-          borderRadius: 50,
-          marginHorizontal: 10,
-          justifyContent: 'center'
-        }}
-        >
-      <Text style={{color: '#FFFFFF', fontSize: 28, textAlign: 'center', fontWeight:'bold'}}>
-        감사합니다!!!!!
-      </Text>
-      <TouchableOpacity 
-              style={{marginTop: '8%', alignItems:'center'}}
-              onPress={() => {
-                navigation.navigate('Home')
-              }}>
-        <Text style={{color:'black', fontWeight: 'bold', fontSize: 18}}>확인</Text>
-        </TouchableOpacity>
+    <View
+      style={{
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+        backgroundColor: '#FFFFFF',
+      }}>
+      <View style={{}}>
+        <View
+          style={{
+            height: Dimensions.get('window').height / 3,
+            width: Dimensions.get('window').width / 1.2,
+            backgroundColor: 'orange',
+            borderRadius: 50,
+            marginHorizontal: 10,
+            justifyContent: 'center',
+          }}>
+          <Text
+            style={{
+              color: '#FFFFFF',
+              fontSize: 28,
+              textAlign: 'center',
+              fontWeight: 'bold',
+            }}>
+            감사합니다!!!!!
+          </Text>
+          <TouchableOpacity
+            style={{marginTop: '8%', alignItems: 'center'}}
+            onPress={() => {
+              navigation.navigate('Home');
+            }}>
+            <Text style={{color: 'black', fontWeight: 'bold', fontSize: 18}}>
+              확인
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
       {/* 모달 1 */}
@@ -344,52 +480,53 @@ function FinalReview() {
             alignItems: 'center',
             height: Dimensions.get('window').height / 1.02,
           }}>
-          <View>
-            {images0}
-          </View>
+          <View>{images0}</View>
           <View style={{marginVertical: '3.5%', marginBottom: '15%'}}>
             {name0}
           </View>
           <View />
           <FlatList
-          data={reviews0}
-          renderItem={({item}) => <Item item={item} />}
-          numColumns={numColumns}
+            data={reviews0}
+            renderItem={({item}) => <Item item={item} />}
+            numColumns={numColumns}
           />
           <View style={{marginBottom: '5%'}}>
-
-          <Rating imageSize={45} type='star' ratingCount={5} onFinishRating={handleRating} />
-
+            <Rating
+              imageSize={45}
+              type="star"
+              ratingCount={5}
+              onFinishRating={handleRating}
+            />
           </View>
-          <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
-
-            <TouchableOpacity 
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <TouchableOpacity
               style={{marginRight: '8%'}}
               onPress={() => {
                 setModalVisible0(false);
               }}>
               <Button
-              title="평가안하기"
-              color={'#FFA856'}
-              titleStyle={{
-                color: 'white',
-                fontSize: 20,
-                fontWeight: 'bold',
-              }}
-              onPress={() => {
-                setModalVisible0(false);
-              }}
-              style={{
-                height: Dimensions.get('window').height / 20,
-                width: Dimensions.get('window').width / 2.8,
-                borderRadius: 200,
-                
-                justifyContent: 'center',
+                title="평가안하기"
+                color={'#FFA856'}
+                titleStyle={{
+                  color: 'white',
+                  fontSize: 20,
+                  fontWeight: 'bold',
                 }}
                 onPress={() => {
                   setModalVisible0(false);
                 }}
-               />
+                style={{
+                  height: Dimensions.get('window').height / 20,
+                  width: Dimensions.get('window').width / 2.8,
+                  borderRadius: 200,
+
+                  justifyContent: 'center',
+                }}
+                onPress={() => {
+                  setModalVisible0(false);
+                  setSelectedId([]);
+                }}
+              />
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -397,7 +534,7 @@ function FinalReview() {
               onPress={() => {
                 setModalVisible0(false);
               }}>
-               <Button
+              <Button
                 title="확인"
                 color={'#FFA856'}
                 titleStyle={{
@@ -414,12 +551,12 @@ function FinalReview() {
                 onPress={() => {
                   setModalVisible0(false);
                   postReview(userSpotId[0]);
+                  setSelectedId([]);
                 }}
-        />
+              />
             </TouchableOpacity>
-            </View>
-          </View> 
-
+          </View>
+        </View>
       </Modal>
       {/* 모달 2 */}
       <Modal animationType="slide" transparent={true} visible={modalVisible1}>
@@ -430,49 +567,50 @@ function FinalReview() {
             alignItems: 'center',
             height: Dimensions.get('window').height / 1.02,
           }}>
-          <View>
-            {images1}
-          </View>
+          <View>{images1}</View>
           <View style={{marginVertical: '3.5%', marginBottom: '15%'}}>
             {name1}
           </View>
           <View />
           <FlatList
-          data={reviews1}
-          renderItem={({item}) => <Item item={item} />}
-          numColumns={numColumns}
+            data={reviews1}
+            renderItem={({item}) => <Item item={item} />}
+            numColumns={numColumns}
           />
           <View style={{marginBottom: '5%'}}>
-
-          <Rating imageSize={45} type='star' ratingCount={5} onFinishRating={handleRating} />
-
+            <Rating
+              imageSize={45}
+              type="star"
+              ratingCount={5}
+              onFinishRating={handleRating}
+            />
           </View>
-          <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
-
-            <TouchableOpacity 
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <TouchableOpacity
               style={{marginRight: '8%'}}
               onPress={() => {
                 setModalVisible1(false);
               }}>
               <Button
-              title="평가안하기"
-              color={'#FFA856'}
-              titleStyle={{
-                color: 'white',
-                fontSize: 20,
-                fontWeight: 'bold',
-              }}
-              onPress={() => {
-                setModalVisible1(false);
-              }}
-              style={{
-                height: Dimensions.get('window').height / 20,
-                width: Dimensions.get('window').width / 2.8,
-                borderRadius: 200,
-                
-                justifyContent: 'center',
-              }}
-               />
+                title="평가안하기"
+                color={'#FFA856'}
+                titleStyle={{
+                  color: 'white',
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                }}
+                onPress={() => {
+                  setModalVisible1(false);
+                  setSelectedId([]);
+                }}
+                style={{
+                  height: Dimensions.get('window').height / 20,
+                  width: Dimensions.get('window').width / 2.8,
+                  borderRadius: 200,
+
+                  justifyContent: 'center',
+                }}
+              />
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -480,7 +618,7 @@ function FinalReview() {
               onPress={() => {
                 setModalVisible1(false);
               }}>
-               <Button
+              <Button
                 title="확인"
                 color={'#FFA856'}
                 titleStyle={{
@@ -497,12 +635,12 @@ function FinalReview() {
                 onPress={() => {
                   setModalVisible1(false);
                   postReview(userSpotId[1]);
+                  setSelectedId([]);
                 }}
-        />
+              />
             </TouchableOpacity>
-            </View>
-          </View> 
-
+          </View>
+        </View>
       </Modal>
       {/* 모달 3 */}
       <Modal animationType="slide" transparent={true} visible={modalVisible2}>
@@ -513,49 +651,50 @@ function FinalReview() {
             alignItems: 'center',
             height: Dimensions.get('window').height / 1.02,
           }}>
-          <View>
-            {images2}
-          </View>
+          <View>{images2}</View>
           <View style={{marginVertical: '3.5%', marginBottom: '15%'}}>
-          {name2}
+            {name2}
           </View>
           <View />
           <FlatList
-          data={reviews2}
-          renderItem={({item}) => <Item item={item} />}
-          numColumns={numColumns}
+            data={reviews2}
+            renderItem={({item}) => <Item item={item} />}
+            numColumns={numColumns}
           />
           <View style={{marginBottom: '5%'}}>
-
-          <Rating imageSize={45} type='star' ratingCount={5} onFinishRating={handleRating} />
-
+            <Rating
+              imageSize={45}
+              type="star"
+              ratingCount={5}
+              onFinishRating={handleRating}
+            />
           </View>
-          <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
-
-            <TouchableOpacity 
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <TouchableOpacity
               style={{marginRight: '8%'}}
               onPress={() => {
                 setModalVisible2(false);
               }}>
               <Button
-              title="평가안하기"
-              color={'#FFA856'}
-              titleStyle={{
-                color: 'white',
-                fontSize: 20,
-                fontWeight: 'bold',
-              }}
-              onPress={() => {
-                setModalVisible2(false);
-              }}
-              style={{
-                height: Dimensions.get('window').height / 20,
-                width: Dimensions.get('window').width / 2.8,
-                borderRadius: 200,
-                
-                justifyContent: 'center',
-              }}
-               />
+                title="평가안하기"
+                color={'#FFA856'}
+                titleStyle={{
+                  color: 'white',
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                }}
+                onPress={() => {
+                  setModalVisible2(false);
+                  setSelectedId([]);
+                }}
+                style={{
+                  height: Dimensions.get('window').height / 20,
+                  width: Dimensions.get('window').width / 2.8,
+                  borderRadius: 200,
+
+                  justifyContent: 'center',
+                }}
+              />
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -563,7 +702,7 @@ function FinalReview() {
               onPress={() => {
                 setModalVisible2(false);
               }}>
-               <Button
+              <Button
                 title="확인"
                 color={'#FFA856'}
                 titleStyle={{
@@ -580,12 +719,12 @@ function FinalReview() {
                 onPress={() => {
                   setModalVisible2(false);
                   postReview(userSpotId[2]);
+                  setSelectedId([]);
                 }}
-        />
+              />
             </TouchableOpacity>
-            </View>
-          </View> 
-
+          </View>
+        </View>
       </Modal>
       {/* 모달 4 */}
       <Modal animationType="slide" transparent={true} visible={modalVisible3}>
@@ -596,49 +735,50 @@ function FinalReview() {
             alignItems: 'center',
             height: Dimensions.get('window').height / 1.02,
           }}>
-          <View>
-            {images3}
-          </View>
+          <View>{images3}</View>
           <View style={{marginVertical: '3.5%', marginBottom: '15%'}}>
-          {name3}
+            {name3}
           </View>
           <View />
           <FlatList
-          data={reviews3}
-          renderItem={({item}) => <Item item={item} />}
-          numColumns={numColumns}
+            data={reviews3}
+            renderItem={({item}) => <Item item={item} />}
+            numColumns={numColumns}
           />
           <View style={{marginBottom: '5%'}}>
-
-          <Rating imageSize={45} type='star' ratingCount={5} onFinishRating={handleRating} />
-
+            <Rating
+              imageSize={45}
+              type="star"
+              ratingCount={5}
+              onFinishRating={handleRating}
+            />
           </View>
-          <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
-
-            <TouchableOpacity 
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <TouchableOpacity
               style={{marginRight: '8%'}}
               onPress={() => {
                 setModalVisible3(false);
               }}>
               <Button
-              title="평가안하기"
-              color={'#FFA856'}
-              titleStyle={{
-                color: 'white',
-                fontSize: 20,
-                fontWeight: 'bold',
-              }}
-              onPress={() => {
-                setModalVisible3(false);
-              }}
-              style={{
-                height: Dimensions.get('window').height / 20,
-                width: Dimensions.get('window').width / 2.8,
-                borderRadius: 200,
-                
-                justifyContent: 'center',
-              }}
-               />
+                title="평가안하기"
+                color={'#FFA856'}
+                titleStyle={{
+                  color: 'white',
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                }}
+                onPress={() => {
+                  setModalVisible3(false);
+                  setSelectedId([]);
+                }}
+                style={{
+                  height: Dimensions.get('window').height / 20,
+                  width: Dimensions.get('window').width / 2.8,
+                  borderRadius: 200,
+
+                  justifyContent: 'center',
+                }}
+              />
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -646,7 +786,7 @@ function FinalReview() {
               onPress={() => {
                 setModalVisible3(false);
               }}>
-               <Button
+              <Button
                 title="확인"
                 color={'#FFA856'}
                 titleStyle={{
@@ -663,12 +803,12 @@ function FinalReview() {
                 onPress={() => {
                   setModalVisible3(false);
                   postReview(userSpotId[3]);
+                  setSelectedId([]);
                 }}
-        />
+              />
             </TouchableOpacity>
-            </View>
-          </View> 
-
+          </View>
+        </View>
       </Modal>
       {/* 모달 5 */}
       <Modal animationType="slide" transparent={true} visible={modalVisible4}>
@@ -679,49 +819,50 @@ function FinalReview() {
             alignItems: 'center',
             height: Dimensions.get('window').height / 1.02,
           }}>
-          <View>
-            {images4}
-          </View>
+          <View>{images4}</View>
           <View style={{marginVertical: '3.5%', marginBottom: '10%'}}>
-          {name4}
+            {name4}
           </View>
           <View />
           <FlatList
-          data={reviews0}
-          renderItem={({item}) => <Item item={item} />}
-          numColumns={numColumns}
+            data={reviews4}
+            renderItem={({item}) => <Item item={item} />}
+            numColumns={numColumns}
           />
           <View style={{marginBottom: '5%'}}>
-
-          <Rating imageSize={45} type='star' ratingCount={5} onFinishRating={handleRating} />
-
+            <Rating
+              imageSize={45}
+              type="star"
+              ratingCount={5}
+              onFinishRating={handleRating}
+            />
           </View>
-          <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
-
-            <TouchableOpacity 
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <TouchableOpacity
               style={{marginRight: '8%'}}
               onPress={() => {
                 setModalVisible4(false);
               }}>
               <Button
-              title="평가안하기"
-              color={'#FFA856'}
-              titleStyle={{
-                color: 'white',
-                fontSize: 20,
-                fontWeight: 'bold',
-              }}
-              onPress={() => {
-                setModalVisible4(false);
-              }}
-              style={{
-                height: Dimensions.get('window').height / 20,
-                width: Dimensions.get('window').width / 2.8,
-                borderRadius: 200,
-                
-                justifyContent: 'center',
-              }}
-               />
+                title="평가안하기"
+                color={'#FFA856'}
+                titleStyle={{
+                  color: 'white',
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                }}
+                onPress={() => {
+                  setModalVisible4(false);
+                  setSelectedId([]);
+                }}
+                style={{
+                  height: Dimensions.get('window').height / 20,
+                  width: Dimensions.get('window').width / 2.8,
+                  borderRadius: 200,
+
+                  justifyContent: 'center',
+                }}
+              />
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -729,7 +870,7 @@ function FinalReview() {
               onPress={() => {
                 setModalVisible4(false);
               }}>
-               <Button
+              <Button
                 title="확인"
                 color={'#FFA856'}
                 titleStyle={{
@@ -746,11 +887,12 @@ function FinalReview() {
                 onPress={() => {
                   setModalVisible4(false);
                   postReview(userSpotId[4]);
+                  setSelectedId([]);
                 }}
-        />
+              />
             </TouchableOpacity>
-            </View>
-          </View> 
+          </View>
+        </View>
       </Modal>
     </View>
   );
