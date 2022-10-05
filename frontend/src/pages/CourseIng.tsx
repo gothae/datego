@@ -28,12 +28,16 @@ import NaverMapView, {
   Polygon,
   Polyline,
 } from 'react-native-nmap';
+import {useAppDispatch} from '../store';
 import store from '../store';
 import {statusCodes} from '@react-native-google-signin/google-signin';
 
 import {TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import {launchCamera} from 'react-native-image-picker';
+import {containsKey, getData, removeData, storeData} from '../../AsyncService';
+import storeSlice from '../slices/stores';
+
 type TagObj = {
   count: number;
   description: string;
@@ -65,6 +69,7 @@ type Mission = {
 
 function CourseIng({navigation}) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
+  const dispatch = useAppDispatch();
 
   const takePicture = async () => {
     console.log('HI');
@@ -212,7 +217,37 @@ function CourseIng({navigation}) {
   useEffect(() => {
     setDist(getDist(storePosition));
   }, [myPosition]);
+
+  console.log(stores);
+  // 여기서 async storage합니다.
+  async function localStorage() {
+    const hasStore = await containsKey('stores');
+    const hasUserSpot = await containsKey('userSpotList');
+    const hasMissionList = await containsKey('missionList');
+    if (!hasStore) {
+      await storeData('stores', stores);
+    }
+    if (!hasUserSpot) {
+      await storeData('userSpotList', userSpotList);
+    }
+    if (!hasMissionList) {
+      await storeData('missionList', missionList);
+    }
+    const asyncStores = await getData('stores');
+    const asyncUserSpot = await getData('userSpotList');
+    const asyncMission = await getData('missionList');
+    dispatch(
+      storeSlice.actions.setstore({
+        stores: asyncStores,
+      }),
+    );
+    const test = await getData('test');
+    console.log('테스트합니다.');
+    console.log(test);
+    console.log('테스트합니다.');
+  }
   useEffect(() => {
+    localStorage();
     setStore(stores[0]);
     setX(missionList);
     let pos: K = {
@@ -385,7 +420,7 @@ function CourseIng({navigation}) {
             flex: 5,
           }}>
           <View style={{flex: 1, alignItems: 'center'}}>
-            <View style={{width: '80%', flex: 5}}>
+            <View style={{width: '90%', flex: 5}}>
               <ImageBackground
                 resizeMode="contain"
                 source={{uri: checkImg}}
@@ -509,6 +544,7 @@ function CourseIng({navigation}) {
                 </View>
               </ImageBackground>
             </View>
+            {/* 퀘스트 사진찍기 */}
             <View
               style={{
                 flex: 2,
@@ -527,7 +563,7 @@ function CourseIng({navigation}) {
               <Button
                 style={
                   dist > 100
-                    ? {flex: 2, backgroundColor: 'white'}
+                    ? {flex: 3, backgroundColor: 'white',}
                     : {display: 'none'}
                 }
                 titleStyle={{color: 'orange'}}
