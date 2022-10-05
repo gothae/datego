@@ -1,5 +1,4 @@
 import * as React from 'react';
-import {Rating} from 'react-native-ratings';
 import {
   View,
   Text,
@@ -149,10 +148,7 @@ function FinalReview() {
       </Text>
     </View>
   );
-  const handleRating = (rate: number) => {
-    console.log(rate);
-    // other logic
-  };
+
   return (
     <View>
       <View>
@@ -162,17 +158,6 @@ function FinalReview() {
           numColumns={numColumns}
         />
       </View>
-      <View>
-          <Rating 
-          type="bell" 
-          ratingCount={5}
-          onFinishRating={handleRating} 
-          fractions = {10}
-          startingValue = {0}
-          style={{ 
-            paddingVertical: 10 }}
-          />
-        </View>
       {/* <Modal animationType="slide" transparent={true} visible={modalVisible0}>
         <View
           style={{
