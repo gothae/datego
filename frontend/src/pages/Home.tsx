@@ -77,26 +77,26 @@ function Home({navigation}) {
   const dispatch = useAppDispatch();
 
   // 탈퇴함수
-  async function onDelete() {
-    const response = await axios.post(
-      'http://j7a104.p.ssafy.io:8080/users/signout',
-      {},
-      {
-        headers: {accessToken: accessToken},
-      },
-    );
-    dispatch(
-      userSlice.actions.deleteUser({
-        email: '',
-        accessToken: '',
-        code: 0,
-        id: 0,
-      }),
-    );
-    console.log(response.data);
-    console.log('회원탈퇴');
-    return;
-  }
+  // async function onDelete() {
+  //   const response = await axios.post(
+  //     'http://j7a104.p.ssafy.io:8080/users/signout',
+  //     {},
+  //     {
+  //       headers: {accessToken: accessToken},
+  //     },
+  //   );
+  //   dispatch(
+  //     userSlice.actions.deleteUser({
+  //       email: '',
+  //       accessToken: '',
+  //       code: 0,
+  //       id: 0,
+  //     }),
+  //   );
+  //   console.log(response.data);
+  //   console.log('회원탈퇴');
+  //   return;
+  // }
   //로그아웃
   async function onLogout() {
     const response = await axios.post(

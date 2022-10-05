@@ -71,7 +71,12 @@ function SignIn({navigation}: SignInScreenProps) {
           id: response.data.responseData.id,
         }),
       );
+      await removeData('master');
+      await storeData('master', response.data.responseData.accessToken);
+      await storeData('email', profile.email);
+      await storeData('id', response.data.responseData.id);
     }
+
     if (response.data.code === 201) {
       setModalVisible(true);
       dispatch(
@@ -86,8 +91,6 @@ function SignIn({navigation}: SignInScreenProps) {
   }
 
   async function userInfo() {
-    console.log(age);
-    console.log(gender);
     const response = await axios.post(
       'http://j7a104.p.ssafy.io:8080/users/info',
       {
@@ -107,6 +110,10 @@ function SignIn({navigation}: SignInScreenProps) {
         id: response.data.responseData.id,
       }),
     );
+    await removeData('master');
+    await storeData('master', response.data.responseData.accessToken);
+    await storeData('email', email);
+    await storeData('id', response.data.responseData.id);
   }
 
   async function test() {
