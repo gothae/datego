@@ -11,6 +11,16 @@ import {useState} from 'react';
 
 function SelectDong({navigation: {navigate}, route}) {
   const [selected, setSelected] = useState(0);
+  const [clicked, setClicked] = useState({
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false,
+    7: false,
+    10: false,
+    18: false,
+  });
 
   const gogo = () => {
     if (selected === 0) {
@@ -22,6 +32,11 @@ function SelectDong({navigation: {navigate}, route}) {
 
   const clickDong = (dong: number) => {
     setSelected(dong);
+    for (let i in clicked) {
+      clicked[i] = false;
+    }
+    clicked[dong] = true;
+    console.log(clicked);
   };
 
   return (
@@ -34,9 +49,9 @@ function SelectDong({navigation: {navigate}, route}) {
             source={{
               uri: 'https://user-images.githubusercontent.com/66546079/193845296-69d3618a-e5ba-46c6-99bd-0a2c891fa789.png',
             }}
-            style={styles.cheongpa_18}
+            style={styles(clicked).cheongpa_18}
           />
-          <Text style={styles.text}>
+          <Text style={styles(clicked).text}>
             청파{'\n'}남영{'\n'}효창
           </Text>
         </TouchableOpacity>
@@ -52,9 +67,9 @@ function SelectDong({navigation: {navigate}, route}) {
             source={{
               uri: 'https://user-images.githubusercontent.com/66546079/193848026-58edaadd-35c1-4c0f-b920-50ed41751a43.png',
             }}
-            style={styles.itaewon_1}
+            style={styles(clicked).itaewon_1}
           />
-          <Text style={styles.text}>이태원</Text>
+          <Text style={styles(clicked).text}>이태원</Text>
         </TouchableOpacity>
       </View>
       <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
@@ -70,9 +85,9 @@ function SelectDong({navigation: {navigate}, route}) {
             source={{
               uri: 'https://user-images.githubusercontent.com/66546079/193843990-59905ede-2b48-46ea-bf80-2001e3ee0b58.png',
             }}
-            style={styles.yongsan_3}
+            style={styles(clicked).yongsan_3}
           />
-          <Text style={styles.text}>용산동</Text>
+          <Text style={styles(clicked).text}>용산동</Text>
         </TouchableOpacity>
       </View>
       <View
@@ -94,9 +109,9 @@ function SelectDong({navigation: {navigate}, route}) {
             source={{
               uri: 'https://user-images.githubusercontent.com/66546079/193846268-0ba53d6e-f25a-40d2-8236-b3b7b5b64972.png',
             }}
-            style={styles.wonhyoro_10}
+            style={styles(clicked).wonhyoro_10}
           />
-          <Text style={styles.text}>원효로</Text>
+          <Text style={styles(clicked).text}>원효로</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => clickDong(2)}
@@ -105,9 +120,9 @@ function SelectDong({navigation: {navigate}, route}) {
             source={{
               uri: 'https://user-images.githubusercontent.com/66546079/193842872-d78d057b-d09f-4953-8a04-7f201d78b48a.png',
             }}
-            style={styles.hannam_2}
+            style={styles(clicked).hannam_2}
           />
-          <Text style={styles.text}>한남동</Text>
+          <Text style={styles(clicked).text}>한남동</Text>
         </TouchableOpacity>
       </View>
       <View
@@ -129,9 +144,9 @@ function SelectDong({navigation: {navigate}, route}) {
             source={{
               uri: 'https://user-images.githubusercontent.com/66546079/193844402-37576296-b6e0-4895-a344-96108661ce47.png',
             }}
-            style={styles.hangangro_4}
+            style={styles(clicked).hangangro_4}
           />
-          <Text style={styles.text}>한강로</Text>
+          <Text style={styles(clicked).text}>한강로</Text>
         </TouchableOpacity>
       </View>
       <View
@@ -153,9 +168,9 @@ function SelectDong({navigation: {navigate}, route}) {
             source={{
               uri: 'https://user-images.githubusercontent.com/66546079/193846926-3cb410f8-02d0-4461-8f92-f22e03e21dcf.png',
             }}
-            style={styles.ichon_5}
+            style={styles(clicked).ichon_5}
           />
-          <Text style={styles.text}>이촌동</Text>
+          <Text style={styles(clicked).text}>이촌동</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => clickDong(7)}
@@ -169,9 +184,9 @@ function SelectDong({navigation: {navigate}, route}) {
             source={{
               uri: 'https://user-images.githubusercontent.com/66546079/193843300-3ed58ebe-fbb7-47a7-b5ea-10e01004e64b.png',
             }}
-            style={styles.dongbingo_7}
+            style={styles(clicked).dongbingo_7}
           />
-          <Text style={styles.text}>동빙고{'\n'}서빙고</Text>
+          <Text style={styles(clicked).text}>동빙고{'\n'}서빙고</Text>
         </TouchableOpacity>
       </View>
       {/* 데이트할 동 선택 페이지로 이동 */}
@@ -180,7 +195,7 @@ function SelectDong({navigation: {navigate}, route}) {
           onPress={() => {
             gogo();
           }}
-          style={styles.btn}>
+          style={styles([]).btn}>
           <Text style={{color: 'white', fontSize: 40, textAlign: 'center'}}>
             Go GO
           </Text>
@@ -190,69 +205,78 @@ function SelectDong({navigation: {navigate}, route}) {
   );
 }
 
-const styles = StyleSheet.create({
-  btn: {
-    width: 150,
-    paddingTop: 10,
-    paddingBottom: 10,
-    borderRadius: 15,
-    backgroundColor: '#FFA856',
-  },
-  itaewon_1: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-  },
-  hannam_2: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-  },
-  yongsan_3: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-  },
-  hangangro_4: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-  },
-  ichon_5: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-  },
-  dongbingo_7: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-  },
-  wonhyoro_10: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-  },
-  cheongpa_18: {
-    position: 'absolute',
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-  },
-  text: {
-    position: 'relative',
-    top: 100,
-    fontSize: 14,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: 'black',
-  },
-});
+const styles = (clicked: any[]) =>
+  StyleSheet.create({
+    btn: {
+      width: 150,
+      paddingTop: 10,
+      paddingBottom: 10,
+      borderRadius: 15,
+      backgroundColor: '#FFA856',
+    },
+    itaewon_1: {
+      position: 'absolute',
+      width: clicked['1'] ? 120 : 100,
+      height: clicked['1'] ? 120 : 100,
+      justifyContent: 'center',
+      opacity: clicked['1'] ? 1 : 0.6,
+    },
+    hannam_2: {
+      position: 'absolute',
+      width: clicked['2'] ? 120 : 100,
+      height: clicked['2'] ? 120 : 100,
+      justifyContent: 'center',
+      opacity: clicked['2'] ? 1 : 0.6,
+    },
+    yongsan_3: {
+      position: 'absolute',
+      width: clicked['3'] ? 120 : 100,
+      height: clicked['3'] ? 120 : 100,
+      justifyContent: 'center',
+      opacity: clicked['3'] ? 1 : 0.6,
+    },
+    hangangro_4: {
+      position: 'absolute',
+      width: clicked['4'] ? 120 : 100,
+      height: clicked['4'] ? 120 : 100,
+      justifyContent: 'center',
+      opacity: clicked['4'] ? 1 : 0.6,
+    },
+    ichon_5: {
+      position: 'absolute',
+      width: clicked['5'] ? 120 : 100,
+      height: clicked['5'] ? 120 : 100,
+      justifyContent: 'center',
+      opacity: clicked['5'] ? 1 : 0.6,
+    },
+    dongbingo_7: {
+      position: 'absolute',
+      width: clicked['7'] ? 120 : 100,
+      height: clicked['7'] ? 120 : 100,
+      justifyContent: 'center',
+      opacity: clicked['7'] ? 1 : 0.6,
+    },
+    wonhyoro_10: {
+      position: 'absolute',
+      width: clicked['10'] ? 120 : 100,
+      height: clicked['10'] ? 120 : 100,
+      justifyContent: 'center',
+      opacity: clicked['10'] ? 1 : 0.6,
+    },
+    cheongpa_18: {
+      position: 'absolute',
+      width: clicked['18'] ? 120 : 100,
+      height: clicked['18'] ? 120 : 100,
+      justifyContent: 'center',
+      opacity: clicked['18'] ? 1 : 0.6,
+    },
+    text: {
+      position: 'relative',
+      top: 100,
+      fontSize: 14,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      color: 'black',
+    },
+  });
 export default SelectDong;
