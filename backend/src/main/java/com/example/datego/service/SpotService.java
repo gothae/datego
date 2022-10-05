@@ -77,6 +77,9 @@ public class SpotService {
                 image -> image.getImageLink()
         );
         List<String> images = imageStream.collect(Collectors.toList());
+        if(menus==null){
+            menus.add(new MenuVO("메뉴없음", 0));
+        }
 
         SpotDetailRes dto = SpotDetailRes.builder()
                 .id(spot.getId())

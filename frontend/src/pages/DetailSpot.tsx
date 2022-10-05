@@ -492,12 +492,14 @@ function DetailSpot({navigation, route}: Props) {
           color={'#FFA856'}
           titleStyle={{
             color: 'white',
-            fontSize: 30,
+            fontSize: 25,
             fontWeight: 'bold',
           }}
           style={{
             height: 48,
             justifyContent: 'center',
+            paddingTop: 10,
+            paddingBottom: 10,
           }}
         />
         <View
