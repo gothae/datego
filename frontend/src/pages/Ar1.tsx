@@ -34,13 +34,15 @@ const ArScene1 = () => {
   const [coinVisible4, setCoinVisible4] = useState(true);
   const [coinVisible5, setCoinVisible5] = useState(true);
   const [counter, setCounter] = useState(1);
-  
+
   const missionList: any = useSelector(
     (state: RootState) => state.course,
   ).missions;
 
   const stores: any = useSelector((state: RootState) => state.stores).stores;
-  const userSpotList = useSelector((state: RootState) => state.userSpot).userSpotList;
+  const userSpotList = useSelector(
+    (state: RootState) => state.userSpot,
+  ).userSpotList;
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const [clearM, setClearM] = useState<number[]>(missionList.clearMissions);
   const [unclearM, setUnclearM] = useState<number[]>(
@@ -51,30 +53,32 @@ const ArScene1 = () => {
   const spotId = stores[number].id;
   var userSpotId = 0;
   console.log(spotId);
-  const getData =async () => {
-    const res = await axios.get(`http://j7a104.p.ssafy.io:8080/courses/mission/${spotId}`, {
+  const getData = async () => {
+    const res = await axios.get(
+      `http://j7a104.p.ssafy.io:8080/courses/mission/${spotId}`,
+      {
         headers: {accessToken},
-      });
-      console.log(res.data.responseData);
-      userSpotId = res.data.responseData.id;
-      console.log(userSpotId);
-      const newSpotList=[];
-      for(var i =0;i<userSpotList.length;i++){
-        if(i===number){
-          newSpotList.push(userSpotId);
-        }
-        else{
-          newSpotList.push(userSpotList[i]);
-        }
+      },
+    );
+    console.log(res.data.responseData);
+    userSpotId = res.data.responseData.id;
+    console.log(userSpotId);
+    const newSpotList = [];
+    for (var i = 0; i < userSpotList.length; i++) {
+      if (i === number) {
+        newSpotList.push(userSpotId);
+      } else {
+        newSpotList.push(userSpotList[i]);
       }
-      dispatch(
-        userSpotSlice.actions.setUserSpot({
-          userSpotList:newSpotList
-        })        
-      );
-      console.log(newSpotList);
     }
-  
+    dispatch(
+      userSpotSlice.actions.setUserSpot({
+        userSpotList: newSpotList,
+      }),
+    );
+    console.log(newSpotList);
+  };
+
   useEffect(() => {
     if (counter === 4) {
       Alert.alert('Alert Title', '미션 성공!!', [
@@ -84,8 +88,7 @@ const ArScene1 = () => {
           style: 'cancel',
         },
       ]);
-      getData(),      
-      console.log({미션번호: number});
+      getData(), console.log({미션번호: number});
       const clearList = [];
       for (var i = 0; i < clearM.length; i++) {
         clearList.push(clearM[i]);
@@ -186,7 +189,7 @@ const ArScene1 = () => {
       <ViroAmbientLight color={'#ffffff'} influenceBitMask={1} />
       <ViroNode>
         <Viro3DObject
-          source={require('./res/stellar.obj')}
+          source={{uri:'https://popoimages.s3.ap-northeast-2.amazonaws.com/DateGo/stellar.obj'}}
           position={[1, 3, -2]}
           scale={[5, 5, 5]}
           rotation={[0, 90, 0]}
@@ -196,12 +199,12 @@ const ArScene1 = () => {
           visible={coinVisible1}
           animation={{name: 'rotate', run: true, loop: true}}
           //animation={{name: 'move', run: true, loop: true}}
-          resources={[require('./res/stellar.mtl')]}
+          resources={[require('../assets/res/stellar.mtl')]}
         />
       </ViroNode>
       <ViroNode>
         <Viro3DObject
-          source={require('./res/stellar.obj')}
+          source={{uri:'https://popoimages.s3.ap-northeast-2.amazonaws.com/DateGo/stellar.obj'}}
           position={[1.5, 3, -2]}
           scale={[5, 5, 5]}
           rotation={[0, 90, 0]}
@@ -211,12 +214,12 @@ const ArScene1 = () => {
           visible={coinVisible2}
           animation={{name: 'rotate', run: true, loop: true}}
           //animation={{name: 'move', run: true, loop: true}}
-          resources={[require('./res/stellar.mtl')]}
+          resources={[require('../assets/res/stellar.mtl')]}
         />
       </ViroNode>
       <ViroNode>
         <Viro3DObject
-          source={require('./res/stellar.obj')}
+          source={{uri:'https://popoimages.s3.ap-northeast-2.amazonaws.com/DateGo/stellar.obj'}}
           position={[-2, 2, 1]}
           scale={[5, 5, 5]}
           rotation={[0, 90, 0]}
@@ -226,12 +229,12 @@ const ArScene1 = () => {
           visible={coinVisible3}
           animation={{name: 'rotate', run: true, loop: true}}
           //animation={{name: 'move', run: true, loop: true}}
-          resources={[require('./res/stellar.mtl')]}
+          resources={[require('../assets/res/stellar.mtl')]}
         />
       </ViroNode>
       <ViroNode>
         <Viro3DObject
-          source={require('./res/stellar.obj')}
+          source={{uri:'https://popoimages.s3.ap-northeast-2.amazonaws.com/DateGo/stellar.obj'}}
           position={[2, 0, -1]}
           scale={[5, 5, 5]}
           rotation={[0, 90, 0]}
@@ -241,12 +244,12 @@ const ArScene1 = () => {
           visible={coinVisible4}
           animation={{name: 'rotate', run: true, loop: true}}
           //animation={{name: 'move', run: true, loop: true}}
-          resources={[require('./res/stellar.mtl')]}
+          resources={[require('../assets/res/stellar.mtl')]}
         />
       </ViroNode>
       <ViroNode>
         <Viro3DObject
-          source={require('./res/stellar.obj')}
+          source={{uri:'https://popoimages.s3.ap-northeast-2.amazonaws.com/DateGo/stellar.obj'}}
           position={[-1, 3, 0]}
           scale={[5, 5, 5]}
           rotation={[0, 90, 0]}
@@ -256,12 +259,12 @@ const ArScene1 = () => {
           visible={coinVisible5}
           animation={{name: 'rotate', run: true, loop: true}}
           //animation={{name: 'move', run: true, loop: true}}
-          resources={[require('./res/stellar.mtl')]}
+          resources={[require('../assets/res/stellar.mtl')]}
         />
       </ViroNode>
       <ViroNode position={[-0.5, -0.5, -0.5]}>
         <Viro3DObject
-          source={require('./res/gold_bag.obj')}
+          source={{uri:'https://popoimages.s3.ap-northeast-2.amazonaws.com/DateGo/gold_bag.obj'}}
           position={[1, -2, -2]}
           scale={[0.05, 0.05, 0.05]}
           rotation={[-90, 0, 0]}
@@ -273,8 +276,8 @@ const ArScene1 = () => {
           materials={['bag']}
           // transformBehaviors={['billboardX']}
           resources={[
-            require('./res/gold_bag.mtl'),
-            require('./res/gold_bag.jpg'),
+            require('../assets/res/gold_bag.mtl'),
+            require('../assets/res/gold_bag.jpg'),
           ]}
         />
       </ViroNode>
@@ -305,7 +308,7 @@ ViroAnimations.registerAnimations({
 ViroMaterials.createMaterials({
   bag: {
     lightingModel: 'Blinn',
-    diffuseTexture: require('./res/gold_bag.jpg'),
+    diffuseTexture: require('../assets/res/gold_bag.jpg'),
   },
 });
 var styles = StyleSheet.create({

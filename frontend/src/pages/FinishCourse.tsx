@@ -67,7 +67,7 @@ function FinishCourse() {
             flexDirection: 'row',
             justifyContent: 'space-evenly',
           }}>
-          <TouchableOpacity onPress={() => navigation.navigate('Review')}>
+          <TouchableOpacity onPress={() => navigation.navigate('FinalReview')}>
             <Text style={{fontSize: 20, color: 'black'}}>리뷰하기</Text>
           </TouchableOpacity>
 
