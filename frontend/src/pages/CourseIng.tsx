@@ -70,7 +70,7 @@ type Mission = {
 function CourseIng({navigation}) {
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const dispatch = useAppDispatch();
-
+  
   const takePicture = async () => {
     console.log('HI');
     const userSpotId = userSpotList[number];
@@ -165,6 +165,7 @@ function CourseIng({navigation}) {
   }
 
   const stores: any = useSelector((state: RootState) => state.stores).stores;
+  console.log(stores)
   const userSpotList: any = useSelector(
     (state: RootState) => state.userSpot,
   ).userSpotList;
@@ -220,34 +221,34 @@ function CourseIng({navigation}) {
 
   console.log(stores);
   // 여기서 async storage합니다.
-  async function localStorage() {
-    const hasStore = await containsKey('stores');
-    const hasUserSpot = await containsKey('userSpotList');
-    const hasMissionList = await containsKey('missionList');
-    if (!hasStore) {
-      await storeData('stores', stores);
-    }
-    if (!hasUserSpot) {
-      await storeData('userSpotList', userSpotList);
-    }
-    if (!hasMissionList) {
-      await storeData('missionList', missionList);
-    }
-    const asyncStores = await getData('stores');
-    const asyncUserSpot = await getData('userSpotList');
-    const asyncMission = await getData('missionList');
-    dispatch(
-      storeSlice.actions.setstore({
-        stores: asyncStores,
-      }),
-    );
-    const test = await getData('test');
-    console.log('테스트합니다.');
-    console.log(test);
-    console.log('테스트합니다.');
-  }
+  // async function localStorage() {
+  //   const hasStore = await containsKey('stores');
+  //   const hasUserSpot = await containsKey('userSpotList');
+  //   const hasMissionList = await containsKey('missionList');
+  //   if (!hasStore) {
+  //     await storeData('stores', stores);
+  //   }
+  //   if (!hasUserSpot) {
+  //     await storeData('userSpotList', userSpotList);
+  //   }
+  //   if (!hasMissionList) {
+  //     await storeData('missionList', missionList);
+  //   }
+  //   const asyncStores = await getData('stores');
+  //   const asyncUserSpot = await getData('userSpotList');
+  //   const asyncMission = await getData('missionList');
+  //   dispatch(
+  //     storeSlice.actions.setstore({
+  //       stores: asyncStores,
+  //     }),
+  //   );
+  //   const test = await getData('test');
+  //   console.log('테스트합니다.');
+  //   console.log(test);
+  //   console.log('테스트합니다.');
+  // }
   useEffect(() => {
-    localStorage();
+    // localStorage();
     setStore(stores[0]);
     setX(missionList);
     let pos: K = {
@@ -358,14 +359,14 @@ function CourseIng({navigation}) {
   clearMedal = x.clearMissions.map((a, index) => (
     <Image
       style={{width: '15%', height: '70%'}}
-      source={require('../assets/medal.png')}
+      source={{uri:'https://user-images.githubusercontent.com/66546079/193999740-9efdfe1b-605e-45e9-9934-de315ec8a25d.png'}}
     />
   ));
 
   unclearMedal = x.unclearMissions.map((a, index) => (
     <Image
       style={{width: '15%', height: '70%', opacity: 0.5}}
-      source={require('../assets/medal.png')}
+      source={{uri:'https://user-images.githubusercontent.com/66546079/193999740-9efdfe1b-605e-45e9-9934-de315ec8a25d.png'}}
     />
   ));
   // const spotId: number = 1;
@@ -555,7 +556,7 @@ function CourseIng({navigation}) {
               }}>
               <Image
                 style={{flex: 1, resizeMode: 'contain', marginRight: '10%'}}
-                source={require('../assets/scroll.png')}
+                source={{uri:'https://user-images.githubusercontent.com/66546079/193999750-d5ec5b24-ffd0-463f-a65b-65431db0a3b0.png'}}
               />
               <Text style={{flex: 5, color: 'black', fontSize: 18}}>
                 {store.quest}
