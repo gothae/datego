@@ -283,6 +283,15 @@ function Home({navigation}) {
       <View style={{flex: 1.4, alignItems: 'center'}}>
         <TouchableOpacity
           onPress={() => {
+                  navigation.navigate('Review', {});
+                }}>
+          <Text style={{color: 'white', fontSize: 30, textAlign: 'center'}}>
+           리뷰
+          </Text>
+
+          </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
             navigation.navigate('SelectDong', {offset: offset});
           }}
           style={styles.goBtn}>
