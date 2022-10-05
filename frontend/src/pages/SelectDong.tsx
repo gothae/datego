@@ -4,18 +4,13 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Dimensions,
   Alert,
+  Image,
 } from 'react-native';
 import {useState} from 'react';
 
 function SelectDong({navigation: {navigate}, route}) {
-  const [x, setX] = useState(-100);
-  const [y, setY] = useState(-100);
   const [selected, setSelected] = useState(0);
-  const windowWidth = Dimensions.get('window').width;
-  const windowHeight = Dimensions.get('window').height;
-  const offset = route.params.offset;
 
   const gogo = () => {
     if (selected === 0) {
@@ -26,128 +21,197 @@ function SelectDong({navigation: {navigate}, route}) {
   };
 
   const clickDong = (dong: number) => {
-    if (dong === 1) {
-      setX(windowWidth * 0.722);
-      setY(windowHeight * 0.195);
-    } else if (dong === 2) {
-      setX(windowWidth * 0.7);
-      setY(windowHeight * 0.36);
-    } else if (dong === 3) {
-      setX(windowWidth * 0.45);
-      setY(windowHeight * 0.265);
-    } else if (dong === 4) {
-      setX(windowWidth * 0.377);
-      setY(windowHeight * 0.385);
-    } else if (dong === 5) {
-      setX(windowWidth * 0.26);
-      setY(windowHeight * 0.513);
-    } else if (dong === 7) {
-      setX(windowWidth * 0.66);
-      setY(windowHeight * 0.505);
-    } else if (dong === 10) {
-      setX(windowWidth * 0.135);
-      setY(windowHeight * 0.32);
-    } else if (dong === 18) {
-      setX(windowWidth * 0.175);
-      setY(windowHeight * 0.177);
-    }
     setSelected(dong);
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: 'whitesmoke'}}>
-      <View>
-        <View
-          style={{
-            left: x,
-            top: y,
-            backgroundColor: '#FF8D8D',
-            width: 60,
-            height: 60,
-            zIndex: 10,
-            borderRadius: 30,
-            opacity: 0.4,
-          }}
-        />
-        <TouchableOpacity>
-          <View style={styles(offset, windowWidth, windowHeight).itaewon_1}>
-            <Text
-              style={styles(offset, windowWidth, windowHeight).text}
-              onPress={() => clickDong(1)}>
-              이태원
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles(offset, windowWidth, windowHeight).hannam_2}>
-            <Text
-              style={styles(offset, windowWidth, windowHeight).text}
-              onPress={() => clickDong(2)}>
-              한남동
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles(offset, windowWidth, windowHeight).yongsan_3}>
-            <Text
-              style={styles(offset, windowWidth, windowHeight).text}
-              onPress={() => clickDong(3)}>
-              용산
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles(offset, windowWidth, windowHeight).hangangro_4}>
-            <Text
-              style={styles(offset, windowWidth, windowHeight).text}
-              onPress={() => clickDong(4)}>
-              한강로
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles(offset, windowWidth, windowHeight).ichon_5}>
-            <Text
-              style={styles(offset, windowWidth, windowHeight).text}
-              onPress={() => clickDong(5)}>
-              이촌동
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles(offset, windowWidth, windowHeight).dongbingo_7}>
-            <Text
-              style={styles(offset, windowWidth, windowHeight).text}
-              onPress={() => clickDong(7)}>
-              동빙고{'\n'}서빙고
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles(offset, windowWidth, windowHeight).wonhyoro_10}>
-            <Text
-              style={styles(offset, windowWidth, windowHeight).text}
-              onPress={() => clickDong(10)}>
-              원효로
-            </Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <View style={styles(offset, windowWidth, windowHeight).cheongpa_18}>
-            <Text
-              style={styles(offset, windowWidth, windowHeight).text}
-              onPress={() => clickDong(18)}>
-              청파{'\n'}남영{'\n'}효창
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-      <View>
+    <View style={{flex: 1}}>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}>
+        <View style={{flex: 1}} />
         <TouchableOpacity
-          onPress={gogo}
-          style={styles(0, windowWidth, windowHeight).btn}>
-          <Text style={{color: 'white', fontSize: 30, textAlign: 'center'}}>
-            Go Go
+          style={{
+            flex: 1,
+            alignItems: 'center',
+          }}
+          onPress={() => clickDong(18)}>
+          <Image
+            source={{
+              uri: 'https://user-images.githubusercontent.com/66546079/193845296-69d3618a-e5ba-46c6-99bd-0a2c891fa789.png',
+            }}
+            style={styles.cheongpa_18}
+            resizeMode="contain"
+          />
+          <Text style={styles.text}>
+            청파{'\n'}남영{'\n'}효창
+          </Text>
+        </TouchableOpacity>
+        <View style={{flex: 1}} />
+        <View style={{flex: 1}} />
+        <TouchableOpacity
+          onPress={() => clickDong(1)}
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            marginTop: '8%',
+            marginRight: '8%',
+          }}>
+          <Image
+            source={{
+              uri: 'https://user-images.githubusercontent.com/66546079/193848026-58edaadd-35c1-4c0f-b920-50ed41751a43.png',
+            }}
+            style={styles.itaewon_1}
+          />
+          <Text style={styles.text}>이태원</Text>
+        </TouchableOpacity>
+        <View style={{flex: 1}} />
+      </View>
+      <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+        <View style={{flex: 1}} />
+        <TouchableOpacity
+          onPress={() => clickDong(3)}
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            marginBottom: '15%',
+            marginRight: '8%',
+          }}>
+          <Image
+            source={{
+              uri: 'https://user-images.githubusercontent.com/66546079/193843990-59905ede-2b48-46ea-bf80-2001e3ee0b58.png',
+            }}
+            style={styles.yongsan_3}
+          />
+          <Text style={styles.text}>용산동</Text>
+        </TouchableOpacity>
+        <View style={{flex: 1}} />
+      </View>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          position: 'relative',
+          bottom: '5%',
+        }}>
+        <View style={{flex: 1}} />
+        <TouchableOpacity
+          onPress={() => clickDong(10)}
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            marginBottom: '5%',
+            marginRight: '10%',
+          }}>
+          <Image
+            source={{
+              uri: 'https://user-images.githubusercontent.com/66546079/193846268-0ba53d6e-f25a-40d2-8236-b3b7b5b64972.png',
+            }}
+            style={styles.wonhyoro_10}
+          />
+          <Text style={styles.text}>원효로</Text>
+        </TouchableOpacity>
+        <View style={{flex: 1}} />
+        <View style={{flex: 1}} />
+        <TouchableOpacity
+          onPress={() => clickDong(2)}
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            marginLeft: '10%',
+          }}>
+          <Image
+            source={{
+              uri: 'https://user-images.githubusercontent.com/66546079/193842872-d78d057b-d09f-4953-8a04-7f201d78b48a.png',
+            }}
+            style={styles.hannam_2}
+          />
+          <Text style={styles.text}>한남동</Text>
+        </TouchableOpacity>
+        <View style={{flex: 1}} />
+      </View>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          position: 'relative',
+          bottom: '10%',
+        }}>
+        <View style={{flex: 1}} />
+        <TouchableOpacity
+          onPress={() => clickDong(4)}
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            marginBottom: '20%',
+            marginRight: '8%',
+          }}>
+          <Image
+            source={{
+              uri: 'https://user-images.githubusercontent.com/66546079/193844402-37576296-b6e0-4895-a344-96108661ce47.png',
+            }}
+            style={styles.hangangro_4}
+          />
+          <Text style={styles.text}>한강로</Text>
+        </TouchableOpacity>
+        <View style={{flex: 1}} />
+      </View>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          position: 'relative',
+          bottom: '20%',
+        }}>
+        <View style={{flex: 1}} />
+        <TouchableOpacity
+          onPress={() => clickDong(5)}
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            marginBottom: '8%',
+            marginRight: '8%',
+          }}>
+          <Image
+            source={{
+              uri: 'https://user-images.githubusercontent.com/66546079/193846926-3cb410f8-02d0-4461-8f92-f22e03e21dcf.png',
+            }}
+            style={styles.ichon_5}
+          />
+          <Text style={styles.text}>이촌동</Text>
+        </TouchableOpacity>
+        <View style={{flex: 1}} />
+        <View style={{flex: 1}} />
+        <TouchableOpacity
+          onPress={() => clickDong(7)}
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            marginBottom: '8%',
+            marginLeft: '8%',
+          }}>
+          <Image
+            source={{
+              uri: 'https://user-images.githubusercontent.com/66546079/193843300-3ed58ebe-fbb7-47a7-b5ea-10e01004e64b.png',
+            }}
+            style={styles.dongbingo_7}
+          />
+          <Text style={styles.text}>동빙고{'\n'}서빙고</Text>
+        </TouchableOpacity>
+        <View style={{flex: 1}} />
+      </View>
+      {/* 데이트할 동 선택 페이지로 이동 */}
+      <View style={{flex: 1.4, alignItems: 'center'}}>
+        <TouchableOpacity
+          onPress={() => {
+            gogo();
+          }}
+          style={styles.btn}>
+          <Text style={{color: 'white', fontSize: 40, textAlign: 'center'}}>
+            Go GO
           </Text>
         </TouchableOpacity>
       </View>
@@ -155,103 +219,69 @@ function SelectDong({navigation: {navigate}, route}) {
   );
 }
 
-const styles = (offset: number, windowWidth: number, windowHeight: number) =>
-  StyleSheet.create({
-    btn: {
-      position: 'absolute',
-      top: windowHeight * 0.65,
-      left: windowWidth * 0.25,
-      width: windowWidth * 0.5,
-      paddingTop: 10,
-      paddingBottom: 10,
-      borderRadius: 15,
-      backgroundColor: '#FFA856',
-    },
-    itaewon_1: {
-      position: 'absolute',
-      left: windowWidth * 0.64,
-      top: windowHeight * 0.15 - offset,
-      backgroundColor: '#FFFCF0',
-      width: windowWidth * 0.3,
-      height: windowHeight * 0.13,
-      borderRadius: 80,
-      justifyContent: 'center',
-    },
-    hannam_2: {
-      position: 'absolute',
-      left: windowWidth * 0.6,
-      top: windowHeight * 0.3 - offset,
-      backgroundColor: '#FFFCF0',
-      width: 0.335 * windowWidth,
-      height: 0.15 * windowHeight,
-      borderRadius: 70,
-      justifyContent: 'center',
-    },
-    yongsan_3: {
-      position: 'absolute',
-      left: windowWidth * 0.41,
-      top: windowHeight * 0.225 - offset,
-      backgroundColor: '#FFFCF0',
-      width: 0.225 * windowWidth,
-      height: 0.126 * windowHeight,
-      borderRadius: 50,
-      justifyContent: 'center',
-    },
-    hangangro_4: {
-      position: 'absolute',
-      left: windowWidth * 0.333,
-      top: windowHeight * 0.37 - offset,
-      backgroundColor: '#FFFCF0',
-      width: 0.25 * windowWidth,
-      height: 0.08 * windowHeight,
-      borderRadius: 50,
-      justifyContent: 'center',
-    },
-    ichon_5: {
-      position: 'absolute',
-      left: windowWidth * 0.1,
-      top: windowHeight * 0.456 - offset,
-      backgroundColor: '#FFFCF0',
-      width: 0.48 * windowWidth,
-      height: 0.15 * windowHeight,
-      borderRadius: 100,
-      justifyContent: 'center',
-    },
-    dongbingo_7: {
-      position: 'absolute',
-      left: windowWidth * 0.59,
-      top: windowHeight * 0.46 - offset,
-      backgroundColor: '#FFFCF0',
-      width: 0.3 * windowWidth,
-      height: 0.13 * windowHeight,
-      borderRadius: 60,
-      justifyContent: 'center',
-    },
-    wonhyoro_10: {
-      position: 'absolute',
-      left: windowWidth * 0.05,
-      top: windowHeight * 0.285 - offset,
-      backgroundColor: '#FFFCF0',
-      width: 0.32 * windowWidth,
-      height: 0.12 * windowHeight,
-      borderRadius: 60,
-      justifyContent: 'center',
-    },
-    cheongpa_18: {
-      position: 'absolute',
-      left: windowWidth * 0.076,
-      top: windowHeight * 0.114 - offset,
-      backgroundColor: '#FFFCF0',
-      width: 0.35 * windowWidth,
-      height: 0.16 * windowHeight,
-      borderRadius: 70,
-      justifyContent: 'center',
-    },
-    text: {
-      fontSize: 14,
-      fontWeight: 'bold',
-      textAlign: 'center',
-      color: 'black',
-    },
-  });
+const styles = StyleSheet.create({
+  btn: {
+    width: 150,
+    paddingTop: 10,
+    paddingBottom: 10,
+    borderRadius: 15,
+    backgroundColor: '#FFA856',
+  },
+  itaewon_1: {
+    position: 'absolute',
+    width: 100,
+    height: 100,
+    justifyContent: 'center',
+  },
+  hannam_2: {
+    position: 'absolute',
+    width: 100,
+    height: 100,
+    justifyContent: 'center',
+  },
+  yongsan_3: {
+    position: 'absolute',
+    width: 100,
+    height: 100,
+    justifyContent: 'center',
+  },
+  hangangro_4: {
+    position: 'absolute',
+    width: 100,
+    height: 100,
+    justifyContent: 'center',
+  },
+  ichon_5: {
+    position: 'absolute',
+    width: 100,
+    height: 100,
+    justifyContent: 'center',
+  },
+  dongbingo_7: {
+    position: 'absolute',
+    width: 100,
+    height: 100,
+    justifyContent: 'center',
+  },
+  wonhyoro_10: {
+    position: 'absolute',
+    width: 100,
+    height: 100,
+    justifyContent: 'center',
+  },
+  cheongpa_18: {
+    position: 'absolute',
+    width: 100,
+    height: 100,
+    justifyContent: 'center',
+  },
+  text: {
+    position: 'relative',
+    top: 100,
+    fontSize: 14,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: 'black',
+  },
+});
 export default SelectDong;

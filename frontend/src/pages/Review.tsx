@@ -47,8 +47,39 @@ type Store = {
   rate: number;
   tags: any;
 };
+const rs: Review[] = [];
+const cafeTags = [
+  [1, '가성비 좋은'],
+  [2, '분위기 좋은'],
+  [3, '감성카페'],
+  [4, '고급스러운'],
+  [5, '조용한'],
+  [6, '깔끔한'],
+  [7, '디저트'],
+  [8, '인테리어'],
+  [9, '이색적인'],
+  [10, '뷰가좋은'],
+  [11, '예쁜'],
+  [12, '동네핫플'],
+  [45, '사진찍기좋은'],
+];
+const foodTags = [
+  [25, '가성비 좋은'],
+  [26, '분위기 좋은'],
+  [27, '푸짐한'],
+  [28, '격식있는'],
+  [29, '고급스러운'],
+  [30, '또먹고싶다'],
+  [31, '조용한'],
+  [32, '깔끔한'],
+  [33, '예쁜'],
+  [34, '동네핫플'],
+  [35, '친절한'],
+  [36, '존맛탱'],
+  [37, '데이트'],
+];
+let reviewLength: number = 0;
 
-let reviewLength: number;
 function Review({navigation, route}: Props) {
   const spotId: number = 1;
   // const stores = useSelector((state: RootState) => state.stores).stores;
@@ -62,10 +93,10 @@ function Review({navigation, route}: Props) {
   let title;
 
   const getData = async () => {
-    const response = await axios.get(
+    response = await axios.get(
       `http://j7a104.p.ssafy.io:8080/courses/spots/${spotId}`,
     );
-    const response2 = await axios.get(
+    response2 = await axios.get(
       `http://j7a104.p.ssafy.io:8080/spots/${spotId}/reviews`,
     );
     reviewLength = response2.data.responseData.length;
@@ -92,7 +123,6 @@ function Review({navigation, route}: Props) {
     console.log('스토어', stores);
     console.log('리뷰', reviews.length);
   }, []);
-
   let images;
   if (stores.image) {
     if (stores.image[0] == '"') {
@@ -165,7 +195,6 @@ function Review({navigation, route}: Props) {
       <View>
         <View>
           {/* 로딩중 이미지 먼저 넣어서 만들거나 다른 방법 찾아보기 */}
-
           {/* {<Image style={{height: 250}} source={{uri: stores.images[0]}} />} */}
           {images}
         </View>
@@ -173,9 +202,7 @@ function Review({navigation, route}: Props) {
           <Text style={{fontSize: 20, color: '#000000'}}>
             {stores.name}
           </Text>
-          <View style={{flexDirection: 'row', marginVertical: '3%'}}>
-            {reviewList}
-          </View>
+          <View style={{marginVertical: '3%'}}>{rendering()}</View>
         </View>
         <View>
           {reviews?.map((review: any) => {
@@ -193,6 +220,16 @@ function Review({navigation, route}: Props) {
             onFinishRating={handleRating}
           />
         </View>
+        {/* <View>
+        {[1, 2, 3, 4, 5].map(el => (
+          <View className={`fas fa-star ${(clicked >= el) | (hovered >= el) && 'yellowStar'}`}
+            key={el}
+            onMouseEnter={() => setHovered(el)}
+            onMouseLeave={() => setHovered(null)}
+            onClick={() => setClicked(el)}
+          />
+        ))}
+        </View> */}
         <View
           style={{
             flexDirection: 'row',

@@ -64,7 +64,13 @@ const ArScene2 = () => {
     let newScaleAry = [newScale, newScale, newScale];
     setScale(newScaleAry);
     if (newScale > 5) {
-      Alert.alert('돼지 키우기 미션 클리어');
+      Alert.alert('Alert Title', '미션 성공!!', [
+        {
+          text: '클리어!!!',
+          onPress: () => navigation.navigate('CourseIng', {}),
+          style: 'cancel',
+        },
+      ]);
       const clearList=[];
       for(var i=0;i<clearM.length;i++){
         clearList.push(clearM[i]);
@@ -95,7 +101,7 @@ const ArScene2 = () => {
       <ViroAmbientLight color={'#ffffff'} influenceBitMask={1} />
       <ViroNode dragType="FixedToWorld">
         <Viro3DObject
-          source={require('./res/pig.obj')}
+          source={{uri:'https://popoimages.s3.ap-northeast-2.amazonaws.com/DateGo/pig.obj'}}
           position={[0, 0, -4]}
           scale={pigScale}
           rotation={[0, 0, 0]}
@@ -124,13 +130,13 @@ function Ar2({ navigation, route }) {
 ViroMaterials.createMaterials({
   heart: {
     lightingModel: 'Blinn',
-    diffuseTexture: require('./res/red_suits_texture.png'),
+    diffuseTexture: require('../assets/res/red_suits_texture.png'),
   },
 });
 ViroMaterials.createMaterials({
   fox: {
     lightingModel: 'Blinn',
-    diffuseTexture: require('./res/Pig_BaseColor.png'),
+    diffuseTexture: require('../assets/res/Pig_BaseColor.png'),
   },
 });
 ViroAnimations.registerAnimations({

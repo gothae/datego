@@ -66,7 +66,7 @@ const ArScene3 = () => {
     let newScaleAry = [newScale, newScale, newScale];
     setScale(newScaleAry);
     if (newScale > 0.2) {
-      Alert.alert('Alert Title', 'My Alert Msg', [
+      Alert.alert('Alert Title', '미션 성공!!', [
         {
           text: '클리어!!!',
           onPress: () => navigation.navigate('CourseIng', {}),
@@ -104,7 +104,7 @@ const ArScene3 = () => {
       <ViroNode dragType="FixedDistance" onDrag={() => {}}>
         <ViroAmbientLight color="#FF0000" />
         <Viro3DObject
-          source={require('./res/Sphere_Guy.obj')}
+          source={{uri:'https://popoimages.s3.ap-northeast-2.amazonaws.com/DateGo/Sphere_Guy.obj'}}
           position={[0, -1, -7]}
           scale={redScale}
           rotation={[0, 0, 0]}
@@ -113,8 +113,8 @@ const ArScene3 = () => {
           animation={{name: 'rotate', run: true, loop: true}}
           onClick={scaleObject}
           resources={[
-            require('./res/Sphere_Guy.mtl'),
-            require('./res/red_suits_texture.png'),
+            require('../assets/res/Sphere_Guy.mtl'),
+            require('../assets/res/red_suits_texture.png'),
           ]}
         />
       </ViroNode>
@@ -136,13 +136,13 @@ function Ar3({ navigation, route }) {
 ViroMaterials.createMaterials({
   heart: {
     lightingModel: 'Blinn',
-    diffuseTexture: require('./res/red_suits_texture.png'),
+    diffuseTexture: require('../assets/res/red_suits_texture.png'),
   },
 });
 ViroMaterials.createMaterials({
   fox: {
     lightingModel: 'Blinn',
-    diffuseTexture: require('./res/Pig_BaseColor.png'),
+    diffuseTexture: require('../assets/res/Pig_BaseColor.png'),
   },
 });
 ViroAnimations.registerAnimations({
