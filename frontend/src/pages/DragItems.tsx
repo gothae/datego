@@ -199,58 +199,18 @@ function DragItems() {
     setStateCourse();
   }, [receivingItemList]);
 
-  // useEffect(() => {
-  //   console.log('현재내코스 설정');
-  //   dispatch(
-  //     categorySlice.actions.setCourse({
-  //       mycourse: currentcourse,
-  //     }),
-  //   );
-  // }, [currentcourse]);
-
   const FlatListItemSeparator = () => {
     return <View style={styles.itemSeparator} />;
   };
   const [modalVisible, setModalVisible] = useState(false);
 
-  console.log('모달상태보자');
-  console.log(modalVisible);
-  console.log('모달상태보자');
-
-  async function deletemodal() {
-    console.log('닫을게');
-    setModalVisible(false);
-    console.log(modalVisible);
-  }
-  async function openModal() {
-    console.log('열게');
-    setModalVisible(true);
-    console.log(modalVisible);
-  }
   const goNext = async () => {
-    console.log('닫아');
-    deletemodal();
-    console.log('닫았어');
     navigation.navigate('Course', {});
   };
-  console.log('dragItems입니다.');
+
   async function setPreference() {
+    console.log('취향설정끝');
     if (currentcourse.length > 2) {
-      console.log('열어');
-      setModalVisible(true);
-      await openModal();
-      console.log(modalVisible);
-
-      console.log('열었어');
-
-      console.log('현재코스', currentcourse);
-      console.log('음식', myfood);
-      console.log('카페', mycafe);
-      console.log('놀이', myplay);
-      console.log('음주', mydrink);
-      console.log('가격', myprice[0]);
-      console.log('동', dongId);
-      console.log('유저아이디', userId);
       const missionList = [];
       const userSpotLists = [];
       for (let i = 0; i < currentcourse.length; i++) {
@@ -287,6 +247,7 @@ function DragItems() {
           id: userId,
         },
       );
+      console.log('취향설정하고 보냅니다.');
       console.log(response);
 
       dispatch(
@@ -388,30 +349,18 @@ function DragItems() {
             onPress={() => {
               setPreference();
             }}>
-            <Text style={{textAlign: 'center', fontSize: 20, color: '#fff', paddingBottom:5, paddingTop:5}}>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontSize: 20,
+                color: '#fff',
+                paddingBottom: 5,
+                paddingTop: 5,
+              }}>
               순서 설정 완료
             </Text>
           </TouchableOpacity>
         </View>
-
-        <Modal animationType="slide" transparent={true} visible={modalVisible}>
-          <View
-            style={{
-              flex: 1,
-              backgroundColor: '#fff',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Image
-              style={{
-                width: Dimensions.get('window').width / 2,
-                height: Dimensions.get('window').width / 2,
-              }}
-              source={require('../assets/KakaoTalk_20221004_150552857.png')}
-            />
-            <Text style={{fontSize: 15, color: 'black'}}>기다려주세요.</Text>
-          </View>
-        </Modal>
       </DraxProvider>
     </GestureHandlerRootView>
   );
