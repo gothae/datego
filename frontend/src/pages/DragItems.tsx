@@ -229,7 +229,7 @@ function DragItems() {
   }
   const goNext = async () => {
     console.log('닫아');
-    await deletemodal();
+    deletemodal();
     console.log('닫았어');
     navigation.navigate('Course', {});
   };
@@ -237,6 +237,7 @@ function DragItems() {
   async function setPreference() {
     if (currentcourse.length > 2) {
       console.log('열어');
+      setModalVisible(true);
       await openModal();
       console.log(modalVisible);
 
@@ -392,6 +393,7 @@ function DragItems() {
             </Text>
           </TouchableOpacity>
         </View>
+
         <Modal animationType="slide" transparent={true} visible={modalVisible}>
           <View
             style={{
