@@ -211,17 +211,37 @@ function DragItems() {
   const FlatListItemSeparator = () => {
     return <View style={styles.itemSeparator} />;
   };
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const [isLoading, setIsLoading] = useState(false);
+  console.log('모달상태보자');
+  console.log(modalVisible);
+  console.log('모달상태보자');
 
-  const goNext = () => {
-    setModalVisible(!modalVisible);
+  async function deletemodal() {
+    console.log('닫을게');
+    setModalVisible(false);
+    console.log(modalVisible);
+  }
+  async function openModal() {
+    console.log('열게');
+    setModalVisible(true);
+    console.log(modalVisible);
+  }
+  const goNext = async () => {
+    console.log('닫아');
+    await deletemodal();
+    console.log('닫았어');
     navigation.navigate('Course', {});
   };
-
+  console.log('dragItem 입니다');
   async function setPreference() {
     if (currentcourse.length > 2) {
-      setModalVisible(!modalVisible);
+      console.log('열어');
+      await openModal();
+      console.log(modalVisible);
+
+      console.log('열었어');
+
       console.log('현재코스', currentcourse);
       console.log('음식', myfood);
       console.log('카페', mycafe);
@@ -314,7 +334,6 @@ function DragItems() {
       Alert.alert('코스 순서를 설정해주세요 (3개이상)');
     }
   }
-  const [modalVisible, setModalVisible] = useState(false);
 
   return (
     <GestureHandlerRootView style={gestureRootViewStyle}>
