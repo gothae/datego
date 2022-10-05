@@ -157,23 +157,23 @@ function AppInner() {
       <Stack.Screen
         name="Course"
         component={Course}
-        options={{title: 'Course'}}
+        options={{title: 'Course', headerShown: false}}
       />
 
       <Stack.Screen
         name="ChangeSpot"
         component={ChangeSpot}
-        options={{title: 'ChangeSpot'}}
+        options={{title: 'ChangeSpot', headerShown: false}}
       />
       <Stack.Screen
         name="DetailSpot"
         component={DetailSpot}
-        options={{title: 'DetailSpot'}}
+        options={{title: 'DetailSpot', headerShown: false}}
       />
       <Stack.Screen
         name="CourseIng"
         component={CourseIng}
-        options={{title: 'CourseIng'}}
+        options={{title: 'CourseIng', headerShown: false}}
       />
       <Stack.Screen
         name="Ar1"

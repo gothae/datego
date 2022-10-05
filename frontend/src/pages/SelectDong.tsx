@@ -61,7 +61,15 @@ function SelectDong({navigation: {navigate}, route}) {
             style={styles(clicked).cheongpa_18}
             resizeMode="contain"
           />
-          <Text style={styles(clicked).text}>
+          <Text
+            style={{
+              position: 'relative',
+              fontSize: 14,
+              fontWeight: 'bold',
+              textAlign: 'center',
+              color: clicked['18'] ? 'black' : 'gray',
+              top: clicked['18'] ? 120 : 100,
+            }}>
             청파{'\n'}남영{'\n'}효창
           </Text>
         </TouchableOpacity>
@@ -81,7 +89,17 @@ function SelectDong({navigation: {navigate}, route}) {
             }}
             style={styles(clicked).itaewon_1}
           />
-          <Text style={styles(clicked).text}>이태원</Text>
+          <Text
+            style={{
+              position: 'relative',
+              fontSize: 14,
+              fontWeight: 'bold',
+              textAlign: 'center',
+              color: clicked['1'] ? 'black' : 'gray',
+              top: clicked['1'] ? 120 : 100,
+            }}>
+            이태원
+          </Text>
         </TouchableOpacity>
         <View style={{flex: 1}} />
       </View>
@@ -101,7 +119,17 @@ function SelectDong({navigation: {navigate}, route}) {
             }}
             style={styles(clicked).yongsan_3}
           />
-          <Text style={styles(clicked).text}>용산동</Text>
+          <Text
+            style={{
+              position: 'relative',
+              fontSize: 14,
+              fontWeight: 'bold',
+              textAlign: 'center',
+              color: clicked['3'] ? 'black' : 'gray',
+              top: clicked['3'] ? 120 : 100,
+            }}>
+            용산동
+          </Text>
         </TouchableOpacity>
         <View style={{flex: 1}} />
       </View>
@@ -127,7 +155,17 @@ function SelectDong({navigation: {navigate}, route}) {
             }}
             style={styles(clicked).wonhyoro_10}
           />
-          <Text style={styles(clicked).text}>원효로</Text>
+          <Text
+            style={{
+              position: 'relative',
+              fontSize: 14,
+              fontWeight: 'bold',
+              textAlign: 'center',
+              color: clicked['10'] ? 'black' : 'gray',
+              top: clicked['10'] ? 120 : 100,
+            }}>
+            원효로
+          </Text>
         </TouchableOpacity>
         <View style={{flex: 1}} />
         <View style={{flex: 1}} />
@@ -144,7 +182,17 @@ function SelectDong({navigation: {navigate}, route}) {
             }}
             style={styles(clicked).hannam_2}
           />
-          <Text style={styles(clicked).text}>한남동</Text>
+          <Text
+            style={{
+              position: 'relative',
+              fontSize: 14,
+              fontWeight: 'bold',
+              textAlign: 'center',
+              color: clicked['2'] ? 'black' : 'gray',
+              top: clicked['2'] ? 120 : 100,
+            }}>
+            한남동
+          </Text>
         </TouchableOpacity>
         <View style={{flex: 1}} />
       </View>
@@ -170,7 +218,17 @@ function SelectDong({navigation: {navigate}, route}) {
             }}
             style={styles(clicked).hangangro_4}
           />
-          <Text style={styles(clicked).text}>한강로</Text>
+          <Text
+            style={{
+              position: 'relative',
+              fontSize: 14,
+              fontWeight: 'bold',
+              textAlign: 'center',
+              color: clicked['4'] ? 'black' : 'gray',
+              top: clicked['4'] ? 120 : 100,
+            }}>
+            한강로
+          </Text>
         </TouchableOpacity>
         <View style={{flex: 1}} />
       </View>
@@ -196,7 +254,17 @@ function SelectDong({navigation: {navigate}, route}) {
             }}
             style={styles(clicked).ichon_5}
           />
-          <Text style={styles(clicked).text}>이촌동</Text>
+          <Text
+            style={{
+              position: 'relative',
+              fontSize: 14,
+              fontWeight: 'bold',
+              textAlign: 'center',
+              color: clicked['5'] ? 'black' : 'gray',
+              top: clicked['5'] ? 120 : 100,
+            }}>
+            이촌동
+          </Text>
         </TouchableOpacity>
         <View style={{flex: 1}} />
         <View style={{flex: 1}} />
@@ -214,7 +282,17 @@ function SelectDong({navigation: {navigate}, route}) {
             }}
             style={styles(clicked).dongbingo_7}
           />
-          <Text style={styles(clicked).text}>동빙고{'\n'}서빙고</Text>
+          <Text
+            style={{
+              position: 'relative',
+              fontSize: 14,
+              fontWeight: 'bold',
+              textAlign: 'center',
+              color: clicked['7'] ? 'black' : 'gray',
+              top: clicked['7'] ? 120 : 100,
+            }}>
+            동빙고{'\n'}서빙고
+          </Text>
         </TouchableOpacity>
         <View style={{flex: 1}} />
       </View>
