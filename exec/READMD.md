@@ -150,7 +150,7 @@ f84f8e48e435   jenkins/jenkins:latest   "/usr/bin/tini -- /u…"   42 hours ago 
 
 
 ### 리뷰 작성
-<img src="./assets/reviews.jpg" width="200" height="400"/>
+<img src="./assets/review.jpg" width="200" height="400"/>
 
 ### 끝
 <img src="./assets/thanks.jpg" width="200" height="400"/>
