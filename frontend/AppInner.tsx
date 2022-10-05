@@ -64,38 +64,60 @@ const Stack = createNativeStackNavigator();
 function AppInner() {
   // const dispatch = useAppDispatch();
 
-  // async function check() {
-  //   const hasToken = await containsKey('master');
-  //   if (hasToken) {
-  //     const deleteToken = await removeData('master');
-  //     const myToken = await getData('master');
-  //     dispatch(
-  //       userSlice.actions.setUser({
-  //         accessToken: myToken,
-  //       }),
-  //     );
-  //   } else {
-  //     console.log('없음');
-  //   }
-  // }
-  // React.useEffect(() => {
-  //   console.log('시작합니다.');
-  //   check();
-  // });
+  async function check() {
+    const hasToken = await containsKey('master');
+    if (hasToken) {
+      const myToken = await getData('master');
+      const myemail = await getData('email');
+      const myid = await getData('id');
+      dispatch(
+        userSlice.actions.setUser({
+          email: myemail,
+          code: 200,
+          accessToken: myToken,
+          domain: 'KAKAO',
+          id: myid,
+        }),
+      );
+    } else {
+      console.log('없음');
+    }
+  }
+  React.useEffect(() => {
+    console.log('시작합니다.');
+    check();
+  });
   const accessToken = useSelector((state: RootState) => state.user.accessToken);
   const isLoggedIn = useSelector(
     (state: RootState) => !!state.user.accessToken,
   );
+  const dispatch = useAppDispatch();
+
   async function kakaoLogout() {
+    console.log('카카오로그아웃');
     const response = await axios.post(
       'http://j7a104.p.ssafy.io:8080/users/logout',
       {
         headers: {accessToken: accessToken},
       },
     );
-    // await logout();
+    await logout();
     console.log(response);
-    console.log('카카오로그아웃');
+    dispatch(
+      userSlice.actions.deleteUser({
+        email: '',
+        accessToken: '',
+        code: 0,
+        id: 0,
+      }),
+    );
+    const hasPersons = await containsKey('master');
+    if (hasPersons) {
+      console.log('안에 있으니깐 지워줘');
+      await removeData('master');
+      await removeData('email');
+      await removeData('id');
+    }
   }
 
   return isLoggedIn ? (
