@@ -77,8 +77,10 @@ function FinalReview() {
     setRevuews4(response.data.responseData);
   }
   useEffect(() => {
+    console.log("USERSPOTID");
+    console.log(userSpotId);
     let spotId = 0;
-    for (let i = 0; i < userSpotId.length; i++) {
+    for (let i = userSpotId.length -1; i >= 0 ; i--) {
       if (i === 0) {
         if (userSpotId[i] !== 0) {
         setModalVisible0(true);
@@ -308,7 +310,7 @@ function FinalReview() {
   
 
   return (
-    <View  style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
+    <View  style={{ alignItems: 'center', justifyContent: 'center', flex: 1, backgroundColor: '#FFFFFF'  }}>
       <View style={{ }}>
       <View
         style={{
@@ -340,11 +342,12 @@ function FinalReview() {
             backgroundColor: '#fff',
             justifyContent: 'center',
             alignItems: 'center',
+            height: Dimensions.get('window').height / 1.02,
           }}>
           <View>
             {images0}
           </View>
-          <View style={{marginVertical: '3.5%', marginBottom: '10%'}}>
+          <View style={{marginVertical: '3.5%', marginBottom: '15%'}}>
             {name0}
           </View>
           <View />
@@ -353,9 +356,9 @@ function FinalReview() {
           renderItem={({item}) => <Item item={item} />}
           numColumns={numColumns}
           />
-          <View style={{marginVertical: '5%'}}>
+          <View style={{marginBottom: '5%'}}>
 
-          <Rating imageSize={50} type='star' ratingCount={5} onFinishRating={handleRating} />
+          <Rating imageSize={45} type='star' ratingCount={5} onFinishRating={handleRating} />
 
           </View>
           <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
@@ -372,6 +375,9 @@ function FinalReview() {
                 color: 'white',
                 fontSize: 20,
                 fontWeight: 'bold',
+              }}
+              onPress={() => {
+                setModalVisible0(false);
               }}
               style={{
                 height: Dimensions.get('window').height / 20,
@@ -422,11 +428,12 @@ function FinalReview() {
             backgroundColor: '#fff',
             justifyContent: 'center',
             alignItems: 'center',
+            height: Dimensions.get('window').height / 1.02,
           }}>
           <View>
             {images1}
           </View>
-          <View style={{marginVertical: '3.5%', marginBottom: '10%'}}>
+          <View style={{marginVertical: '3.5%', marginBottom: '15%'}}>
             {name1}
           </View>
           <View />
@@ -435,9 +442,9 @@ function FinalReview() {
           renderItem={({item}) => <Item item={item} />}
           numColumns={numColumns}
           />
-          <View style={{marginVertical: '5%'}}>
+          <View style={{marginBottom: '5%'}}>
 
-          <Rating imageSize={50} type='star' ratingCount={5} onFinishRating={handleRating} />
+          <Rating imageSize={45} type='star' ratingCount={5} onFinishRating={handleRating} />
 
           </View>
           <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
@@ -454,6 +461,9 @@ function FinalReview() {
                 color: 'white',
                 fontSize: 20,
                 fontWeight: 'bold',
+              }}
+              onPress={() => {
+                setModalVisible1(false);
               }}
               style={{
                 height: Dimensions.get('window').height / 20,
@@ -501,11 +511,12 @@ function FinalReview() {
             backgroundColor: '#fff',
             justifyContent: 'center',
             alignItems: 'center',
+            height: Dimensions.get('window').height / 1.02,
           }}>
           <View>
             {images2}
           </View>
-          <View style={{marginVertical: '3.5%', marginBottom: '10%'}}>
+          <View style={{marginVertical: '3.5%', marginBottom: '15%'}}>
           {name2}
           </View>
           <View />
@@ -514,9 +525,9 @@ function FinalReview() {
           renderItem={({item}) => <Item item={item} />}
           numColumns={numColumns}
           />
-          <View style={{marginVertical: '5%'}}>
+          <View style={{marginBottom: '5%'}}>
 
-          <Rating imageSize={50} type='star' ratingCount={5} onFinishRating={handleRating} />
+          <Rating imageSize={45} type='star' ratingCount={5} onFinishRating={handleRating} />
 
           </View>
           <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
@@ -533,6 +544,9 @@ function FinalReview() {
                 color: 'white',
                 fontSize: 20,
                 fontWeight: 'bold',
+              }}
+              onPress={() => {
+                setModalVisible2(false);
               }}
               style={{
                 height: Dimensions.get('window').height / 20,
@@ -580,11 +594,12 @@ function FinalReview() {
             backgroundColor: '#fff',
             justifyContent: 'center',
             alignItems: 'center',
+            height: Dimensions.get('window').height / 1.02,
           }}>
           <View>
             {images3}
           </View>
-          <View style={{marginVertical: '3.5%', marginBottom: '10%'}}>
+          <View style={{marginVertical: '3.5%', marginBottom: '15%'}}>
           {name3}
           </View>
           <View />
@@ -593,9 +608,9 @@ function FinalReview() {
           renderItem={({item}) => <Item item={item} />}
           numColumns={numColumns}
           />
-          <View style={{marginVertical: '5%'}}>
+          <View style={{marginBottom: '5%'}}>
 
-          <Rating imageSize={50} type='star' ratingCount={5} onFinishRating={handleRating} />
+          <Rating imageSize={45} type='star' ratingCount={5} onFinishRating={handleRating} />
 
           </View>
           <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
@@ -612,6 +627,9 @@ function FinalReview() {
                 color: 'white',
                 fontSize: 20,
                 fontWeight: 'bold',
+              }}
+              onPress={() => {
+                setModalVisible3(false);
               }}
               style={{
                 height: Dimensions.get('window').height / 20,
@@ -659,6 +677,7 @@ function FinalReview() {
             backgroundColor: '#fff',
             justifyContent: 'center',
             alignItems: 'center',
+            height: Dimensions.get('window').height / 1.02,
           }}>
           <View>
             {images4}
@@ -672,9 +691,9 @@ function FinalReview() {
           renderItem={({item}) => <Item item={item} />}
           numColumns={numColumns}
           />
-          <View style={{marginVertical: '5%'}}>
+          <View style={{marginBottom: '5%'}}>
 
-          <Rating imageSize={50} type='star' ratingCount={5} onFinishRating={handleRating} />
+          <Rating imageSize={45} type='star' ratingCount={5} onFinishRating={handleRating} />
 
           </View>
           <View style={{flexDirection:'row', justifyContent: 'space-between'}}>
@@ -691,6 +710,9 @@ function FinalReview() {
                 color: 'white',
                 fontSize: 20,
                 fontWeight: 'bold',
+              }}
+              onPress={() => {
+                setModalVisible4(false);
               }}
               style={{
                 height: Dimensions.get('window').height / 20,
