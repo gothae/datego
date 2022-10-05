@@ -36,7 +36,6 @@ function SelectDong({navigation: {navigate}, route}) {
       clicked[i] = false;
     }
     clicked[dong] = true;
-    console.log(clicked);
   };
 
   return (
