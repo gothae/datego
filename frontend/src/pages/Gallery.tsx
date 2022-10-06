@@ -25,6 +25,7 @@ function Gallery({route, navigation}) {
   const [imageIndex, setImageIndex] = useState(0);
   var resIndex = 0;
   const [links, setLinks] = useState([]);
+  
 
   const getData = async (dongId: number) => {
     const response = await axios.get(
@@ -68,7 +69,12 @@ function Gallery({route, navigation}) {
     }
   }, []);
 
+
   const renderItem = useCallback(item => {
+    let name: string = item.item.name;
+    if (name.length > 12) {
+      name = name.substring(0, 12) + '...';
+    }
     return (
       <TouchableOpacity
         onPress={() => clickImage(item.item.id)}
@@ -79,7 +85,7 @@ function Gallery({route, navigation}) {
           paddingRight: 2,
         }}>
         <View>
-          <Text style={{color: 'gray', fontSize: 16}}>{item.item.name}</Text>
+          <Text style={{ color: 'gray', fontSize: 16 }}>{name}</Text>
           <FastImage
             source={{uri: `${item.item.link}`}}
             style={{
