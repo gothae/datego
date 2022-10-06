@@ -71,6 +71,10 @@ function Gallery({route, navigation}) {
 
 
   const renderItem = useCallback(item => {
+    let name: string = item.item.name;
+    if (name.length > 12) {
+      name = name.substring(0, 12) + '...';
+    }
     return (
       <TouchableOpacity
         onPress={() => clickImage(item.item.id)}
@@ -81,7 +85,7 @@ function Gallery({route, navigation}) {
           paddingRight: 2,
         }}>
         <View>
-          <Text style={{ color: 'gray', fontSize: 16 }}>{item.item.name.substring(0, 12)}</Text>
+          <Text style={{ color: 'gray', fontSize: 16 }}>{name}</Text>
           <FastImage
             source={{uri: `${item.item.link}`}}
             style={{
